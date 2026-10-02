@@ -1,0 +1,32 @@
+name: MIRA Validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JavaScript syntax
+        run: node --check www/app.js
+      - name: Validate required release files
+        run: |
+          test -f www/index.html
+          test -f www/styles.css
+          test -f www/app.js
+          test -f www/approved-source.html
+          test -f www/assets/mira_icon.svg
+          test -f docs/privacy.html
+          test -f docs/terms.html
+          test -f docs/delete-account.html
+          test -f capacitor.config.ts
+          test -f package.json
+      - name: Install Capacitor dependencies
+        run: npm install
+      - name: Capacitor doctor
+        run: npx cap doctor || true
