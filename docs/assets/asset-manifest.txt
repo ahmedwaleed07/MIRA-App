@@ -1,0 +1,3 @@
+mira_icon.webp
+mira_wordmark.webp
+asas_footer.webp
