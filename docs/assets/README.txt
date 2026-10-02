@@ -1,0 +1,1 @@
+Brand assets are managed from the approved MIRA visual reference.
