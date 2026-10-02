@@ -1,0 +1,1 @@
+MIRA final A-to-Z prototype build. The welcome screen is locked to the exact approved reference artwork. Post-onboarding includes market, city, interests, home, offers, search, explore/map, favorites, notifications, profile, merchant portal, admin dashboard, analytics, billing, support and moderation flows.
