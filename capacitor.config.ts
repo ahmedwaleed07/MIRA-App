@@ -3,11 +3,9 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.asas360.mira',
   appName: 'MIRA',
-  webDir: 'docs',
+  webDir: 'www',
   bundledWebRuntime: false,
-  server: {
-    androidScheme: 'https'
-  },
+  server: { androidScheme: 'https' },
   ios: {
     contentInset: 'automatic',
     scrollEnabled: true,
@@ -29,9 +27,7 @@ const config: CapacitorConfig = {
       backgroundColor: '#FF4D8D',
       style: 'LIGHT'
     },
-    Keyboard: {
-      resize: 'native'
-    }
+    Keyboard: { resize: 'native' }
   }
 };
 
