@@ -1,0 +1,1 @@
+Temporary marker to trigger a clean deployment after replacing the approved welcome asset.
