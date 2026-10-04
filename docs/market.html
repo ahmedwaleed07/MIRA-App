@@ -1,264 +1,53 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fff8fb">
-<title>MIRA — Choose Market</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#fff8fb"><title>MIRA — Choose Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
 :root{
   --pink:#FF4D8D;
   --pink2:#FF7EB6;
   --peach:#FFC8A1;
   --blue:#6EC6FF;
-  --ink:#20222a;
-  --muted:#7b8491;
-  --line:#ece8ee;
+  --ink:#A62C63;
+  --muted:#B86A8E;
+  --line:#F0DCE6;
   --mira:#D96A99;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{
-  margin:0;min-height:100%;
-  font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:#fff8fb;color:var(--ink)
-}
+html,body{margin:0;min-height:100%;font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#fff8fb;color:var(--ink)}
 body{display:flex;justify-content:center}
-.app{
-  width:min(100vw,430px);min-height:100svh;
-  background:
-    radial-gradient(circle at 12% 4%,rgba(255,126,182,.17),transparent 28%),
-    radial-gradient(circle at 95% 1%,rgba(110,198,255,.15),transparent 30%),
-    linear-gradient(180deg,#fffafd 0%,#fff 48%,#fff9fc 100%);
-  padding:calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))
-}
+.app{width:min(100vw,430px);min-height:100svh;background:radial-gradient(circle at 12% 4%,rgba(255,126,182,.17),transparent 28%),radial-gradient(circle at 95% 1%,rgba(110,198,255,.15),transparent 30%),linear-gradient(180deg,#fffafd 0%,#fff 48%,#fff9fc 100%);padding:calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))}
 .top{display:flex;align-items:center;justify-content:space-between}
-.back{
-  width:42px;height:42px;border:0;border-radius:50%;background:#fff;
-  box-shadow:0 7px 22px rgba(43,35,56,.08);
-  font-size:27px;line-height:1;color:var(--pink);cursor:pointer
-}
-.brandmark{
-  width:124px;height:39px;background:var(--mira);
-  -webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;
-  mask:url("assets/mira_wordmark.svg") center/contain no-repeat
-}
+.back{width:42px;height:42px;border:0;border-radius:50%;background:#fff;box-shadow:0 7px 22px rgba(43,35,56,.08);font-size:27px;line-height:1;color:var(--pink);cursor:pointer}
+.brandmark{width:124px;height:39px;background:var(--mira);-webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;mask:url("assets/mira_wordmark.svg") center/contain no-repeat}
 .spacer{width:42px}
+.lang{margin-top:18px;text-align:center;font-size:12px;color:var(--muted)}
+.lang button{border:0;background:transparent;color:var(--ink);font-weight:600;padding:4px 7px;font-family:inherit}
 
-.hero{text-align:center;margin-top:44px}
-h1{font-size:28px;line-height:1.2;margin:0 0 8px;font-weight:800;letter-spacing:-.5px}
-.sub{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.55;max-width:330px}
-
-.search-wrap{
-  margin-top:26px;background:#fff;border:1px solid var(--line);
-  border-radius:17px;padding:0 14px;display:flex;align-items:center;
-  box-shadow:0 10px 28px rgba(62,42,60,.05)
-}
-.search-icon{font-size:18px;color:#9b939d;margin-right:9px}
-.search{
-  width:100%;border:0;outline:none;background:transparent;
-  padding:15px 0;font-family:inherit;font-size:14px;color:#222
-}
-
-.section-title{
-  margin:24px 2px 10px;font-size:13px;font-weight:700;color:#6f6871
-}
-.grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px
-}
-.country{
-  border:1px solid var(--line);background:#fff;border-radius:20px;
-  padding:16px 14px;display:flex;align-items:center;gap:11px;
-  min-height:72px;cursor:pointer;text-align:left;font-family:inherit;
-  box-shadow:0 8px 24px rgba(68,45,65,.045);
-  transition:.15s ease
-}
-.country:active{transform:scale(.985)}
-.country.selected{
-  border-color:#ff8ab8;
-  box-shadow:0 0 0 3px rgba(255,77,141,.10),0 8px 24px rgba(68,45,65,.05)
-}
-.flag{font-size:28px;line-height:1}
-.country-name{font-size:14px;font-weight:700;color:#2c2930}
-.country-sub{font-size:11px;color:#9a939d;margin-top:2px}
-
-.primary{
-  width:100%;margin-top:26px;border:0;border-radius:17px;
-  padding:15px 16px;font-weight:700;font-size:16px;color:#fff;
-  background:linear-gradient(90deg,var(--pink) 0%,var(--pink2) 35%,var(--peach) 60%,var(--blue) 100%);
-  box-shadow:0 12px 26px rgba(255,77,141,.22);
-  font-family:inherit;cursor:pointer
-}
-.primary:disabled{opacity:.45;box-shadow:none;cursor:default}
-
-.note{
-  margin:12px 10px 0;text-align:center;color:#9a939d;
-  font-size:11.5px;line-height:1.5
-}
-
-.lang{
-  margin-top:18px;text-align:center;
-  font-size:12px;color:#9a939d
-}
-.lang button{
-  border:0;background:transparent;color:#6c6670;
-  font-weight:600;padding:4px 7px;font-family:inherit
-}
-
-@media(max-height:760px){
-  .hero{margin-top:28px}
-  h1{font-size:25px}
-  .search-wrap{margin-top:18px}
-  .section-title{margin-top:18px}
-  .country{min-height:64px;padding:13px 12px}
-}
-</style>
-</head>
-
-<body>
-<main class="app">
-
-  <div class="top">
-    <button class="back" onclick="history.back()" aria-label="Back">‹</button>
-    <div class="brandmark" aria-label="MIRA"></div>
-    <div class="spacer"></div>
-  </div>
-
-  <section class="hero">
-    <h1 id="title">Where do you want to shop?</h1>
-    <p class="sub" id="subtitle">
-      Choose your MIRA shopping country. You can change it later anytime.
-    </p>
-  </section>
-
-  <div class="search-wrap">
-    <span class="search-icon">⌕</span>
-    <input id="search" class="search" type="search" placeholder="Search country" oninput="filterCountries()">
-  </div>
-
-  <div class="section-title" id="sectionTitle">Available markets</div>
-
-  <section class="grid" id="countryGrid">
-
-    <button class="country" data-name="iraq العراق" data-code="IQ" onclick="selectCountry(this)">
-      <span class="flag">🇮🇶</span>
-      <span>
-        <div class="country-name">Iraq</div>
-        <div class="country-sub">العراق</div>
-      </span>
-    </button>
-
-    <button class="country" data-name="united arab emirates uae الإمارات" data-code="AE" onclick="selectCountry(this)">
-      <span class="flag">🇦🇪</span>
-      <span>
-        <div class="country-name">UAE</div>
-        <div class="country-sub">الإمارات</div>
-      </span>
-    </button>
-
-    <button class="country" data-name="saudi arabia السعودية" data-code="SA" onclick="selectCountry(this)">
-      <span class="flag">🇸🇦</span>
-      <span>
-        <div class="country-name">Saudi Arabia</div>
-        <div class="country-sub">السعودية</div>
-      </span>
-    </button>
-
-    <button class="country" data-name="turkey türkiye تركيا" data-code="TR" onclick="selectCountry(this)">
-      <span class="flag">🇹🇷</span>
-      <span>
-        <div class="country-name">Türkiye</div>
-        <div class="country-sub">تركيا</div>
-      </span>
-    </button>
-
-    <button class="country" data-name="canada كندا" data-code="CA" onclick="selectCountry(this)">
-      <span class="flag">🇨🇦</span>
-      <span>
-        <div class="country-name">Canada</div>
-        <div class="country-sub">كندا</div>
-      </span>
-    </button>
-
-    <button class="country" data-name="germany ألمانيا المانيا" data-code="DE" onclick="selectCountry(this)">
-      <span class="flag">🇩🇪</span>
-      <span>
-        <div class="country-name">Germany</div>
-        <div class="country-sub">ألمانيا</div>
-      </span>
-    </button>
-
-  </section>
-
-  <button class="primary" id="continueBtn" disabled onclick="continueMarket()">Continue</button>
-
-  <p class="note" id="note">
-    Your selected country controls the offers and stores shown in MIRA.
-  </p>
-
-  <div class="lang">
-    <button onclick="setLang('en')">English</button> ·
-    <button onclick="setLang('ar')">العربية</button> ·
-    <button>Español</button> ·
-    <button>Русский</button> ·
-    <button>Türkçe</button>
-  </div>
-
-</main>
-
-<script>
-let selectedCountry='';
-
-function selectCountry(btn){
-  document.querySelectorAll('.country').forEach(x=>x.classList.remove('selected'));
-  btn.classList.add('selected');
-  selectedCountry=btn.dataset.code;
-  document.getElementById('continueBtn').disabled=false;
-}
-
-function continueMarket(){
-  if(!selectedCountry)return;
-  localStorage.setItem('mira_market',selectedCountry);
-  location.href='city.html?market='+encodeURIComponent(selectedCountry);
-}
-
-function filterCountries(){
-  const q=document.getElementById('search').value.trim().toLowerCase();
-  document.querySelectorAll('.country').forEach(btn=>{
-    btn.style.display=btn.dataset.name.toLowerCase().includes(q)?'flex':'none';
-  });
-}
-
-function setLang(lang){
-  const ar=lang==='ar';
-  document.documentElement.dir=ar?'rtl':'ltr';
-  document.documentElement.lang=lang;
-
-  document.getElementById('title').textContent=
-    ar?'وين تريد تتسوّق؟':'Where do you want to shop?';
-
-  document.getElementById('subtitle').textContent=
-    ar?'اختار دولة التسوق في MIRA، وتگدر تغيّرها بأي وقت.':
-       'Choose your MIRA shopping country. You can change it later anytime.';
-
-  document.getElementById('search').placeholder=
-    ar?'ابحث عن دولة':'Search country';
-
-  document.getElementById('sectionTitle').textContent=
-    ar?'الدول المتاحة':'Available markets';
-
-  document.getElementById('continueBtn').textContent=
-    ar?'متابعة':'Continue';
-
-  document.getElementById('note').textContent=
-    ar?'الدولة المختارة تحدد العروض والمتاجر اللي تظهر إلك داخل MIRA.':
-       'Your selected country controls the offers and stores shown in MIRA.';
-}
-</script>
-
-</body>
-</html>
+.hero{text-align:center;margin-top:44px} h1{font-size:28px;margin:0 0 8px;font-weight:800;color:var(--ink)} .sub{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.55;max-width:330px}
+.search-wrap{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:0 14px;display:flex;align-items:center;box-shadow:0 10px 28px rgba(62,42,60,.05)} .search-icon{font-size:18px;color:var(--pink);margin-right:9px} .search{width:100%;border:0;outline:none;background:transparent;padding:15px 0;font-family:inherit;font-size:14px;color:var(--ink)} .search::placeholder{color:#C991AA}
+.section-title{margin:24px 2px 10px;font-size:13px;font-weight:700;color:var(--ink)} .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.country{border:1px solid var(--line);background:#fff;border-radius:20px;padding:16px 14px;display:flex;align-items:center;gap:11px;min-height:72px;cursor:pointer;text-align:left;font-family:inherit;box-shadow:0 8px 24px rgba(68,45,65,.045)} .country.selected{border-color:#ff8ab8;box-shadow:0 0 0 3px rgba(255,77,141,.10)} .flag{font-size:28px} .country-name{font-size:13px;font-weight:700;color:var(--ink)}
+.primary{width:100%;margin-top:26px;border:0;border-radius:17px;padding:15px 16px;font-weight:700;font-size:16px;color:#fff;background:linear-gradient(90deg,var(--pink),var(--pink2) 35%,var(--peach) 60%,var(--blue));box-shadow:0 12px 26px rgba(255,77,141,.22);font-family:inherit} .primary:disabled{opacity:.45;box-shadow:none}
+.note{margin:12px 10px 0;text-align:center;color:var(--muted);font-size:11.5px;line-height:1.5}
+</style></head><body><main class="app">
+<div class="top"><button class="back" onclick="history.back()">‹</button><div class="brandmark"></div><div class="spacer"></div></div>
+<section class="hero"><h1 id="title"></h1><p class="sub" id="subtitle"></p></section>
+<div class="search-wrap"><span class="search-icon">⌕</span><input id="search" class="search" type="search" oninput="render()"></div>
+<div class="section-title" id="sectionTitle"></div><section class="grid" id="countryGrid"></section>
+<button class="primary" id="continueBtn" disabled onclick="continueMarket()"></button><p class="note" id="note"></p>
+<div class="lang"><button onclick="setLang('en')">English</button> · <button onclick="setLang('ar')">العربية</button> · <button onclick="setLang('es')">Español</button> · <button onclick="setLang('ru')">Русский</button> · <button onclick="setLang('tr')">Türkçe</button></div>
+</main><script>
+const COUNTRIES=[{"code":"IQ","flag":"🇮🇶","en":"Iraq","ar":"العراق","es":"Irak","ru":"Ирак","tr":"Irak"},{"code":"KW","flag":"🇰🇼","en":"Kuwait","ar":"الكويت","es":"Kuwait","ru":"Кувейт","tr":"Kuveyt"},{"code":"SA","flag":"🇸🇦","en":"Saudi Arabia","ar":"السعودية","es":"Arabia Saudita","ru":"Саудовская Аравия","tr":"Suudi Arabistan"},{"code":"BH","flag":"🇧🇭","en":"Bahrain","ar":"البحرين","es":"Baréin","ru":"Бахрейн","tr":"Bahreyn"},{"code":"QA","flag":"🇶🇦","en":"Qatar","ar":"قطر","es":"Catar","ru":"Катар","tr":"Katar"},{"code":"AE","flag":"🇦🇪","en":"United Arab Emirates","ar":"الإمارات العربية المتحدة","es":"Emiratos Árabes Unidos","ru":"ОАЭ","tr":"Birleşik Arap Emirlikleri"},{"code":"OM","flag":"🇴🇲","en":"Oman","ar":"عُمان","es":"Omán","ru":"Оман","tr":"Umman"},{"code":"JO","flag":"🇯🇴","en":"Jordan","ar":"الأردن","es":"Jordania","ru":"Иордания","tr":"Ürdün"},{"code":"LB","flag":"🇱🇧","en":"Lebanon","ar":"لبنان","es":"Líbano","ru":"Ливан","tr":"Lübnan"},{"code":"PS","flag":"🇵🇸","en":"Palestine","ar":"فلسطين","es":"Palestina","ru":"Палестина","tr":"Filistin"},{"code":"EG","flag":"🇪🇬","en":"Egypt","ar":"مصر","es":"Egipto","ru":"Египет","tr":"Mısır"},{"code":"US","flag":"🇺🇸","en":"United States","ar":"الولايات المتحدة","es":"Estados Unidos","ru":"США","tr":"Amerika Birleşik Devletleri"},{"code":"CA","flag":"🇨🇦","en":"Canada","ar":"كندا","es":"Canadá","ru":"Канада","tr":"Kanada"},{"code":"AU","flag":"🇦🇺","en":"Australia","ar":"أستراليا","es":"Australia","ru":"Австралия","tr":"Avustralya"},{"code":"GB","flag":"🇬🇧","en":"United Kingdom","ar":"بريطانيا","es":"Reino Unido","ru":"Великобритания","tr":"Birleşik Krallık"},{"code":"IT","flag":"🇮🇹","en":"Italy","ar":"إيطاليا","es":"Italia","ru":"Италия","tr":"İtalya"},{"code":"DE","flag":"🇩🇪","en":"Germany","ar":"ألمانيا","es":"Alemania","ru":"Германия","tr":"Almanya"},{"code":"FR","flag":"🇫🇷","en":"France","ar":"فرنسا","es":"Francia","ru":"Франция","tr":"Fransa"},{"code":"NL","flag":"🇳🇱","en":"Netherlands","ar":"هولندا","es":"Países Bajos","ru":"Нидерланды","tr":"Hollanda"},{"code":"FI","flag":"🇫🇮","en":"Finland","ar":"فنلندا","es":"Finlandia","ru":"Финляндия","tr":"Finlandiya"},{"code":"BE","flag":"🇧🇪","en":"Belgium","ar":"بلجيكا","es":"Bélgica","ru":"Бельгия","tr":"Belçika"},{"code":"AT","flag":"🇦🇹","en":"Austria","ar":"النمسا","es":"Austria","ru":"Австрия","tr":"Avusturya"},{"code":"SE","flag":"🇸🇪","en":"Sweden","ar":"السويد","es":"Suecia","ru":"Швеция","tr":"İsveç"}];
+const T={
+en:{title:"Where do you want to shop?",subtitle:"Choose your MIRA shopping country. You can change it later anytime.",search:"Search country",section:"Available markets",cont:"Continue",note:"Your selected country controls the offers and stores shown in MIRA."},
+ar:{title:"وين تريد تتسوّق؟",subtitle:"اختار دولة التسوق في MIRA، وتگدر تغيّرها بأي وقت.",search:"ابحث عن دولة",section:"الدول المتاحة",cont:"متابعة",note:"الدولة المختارة تحدد العروض والمتاجر اللي تظهر إلك داخل MIRA."},
+es:{title:"¿Dónde quieres comprar?",subtitle:"Elige tu país de compras en MIRA. Puedes cambiarlo después.",search:"Buscar país",section:"Mercados disponibles",cont:"Continuar",note:"El país seleccionado controla las ofertas y tiendas que ves en MIRA."},
+ru:{title:"Где вы хотите делать покупки?",subtitle:"Выберите страну покупок MIRA. Её можно изменить позже.",search:"Поиск страны",section:"Доступные рынки",cont:"Продолжить",note:"Выбранная страна определяет предложения и магазины в MIRA."},
+tr:{title:"Nerede alışveriş yapmak istiyorsunuz?",subtitle:"MIRA alışveriş ülkenizi seçin. Daha sonra değiştirebilirsiniz.",search:"Ülke ara",section:"Mevcut pazarlar",cont:"Devam et",note:"Seçilen ülke MIRA'da gösterilen teklifleri ve mağazaları belirler."}
+};
+let selectedCountry="";
+function getLang(){return localStorage.getItem("mira_lang")||"en"}
+function render(){let lang=getLang(),q=search.value.trim().toLowerCase();countryGrid.innerHTML="";COUNTRIES.filter(c=>c[lang].toLowerCase().includes(q)).forEach(c=>{let b=document.createElement("button");b.className="country"+(selectedCountry===c.code?" selected":"");b.innerHTML=`<span class="flag">${c.flag}</span><span class="country-name">${c[lang]}</span>`;b.onclick=()=>{selectedCountry=c.code;render();continueBtn.disabled=false};countryGrid.appendChild(b)})}
+function continueMarket(){if(!selectedCountry)return;localStorage.setItem("mira_market",selectedCountry);location.href="city.html?market="+encodeURIComponent(selectedCountry)}
+function setLang(lang){localStorage.setItem("mira_lang",lang);applyLang(lang)}
+function applyLang(lang){let t=T[lang]||T.en;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";title.textContent=t.title;subtitle.textContent=t.subtitle;search.placeholder=t.search;sectionTitle.textContent=t.section;continueBtn.textContent=t.cont;note.textContent=t.note;render()}
+applyLang(getLang());
+</script></body></html>
