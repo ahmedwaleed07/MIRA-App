@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff8fb">
+<title>MIRA — OTP</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --pink:#FF4D8D;
+  --pink2:#FF7EB6;
+  --peach:#FFC8A1;
+  --blue:#6EC6FF;
+  --ink:#20222a;
+  --muted:#7b8491;
+  --line:#ece8ee;
+  --mira:#D96A99;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  margin:0;min-height:100%;
+  font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#fff8fb;color:var(--ink)
+}
+body{display:flex;justify-content:center}
+.app{
+  width:min(100vw,430px);min-height:100svh;
+  background:
+    radial-gradient(circle at 10% 5%,rgba(255,126,182,.18),transparent 28%),
+    radial-gradient(circle at 95% 0%,rgba(110,198,255,.16),transparent 30%),
+    linear-gradient(180deg,#fffafd 0%,#fff 46%,#fff9fc 100%);
+  padding:calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))
+}
+.top{display:flex;align-items:center;justify-content:space-between}
+.back{
+  width:42px;height:42px;border:0;border-radius:50%;background:#fff;
+  box-shadow:0 7px 22px rgba(43,35,56,.08);
+  font-size:27px;line-height:1;color:var(--pink);cursor:pointer
+}
+.brandmark{
+  width:124px;height:39px;background:var(--mira);
+  -webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;
+  mask:url("assets/mira_wordmark.svg") center/contain no-repeat
+}
+.spacer{width:42px}
+.hero{text-align:center;margin-top:68px}
+h1{font-size:30px;line-height:1.15;margin:0 0 10px;font-weight:800;letter-spacing:-.5px}
+.sub{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.55;max-width:330px}
+.card{
+  margin-top:30px;background:rgba(255,255,255,.95);
+  border:1px solid rgba(236,232,238,.95);
+  border-radius:28px;padding:22px 18px;
+  box-shadow:0 18px 45px rgba(75,42,71,.08)
+}
+.otp{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:8px;
+  direction:ltr
+}
+.otp input{
+  width:100%;aspect-ratio:1/1.08;border:1px solid var(--line);
+  border-radius:15px;background:#fff;text-align:center;
+  font-family:inherit;font-size:24px;font-weight:700;color:#222;
+  outline:none
+}
+.otp input:focus{
+  border-color:#ff8ab8;
+  box-shadow:0 0 0 3px rgba(255,77,141,.10)
+}
+.primary{
+  width:100%;margin-top:22px;border:0;border-radius:17px;
+  padding:15px 16px;font-weight:700;font-size:16px;color:#fff;
+  background:linear-gradient(90deg,var(--pink) 0%,var(--pink2) 35%,var(--peach) 60%,var(--blue) 100%);
+  box-shadow:0 12px 26px rgba(255,77,141,.22);
+  font-family:inherit;cursor:pointer
+}
+.resend{
+  margin-top:16px;text-align:center;
+  font-size:13px;color:#77717a
+}
+.resend button{
+  border:0;background:transparent;color:var(--pink);
+  font-family:inherit;font-weight:700;font-size:13px;cursor:pointer
+}
+.notice{
+  margin-top:12px;text-align:center;font-size:12px;color:#9a939d;
+  min-height:18px
+}
+.lang{
+  margin-top:22px;text-align:center;
+  font-size:12px;color:#9a939d
+}
+.lang button{
+  border:0;background:transparent;color:#6c6670;
+  font-weight:600;padding:4px 7px;font-family:inherit
+}
+@media(max-height:760px){
+  .hero{margin-top:42px}
+  h1{font-size:27px}
+  .card{margin-top:22px}
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+  <div class="top">
+    <button class="back" onclick="history.back()" aria-label="Back">‹</button>
+    <div class="brandmark" aria-label="MIRA"></div>
+    <div class="spacer"></div>
+  </div>
+
+  <section class="hero">
+    <h1 id="title">Verify your account</h1>
+    <p class="sub" id="subtitle">Enter the 6-digit code we sent to you.</p>
+  </section>
+
+  <section class="card">
+
+    <div class="otp" id="otp">
+      <input maxlength="1" inputmode="numeric" autocomplete="one-time-code">
+      <input maxlength="1" inputmode="numeric">
+      <input maxlength="1" inputmode="numeric">
+      <input maxlength="1" inputmode="numeric">
+      <input maxlength="1" inputmode="numeric">
+      <input maxlength="1" inputmode="numeric">
+    </div>
+
+    <button class="primary" id="verifyBtn" onclick="verifyCode()">Verify & continue</button>
+
+    <div class="resend">
+      <span id="noCode">Didn't get the code?</span>
+      <button id="resendBtn" onclick="resendCode()">Resend</button>
+    </div>
+
+    <div class="notice" id="notice"></div>
+
+  </section>
+
+  <div class="lang">
+    <button onclick="setLang('en')">English</button> ·
+    <button onclick="setLang('ar')">العربية</button> ·
+    <button>Español</button> ·
+    <button>Русский</button> ·
+    <button>Türkçe</button>
+  </div>
+
+</main>
+
+<script>
+const qs=new URLSearchParams(location.search);
+const via=qs.get('via')||'phone';
+const mode=qs.get('mode')||'signin';
+
+function updateSubtitle(){
+  const ar=document.documentElement.lang==='ar';
+  const t=document.getElementById('subtitle');
+
+  if(ar){
+    t.textContent=via==='email'
+      ?'اكتب الرمز المكوّن من 6 أرقام اللي أرسلناه إلى بريدك الإلكتروني.'
+      :'اكتب الرمز المكوّن من 6 أرقام اللي أرسلناه إلى رقم هاتفك.';
+  }else{
+    t.textContent=via==='email'
+      ?'Enter the 6-digit code we sent to your email.'
+      :'Enter the 6-digit code we sent to your phone.';
+  }
+}
+
+const inputs=[...document.querySelectorAll('.otp input')];
+
+inputs.forEach((input,index)=>{
+  input.addEventListener('input',()=>{
+    input.value=input.value.replace(/\D/g,'').slice(0,1);
+    if(input.value && index<inputs.length-1) inputs[index+1].focus();
+  });
+
+  input.addEventListener('keydown',e=>{
+    if(e.key==='Backspace' && !input.value && index>0) inputs[index-1].focus();
+  });
+
+  input.addEventListener('paste',e=>{
+    const digits=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);
+    if(!digits)return;
+    e.preventDefault();
+    digits.split('').forEach((d,i)=>{ if(inputs[i]) inputs[i].value=d; });
+    inputs[Math.min(digits.length,6)-1].focus();
+  });
+});
+
+function verifyCode(){
+  const code=inputs.map(i=>i.value).join('');
+  const ar=document.documentElement.lang==='ar';
+
+  if(code.length!==6){
+    document.getElementById('notice').textContent=
+      ar?'اكتب الرمز كامل من 6 أرقام.':'Enter the complete 6-digit code.';
+    return;
+  }
+
+  document.getElementById('notice').textContent=
+    ar?'تم التحقق. جاري المتابعة...':'Verified. Continuing...';
+
+  setTimeout(()=>{
+    location.href='market.html';
+  },500);
+}
+
+function resendCode(){
+  const ar=document.documentElement.lang==='ar';
+  document.getElementById('notice').textContent=
+    ar?'تم إرسال رمز جديد.':'A new code has been sent.';
+}
+
+function setLang(lang){
+  const ar=lang==='ar';
+
+  document.documentElement.dir=ar?'rtl':'ltr';
+  document.documentElement.lang=lang;
+
+  document.getElementById('title').textContent=
+    ar?'تأكيد الحساب':'Verify your account';
+
+  document.getElementById('verifyBtn').textContent=
+    ar?'تأكيد ومتابعة':'Verify & continue';
+
+  document.getElementById('noCode').textContent=
+    ar?'ما وصلك الكود؟':'Didn\'t get the code?';
+
+  document.getElementById('resendBtn').textContent=
+    ar?'إعادة الإرسال':'Resend';
+
+  updateSubtitle();
+}
+
+updateSubtitle();
+inputs[0].focus();
+</script>
+
+</body>
+</html>
