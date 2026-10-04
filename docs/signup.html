@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff8fb">
+<title>MIRA — Sign Up</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --pink:#FF4D8D;
+  --pink2:#FF7EB6;
+  --peach:#FFC8A1;
+  --blue:#6EC6FF;
+  --ink:#20222a;
+  --muted:#7b8491;
+  --line:#ece8ee;
+  --mira:#D96A99;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  margin:0;min-height:100%;
+  font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#fff8fb;color:var(--ink)
+}
+body{display:flex;justify-content:center}
+.app{
+  width:min(100vw,430px);min-height:100svh;
+  background:
+    radial-gradient(circle at 10% 5%,rgba(255,126,182,.18),transparent 28%),
+    radial-gradient(circle at 95% 0%,rgba(110,198,255,.16),transparent 30%),
+    linear-gradient(180deg,#fffafd 0%,#fff 46%,#fff9fc 100%);
+  padding:calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))
+}
+.top{display:flex;align-items:center;justify-content:space-between}
+.back{
+  width:42px;height:42px;border:0;border-radius:50%;background:#fff;
+  box-shadow:0 7px 22px rgba(43,35,56,.08);
+  font-size:27px;line-height:1;color:var(--pink);cursor:pointer
+}
+.brandmark{
+  width:124px;height:39px;background:var(--mira);
+  -webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;
+  mask:url("assets/mira_wordmark.svg") center/contain no-repeat
+}
+.spacer{width:42px}
+.hero{text-align:center;margin-top:58px}
+h1{font-size:30px;line-height:1.15;margin:0 0 8px;font-weight:800;letter-spacing:-.5px}
+.sub{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.55;max-width:330px}
+.card{
+  margin-top:28px;background:rgba(255,255,255,.94);
+  border:1px solid rgba(236,232,238,.95);
+  border-radius:28px;padding:18px;
+  box-shadow:0 18px 45px rgba(75,42,71,.08)
+}
+.label{display:block;font-size:13px;font-weight:600;margin:0 0 8px 2px}
+.input{
+  width:100%;border:1px solid var(--line);border-radius:16px;
+  background:#fff;padding:15px 14px;outline:none;
+  font-size:15px;color:#222;font-family:inherit
+}
+.input:focus,.code:focus{
+  border-color:#ff8ab8;
+  box-shadow:0 0 0 3px rgba(255,77,141,.10)
+}
+.field{margin-top:16px}
+.field:first-child{margin-top:0}
+.tabs{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:#f7f4f7;border-radius:16px;padding:4px;margin-top:18px
+}
+.tab{
+  border:0;background:transparent;border-radius:13px;
+  padding:12px 8px;font-weight:600;color:#8b8790;
+  font-size:14px;font-family:inherit;cursor:pointer
+}
+.tab.active{
+  background:#fff;color:var(--pink);
+  box-shadow:0 4px 12px rgba(66,49,70,.08)
+}
+.panel{display:none;margin-top:18px}
+.panel.active{display:block}
+.row{display:flex;gap:10px}
+.code{
+  width:104px;border:1px solid var(--line);border-radius:16px;
+  background:#fff;padding:0 12px;font-size:15px;
+  font-weight:600;color:#333;font-family:inherit
+}
+.primary{
+  width:100%;margin-top:20px;border:0;border-radius:17px;
+  padding:15px 16px;font-weight:700;font-size:16px;color:#fff;
+  background:linear-gradient(90deg,var(--pink) 0%,var(--pink2) 35%,var(--peach) 60%,var(--blue) 100%);
+  box-shadow:0 12px 26px rgba(255,77,141,.22);
+  font-family:inherit;cursor:pointer
+}
+.privacy{
+  font-size:11.5px;line-height:1.5;color:#9a939d;
+  text-align:center;margin:13px 8px 0
+}
+.bottom{
+  text-align:center;margin-top:22px;
+  font-size:14px;color:#77717a
+}
+.bottom a{color:var(--pink);font-weight:700;text-decoration:none}
+.lang{
+  margin-top:18px;text-align:center;
+  font-size:12px;color:#9a939d
+}
+.lang button{
+  border:0;background:transparent;color:#6c6670;
+  font-weight:600;padding:4px 7px;font-family:inherit
+}
+[dir=rtl] .label{text-align:right}
+@media(max-height:780px){
+  .hero{margin-top:34px}
+  h1{font-size:27px}
+  .card{margin-top:20px}
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+  <div class="top">
+    <button class="back" onclick="history.back()" aria-label="Back">‹</button>
+    <div class="brandmark" aria-label="MIRA"></div>
+    <div class="spacer"></div>
+  </div>
+
+  <section class="hero">
+    <h1 id="title">Create your MIRA account</h1>
+    <p class="sub" id="subtitle">
+      Join MIRA and keep your shopping preferences wherever you go.
+    </p>
+  </section>
+
+  <section class="card">
+
+    <div class="field">
+      <label class="label" id="nameLabel" for="name">Full name</label>
+      <input class="input" id="name" type="text" autocomplete="name" placeholder="Your name">
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="phoneTab" onclick="showTab('phone')">Phone</button>
+      <button class="tab" id="emailTab" onclick="showTab('email')">Email</button>
+    </div>
+
+    <div class="panel active" id="phonePanel">
+      <label class="label" id="phoneLabel" for="phone">Phone number</label>
+      <div class="row">
+        <select class="code" id="code" aria-label="Country code">
+          <option>🇮🇶 +964</option>
+          <option>🇺🇸 +1</option>
+          <option>🇨🇦 +1</option>
+          <option>🇩🇪 +49</option>
+          <option>🇬🇧 +44</option>
+          <option>🇹🇷 +90</option>
+          <option>🇸🇦 +966</option>
+          <option>🇦🇪 +971</option>
+        </select>
+        <input class="input" id="phone" type="tel" inputmode="tel" placeholder="7XX XXX XXXX">
+      </div>
+    </div>
+
+    <div class="panel" id="emailPanel">
+      <label class="label" id="emailLabel" for="email">Email address</label>
+      <input class="input" id="email" type="email" inputmode="email" placeholder="name@example.com">
+    </div>
+
+    <button class="primary" id="continueBtn" onclick="continueSignup()">Continue</button>
+
+    <p class="privacy" id="privacy">
+      By continuing, you agree to MIRA's Terms and Privacy Policy.
+    </p>
+  </section>
+
+  <div class="bottom" id="bottom">
+    Already have an account? <a href="signin.html">Sign In</a>
+  </div>
+
+  <div class="lang">
+    <button onclick="setLang('en')">English</button> ·
+    <button onclick="setLang('ar')">العربية</button> ·
+    <button>Español</button> ·
+    <button>Русский</button> ·
+    <button>Türkçe</button>
+  </div>
+
+</main>
+
+<script>
+let currentMethod='phone';
+
+function showTab(which){
+  currentMethod=which;
+  const phone=which==='phone';
+
+  document.getElementById('phonePanel').classList.toggle('active',phone);
+  document.getElementById('emailPanel').classList.toggle('active',!phone);
+  document.getElementById('phoneTab').classList.toggle('active',phone);
+  document.getElementById('emailTab').classList.toggle('active',!phone);
+}
+
+function continueSignup(){
+  const name=document.getElementById('name').value.trim();
+  if(!name){
+    alert(document.documentElement.lang==='ar'?'اكتب الاسم الكامل':'Enter your full name');
+    return;
+  }
+
+  const value=currentMethod==='phone'
+    ?document.getElementById('phone').value.trim()
+    :document.getElementById('email').value.trim();
+
+  if(!value){
+    alert(
+      document.documentElement.lang==='ar'
+        ?(currentMethod==='phone'?'اكتب رقم الهاتف':'اكتب البريد الإلكتروني')
+        :(currentMethod==='phone'?'Enter your phone number':'Enter your email')
+    );
+    return;
+  }
+
+  location.href='otp.html?mode=signup&via='+encodeURIComponent(currentMethod);
+}
+
+function setLang(lang){
+  const ar=lang==='ar';
+
+  document.documentElement.dir=ar?'rtl':'ltr';
+  document.documentElement.lang=lang;
+
+  document.getElementById('title').textContent=
+    ar?'أنشئ حساب MIRA':'Create your MIRA account';
+
+  document.getElementById('subtitle').textContent=
+    ar?'سجّل حتى تبقى اختياراتك محفوظة وين ما تروح.':
+       'Join MIRA and keep your shopping preferences wherever you go.';
+
+  document.getElementById('nameLabel').textContent=
+    ar?'الاسم الكامل':'Full name';
+
+  document.getElementById('name').placeholder=
+    ar?'اسمك':'Your name';
+
+  document.getElementById('phoneTab').textContent=
+    ar?'الهاتف':'Phone';
+
+  document.getElementById('emailTab').textContent=
+    ar?'الإيميل':'Email';
+
+  document.getElementById('phoneLabel').textContent=
+    ar?'رقم الهاتف':'Phone number';
+
+  document.getElementById('emailLabel').textContent=
+    ar?'البريد الإلكتروني':'Email address';
+
+  document.getElementById('continueBtn').textContent=
+    ar?'متابعة':'Continue';
+
+  document.getElementById('privacy').textContent=
+    ar?'بالمتابعة أنت توافق على شروط الاستخدام وسياسة الخصوصية في MIRA.':
+       "By continuing, you agree to MIRA's Terms and Privacy Policy.";
+
+  document.getElementById('bottom').innerHTML=
+    ar?'عندك حساب؟ <a href="signin.html">تسجيل الدخول</a>':
+       'Already have an account? <a href="signin.html">Sign In</a>';
+}
+</script>
+
+</body>
+</html>
