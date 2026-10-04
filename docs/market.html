@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff8fb">
+<title>MIRA — Choose Market</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --pink:#FF4D8D;
+  --pink2:#FF7EB6;
+  --peach:#FFC8A1;
+  --blue:#6EC6FF;
+  --ink:#20222a;
+  --muted:#7b8491;
+  --line:#ece8ee;
+  --mira:#D96A99;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  margin:0;min-height:100%;
+  font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#fff8fb;color:var(--ink)
+}
+body{display:flex;justify-content:center}
+.app{
+  width:min(100vw,430px);min-height:100svh;
+  background:
+    radial-gradient(circle at 12% 4%,rgba(255,126,182,.17),transparent 28%),
+    radial-gradient(circle at 95% 1%,rgba(110,198,255,.15),transparent 30%),
+    linear-gradient(180deg,#fffafd 0%,#fff 48%,#fff9fc 100%);
+  padding:calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))
+}
+.top{display:flex;align-items:center;justify-content:space-between}
+.back{
+  width:42px;height:42px;border:0;border-radius:50%;background:#fff;
+  box-shadow:0 7px 22px rgba(43,35,56,.08);
+  font-size:27px;line-height:1;color:var(--pink);cursor:pointer
+}
+.brandmark{
+  width:124px;height:39px;background:var(--mira);
+  -webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;
+  mask:url("assets/mira_wordmark.svg") center/contain no-repeat
+}
+.spacer{width:42px}
+
+.hero{text-align:center;margin-top:44px}
+h1{font-size:28px;line-height:1.2;margin:0 0 8px;font-weight:800;letter-spacing:-.5px}
+.sub{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.55;max-width:330px}
+
+.search-wrap{
+  margin-top:26px;background:#fff;border:1px solid var(--line);
+  border-radius:17px;padding:0 14px;display:flex;align-items:center;
+  box-shadow:0 10px 28px rgba(62,42,60,.05)
+}
+.search-icon{font-size:18px;color:#9b939d;margin-right:9px}
+.search{
+  width:100%;border:0;outline:none;background:transparent;
+  padding:15px 0;font-family:inherit;font-size:14px;color:#222
+}
+
+.section-title{
+  margin:24px 2px 10px;font-size:13px;font-weight:700;color:#6f6871
+}
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px
+}
+.country{
+  border:1px solid var(--line);background:#fff;border-radius:20px;
+  padding:16px 14px;display:flex;align-items:center;gap:11px;
+  min-height:72px;cursor:pointer;text-align:left;font-family:inherit;
+  box-shadow:0 8px 24px rgba(68,45,65,.045);
+  transition:.15s ease
+}
+.country:active{transform:scale(.985)}
+.country.selected{
+  border-color:#ff8ab8;
+  box-shadow:0 0 0 3px rgba(255,77,141,.10),0 8px 24px rgba(68,45,65,.05)
+}
+.flag{font-size:28px;line-height:1}
+.country-name{font-size:14px;font-weight:700;color:#2c2930}
+.country-sub{font-size:11px;color:#9a939d;margin-top:2px}
+
+.primary{
+  width:100%;margin-top:26px;border:0;border-radius:17px;
+  padding:15px 16px;font-weight:700;font-size:16px;color:#fff;
+  background:linear-gradient(90deg,var(--pink) 0%,var(--pink2) 35%,var(--peach) 60%,var(--blue) 100%);
+  box-shadow:0 12px 26px rgba(255,77,141,.22);
+  font-family:inherit;cursor:pointer
+}
+.primary:disabled{opacity:.45;box-shadow:none;cursor:default}
+
+.note{
+  margin:12px 10px 0;text-align:center;color:#9a939d;
+  font-size:11.5px;line-height:1.5
+}
+
+.lang{
+  margin-top:18px;text-align:center;
+  font-size:12px;color:#9a939d
+}
+.lang button{
+  border:0;background:transparent;color:#6c6670;
+  font-weight:600;padding:4px 7px;font-family:inherit
+}
+
+@media(max-height:760px){
+  .hero{margin-top:28px}
+  h1{font-size:25px}
+  .search-wrap{margin-top:18px}
+  .section-title{margin-top:18px}
+  .country{min-height:64px;padding:13px 12px}
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+  <div class="top">
+    <button class="back" onclick="history.back()" aria-label="Back">‹</button>
+    <div class="brandmark" aria-label="MIRA"></div>
+    <div class="spacer"></div>
+  </div>
+
+  <section class="hero">
+    <h1 id="title">Where do you want to shop?</h1>
+    <p class="sub" id="subtitle">
+      Choose your MIRA shopping country. You can change it later anytime.
+    </p>
+  </section>
+
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input id="search" class="search" type="search" placeholder="Search country" oninput="filterCountries()">
+  </div>
+
+  <div class="section-title" id="sectionTitle">Available markets</div>
+
+  <section class="grid" id="countryGrid">
+
+    <button class="country" data-name="iraq العراق" data-code="IQ" onclick="selectCountry(this)">
+      <span class="flag">🇮🇶</span>
+      <span>
+        <div class="country-name">Iraq</div>
+        <div class="country-sub">العراق</div>
+      </span>
+    </button>
+
+    <button class="country" data-name="united arab emirates uae الإمارات" data-code="AE" onclick="selectCountry(this)">
+      <span class="flag">🇦🇪</span>
+      <span>
+        <div class="country-name">UAE</div>
+        <div class="country-sub">الإمارات</div>
+      </span>
+    </button>
+
+    <button class="country" data-name="saudi arabia السعودية" data-code="SA" onclick="selectCountry(this)">
+      <span class="flag">🇸🇦</span>
+      <span>
+        <div class="country-name">Saudi Arabia</div>
+        <div class="country-sub">السعودية</div>
+      </span>
+    </button>
+
+    <button class="country" data-name="turkey türkiye تركيا" data-code="TR" onclick="selectCountry(this)">
+      <span class="flag">🇹🇷</span>
+      <span>
+        <div class="country-name">Türkiye</div>
+        <div class="country-sub">تركيا</div>
+      </span>
+    </button>
+
+    <button class="country" data-name="canada كندا" data-code="CA" onclick="selectCountry(this)">
+      <span class="flag">🇨🇦</span>
+      <span>
+        <div class="country-name">Canada</div>
+        <div class="country-sub">كندا</div>
+      </span>
+    </button>
+
+    <button class="country" data-name="germany ألمانيا المانيا" data-code="DE" onclick="selectCountry(this)">
+      <span class="flag">🇩🇪</span>
+      <span>
+        <div class="country-name">Germany</div>
+        <div class="country-sub">ألمانيا</div>
+      </span>
+    </button>
+
+  </section>
+
+  <button class="primary" id="continueBtn" disabled onclick="continueMarket()">Continue</button>
+
+  <p class="note" id="note">
+    Your selected country controls the offers and stores shown in MIRA.
+  </p>
+
+  <div class="lang">
+    <button onclick="setLang('en')">English</button> ·
+    <button onclick="setLang('ar')">العربية</button> ·
+    <button>Español</button> ·
+    <button>Русский</button> ·
+    <button>Türkçe</button>
+  </div>
+
+</main>
+
+<script>
+let selectedCountry='';
+
+function selectCountry(btn){
+  document.querySelectorAll('.country').forEach(x=>x.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedCountry=btn.dataset.code;
+  document.getElementById('continueBtn').disabled=false;
+}
+
+function continueMarket(){
+  if(!selectedCountry)return;
+  localStorage.setItem('mira_market',selectedCountry);
+  location.href='city.html?market='+encodeURIComponent(selectedCountry);
+}
+
+function filterCountries(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  document.querySelectorAll('.country').forEach(btn=>{
+    btn.style.display=btn.dataset.name.toLowerCase().includes(q)?'flex':'none';
+  });
+}
+
+function setLang(lang){
+  const ar=lang==='ar';
+  document.documentElement.dir=ar?'rtl':'ltr';
+  document.documentElement.lang=lang;
+
+  document.getElementById('title').textContent=
+    ar?'وين تريد تتسوّق؟':'Where do you want to shop?';
+
+  document.getElementById('subtitle').textContent=
+    ar?'اختار دولة التسوق في MIRA، وتگدر تغيّرها بأي وقت.':
+       'Choose your MIRA shopping country. You can change it later anytime.';
+
+  document.getElementById('search').placeholder=
+    ar?'ابحث عن دولة':'Search country';
+
+  document.getElementById('sectionTitle').textContent=
+    ar?'الدول المتاحة':'Available markets';
+
+  document.getElementById('continueBtn').textContent=
+    ar?'متابعة':'Continue';
+
+  document.getElementById('note').textContent=
+    ar?'الدولة المختارة تحدد العروض والمتاجر اللي تظهر إلك داخل MIRA.':
+       'Your selected country controls the offers and stores shown in MIRA.';
+}
+</script>
+
+</body>
+</html>
