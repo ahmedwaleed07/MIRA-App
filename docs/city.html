@@ -1,243 +1,51 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fff8fb">
-<title>MIRA — Choose City</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#fff8fb"><title>MIRA — Choose City</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
 :root{
   --pink:#FF4D8D;
   --pink2:#FF7EB6;
   --peach:#FFC8A1;
   --blue:#6EC6FF;
-  --ink:#20222a;
-  --muted:#7b8491;
-  --line:#ece8ee;
+  --ink:#A62C63;
+  --muted:#B86A8E;
+  --line:#F0DCE6;
   --mira:#D96A99;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{
-  margin:0;min-height:100%;
-  font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:#fff8fb;color:var(--ink)
-}
+html,body{margin:0;min-height:100%;font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#fff8fb;color:var(--ink)}
 body{display:flex;justify-content:center}
-.app{
-  width:min(100vw,430px);min-height:100svh;
-  background:
-    radial-gradient(circle at 12% 4%,rgba(255,126,182,.17),transparent 28%),
-    radial-gradient(circle at 95% 1%,rgba(110,198,255,.15),transparent 30%),
-    linear-gradient(180deg,#fffafd 0%,#fff 48%,#fff9fc 100%);
-  padding:calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))
-}
+.app{width:min(100vw,430px);min-height:100svh;background:radial-gradient(circle at 12% 4%,rgba(255,126,182,.17),transparent 28%),radial-gradient(circle at 95% 1%,rgba(110,198,255,.15),transparent 30%),linear-gradient(180deg,#fffafd 0%,#fff 48%,#fff9fc 100%);padding:calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))}
 .top{display:flex;align-items:center;justify-content:space-between}
-.back{
-  width:42px;height:42px;border:0;border-radius:50%;background:#fff;
-  box-shadow:0 7px 22px rgba(43,35,56,.08);
-  font-size:27px;line-height:1;color:var(--pink);cursor:pointer
-}
-.brandmark{
-  width:124px;height:39px;background:var(--mira);
-  -webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;
-  mask:url("assets/mira_wordmark.svg") center/contain no-repeat
-}
+.back{width:42px;height:42px;border:0;border-radius:50%;background:#fff;box-shadow:0 7px 22px rgba(43,35,56,.08);font-size:27px;line-height:1;color:var(--pink);cursor:pointer}
+.brandmark{width:124px;height:39px;background:var(--mira);-webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;mask:url("assets/mira_wordmark.svg") center/contain no-repeat}
 .spacer{width:42px}
+.lang{margin-top:18px;text-align:center;font-size:12px;color:var(--muted)}
+.lang button{border:0;background:transparent;color:var(--ink);font-weight:600;padding:4px 7px;font-family:inherit}
 
-.hero{text-align:center;margin-top:52px}
-h1{font-size:28px;line-height:1.2;margin:0 0 8px;font-weight:800;letter-spacing:-.5px}
-.sub{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.55;max-width:330px}
-
-.card{
-  margin-top:28px;background:rgba(255,255,255,.95);
-  border:1px solid rgba(236,232,238,.95);
-  border-radius:28px;padding:18px;
-  box-shadow:0 18px 45px rgba(75,42,71,.08)
-}
-.label{display:block;font-size:13px;font-weight:700;margin:0 0 9px 2px;color:#625b65}
-
-.select-wrap{
-  position:relative;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:#fff;
-  overflow:hidden;
-}
-.select-wrap:focus-within{
-  border-color:#ff8ab8;
-  box-shadow:0 0 0 3px rgba(255,77,141,.10)
-}
-select{
-  width:100%;
-  appearance:none;
-  -webkit-appearance:none;
-  border:0;
-  outline:none;
-  background:transparent;
-  padding:16px 48px 16px 16px;
-  font-family:inherit;
-  font-size:15px;
-  font-weight:600;
-  color:#29262d;
-}
-.chevron{
-  position:absolute;
-  right:16px;
-  top:50%;
-  transform:translateY(-50%);
-  pointer-events:none;
-  font-size:16px;
-  color:var(--pink);
-}
-.hint{
-  margin:12px 3px 0;
-  font-size:11.5px;
-  line-height:1.5;
-  color:#9a939d
-}
-.primary{
-  width:100%;margin-top:22px;border:0;border-radius:17px;
-  padding:15px 16px;font-weight:700;font-size:16px;color:#fff;
-  background:linear-gradient(90deg,var(--pink) 0%,var(--pink2) 35%,var(--peach) 60%,var(--blue) 100%);
-  box-shadow:0 12px 26px rgba(255,77,141,.22);
-  font-family:inherit;cursor:pointer
-}
-.primary:disabled{opacity:.45;box-shadow:none;cursor:default}
-
-.lang{
-  margin-top:20px;text-align:center;
-  font-size:12px;color:#9a939d
-}
-.lang button{
-  border:0;background:transparent;color:#6c6670;
-  font-weight:600;padding:4px 7px;font-family:inherit
-}
-
-[dir=rtl] .label{text-align:right}
-[dir=rtl] select{padding:16px 16px 16px 48px}
-[dir=rtl] .chevron{right:auto;left:16px}
-
-@media(max-height:760px){
-  .hero{margin-top:34px}
-  h1{font-size:25px}
-  .card{margin-top:22px}
-}
-</style>
-</head>
-
-<body>
-<main class="app">
-
-  <div class="top">
-    <button class="back" onclick="history.back()" aria-label="Back">‹</button>
-    <div class="brandmark" aria-label="MIRA"></div>
-    <div class="spacer"></div>
-  </div>
-
-  <section class="hero">
-    <h1 id="title">Choose your governorate</h1>
-    <p class="sub" id="subtitle">
-      Select where you want to see nearby offers and stores in Iraq.
-    </p>
-  </section>
-
-  <section class="card">
-
-    <label class="label" id="cityLabel" for="city">Governorate</label>
-
-    <div class="select-wrap">
-      <select id="city" onchange="onCityChange()">
-        <option value="">Select governorate</option>
-
-        <option value="baghdad">Baghdad — بغداد</option>
-        <option value="erbil">Erbil — أربيل</option>
-        <option value="basra">Basra — البصرة</option>
-        <option value="sulaymaniyah">Sulaymaniyah — السليمانية</option>
-        <option value="duhok">Duhok — دهوك</option>
-        <option value="anbar">Al Anbar — الأنبار</option>
-        <option value="nineveh">Nineveh / Mosul — نينوى / الموصل</option>
-        <option value="saladin">Saladin — صلاح الدين</option>
-
-        <option value="najaf">Najaf — النجف</option>
-        <option value="karbala">Karbala — كربلاء</option>
-        <option value="diyala">Diyala — ديالى</option>
-        <option value="kirkuk">Kirkuk — كركوك</option>
-        <option value="babil">Babil — بابل</option>
-        <option value="wasit">Wasit — واسط</option>
-        <option value="maysan">Maysan — ميسان</option>
-        <option value="dhiqar">Dhi Qar — ذي قار</option>
-        <option value="muthanna">Al Muthanna — المثنى</option>
-        <option value="qadisiyah">Al-Qadisiyah — القادسية</option>
-        <option value="halabja">Halabja — حلبجة</option>
-      </select>
-      <span class="chevron">⌄</span>
-    </div>
-
-    <p class="hint" id="hint">
-      Baghdad appears first by default, followed by Erbil, Basra, Sulaymaniyah, Duhok, Al Anbar, Mosul and Saladin.
-    </p>
-
-    <button class="primary" id="continueBtn" disabled onclick="continueCity()">Continue</button>
-
-  </section>
-
-  <div class="lang">
-    <button onclick="setLang('en')">English</button> ·
-    <button onclick="setLang('ar')">العربية</button> ·
-    <button>Español</button> ·
-    <button>Русский</button> ·
-    <button>Türkçe</button>
-  </div>
-
-</main>
-
-<script>
-const qs=new URLSearchParams(location.search);
-const market=qs.get('market') || localStorage.getItem('mira_market') || 'IQ';
-
-function onCityChange(){
-  const city=document.getElementById('city').value;
-  document.getElementById('continueBtn').disabled=!city;
-}
-
-function continueCity(){
-  const city=document.getElementById('city').value;
-  if(!city)return;
-  localStorage.setItem('mira_city',city);
-  location.href='interests.html?market='+encodeURIComponent(market)+'&city='+encodeURIComponent(city);
-}
-
-function setLang(lang){
-  const ar=lang==='ar';
-  document.documentElement.dir=ar?'rtl':'ltr';
-  document.documentElement.lang=lang;
-
-  document.getElementById('title').textContent=
-    ar?'اختار محافظتك':'Choose your governorate';
-
-  document.getElementById('subtitle').textContent=
-    ar?'اختار المحافظة حتى نعرض إلك العروض والمتاجر الأقرب داخل العراق.':
-       'Select where you want to see nearby offers and stores in Iraq.';
-
-  document.getElementById('cityLabel').textContent=
-    ar?'المحافظة':'Governorate';
-
-  document.getElementById('continueBtn').textContent=
-    ar?'متابعة':'Continue';
-
-  document.getElementById('hint').textContent=
-    ar?'بغداد أول اختيار، بعدها أربيل، البصرة، السليمانية، دهوك، الأنبار، الموصل، ثم صلاح الدين وباقي المحافظات.':
-       'Baghdad appears first by default, followed by Erbil, Basra, Sulaymaniyah, Duhok, Al Anbar, Mosul and Saladin.';
-
-  const city=document.getElementById('city');
-  city.options[0].text=ar?'اختار المحافظة':'Select governorate';
-}
-</script>
-
-</body>
-</html>
+.hero{text-align:center;margin-top:52px} h1{font-size:28px;margin:0 0 8px;font-weight:800;color:var(--ink)} .sub{margin:0 auto;color:var(--muted);font-size:14px;line-height:1.55;max-width:330px}
+.card{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:0 18px 45px rgba(75,42,71,.08)} .label{display:block;font-size:13px;font-weight:700;margin:0 0 9px 2px;color:var(--ink)}
+.select-wrap{position:relative;border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden} .select-wrap:focus-within{border-color:#ff8ab8;box-shadow:0 0 0 3px rgba(255,77,141,.10)}
+select{width:100%;appearance:none;-webkit-appearance:none;border:0;outline:none;background:transparent;padding:16px 48px 16px 16px;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink)} .chevron{position:absolute;right:16px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:16px;color:var(--pink)} .hint{margin:12px 3px 0;font-size:11.5px;line-height:1.5;color:var(--muted)} .primary{width:100%;margin-top:22px;border:0;border-radius:17px;padding:15px 16px;font-weight:700;font-size:16px;color:#fff;background:linear-gradient(90deg,var(--pink),var(--pink2) 35%,var(--peach) 60%,var(--blue));box-shadow:0 12px 26px rgba(255,77,141,.22);font-family:inherit} .primary:disabled{opacity:.45;box-shadow:none}
+[dir=rtl] .label{text-align:right} [dir=rtl] select{padding:16px 16px 16px 48px} [dir=rtl] .chevron{right:auto;left:16px}
+</style></head><body><main class="app">
+<div class="top"><button class="back" onclick="history.back()">‹</button><div class="brandmark"></div><div class="spacer"></div></div>
+<section class="hero"><h1 id="title"></h1><p class="sub" id="subtitle"></p></section>
+<section class="card"><label class="label" id="cityLabel" for="city"></label><div class="select-wrap"><select id="city" onchange="onCityChange()"></select><span class="chevron">⌄</span></div><p class="hint" id="hint"></p><button class="primary" id="continueBtn" disabled onclick="continueCity()"></button></section>
+<div class="lang"><button onclick="setLang('en')">English</button> · <button onclick="setLang('ar')">العربية</button> · <button onclick="setLang('es')">Español</button> · <button onclick="setLang('ru')">Русский</button> · <button onclick="setLang('tr')">Türkçe</button></div>
+</main><script>
+const CITIES=[{"value":"baghdad","en":"Baghdad","ar":"بغداد","es":"Bagdad","ru":"Багдад","tr":"Bağdat"},{"value":"erbil","en":"Erbil","ar":"أربيل","es":"Erbil","ru":"Эрбиль","tr":"Erbil"},{"value":"basra","en":"Basra","ar":"البصرة","es":"Basora","ru":"Басра","tr":"Basra"},{"value":"sulaymaniyah","en":"Sulaymaniyah","ar":"السليمانية","es":"Sulaymaniyah","ru":"Сулеймания","tr":"Süleymaniye"},{"value":"duhok","en":"Duhok","ar":"دهوك","es":"Duhok","ru":"Дохук","tr":"Duhok"},{"value":"anbar","en":"Al Anbar","ar":"الأنبار","es":"Al Anbar","ru":"Анбар","tr":"Enbar"},{"value":"nineveh","en":"Nineveh / Mosul","ar":"نينوى / الموصل","es":"Nínive / Mosul","ru":"Найнава / Мосул","tr":"Ninova / Musul"},{"value":"saladin","en":"Saladin","ar":"صلاح الدين","es":"Saladino","ru":"Салах-эд-Дин","tr":"Selahaddin"},{"value":"najaf","en":"Najaf","ar":"النجف","es":"Náyaf","ru":"Наджаф","tr":"Necef"},{"value":"karbala","en":"Karbala","ar":"كربلاء","es":"Karbala","ru":"Кербела","tr":"Kerbela"},{"value":"diyala","en":"Diyala","ar":"ديالى","es":"Diyala","ru":"Дияла","tr":"Diyala"},{"value":"kirkuk","en":"Kirkuk","ar":"كركوك","es":"Kirkuk","ru":"Киркук","tr":"Kerkük"},{"value":"babil","en":"Babil","ar":"بابل","es":"Babil","ru":"Бабиль","tr":"Babil"},{"value":"wasit","en":"Wasit","ar":"واسط","es":"Wasit","ru":"Васит","tr":"Vasit"},{"value":"maysan","en":"Maysan","ar":"ميسان","es":"Maysan","ru":"Майсан","tr":"Meysan"},{"value":"dhiqar","en":"Dhi Qar","ar":"ذي قار","es":"Dhi Qar","ru":"Ди-Кар","tr":"Zi Kar"},{"value":"muthanna","en":"Al Muthanna","ar":"المثنى","es":"Al Muthanna","ru":"Мутанна","tr":"Müsenna"},{"value":"qadisiyah","en":"Al-Qadisiyah","ar":"القادسية","es":"Al-Qadisiyah","ru":"Кадисия","tr":"Kadisiye"},{"value":"halabja","en":"Halabja","ar":"حلبجة","es":"Halabja","ru":"Халабджа","tr":"Halepçe"}];
+const market=new URLSearchParams(location.search).get("market")||localStorage.getItem("mira_market")||"IQ";
+const T={
+en:{title:"Choose your governorate",subtitle:"Select where you want to see nearby offers and stores in Iraq.",label:"Governorate",placeholder:"Select governorate",cont:"Continue",hint:"Baghdad appears first, followed by Erbil, Basra, Sulaymaniyah, Duhok, Al Anbar, Mosul and Saladin."},
+ar:{title:"اختار محافظتك",subtitle:"اختار المحافظة حتى نعرض إلك العروض والمتاجر الأقرب داخل العراق.",label:"المحافظة",placeholder:"اختار المحافظة",cont:"متابعة",hint:"بغداد أول اختيار، بعدها أربيل، البصرة، السليمانية، دهوك، الأنبار، الموصل، ثم صلاح الدين."},
+es:{title:"Elige tu gobernación",subtitle:"Selecciona dónde quieres ver ofertas y tiendas cercanas en Irak.",label:"Gobernación",placeholder:"Selecciona gobernación",cont:"Continuar",hint:"Bagdad aparece primero, seguido de Erbil, Basora, Sulaymaniyah, Duhok, Al Anbar, Mosul y Saladino."},
+ru:{title:"Выберите провинцию",subtitle:"Выберите, где вы хотите видеть ближайшие предложения и магазины в Ираке.",label:"Провинция",placeholder:"Выберите провинцию",cont:"Продолжить",hint:"Сначала Багдад, затем Эрбиль, Басра, Сулеймания, Дохук, Анбар, Мосул и Салах-эд-Дин."},
+tr:{title:"Valiliğinizi seçin",subtitle:"Irak'ta yakındaki teklif ve mağazaları görmek istediğiniz yeri seçin.",label:"Valilik",placeholder:"Valilik seçin",cont:"Devam et",hint:"İlk sırada Bağdat, ardından Erbil, Basra, Süleymaniye, Duhok, Enbar, Musul ve Selahaddin gelir."}
+};
+function getLang(){return localStorage.getItem("mira_lang")||"en"}
+function renderCities(lang){let prev=city.value;city.innerHTML="";let p=document.createElement("option");p.value="";p.textContent=(T[lang]||T.en).placeholder;city.appendChild(p);CITIES.forEach(c=>{let o=document.createElement("option");o.value=c.value;o.textContent=c[lang];city.appendChild(o)});if(prev)city.value=prev}
+function onCityChange(){continueBtn.disabled=!city.value}
+function continueCity(){if(!city.value)return;localStorage.setItem("mira_city",city.value);location.href="interests.html?market="+encodeURIComponent(market)+"&city="+encodeURIComponent(city.value)}
+function setLang(lang){localStorage.setItem("mira_lang",lang);applyLang(lang)}
+function applyLang(lang){let t=T[lang]||T.en;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";title.textContent=t.title;subtitle.textContent=t.subtitle;cityLabel.textContent=t.label;continueBtn.textContent=t.cont;hint.textContent=t.hint;renderCities(lang)}
+applyLang(getLang());
+</script></body></html>
