@@ -1,7 +1,55 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f45a8f"><title>MIRA</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:#ef7892;font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{display:flex;justify-content:center}.screen{position:relative;width:min(100vw,430px);aspect-ratio:9/16;overflow:hidden;background:#ef7892}.ref{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.header-mask{position:absolute;z-index:2;left:3%;right:3%;top:2.1%;height:7.8%;background:linear-gradient(100deg,rgba(255,132,133,.97) 0%,rgba(245,110,153,.97) 50%,rgba(116,183,245,.96) 100%);border-radius:24px}.lang-row{position:absolute;z-index:3;left:5.2%;right:5.2%;top:3%;height:5.3%;display:flex;gap:6px;align-items:center;direction:ltr}.lang-pill{flex:1;height:100%;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.78);border-radius:999px;color:#fff;text-decoration:none;font-size:11.3px;font-weight:600;white-space:nowrap}.lang-pill.active{background:#fff;color:#D93679;border-color:#fff}.copy-mask{position:absolute;z-index:2;left:5%;right:5%;top:52.1%;height:14.7%;background:linear-gradient(155deg,rgba(244,67,127,.96) 0%,rgba(250,85,135,.97) 55%,rgba(250,115,139,.96) 100%);border-radius:20px}.copy{position:absolute;z-index:3;left:7%;right:7%;top:53.3%;text-align:center;color:#fff}.copy h1{margin:0;font-size:26px;line-height:1.22;font-weight:800;letter-spacing:-.3px}.copy p{margin:10px 0 0;font-size:14px;line-height:1.45}.actions-mask{position:absolute;z-index:2;left:3%;right:3%;top:66.7%;height:23.1%;background:linear-gradient(160deg,rgba(249,75,131,.96) 0%,rgba(250,82,132,.97) 62%,rgba(248,116,132,.96) 100%);border-radius:22px}.actions{position:absolute;z-index:3;left:7%;right:7%;top:68.3%;text-align:center}.btn{height:58px;border-radius:999px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:17px;font-weight:700;margin-bottom:10px}.primary{background:#fff;color:#E43C7B;box-shadow:0 8px 22px rgba(136,31,77,.10)}.outline{border:1.7px solid #fff;color:#fff;background:transparent}.guest{height:48px;color:#fff;background:transparent;margin-top:2px}.arrow{font-size:26px;margin-inline-start:10px;font-weight:400;line-height:1}@media(max-width:360px){.lang-pill{font-size:9.5px}.copy h1{font-size:22px}.copy p{font-size:12.5px}.btn{font-size:15px;height:53px}}
-</style></head><body><main class="screen"><picture><source srcset="assets/mira_welcome_3x.webp" type="image/webp"><img class="ref" src="assets/mira_welcome_3x.png" alt="MIRA"></picture><div class="header-mask"></div><nav class="lang-row" id="langs"></nav><div class="copy-mask"></div><section class="copy"><h1 id="headline"></h1><p id="desc"></p></section><div class="actions-mask"></div><section class="actions"><a class="btn primary" href="signin.html" id="signin"></a><a class="btn outline" href="signup.html" id="signup"></a><a class="btn guest" href="market.html" id="guest"></a></section></main><script>
-const D={en:{dir:"ltr",h:"Offers all year round",d:"Discover offers made for you,<br>wherever you are.",si:"Sign In",su:"Sign Up",gu:"Continue as Guest"},ar:{dir:"rtl",h:"عروض طول السنة",d:"اكتشف عروضاً صُممت لك،<br>أينما كنت.",si:"تسجيل الدخول",su:"إنشاء حساب",gu:"المتابعة كضيف"},es:{dir:"ltr",h:"Ofertas todo el año",d:"Descubre ofertas pensadas para ti,<br>estés donde estés.",si:"Iniciar sesión",su:"Crear cuenta",gu:"Continuar como invitado"},ru:{dir:"ltr",h:"Предложения круглый год",d:"Открывайте предложения для вас,<br>где бы вы ни были.",si:"Войти",su:"Регистрация",gu:"Продолжить как гость"},tr:{dir:"ltr",h:"Yıl boyu fırsatlar",d:"Nerede olursanız olun,<br>size özel fırsatları keşfedin.",si:"Giriş Yap",su:"Kayıt Ol",gu:"Misafir olarak devam et"}};
-const labels=[["en","English"],["ar","العربية"],["es","Español"],["ru","Русский"],["tr","Türkçe"]];
-const q=new URLSearchParams(location.search), lang=q.get("lang")||localStorage.getItem("mira_lang")||"en", t=D[lang]||D.en;localStorage.setItem("mira_lang",lang);document.documentElement.lang=lang;document.documentElement.dir=t.dir;headline.innerHTML=t.h;desc.innerHTML=t.d;signin.innerHTML=t.si+'<span class="arrow">›</span>';signup.innerHTML=t.su+'<span class="arrow">›</span>';guest.innerHTML=t.gu+'<span class="arrow">›</span>';langs.innerHTML=labels.map(([c,l])=>`<a class="lang-pill ${c===lang?'active':''}" href="welcome.html?lang=${c}" onclick="localStorage.setItem('mira_lang','${c}')">${l}</a>`).join("");
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ef7892">
+<title>MIRA</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:#ef7892}
+body{display:flex;justify-content:center}
+.screen{position:relative;width:min(100vw,430px);aspect-ratio:9/16;overflow:hidden;background:#ef7892}
+.art{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.hot{position:absolute;z-index:5;display:block;border:0;background:transparent;padding:0}
+/* language pills */
+.lang{top:2.8%;height:5.6%}
+.en{left:5.5%;width:18%}.ar{left:24%;width:18%}.es{left:43%;width:17%}.ru{left:61%;width:18%}.tr{left:80%;width:15%}
+/* CTA hit areas */
+.signin{left:8%;width:84%;top:67.7%;height:7.2%}
+.signup{left:8%;width:84%;top:76.0%;height:7.2%}
+.guest{left:16%;width:68%;top:85.0%;height:5.7%}
+</style>
+</head>
+<body>
+<main class="screen">
+  <img id="art" class="art" alt="MIRA welcome">
+
+  <a class="hot lang en" href="welcome.html?lang=en" onclick="choose('en')" aria-label="English"></a>
+  <a class="hot lang ar" href="welcome.html?lang=ar" onclick="choose('ar')" aria-label="العربية"></a>
+  <a class="hot lang es" href="welcome.html?lang=es" onclick="choose('es')" aria-label="Español"></a>
+  <a class="hot lang ru" href="welcome.html?lang=ru" onclick="choose('ru')" aria-label="Русский"></a>
+  <a class="hot lang tr" href="welcome.html?lang=tr" onclick="choose('tr')" aria-label="Türkçe"></a>
+
+  <a class="hot signin" href="signin.html" aria-label="Sign In"></a>
+  <a class="hot signup" href="signup.html" aria-label="Sign Up"></a>
+  <a class="hot guest" href="market.html" aria-label="Continue as Guest"></a>
+</main>
+<script>
+const images={
+  en:'assets/welcome-en.PNG',
+  ar:'assets/welcome-ar.PNG',
+  es:'assets/welcome-es.PNG',
+  ru:'assets/welcome-ru.PNG',
+  tr:'assets/welcome-tr.PNG'
+};
+const q=new URLSearchParams(location.search);
+const lang=images[q.get('lang')]?q.get('lang'):(localStorage.getItem('mira_lang')||'en');
+localStorage.setItem('mira_lang',lang);
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+document.getElementById('art').src=images[lang];
+function choose(code){localStorage.setItem('mira_lang',code)}
+</script>
+</body>
+</html>
