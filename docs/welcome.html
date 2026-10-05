@@ -14,9 +14,10 @@ body{display:flex;justify-content:center}
 .hot{position:absolute;z-index:20;display:block;border:0;background:transparent;padding:0;margin:0;touch-action:manipulation;cursor:pointer}
 .lang{top:2.6%;height:6.0%}
 .en{left:5%;width:19%}.ar{left:23.5%;width:19%}.es{left:42.5%;width:18.5%}.ru{left:60.5%;width:19%}.tr{left:79%;width:16%}
-.signin{left:6%;width:88%;top:66.6%;height:8.8%}
-.signup{left:6%;width:88%;top:75.1%;height:8.6%}
-.guest{left:10%;width:80%;top:83.7%;height:7.7%}
+/* CTA hit areas kept separate so Sign In never overlaps Sign Up */
+.signin{left:6%;width:88%;top:67.2%;height:7.2%}
+.signup{left:6%;width:88%;top:75.6%;height:7.2%}
+.guest{left:12%;width:76%;top:84.4%;height:6.0%}
 </style>
 </head>
 <body>
@@ -53,7 +54,7 @@ function applyLang(code){
 applyLang(lang);
 
 document.querySelectorAll('[data-lang]').forEach(btn=>{
-  btn.addEventListener('pointerup',e=>{
+  btn.addEventListener('click',e=>{
     e.preventDefault();
     const code=btn.dataset.lang;
     applyLang(code);
@@ -62,7 +63,7 @@ document.querySelectorAll('[data-lang]').forEach(btn=>{
 });
 
 document.querySelectorAll('[data-go]').forEach(btn=>{
-  btn.addEventListener('pointerup',e=>{
+  btn.addEventListener('click',e=>{
     e.preventDefault();
     window.location.href=btn.dataset.go;
   });
