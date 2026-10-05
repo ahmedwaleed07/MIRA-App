@@ -3,57 +3,85 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#ef7892">
-<title>MIRA</title>
+<meta name="theme-color" content="#f25d8d">
+<title>MIRA — Language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
+:root{--pink:#FF4D8D;--pink2:#FF7EB6;--peach:#FFC8A1;--blue:#6EC6FF;--ink:#A62C63}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:#ef7892}
+html,body{margin:0;min-height:100%;font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f35d8e}
 body{display:flex;justify-content:center}
-.wrap{position:relative;width:min(100vw,430px);aspect-ratio:9/16;background:#ef7892;overflow:hidden}
-.art{display:block;width:100%;height:100%;object-fit:cover}
-.hot{position:absolute;z-index:5;display:block;border:0;background:transparent;padding:0}
-.en,.ar,.es,.ru,.tr{top:4.2%;height:5.4%;border-radius:999px;transition:.18s ease}
-.en{left:5.5%;width:18%}.ar{left:24%;width:18%}.es{left:43%;width:17%}.ru{left:61%;width:18%}.tr{left:80%;width:15%}
-.en.active,.ar.active,.es.active,.ru.active,.tr.active{
-  background:rgba(255,255,255,.20);
-  border:2px solid rgba(255,255,255,.95);
-  box-shadow:0 4px 14px rgba(120,45,85,.16), inset 0 0 0 1px rgba(255,77,141,.20);
+.screen{
+  width:min(100vw,430px);min-height:100svh;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 88% 10%,rgba(110,198,255,.95),transparent 31%),
+    radial-gradient(circle at 5% 16%,rgba(255,200,161,.75),transparent 33%),
+    linear-gradient(160deg,#ff8190 0%,#ff4d8d 48%,#ff748b 100%);
+  padding:calc(38px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));
 }
-.si{left:7%;width:86%;top:67.2%;height:7.1%}
-.su{left:7%;width:86%;top:75.2%;height:6.9%}
-.gu{left:22%;width:56%;top:84%;height:5.1%}
+.screen:before,.screen:after{
+  content:"";position:absolute;border-radius:50%;filter:blur(1px);opacity:.32;pointer-events:none
+}
+.screen:before{width:270px;height:270px;background:#ffd1bd;left:-145px;top:28%}
+.screen:after{width:310px;height:310px;background:#85c9ff;right:-190px;top:32%}
+.brand{position:relative;z-index:2;text-align:center}
+.brandmark{width:178px;height:56px;margin:0 auto;background:#fff;-webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;mask:url("assets/mira_wordmark.svg") center/contain no-repeat}
+.prompt{margin:20px auto 22px;color:#fff;font-size:18px;font-weight:700;text-align:center}
+.cards{position:relative;z-index:2;display:grid;gap:12px}
+.card{
+  height:82px;border-radius:22px;overflow:hidden;position:relative;text-decoration:none;
+  display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.48);
+  box-shadow:0 12px 28px rgba(125,22,68,.14)
+}
+.card .label{
+  position:relative;z-index:3;background:rgba(255,255,255,.92);color:var(--ink);
+  padding:8px 18px;border-radius:999px;font-size:15px;font-weight:800;letter-spacing:.2px;
+  box-shadow:0 5px 14px rgba(94,31,61,.10)
+}
+.flagfill{position:absolute;inset:0;font-size:86px;line-height:82px;text-align:center;transform:scale(1.45);filter:saturate(.95)}
+.card:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.20))}
+.split{position:absolute;inset:0;overflow:hidden}
+.split .us,.split .uk{position:absolute;inset:-24%;display:flex;align-items:center;justify-content:center;font-size:112px;transform:scale(1.35)}
+.split .us{clip-path:polygon(0 0,100% 0,0 100%)}
+.split .uk{clip-path:polygon(100% 0,100% 100%,0 100%)}
+.footer{position:absolute;z-index:2;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom));text-align:center}
+.footer img{width:155px;max-height:42px;object-fit:contain;filter:brightness(0) invert(1);opacity:.96}
+.footer-text{font-size:11px;color:#fff;margin-bottom:6px;opacity:.86}
+@media(max-height:760px){.card{height:68px}.flagfill{font-size:72px;line-height:68px}.split .us,.split .uk{font-size:94px}.prompt{margin:12px auto 14px}.cards{gap:9px}}
 </style>
 </head>
 <body>
-<main class="wrap">
-  <picture>
-    <source srcset="assets/mira_welcome_3x.webp" type="image/webp">
-    <img class="art" src="assets/mira_welcome_3x.png" alt="MIRA">
-  </picture>
+<main class="screen">
+  <div class="brand"><div class="brandmark" aria-label="MIRA"></div><div class="prompt">Choose your language</div></div>
 
-  <button class="hot en" data-lang="en" onclick="chooseLang('en')" aria-label="English"></button>
-  <button class="hot ar" data-lang="ar" onclick="chooseLang('ar')" aria-label="Arabic"></button>
-  <button class="hot es" data-lang="es" onclick="chooseLang('es')" aria-label="Spanish"></button>
-  <button class="hot ru" data-lang="ru" onclick="chooseLang('ru')" aria-label="Russian"></button>
-  <button class="hot tr" data-lang="tr" onclick="chooseLang('tr')" aria-label="Turkish"></button>
+  <section class="cards">
+    <a class="card" href="welcome-ar.html" onclick="localStorage.setItem('mira_lang','ar')">
+      <div class="flagfill">🇮🇶</div><span class="label">العربية</span>
+    </a>
 
-  <a class="hot si" href="signin.html" aria-label="Sign In"></a>
-  <a class="hot su" href="signup.html" aria-label="Sign Up"></a>
-  <a class="hot gu" href="market.html" aria-label="Continue as Guest"></a>
+    <a class="card" href="welcome-en.html" onclick="localStorage.setItem('mira_lang','en')">
+      <div class="split"><span class="us">🇺🇸</span><span class="uk">🇬🇧</span></div><span class="label">ENGLISH</span>
+    </a>
+
+    <a class="card" href="welcome-ru.html" onclick="localStorage.setItem('mira_lang','ru')">
+      <div class="flagfill">🇷🇺</div><span class="label">Русский</span>
+    </a>
+
+    <a class="card" href="welcome-es.html" onclick="localStorage.setItem('mira_lang','es')">
+      <div class="flagfill">🇪🇸</div><span class="label">Español</span>
+    </a>
+
+    <a class="card" href="welcome-tr.html" onclick="localStorage.setItem('mira_lang','tr')">
+      <div class="flagfill">🇹🇷</div><span class="label">Türkçe</span>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-text">Powered by</div>
+    <img src="assets/asas_footer.svg" alt="ASAS 360°">
+  </footer>
 </main>
-<script>
-function showActiveLanguage(lang){
-  document.querySelectorAll('[data-lang]').forEach(btn=>{
-    btn.classList.toggle('active', btn.dataset.lang===lang);
-  });
-}
-function chooseLang(lang){
-  localStorage.setItem('mira_lang',lang);
-  showActiveLanguage(lang);
-}
-const savedLang=localStorage.getItem('mira_lang')||'en';
-localStorage.setItem('mira_lang',savedLang);
-showActiveLanguage(savedLang);
-</script>
 </body>
 </html>
