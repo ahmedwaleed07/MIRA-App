@@ -12,8 +12,13 @@ body{display:flex;justify-content:center}
 .wrap{position:relative;width:min(100vw,430px);aspect-ratio:9/16;background:#ef7892;overflow:hidden}
 .art{display:block;width:100%;height:100%;object-fit:cover}
 .hot{position:absolute;z-index:5;display:block;border:0;background:transparent;padding:0}
-.en,.ar,.es,.ru,.tr{top:4.2%;height:5.4%}
+.en,.ar,.es,.ru,.tr{top:4.2%;height:5.4%;border-radius:999px;transition:.18s ease}
 .en{left:5.5%;width:18%}.ar{left:24%;width:18%}.es{left:43%;width:17%}.ru{left:61%;width:18%}.tr{left:80%;width:15%}
+.en.active,.ar.active,.es.active,.ru.active,.tr.active{
+  background:rgba(255,255,255,.20);
+  border:2px solid rgba(255,255,255,.95);
+  box-shadow:0 4px 14px rgba(120,45,85,.16), inset 0 0 0 1px rgba(255,77,141,.20);
+}
 .si{left:7%;width:86%;top:67.2%;height:7.1%}
 .su{left:7%;width:86%;top:75.2%;height:6.9%}
 .gu{left:22%;width:56%;top:84%;height:5.1%}
@@ -26,21 +31,29 @@ body{display:flex;justify-content:center}
     <img class="art" src="assets/mira_welcome_3x.png" alt="MIRA">
   </picture>
 
-  <button class="hot en" onclick="chooseLang('en')" aria-label="English"></button>
-  <button class="hot ar" onclick="chooseLang('ar')" aria-label="Arabic"></button>
-  <button class="hot es" onclick="chooseLang('es')" aria-label="Spanish"></button>
-  <button class="hot ru" onclick="chooseLang('ru')" aria-label="Russian"></button>
-  <button class="hot tr" onclick="chooseLang('tr')" aria-label="Turkish"></button>
+  <button class="hot en" data-lang="en" onclick="chooseLang('en')" aria-label="English"></button>
+  <button class="hot ar" data-lang="ar" onclick="chooseLang('ar')" aria-label="Arabic"></button>
+  <button class="hot es" data-lang="es" onclick="chooseLang('es')" aria-label="Spanish"></button>
+  <button class="hot ru" data-lang="ru" onclick="chooseLang('ru')" aria-label="Russian"></button>
+  <button class="hot tr" data-lang="tr" onclick="chooseLang('tr')" aria-label="Turkish"></button>
 
   <a class="hot si" href="signin.html" aria-label="Sign In"></a>
   <a class="hot su" href="signup.html" aria-label="Sign Up"></a>
   <a class="hot gu" href="market.html" aria-label="Continue as Guest"></a>
 </main>
 <script>
-function chooseLang(lang){
-  localStorage.setItem('mira_lang', lang);
+function showActiveLanguage(lang){
+  document.querySelectorAll('[data-lang]').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.lang===lang);
+  });
 }
-if(!localStorage.getItem('mira_lang')) localStorage.setItem('mira_lang','en');
+function chooseLang(lang){
+  localStorage.setItem('mira_lang',lang);
+  showActiveLanguage(lang);
+}
+const savedLang=localStorage.getItem('mira_lang')||'en';
+localStorage.setItem('mira_lang',savedLang);
+showActiveLanguage(savedLang);
 </script>
 </body>
 </html>
