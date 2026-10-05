@@ -14,60 +14,32 @@ body{display:flex;justify-content:center}
 .hot{position:absolute;z-index:20;display:block;border:0;background:transparent;padding:0;margin:0;touch-action:manipulation;cursor:pointer}
 .lang{top:2.6%;height:6.0%}
 .en{left:5%;width:19%}.ar{left:23.5%;width:19%}.es{left:42.5%;width:18.5%}.ru{left:60.5%;width:19%}.tr{left:79%;width:16%}
-/* CTA hit areas kept separate so Sign In never overlaps Sign Up */
-.signin{left:6%;width:88%;top:67.2%;height:7.2%}
-.signup{left:6%;width:88%;top:75.6%;height:7.2%}
-.guest{left:12%;width:76%;top:84.4%;height:6.0%}
+/* exact non-overlapping CTA zones matched to visible artwork */
+.signin{left:9%;width:82%;top:67.8%;height:5.7%}
+.signup{left:9%;width:82%;top:75.3%;height:5.7%}
+.guest{left:20%;width:60%;top:83.6%;height:4.8%}
 </style>
 </head>
 <body>
 <main class="screen">
   <img id="art" class="art" alt="MIRA welcome" draggable="false">
-
   <button class="hot lang en" type="button" data-lang="en" aria-label="English"></button>
   <button class="hot lang ar" type="button" data-lang="ar" aria-label="العربية"></button>
   <button class="hot lang es" type="button" data-lang="es" aria-label="Español"></button>
   <button class="hot lang ru" type="button" data-lang="ru" aria-label="Русский"></button>
   <button class="hot lang tr" type="button" data-lang="tr" aria-label="Türkçe"></button>
-
   <button class="hot signin" type="button" data-go="signin.html" aria-label="Sign In"></button>
   <button class="hot signup" type="button" data-go="signup.html" aria-label="Sign Up"></button>
   <button class="hot guest" type="button" data-go="market.html" aria-label="Continue as Guest"></button>
 </main>
 <script>
-const images={
-  en:'assets/welcome-en.PNG',
-  ar:'assets/welcome-ar.PNG',
-  es:'assets/welcome-es.PNG',
-  ru:'assets/welcome-ru.PNG',
-  tr:'assets/welcome-tr.PNG'
-};
+const images={en:'assets/welcome-en.PNG',ar:'assets/welcome-ar.PNG',es:'assets/welcome-es.PNG',ru:'assets/welcome-ru.PNG',tr:'assets/welcome-tr.PNG'};
 const q=new URLSearchParams(location.search);
 let lang=images[q.get('lang')]?q.get('lang'):(localStorage.getItem('mira_lang')||'en');
-function applyLang(code){
-  lang=images[code]?code:'en';
-  localStorage.setItem('mira_lang',lang);
-  document.documentElement.lang=lang;
-  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
-  document.getElementById('art').src=images[lang];
-}
+function applyLang(code){lang=images[code]?code:'en';localStorage.setItem('mira_lang',lang);document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.getElementById('art').src=images[lang];}
 applyLang(lang);
-
-document.querySelectorAll('[data-lang]').forEach(btn=>{
-  btn.addEventListener('click',e=>{
-    e.preventDefault();
-    const code=btn.dataset.lang;
-    applyLang(code);
-    history.replaceState(null,'','welcome.html?lang='+code);
-  });
-});
-
-document.querySelectorAll('[data-go]').forEach(btn=>{
-  btn.addEventListener('click',e=>{
-    e.preventDefault();
-    window.location.href=btn.dataset.go;
-  });
-});
+document.querySelectorAll('[data-lang]').forEach(btn=>btn.addEventListener('click',e=>{e.preventDefault();const code=btn.dataset.lang;applyLang(code);history.replaceState(null,'','welcome.html?lang='+code);}));
+document.querySelectorAll('[data-go]').forEach(btn=>btn.addEventListener('click',e=>{e.preventDefault();window.location.assign(btn.dataset.go);}));
 </script>
 </body>
 </html>
