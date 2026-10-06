@@ -119,7 +119,7 @@
 const authGate=document.getElementById('authGate'),authForm=document.getElementById('authForm'),authError=document.getElementById('authError');
 function showAdmin(){authGate.classList.add('hidden')}
 if(MiraCloud.session&&MiraCloud.session.access_token)showAdmin();
-authForm.onsubmit=async e=>{e.preventDefault();authError.textContent='Signing in…';try{await MiraCloud.signIn(authEmail.value.trim(),authPassword.value);authError.textContent='';showAdmin();await cloudSync()}catch(err){console.error(err);authError.textContent='Incorrect email/password or unauthorized account.'}};
+authForm.onsubmit=async e=>{e.preventDefault();authError.textContent='Signing in…';try{await MiraCloud.signIn(authEmail.value.trim(),authPassword.value);authError.textContent='';showAdmin();try{await cloudSync()}catch(syncErr){console.error(syncErr)}}catch(err){console.error(err);let msg='Sign in failed.';try{const d=JSON.parse(String(err.message||'').replace(/^Error:\s*/,''));msg=d.msg||d.message||d.error_description||msg}catch(_){msg=err.message||msg}authError.textContent=msg}};
 document.getElementById('adminLogout').onclick=()=>{MiraCloud.signOut();location.reload()};
 const CATEGORIES=['Fashion & Clothing','Shoes','Accessories','Beauty & Cosmetics','Perfumes & Fragrances','Electronics','Restaurants & Cafés','Supermarkets & Groceries','Home & Furniture','Travel & Hotels','Cars & Automotive','Sports & Fitness','Kids & Family','Health','Entertainment','Jewelry & Watches','Services'];
 const SECTION_LABEL={featured:'Featured Offers',flash:'Flash Sales',recent:'Recently Added',interests:'Based on Your Interests',near:'Near You',categories:'Categories'};
