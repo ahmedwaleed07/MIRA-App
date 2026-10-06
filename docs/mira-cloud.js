@@ -3,7 +3,6 @@ window.MIRA_SUPABASE={
   url:'https://xjspokwtikefpgwczehp.supabase.co',
   key:'sb_publishable_ZBpq_GYBalp6mItfAKRCDA_UT2Qedou'
 };
-window.MiraCloud.loadSession();
 window.MiraCloud={
   session:null,
   loadSession(){try{this.session=JSON.parse(localStorage.getItem('mira_admin_session')||'null')}catch(e){this.session=null}return this.session},
@@ -44,3 +43,4 @@ window.MiraCloud={
     return c.url+'/storage/v1/object/public/mira-media/'+path;
   }
 };
+window.MiraCloud.loadSession();
