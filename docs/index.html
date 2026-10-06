@@ -5,28 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ef7892">
 <title>MIRA</title>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:#ef7892}
-body{display:flex;justify-content:center}
-.screen{position:relative;width:min(100vw,430px);aspect-ratio:9/16;overflow:hidden;background:#ef7892}
-.art{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
-.hot{position:absolute;z-index:5;left:6.5%;width:87%;height:8.6%;display:block;border:0;background:transparent;padding:0}
-.ar{top:38.2%}
-.en{top:47.7%}
-.ru{top:57.2%}
-.es{top:66.7%}
-.tr{top:76.2%}
-</style>
+<script>
+localStorage.setItem('mira_lang','en');
+location.replace('welcome.html?lang=en');
+</script>
 </head>
-<body>
-<main class="screen">
-  <img class="art" src="assets/language-select.PNG" alt="MIRA language selection">
-  <a class="hot ar" href="welcome.html?lang=ar" onclick="localStorage.setItem('mira_lang','ar')" aria-label="العربية"></a>
-  <a class="hot en" href="welcome.html?lang=en" onclick="localStorage.setItem('mira_lang','en')" aria-label="English"></a>
-  <a class="hot ru" href="welcome.html?lang=ru" onclick="localStorage.setItem('mira_lang','ru')" aria-label="Русский"></a>
-  <a class="hot es" href="welcome.html?lang=es" onclick="localStorage.setItem('mira_lang','es')" aria-label="Español"></a>
-  <a class="hot tr" href="welcome.html?lang=tr" onclick="localStorage.setItem('mira_lang','tr')" aria-label="Türkçe"></a>
-</main>
-</body>
+<body></body>
 </html>
