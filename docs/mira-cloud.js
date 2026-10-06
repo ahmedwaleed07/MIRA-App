@@ -3,10 +3,21 @@ window.MIRA_SUPABASE={
   url:'https://xjspokwtikefpgwczehp.supabase.co',
   key:'sb_publishable_ZBpq_GYBalp6mItfAKRCDA_UT2Qedou'
 };
+window.MiraCloud.loadSession();
 window.MiraCloud={
+  session:null,
+  loadSession(){try{this.session=JSON.parse(localStorage.getItem('mira_admin_session')||'null')}catch(e){this.session=null}return this.session},
+  token(){return this.session&&this.session.access_token?this.session.access_token:window.MIRA_SUPABASE.key},
+  async signIn(email,password){
+    const c=window.MIRA_SUPABASE;
+    const r=await fetch(c.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    if(!r.ok)throw new Error(await r.text());
+    this.session=await r.json();localStorage.setItem('mira_admin_session',JSON.stringify(this.session));return this.session;
+  },
+  signOut(){this.session=null;localStorage.removeItem('mira_admin_session')},
   async request(path,options={}){
     const c=window.MIRA_SUPABASE;
-    const headers={apikey:c.key,Authorization:'Bearer '+c.key,'Content-Type':'application/json',Prefer:'return=representation',...(options.headers||{})};
+    const headers={apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':'application/json',Prefer:'return=representation',...(options.headers||{})};
     const r=await fetch(c.url+'/rest/v1/'+path,{...options,headers});
     if(!r.ok)throw new Error(await r.text());
     const t=await r.text();return t?JSON.parse(t):[];
@@ -26,7 +37,7 @@ window.MiraCloud={
     const path=folder+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,9)+'.'+ext;
     const r=await fetch(c.url+'/storage/v1/object/mira-media/'+path,{
       method:'POST',
-      headers:{apikey:c.key,Authorization:'Bearer '+c.key,'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},
+      headers:{apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},
       body:file
     });
     if(!r.ok)throw new Error(await r.text());
