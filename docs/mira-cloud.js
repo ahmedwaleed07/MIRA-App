@@ -19,5 +19,17 @@ window.MiraCloud={
     const body={id:item.id,kind,data:item,updated_at:new Date().toISOString()};
     return this.request('mira_records?on_conflict=id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify(body)});
   },
-  async remove(id){return this.request('mira_records?id=eq.'+encodeURIComponent(id),{method:'DELETE'});}
+  async remove(id){return this.request('mira_records?id=eq.'+encodeURIComponent(id),{method:'DELETE'});},
+  async upload(file,folder='misc'){
+    const c=window.MIRA_SUPABASE;
+    const ext=((file.name||'image.jpg').split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
+    const path=folder+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,9)+'.'+ext;
+    const r=await fetch(c.url+'/storage/v1/object/mira-media/'+path,{
+      method:'POST',
+      headers:{apikey:c.key,Authorization:'Bearer '+c.key,'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},
+      body:file
+    });
+    if(!r.ok)throw new Error(await r.text());
+    return c.url+'/storage/v1/object/public/mira-media/'+path;
+  }
 };
