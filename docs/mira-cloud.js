@@ -5,15 +5,23 @@ window.MIRA_SUPABASE={
 };
 window.MiraCloud={
   session:null,
-  loadSession(){try{this.session=JSON.parse(localStorage.getItem('mira_admin_session')||'null')}catch(e){this.session=null}return this.session},
+  sessionKey(){return /business\.html$/i.test(location.pathname)?'mira_merchant_session':'mira_admin_session'},
+  loadSession(){try{this.session=JSON.parse(localStorage.getItem(this.sessionKey())||'null')}catch(e){this.session=null}return this.session},
   token(){return this.session&&this.session.access_token?this.session.access_token:window.MIRA_SUPABASE.key},
   async signIn(email,password){
     const c=window.MIRA_SUPABASE;
     const r=await fetch(c.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
     if(!r.ok)throw new Error(await r.text());
-    this.session=await r.json();localStorage.setItem('mira_admin_session',JSON.stringify(this.session));return this.session;
+    this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
   },
-  signOut(){this.session=null;localStorage.removeItem('mira_admin_session')},
+  signOut(){this.session=null;localStorage.removeItem(this.sessionKey())},
+  async refreshSession(){
+    if(!this.session?.refresh_token)throw new Error('Session expired. Please sign in again.');
+    const c=window.MIRA_SUPABASE;
+    const r=await fetch(c.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:this.session.refresh_token})});
+    if(!r.ok){this.signOut();throw new Error('Session expired. Please sign in again.')}
+    this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
+  },
   async request(path,options={}){
     const c=window.MIRA_SUPABASE;
     const headers={apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':'application/json',Prefer:'return=representation',...(options.headers||{})};
