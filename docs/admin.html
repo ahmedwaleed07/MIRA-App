@@ -28,7 +28,7 @@
       <button data-panel="media"><span class="dot"></span>Media</button>
       <button data-panel="data"><span class="dot"></span>Data</button>
     </nav>
-    <div class="side-note">MIRA content control: stores, offer images, targeting and paid placements are managed here.<br><b id="cloudStatus">Cloud: checking…</b></div>
+    <div class="side-note">MIRA content control: stores, offer images, targeting and paid placements are managed here.<br><b id="cloudStatus">Cloud: checking…</b><br><span id="authDebug" style="font-size:10px;word-break:break-all;opacity:.9"></span></div>
   </aside>
   <main class="main">
     <header class="topbar">
@@ -118,7 +118,9 @@
 <script src="mira-cloud.js"></script>
 <script>
 const authGate=document.getElementById('authGate'),authForm=document.getElementById('authForm'),authError=document.getElementById('authError');
-function showAdmin(){authGate.classList.add('hidden')}
+function jwtPayload(){try{const t=MiraCloud.session&&MiraCloud.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}}
+function showAuthIdentity(){const el=document.getElementById('authDebug'),p=jwtPayload();if(!el)return;if(!p){el.textContent='Auth: no JWT';return}el.textContent='Auth: '+(p.email||'no-email')+' · UID '+(p.sub||'no-uid')}
+function showAdmin(){authGate.classList.add('hidden');showAuthIdentity()}
 if(MiraCloud.session&&MiraCloud.session.access_token)showAdmin();
 document.getElementById('authSubmit').onclick=async()=>{authError.textContent='Signing in…';try{await MiraCloud.signIn(authEmail.value.trim(),authPassword.value);authError.textContent='';showAdmin();await cloudSync()}catch(err){console.error(err);let msg='Sign in failed.';try{const d=JSON.parse(String(err.message||''));msg=d.msg||d.message||d.error_description||msg}catch(_){msg=String(err.message||msg)}authError.textContent=msg}};
 document.getElementById('adminLogout').onclick=()=>{MiraCloud.signOut();location.reload()};
