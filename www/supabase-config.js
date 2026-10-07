@@ -1,7 +1,7 @@
 // MIRA Supabase public client configuration.
-// Fill these values from Supabase Project Settings > API.
-// The anon key is intended for client-side use; database security is enforced by RLS.
+// Publishable client credentials mirror the deployed MIRA web app.
+// Database access remains protected by Supabase RLS policies.
 window.MIRA_SUPABASE_CONFIG = {
-  url: '',
-  anonKey: ''
+  url: 'https://xjspokwtikefpgwczehp.supabase.co',
+  anonKey: 'sb_publishable_ZBpq_GYBalp6mItfAKRCDA_UT2Qedou'
 };
