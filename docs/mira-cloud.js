@@ -76,8 +76,10 @@ window.MiraCloud={
     const rec=rows.find(x=>x.id==='taxonomy-current')||rows[0];
     const items=rec&&(rec.items||rec.taxonomy);
     if(Array.isArray(items)&&items.length){
-      localStorage.setItem('mira_taxonomy',JSON.stringify(items));
+      const next=JSON.stringify(items),prev=localStorage.getItem('mira_taxonomy')||'';
+      localStorage.setItem('mira_taxonomy',next);
       window.MIRA_TAXONOMY=items;
+      if(prev!==next)window.dispatchEvent(new CustomEvent('mira-taxonomy-synced',{detail:{items}}));
       return items;
     }
     return window.MIRA_TAXONOMY||[];
@@ -109,3 +111,4 @@ window.MiraCloud={
   }
 };
 window.MiraCloud.loadSession();
+window.MiraCloud.syncTaxonomy().catch(e=>console.warn('MIRA taxonomy sync failed',e));
