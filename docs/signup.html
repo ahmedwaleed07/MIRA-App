@@ -60,7 +60,7 @@ async function continueSignup(){
       sessionStorage.setItem('mira_otp_target',target);
       sessionStorage.setItem('mira_otp_mode','signup');
       sessionStorage.setItem('mira_signup_profile',JSON.stringify(profile));
-      const callback=new URL('auth-callback.html',location.href).href;await MiraCloud.startOtp(currentMethod==='email'?{email:target,createUser:true,data:profile,redirectTo:callback}:{phone:target,createUser:true,data:profile});
+      const cb=new URL('auth-callback.html',location.href);const next=localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||'market.html';cb.searchParams.set('next',next);const callback=cb.href;await MiraCloud.startOtp(currentMethod==='email'?{email:target,createUser:true,data:profile,redirectTo:callback}:{phone:target,createUser:true,data:profile});
       location.href='otp.html?mode=signup&via='+encodeURIComponent(currentMethod);
     }catch(e){
       let m=e&&e.message?e.message:String(e||'Sign up failed.');
