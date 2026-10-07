@@ -35,4 +35,63 @@ window.MIRA_TAXONOMY = [
     {slug:'women',ar:'نسائي',en:'Women',types:[['classic','كلاسيكية','Classic'],['fashion','فاشن','Fashion'],['sports','رياضية','Sports'],['smart','ذكية','Smart']]},
     {slug:'kids',ar:'أطفال',en:'Kids',types:[['regular','عادية','Regular'],['educational','تعليمية','Educational'],['smart','ذكية','Smart']]}
   ]}
+,
+  {slug:'beauty',ar:'الجمال والعناية',en:'Beauty & Care',subs:[
+    {slug:'makeup',ar:'المكياج',en:'Makeup',types:[['face','الوجه','Face'],['eyes','العيون','Eyes'],['lips','الشفاه','Lips'],['nails','الأظافر','Nails'],['tools','أدوات المكياج','Makeup Tools']]},
+    {slug:'skincare',ar:'العناية بالبشرة',en:'Skincare',types:[['cleansing','التنظيف','Cleansing'],['moisturizing','الترطيب','Moisturizing'],['serums','السيرومات','Serums'],['sunscreen','واقي الشمس','Sunscreen'],['masks','الأقنعة','Masks']]},
+    {slug:'haircare',ar:'العناية بالشعر',en:'Haircare',types:[['shampoo','شامبو','Shampoo'],['conditioner','بلسم','Conditioner'],['oils','زيوت','Oils'],['treatments','علاجات','Treatments'],['dyes','صبغات','Hair Dyes'],['styling','تصفيف','Styling']]},
+    {slug:'personal-care',ar:'العناية الشخصية',en:'Personal Care',types:[['bath','الاستحمام','Bath'],['deodorants','مزيلات العرق','Deodorants'],['oral','العناية بالفم','Oral Care'],['tools','أدوات شخصية','Personal Tools']]}
+  ]},
+  {slug:'electronics',ar:'الإلكترونيات',en:'Electronics',subs:[
+    {slug:'mobiles',ar:'الموبايلات',en:'Mobiles',types:[['smartphones','هواتف ذكية','Smartphones'],['feature-phones','هواتف عادية','Feature Phones']]},
+    {slug:'computers',ar:'الكمبيوتر والتابلت',en:'Computers & Tablets',types:[['laptops','لابتوبات','Laptops'],['desktops','أجهزة مكتبية','Desktops'],['tablets','تابلت','Tablets'],['monitors','شاشات كمبيوتر','Monitors']]},
+    {slug:'accessories',ar:'الإكسسوارات',en:'Accessories',types:[['chargers','شواحن','Chargers'],['cables','كيبلات','Cables'],['cases','كفرات','Cases'],['powerbanks','باور بانك','Power Banks']]},
+    {slug:'gaming',ar:'الألعاب',en:'Gaming',types:[['consoles','أجهزة ألعاب','Consoles'],['games','ألعاب','Games'],['controllers','يد تحكم','Controllers'],['gaming-accessories','إكسسوارات ألعاب','Gaming Accessories']]},
+    {slug:'audio-video',ar:'الصوت والصورة',en:'Audio & Video',types:[['tvs','تلفزيونات','TVs'],['speakers','سماعات','Speakers'],['headphones','سماعات رأس','Headphones'],['cameras','كاميرات','Cameras']]}
+  ]},
+  {slug:'home-appliances',ar:'الأجهزة المنزلية',en:'Home Appliances',subs:[
+    {slug:'kitchen',ar:'المطبخ',en:'Kitchen',types:[['refrigerators','ثلاجات','Refrigerators'],['ovens','أفران','Ovens'],['microwaves','مايكروويف','Microwaves'],['small-appliances','أجهزة صغيرة','Small Appliances']]},
+    {slug:'laundry-cleaning',ar:'الغسيل والتنظيف',en:'Laundry & Cleaning',types:[['washers','غسالات','Washing Machines'],['dryers','مجففات','Dryers'],['vacuums','مكانس','Vacuum Cleaners']]},
+    {slug:'cooling-heating',ar:'التبريد والتدفئة',en:'Cooling & Heating',types:[['air-conditioners','مكيفات','Air Conditioners'],['fans','مراوح','Fans'],['heaters','مدافئ','Heaters']]}
+  ]},
+  {slug:'home',ar:'المنزل والأثاث',en:'Home & Furniture',subs:[
+    {slug:'furniture',ar:'الأثاث',en:'Furniture',types:[['living-room','غرف المعيشة','Living Room'],['bedroom','غرف النوم','Bedroom'],['office','أثاث مكتبي','Office Furniture']]},
+    {slug:'decor',ar:'الديكور',en:'Decor',types:[['wall-decor','ديكور الجدران','Wall Decor'],['ornaments','تحف','Ornaments'],['mirrors','مرايا','Mirrors']]},
+    {slug:'furnishings',ar:'المفروشات',en:'Furnishings',types:[['bedding','مفروشات سرير','Bedding'],['curtains','ستائر','Curtains'],['rugs','سجاد','Rugs']]},
+    {slug:'kitchen-dining',ar:'المطبخ والسفرة',en:'Kitchen & Dining',types:[['cookware','أواني طبخ','Cookware'],['tableware','أدوات سفرة','Tableware'],['storage','حفظ وتنظيم','Storage']]},
+    {slug:'lighting',ar:'الإضاءة',en:'Lighting',types:[['ceiling','سقفية','Ceiling Lights'],['lamps','مصابيح','Lamps'],['outdoor','خارجية','Outdoor Lighting']]}
+  ]},
+  {slug:'sports',ar:'الرياضة',en:'Sports',subs:[
+    {slug:'men',ar:'رجالي',en:'Men',types:[['clothing','ملابس','Clothing'],['shoes','أحذية','Shoes'],['accessories','إكسسوارات','Accessories']]},
+    {slug:'women',ar:'نسائي',en:'Women',types:[['clothing','ملابس','Clothing'],['shoes','أحذية','Shoes'],['accessories','إكسسوارات','Accessories']]},
+    {slug:'kids',ar:'أطفال',en:'Kids',types:[['clothing','ملابس','Clothing'],['shoes','أحذية','Shoes'],['accessories','إكسسوارات','Accessories']]},
+    {slug:'equipment',ar:'المعدات الرياضية',en:'Sports Equipment',types:[['fitness','لياقة','Fitness'],['football','كرة قدم','Football'],['racket','رياضات المضرب','Racket Sports'],['outdoor','رياضات خارجية','Outdoor Sports']]}
+  ]},
+  {slug:'toys-kids',ar:'الألعاب والأطفال',en:'Toys & Kids',subs:[
+    {slug:'age',ar:'حسب العمر',en:'By Age',types:[['baby','0-2 سنة','0-2 Years'],['preschool','3-5 سنوات','3-5 Years'],['kids','6-9 سنوات','6-9 Years'],['preteen','10+ سنوات','10+ Years']]},
+    {slug:'toys',ar:'الألعاب',en:'Toys',types:[['educational','تعليمية','Educational'],['dolls','دمى','Dolls'],['vehicles','سيارات ومركبات','Vehicles'],['outdoor','ألعاب خارجية','Outdoor Toys']]},
+    {slug:'baby-supplies',ar:'مستلزمات البيبي',en:'Baby Supplies',types:[['feeding','رضاعة وطعام','Feeding'],['diapers','حفاضات','Diapers'],['strollers','عربات','Strollers'],['nursery','غرفة الطفل','Nursery']]}
+  ]},
+  {slug:'jewelry',ar:'المجوهرات',en:'Jewelry',subs:[
+    {slug:'women',ar:'نسائي',en:'Women',types:[['necklaces','قلادات','Necklaces'],['rings','خواتم','Rings'],['bracelets','أساور','Bracelets'],['earrings','أقراط','Earrings']]},
+    {slug:'men',ar:'رجالي',en:'Men',types:[['rings','خواتم','Rings'],['bracelets','أساور','Bracelets'],['chains','سلاسل','Chains']]}
+  ]},
+  {slug:'eyewear',ar:'النظارات',en:'Eyewear',subs:[
+    {slug:'men',ar:'رجالي',en:'Men',types:[['sunglasses','شمسية','Sunglasses'],['optical','طبية','Optical']]},
+    {slug:'women',ar:'نسائي',en:'Women',types:[['sunglasses','شمسية','Sunglasses'],['optical','طبية','Optical']]},
+    {slug:'kids',ar:'أطفال',en:'Kids',types:[['sunglasses','شمسية','Sunglasses'],['optical','طبية','Optical']]}
+  ]},
+  {slug:'automotive',ar:'السيارات',en:'Automotive',subs:[
+    {slug:'accessories',ar:'إكسسوارات السيارات',en:'Car Accessories',types:[['interior','داخلية','Interior'],['exterior','خارجية','Exterior'],['care','العناية بالسيارة','Car Care']]},
+    {slug:'electronics',ar:'إلكترونيات السيارات',en:'Car Electronics',types:[['audio','صوتيات','Audio'],['cameras','كاميرات','Cameras'],['chargers','شواحن','Chargers']]},
+    {slug:'parts-supplies',ar:'قطع ومستلزمات',en:'Parts & Supplies',types:[['batteries','بطاريات','Batteries'],['tires','إطارات','Tires'],['oils','زيوت','Oils & Fluids']]}
+  ]},
+  {slug:'stationery-office',ar:'القرطاسية والمكتب',en:'Stationery & Office',subs:[
+    {slug:'school',ar:'مدرسية',en:'School',types:[['notebooks','دفاتر','Notebooks'],['pens','أقلام','Pens'],['school-supplies','مستلزمات مدرسية','School Supplies']]},
+    {slug:'office',ar:'مكتبية',en:'Office',types:[['paper','ورق','Paper'],['filing','حفظ وتنظيم','Filing'],['desk','أدوات مكتب','Desk Accessories']]}
+  ]},
+  {slug:'gifts',ar:'الهدايا',en:'Gifts',subs:[
+    {slug:'occasion',ar:'حسب المناسبة',en:'By Occasion',types:[['birthday','عيد ميلاد','Birthday'],['wedding','زواج','Wedding'],['graduation','تخرج','Graduation'],['newborn','مولود','Newborn']]},
+    {slug:'type',ar:'حسب النوع',en:'By Type',types:[['gift-sets','بوكسات هدايا','Gift Sets'],['flowers','زهور','Flowers'],['personalized','هدايا مخصصة','Personalized Gifts']]}
+  ]}
 ];
