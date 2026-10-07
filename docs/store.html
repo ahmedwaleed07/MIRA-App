@@ -1,11 +1,103 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>MIRA — Store</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
 :root{--coral:#FF7F73;--pink:#FF4D8D;--pink2:#FF7EB6;--peach:#FFC8A1;--burgundy:#8F123F;--ink:#A62C63;--muted:#B86A8E;--line:#F2D6E0;--bg:#FFF9F8;--mira:#D94F8A}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;font-family:Poppins,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--burgundy)}body{display:flex;justify-content:center}.app{width:min(100vw,430px);min-height:100svh;background:linear-gradient(180deg,#FFF9F8 0%,#fff 40%,#FFF8F8 100%);padding:calc(14px + env(safe-area-inset-top)) 16px calc(30px + env(safe-area-inset-bottom))}.top{display:flex;align-items:center;justify-content:space-between}.back{border:0;background:#fff;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:var(--pink);box-shadow:0 8px 22px rgba(92,50,76,.08)}.back svg{width:22px;height:22px}.brandmark{width:105px;height:34px;background:var(--mira);-webkit-mask:url('assets/mira_wordmark.svg') center/contain no-repeat;mask:url('assets/mira_wordmark.svg') center/contain no-repeat}.spacer{width:42px}.cover{height:205px;margin-top:18px;border-radius:28px;background:linear-gradient(135deg,var(--coral),var(--pink2),var(--peach));background-size:cover;background-position:center;position:relative;overflow:hidden;box-shadow:0 18px 42px rgba(92,50,76,.13)}.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(143,18,63,.02),rgba(143,18,63,.18))}.logo{position:absolute;left:18px;bottom:18px;z-index:2;width:76px;height:76px;border-radius:23px;background:#fff;display:grid;place-items:center;color:var(--pink);font-size:26px;font-weight:800;overflow:hidden;box-shadow:0 10px 25px rgba(92,50,76,.18)}.logo img{width:100%;height:100%;object-fit:contain;padding:8px}.content{padding:18px 2px 0}.category{font-size:10px;font-weight:700;color:var(--pink)}h1{font-size:25px;line-height:1.2;margin:5px 0 8px;letter-spacing:-.4px}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 9px;font-size:9px;font-weight:700;color:var(--muted)}.section{margin-top:21px}.section h2{font-size:15px;margin:0 0 10px}.info{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 8px 22px rgba(92,50,76,.04)}.row{display:flex;gap:9px;align-items:flex-start;font-size:11px;color:var(--muted);line-height:1.5}.row+.row{margin-top:10px}.row svg{width:18px;height:18px;color:var(--pink);flex:0 0 auto}.row a{color:inherit;text-decoration:none;word-break:break-word}.offers{display:grid;gap:11px}.offer-card{border:1px solid var(--line);background:#fff;border-radius:19px;padding:12px;display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center;box-shadow:0 9px 24px rgba(92,50,76,.05);cursor:pointer}.offer-img{height:76px;border-radius:14px;background:linear-gradient(135deg,#FFF0F4,#FFF4EF);background-size:cover;background-position:center}.offer-card h3{font-size:12px;margin:0 0 5px}.offer-card p{font-size:9.5px;color:var(--muted);margin:0}.offer-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:7px}.discount{display:inline-block;color:var(--pink);font-size:11px;font-weight:800}.price{font-size:9.5px;color:var(--muted)}.empty{text-align:center;padding:24px 10px;color:var(--muted);font-size:11px}.primary{display:block;margin-top:10px;width:100%;border:0;border-radius:14px;padding:12px;background:linear-gradient(90deg,var(--pink),var(--pink2));color:#fff;font:700 12px Poppins;text-decoration:none;text-align:center}[dir=rtl] .logo{left:auto;right:18px}
-</style></head><body><main class="app"><div class="top"><button class="back" onclick="history.back()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button><div class="brandmark" aria-label="MIRA"></div><div class="spacer"></div></div><section class="cover" id="cover"><div class="logo" id="logo">M</div></section><div class="content"><div class="category" id="category"></div><h1 id="name"></h1><div class="meta"><span class="chip" id="market"></span><span class="chip" id="status"></span></div><section class="section"><h2 id="contactTitle"></h2><div class="info" id="contact"></div></section><section class="section"><h2 id="offersTitle"></h2><div class="offers" id="offers"></div></section></div></main><script src="mira-cloud.js"></script><script>(async()=>{if(!sessionStorage.getItem('mira_cloud_loaded')){try{const [s,o]=await Promise.all([MiraCloud.list('store'),MiraCloud.list('offer')]);localStorage.setItem('mira_admin_stores',JSON.stringify(s));localStorage.setItem('mira_admin_offers',JSON.stringify(o));sessionStorage.setItem('mira_cloud_loaded','1');location.reload();}catch(e){console.error(e)}}})();
-const q=new URLSearchParams(location.search),lang=localStorage.getItem('mira_lang')||'en';document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';const T={en:{contact:'Store details',offers:'Available offers',active:'Active',inactive:'Inactive',none:'No active offers for this store yet.',offer:'Offer',regular:'Regular',offerPrice:'Offer price'},ar:{contact:'تفاصيل المتجر',offers:'العروض المتاحة',active:'فعال',inactive:'غير فعال',none:'ماكو عروض فعالة لهذا المتجر حالياً.',offer:'عرض',regular:'السعر الأصلي',offerPrice:'سعر العرض'},es:{contact:'Detalles de la tienda',offers:'Ofertas disponibles',active:'Activo',inactive:'Inactivo',none:'No hay ofertas activas.',offer:'Oferta',regular:'Precio normal',offerPrice:'Precio de oferta'},ru:{contact:'Информация о магазине',offers:'Доступные предложения',active:'Активен',inactive:'Неактивен',none:'Активных предложений пока нет.',offer:'Предложение',regular:'Обычная цена',offerPrice:'Цена по акции'},tr:{contact:'Mağaza bilgileri',offers:'Mevcut fırsatlar',active:'Aktif',inactive:'Pasif',none:'Henüz aktif fırsat yok.',offer:'Fırsat',regular:'Normal fiyat',offerPrice:'Fırsat fiyatı'}};const t=T[lang]||T.en;
+</style></head><body><main class="app"><div class="top"><button class="back" onclick="history.back()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button><div class="brandmark" aria-label="MIRA"></div><div class="spacer"></div></div><section class="cover" id="cover"><div class="logo" id="logo">M</div></section><div class="content"><div class="category" id="category"></div><h1 id="name"></h1><div class="meta"><span class="chip" id="market"></span><span class="chip" id="status"></span></div><section class="section"><h2 id="contactTitle"></h2><div class="info" id="contact"></div></section><section class="section"><h2 id="offersTitle"></h2><div class="offers" id="offers"></div></section></div></main><script src="mira-cloud.js"></script><script>
+const q=new URLSearchParams(location.search);
+const lang=localStorage.getItem('mira_lang')||'en';
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+
+const el={
+  cover:document.getElementById('cover'),
+  logo:document.getElementById('logo'),
+  category:document.getElementById('category'),
+  name:document.getElementById('name'),
+  market:document.getElementById('market'),
+  status:document.getElementById('status'),
+  contactTitle:document.getElementById('contactTitle'),
+  contact:document.getElementById('contact'),
+  offersTitle:document.getElementById('offersTitle'),
+  offers:document.getElementById('offers')
+};
+
+const T={
+  en:{contact:'Store details',offers:'Available offers',active:'Active',inactive:'Inactive',none:'No active offers for this store yet.',offer:'Offer',regular:'Regular',offerPrice:'Offer price'},
+  ar:{contact:'تفاصيل المتجر',offers:'العروض المتاحة',active:'فعال',inactive:'غير فعال',none:'ماكو عروض فعالة لهذا المتجر حالياً.',offer:'عرض',regular:'السعر الأصلي',offerPrice:'سعر العرض'},
+  es:{contact:'Detalles de la tienda',offers:'Ofertas disponibles',active:'Activo',inactive:'Inactivo',none:'No hay ofertas activas.',offer:'Oferta',regular:'Precio normal',offerPrice:'Precio de oferta'},
+  ru:{contact:'Информация о магазине',offers:'Доступные предложения',active:'Активен',inactive:'Неактивен',none:'Активных предложений пока нет.',offer:'Предложение',regular:'Обычная цена',offerPrice:'Цена по акции'},
+  tr:{contact:'Mağaza bilgileri',offers:'Mevcut fırsatlar',active:'Aktif',inactive:'Pasif',none:'Henüz aktif fırsat yok.',offer:'Fırsat',regular:'Normal fiyat',offerPrice:'Fırsat fiyatı'}
+};
+const t=T[lang]||T.en;
+
 const CATEGORY_AR={'Fashion & Clothing':'الأزياء والملابس','Shoes':'الأحذية','Accessories':'الإكسسوارات','Beauty & Cosmetics':'الجمال ومستحضرات التجميل','Perfumes & Fragrances':'العطور','Electronics':'الإلكترونيات','Restaurants & Cafés':'المطاعم والمقاهي','Supermarkets & Groceries':'السوبرماركت والبقالة','Home & Furniture':'المنزل والأثاث','Travel & Hotels':'السفر والفنادق','Cars & Automotive':'السيارات','Sports & Fitness':'الرياضة واللياقة','Kids & Family':'الأطفال والعائلة','Health':'الصحة','Entertainment':'الترفيه','Jewelry & Watches':'المجوهرات والساعات','Services':'الخدمات'};
 const PLACE_AR={'Iraq':'العراق','Baghdad':'بغداد','Kuwait':'الكويت','Saudi Arabia':'السعودية','Bahrain':'البحرين','Qatar':'قطر','UAE':'الإمارات','Oman':'عُمان','Jordan':'الأردن','Lebanon':'لبنان','Palestine':'فلسطين','Egypt':'مصر','United States':'الولايات المتحدة','Canada':'كندا','Australia':'أستراليا','United Kingdom':'المملكة المتحدة','Italy':'إيطاليا','Germany':'ألمانيا','France':'فرنسا','Netherlands':'هولندا','Finland':'فنلندا','Belgium':'بلجيكا','Austria':'النمسا','Sweden':'السويد'};
+
 function categoryLabel(v){return lang==='ar'?(CATEGORY_AR[v]||v||''):(v||'')}
 function placeLabel(v){return lang==='ar'?(PLACE_AR[v]||v):v}
-function discountText(o){let pct='';if(o.discount)pct=String(o.discount).replace('%','');else{const a=+o.originalPrice,b=+o.offerPrice;if(a>0&&b>=0&&b<a)pct=String(Math.round((1-b/a)*100))}if(!pct)return t.offer;return lang==='ar'?'خصم '+Number(pct).toLocaleString('ar-IQ')+'٪':pct+'% OFF'}
-function list(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}const stores=list('mira_admin_stores'),allOffers=list('mira_admin_offers'),s=stores.find(x=>x.id===q.get('id'));if(!s){location.replace('home.html')}else{category.textContent=categoryLabel(s.category);name.textContent=s.name;market.textContent=[s.country,s.city].filter(Boolean).map(placeLabel).join(' · ');status.textContent=s.status==='active'?t.active:t.inactive;contactTitle.textContent=t.contact;offersTitle.textContent=t.offers;if(s.cover)cover.style.backgroundImage='url("'+s.cover.replace(/"/g,'%22')+'")';if(s.logo)logo.innerHTML='<img src="'+s.logo+'" alt="">';else logo.textContent=(s.name[0]||'M').toUpperCase();const rows=[];if(s.address)rows.push(['<path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11z"/><circle cx="12" cy="10" r="2"/>',s.address,'']);if(s.phone)rows.push(['<path d="M5 4h4l2 5-3 2c1.5 3 3.5 5 6.5 6.5l2-3 4 2.5v4c-8 1-16-7-15.5-17z"/>',s.phone,'tel:'+String(s.phone).replace(/\s+/g,'')]);if(s.email)rows.push(['<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',s.email,'mailto:'+s.email]);if(s.website)rows.push(['<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 4.5 6 4.5 9S15 18 12 21c-3-3-4.5-6-4.5-9S9 6 12 3"/>',s.website,/^https?:\/\//i.test(s.website)?s.website:'https://'+s.website]);if(s.instagram){const ig=String(s.instagram).replace(/^@/,'');rows.push(['<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3"/><circle cx="17" cy="7" r=".8" fill="currentColor"/>',s.instagram,'https://instagram.com/'+ig])}contact.innerHTML=rows.length?rows.map(r=>'<div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+r[0]+'</svg>'+(r[2]?'<a href="'+r[2]+'" target="_blank" rel="noopener">'+r[1]+'</a>':'<span>'+r[1]+'</span>')+'</div>').join(''):'<div class="empty">MIRA Partner</div>';const now=Date.now(),oa=allOffers.filter(o=>o.storeId===s.id&&o.status==='active'&&(!o.start||new Date(o.start).getTime()<=now)&&(!o.end||new Date(o.end).getTime()>=now));offers.innerHTML=oa.length?oa.map(o=>{const d=discountText(o),price=(o.offerPrice||o.originalPrice)?((o.offerPrice?t.offerPrice+': '+Number(o.offerPrice).toLocaleString():'')+(o.originalPrice?' · '+t.regular+': '+Number(o.originalPrice).toLocaleString():'')):'';return '<article class="offer-card" data-id="'+o.id+'"><div class="offer-img"'+(o.image?' style="background-image:url(\''+o.image.replace(/'/g,'%27')+'\')"':'')+'></div><div><h3>'+o.title+'</h3><p>'+((o.description||'').slice(0,90))+'</p><div class="offer-meta"><span class="discount">'+d+'</span>'+(price?'<span class="price">'+price+'</span>':'')+'</div></div></article>'}).join(''):'<div class="empty">'+t.none+'</div>';offers.onclick=e=>{const card=e.target.closest('.offer-card');if(!card)return;const o=oa.find(x=>x.id===card.dataset.id);if(!o)return;location.href='offer.html?'+new URLSearchParams({id:o.id,storeId:s.id,name:s.name,title:o.title,discount:discountText(o),letter:(s.name[0]||'M')}).toString()}}}
+function esc(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function discountText(o){
+  let pct='';
+  if(o.discount)pct=String(o.discount).replace('%','');
+  else{
+    const a=+o.originalPrice,b=+o.offerPrice;
+    if(a>0&&b>=0&&b<a)pct=String(Math.round((1-b/a)*100));
+  }
+  if(!pct)return t.offer;
+  return lang==='ar'?'خصم '+Number(pct).toLocaleString('ar-IQ')+'٪':pct+'% OFF';
+}
+function localList(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
+
+function renderStore(stores,allOffers){
+  const s=stores.find(x=>x.id===q.get('id'));
+  if(!s){location.replace('home.html');return}
+
+  el.category.textContent=categoryLabel(s.category);
+  el.name.textContent=s.name||'MIRA Partner';
+  el.market.textContent=[s.country,s.city].filter(Boolean).map(placeLabel).join(' · ');
+  el.status.textContent=s.status==='active'?t.active:t.inactive;
+  el.contactTitle.textContent=t.contact;
+  el.offersTitle.textContent=t.offers;
+
+  if(s.cover)el.cover.style.backgroundImage='url("'+String(s.cover).replace(/"/g,'%22')+'")';
+  if(s.logo)el.logo.innerHTML='<img src="'+esc(s.logo)+'" alt="">';
+  else el.logo.textContent=String(s.name||'M')[0].toUpperCase();
+
+  const rows=[];
+  if(s.address)rows.push({icon:'<path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11z"/><circle cx="12" cy="10" r="2"/>',text:s.address});
+  if(s.phone)rows.push({icon:'<path d="M5 4h4l2 5-3 2c1.5 3 3.5 5 6.5 6.5l2-3 4 2.5v4c-8 1-16-7-15.5-17z"/>',text:s.phone,href:'tel:'+String(s.phone).replace(/\s+/g,'')});
+  if(s.email)rows.push({icon:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',text:s.email,href:'mailto:'+s.email});
+  if(s.website)rows.push({icon:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 4.5 6 4.5 9S15 18 12 21c-3-3-4.5-6-4.5-9S9 6 12 3"/>',text:s.website,href:/^https?:\/\//i.test(s.website)?s.website:'https://'+s.website});
+  if(s.instagram){
+    const ig=String(s.instagram).replace(/^@/,'');
+    rows.push({icon:'<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3"/><circle cx="17" cy="7" r=".8" fill="currentColor"/>',text:s.instagram,href:'https://instagram.com/'+ig});
+  }
+  el.contact.innerHTML=rows.length?rows.map(r=>'<div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+r.icon+'</svg>'+(r.href?'<a href="'+esc(r.href)+'" target="_blank" rel="noopener">'+esc(r.text)+'</a>':'<span>'+esc(r.text)+'</span>')+'</div>').join(''):'<div class="empty">MIRA Partner</div>';
+
+  const now=Date.now();
+  const oa=allOffers.filter(o=>o.storeId===s.id&&o.status==='active'&&(!o.start||new Date(o.start).getTime()<=now)&&(!o.end||new Date(o.end).getTime()>=now));
+  el.offers.innerHTML=oa.length?oa.map(o=>{
+    const d=discountText(o);
+    const price=(o.offerPrice||o.originalPrice)?((o.offerPrice?t.offerPrice+': '+Number(o.offerPrice).toLocaleString():'')+(o.originalPrice?' · '+t.regular+': '+Number(o.originalPrice).toLocaleString():'')):'';
+    const img=o.image?' style="background-image:url(\''+String(o.image).replace(/'/g,'%27')+'\')"':'';
+    return '<article class="offer-card" data-id="'+esc(o.id)+'"><div class="offer-img"'+img+'></div><div><h3>'+esc(o.title)+'</h3><p>'+esc((o.description||'').slice(0,90))+'</p><div class="offer-meta"><span class="discount">'+esc(d)+'</span>'+(price?'<span class="price">'+esc(price)+'</span>':'')+'</div></div></article>';
+  }).join(''):'<div class="empty">'+esc(t.none)+'</div>';
+
+  el.offers.onclick=e=>{
+    const card=e.target.closest('.offer-card');
+    if(!card)return;
+    const o=oa.find(x=>x.id===card.dataset.id);
+    if(!o)return;
+    location.href='offer.html?'+new URLSearchParams({id:o.id,storeId:s.id,name:s.name,title:o.title,discount:discountText(o),letter:String(s.name||'M')[0]}).toString();
+  };
+}
+
+(async()=>{
+  let stores=localList('mira_admin_stores'),offers=localList('mira_admin_offers');
+  try{
+    const fresh=await Promise.all([MiraCloud.list('store'),MiraCloud.list('offer')]);
+    stores=fresh[0];offers=fresh[1];
+    localStorage.setItem('mira_admin_stores',JSON.stringify(stores));
+    localStorage.setItem('mira_admin_offers',JSON.stringify(offers));
+  }catch(e){console.error('MIRA store cloud load failed',e)}
+  renderStore(stores,offers);
+})();
 </script></body></html>
