@@ -101,3 +101,43 @@ window.MIRA_TAXONOMY = [
     {slug:'sweets-bakeries',ar:'حلويات ومخابز',en:'Sweets & Bakeries',types:[['cakes','كيك','Cakes'],['pastries','معجنات','Pastries'],['sweets','حلويات','Sweets'],['bread','خبز','Bread']]}
   ]}
 ];
+
+/* Default product attributes used by merchant forms and customer filters. */
+(function(){
+  const all=window.MIRA_TAXONOMY||[];
+  const A=(key,label,input_type='text',options=[])=>({key,label,input_type,options,is_filterable:true});
+  const sizeClothing=A('size','Size','select',['XS','S','M','L','XL','XXL']);
+  const sizeShoes=A('size','Size','select',['24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48']);
+  const color=A('color','Color','select',['Black','White','Blue','Red','Green','Beige','Brown','Grey','Pink','Other']);
+  const material=A('material','Material','text');
+  const brand=A('brand','Brand','text');
+  const model=A('model','Model','text');
+  const volume=A('volume','Volume','select',['30 ml','50 ml','75 ml','100 ml','125 ml','150 ml','200 ml']);
+  const concentration=A('concentration','Concentration','select',['EDT','EDP','Parfum','Extrait']);
+  const storage=A('storage','Storage','select',['64 GB','128 GB','256 GB','512 GB','1 TB','2 TB']);
+  const condition=A('condition','Condition','select',['New','Like New','Used']);
+  const map={
+    clothing:[sizeClothing,color,material],
+    shoes:[sizeShoes,color,material],
+    perfumes:[volume,concentration],
+    accessories:[color,material],
+    bags:[color,material],
+    watches:[color,material],
+    beauty:[brand],
+    electronics:[brand,model,storage,condition,color],
+    'home-appliances':[brand,model,color],
+    home:[color,material],
+    sports:[sizeClothing,color,brand],
+    'toys-kids':[brand],
+    jewelry:[material,color],
+    eyewear:[brand,color],
+    automotive:[brand,model],
+    'stationery-office':[brand,color],
+    gifts:[color],
+    restaurants:[]
+  };
+  all.forEach(cat=>cat.subs.forEach(sub=>sub.types.forEach(t=>{
+    if(!t[3]||!t[3].length)t[3]=(map[cat.slug]||[]).map(x=>({...x,options:[...(x.options||[])]}));
+  })));
+  window.MIRA_DEFAULT_ATTRIBUTES=true;
+})();
