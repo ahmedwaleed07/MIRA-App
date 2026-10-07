@@ -64,7 +64,7 @@ async function continueSignup(){
     }catch(e){
       let m=e&&e.message?e.message:String(e||'Sign up failed.');
       try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
-      alert(m);
+      if(/Unsupported phone provider/i.test(m)){const lang=localStorage.getItem('mira_lang')||'en';m=lang==='ar'?'إنشاء حساب برقم الهاتف يحتاج تفعيل خدمة رسائل SMS في MIRA. استخدم الإيميل حالياً أو فعّل مزود SMS.':'Phone sign-up requires an SMS provider to be configured for MIRA. Use email for now or enable an SMS provider.'}alert(m);
       elContinue.disabled=false;
       elContinue.textContent=(T[document.documentElement.lang||'en']||T.en).continue;
     }
