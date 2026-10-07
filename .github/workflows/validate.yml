@@ -13,7 +13,9 @@ jobs:
         with:
           node-version: '22'
       - name: Validate JavaScript syntax
-        run: node --check www/app.js
+        run: |
+          node --check www/app.js
+          node scripts/validate-docs.mjs
       - name: Validate required release files
         run: |
           test -f www/index.html
@@ -24,6 +26,13 @@ jobs:
           test -f docs/privacy.html
           test -f docs/terms.html
           test -f docs/delete-account.html
+          test -f docs/taxonomy.js
+          test -f docs/mira-cloud.js
+          test -f docs/cart.html
+          test -f docs/checkout.html
+          test -f docs/orders.html
+          test -f docs/business.html
+          test -f docs/admin.html
           test -f capacitor.config.ts
           test -f package.json
       - name: Install Capacitor dependencies
