@@ -15,9 +15,11 @@ let merchant=null,store=null;
 function sessionEmail(){return String(MiraCloud.session?.user?.email||'').toLowerCase()}
 async function loadMerchant(){
  const email=sessionEmail(); if(!email)throw new Error('No signed-in user.');
- const stores=await MiraCloud.list('store');store=stores.find(x=>String(x.merchantEmail||'').toLowerCase()===email);
- if(!store)throw new Error('This account is not assigned to a MIRA store.');
- merchant={email,storeId:store.id};
+ const maps=await MiraCloud.request('mira_merchants?user_id=eq.'+encodeURIComponent(MiraCloud.session.user.id)+'&select=user_id,store_id');
+ if(!maps.length)throw new Error('This account is not assigned to a MIRA store.');
+ merchant={email,userId:maps[0].user_id,storeId:maps[0].store_id};
+ const stores=await MiraCloud.list('store');store=stores.find(x=>x.id===merchant.storeId);
+ if(!store)throw new Error('Assigned store was not found.');
  storeBox.innerHTML='<b>'+store.name+'</b><br><span>'+[store.city,store.country].filter(Boolean).join(' · ')+'</span>';
  await renderItems();
 }
