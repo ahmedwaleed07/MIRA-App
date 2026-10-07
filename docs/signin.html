@@ -60,7 +60,21 @@ async function goOtp(type){
       sessionStorage.setItem('mira_otp_via',type);sessionStorage.setItem('mira_otp_target',target);sessionStorage.setItem('mira_otp_mode','signin');
       await MiraCloud.startOtp(type==='email'?{email:target,createUser:false}:{phone:target,createUser:false});
       location.href='otp.html?via='+encodeURIComponent(type)+'&mode=signin';
-    }catch(e){let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}alert(m);btn.disabled=false;btn.textContent=oldText}
+    }catch(e){
+      let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
+      if(/Signups not allowed for otp/i.test(m)){
+        sessionStorage.setItem('mira_prefill_method',type);
+        sessionStorage.setItem('mira_prefill_value',val);
+        if(type==='phone')sessionStorage.setItem('mira_prefill_code',(document.getElementById('code').value.match(/\+\d+/)||['+964'])[0]);
+        const lang=localStorage.getItem('mira_lang')||'en';
+        const msg=lang==='ar'?'هذا الرقم غير مسجل في MIRA. راح نحولك إلى إنشاء حساب جديد.':'This account is not registered in MIRA yet. We’ll take you to Sign Up.';
+        alert(msg);
+        const ret=sessionStorage.getItem('mira_auth_return')||'';
+        location.href='signup.html'+(ret?'?return='+encodeURIComponent(ret):'');
+        return;
+      }
+      alert(m);btn.disabled=false;btn.textContent=oldText
+    }
   } 
 const T={en:{title:'Welcome back',subtitle:'Sign in with your phone number or email.',phone:'Phone',email:'Email',phoneLabel:'Phone number',emailLabel:'Email address',continue:'Continue',privacy:"By continuing, you agree to MIRA's Terms and Privacy Policy.",bottom:'New to MIRA? <a href="signup.html">Sign Up</a>',alertPhone:'Enter your phone number',alertEmail:'Enter your email'},ar:{title:'أهلاً برجعتك',subtitle:'سجّل دخولك برقم الهاتف أو البريد الإلكتروني.',phone:'الهاتف',email:'الإيميل',phoneLabel:'رقم الهاتف',emailLabel:'البريد الإلكتروني',continue:'متابعة',privacy:'بالمتابعة أنت توافق على شروط الاستخدام وسياسة الخصوصية في MIRA.',bottom:'جديد على MIRA؟ <a href="signup.html">إنشاء حساب</a>',alertPhone:'اكتب رقم الهاتف',alertEmail:'اكتب البريد الإلكتروني'},es:{title:'Bienvenido de nuevo',subtitle:'Inicia sesión con tu número de teléfono o correo.',phone:'Teléfono',email:'Correo',phoneLabel:'Número de teléfono',emailLabel:'Correo electrónico',continue:'Continuar',privacy:'Al continuar, aceptas los Términos y la Política de privacidad de MIRA.',bottom:'¿Nuevo en MIRA? <a href="signup.html">Crear cuenta</a>',alertPhone:'Introduce tu número',alertEmail:'Introduce tu correo'},ru:{title:'С возвращением',subtitle:'Войдите с номером телефона или электронной почтой.',phone:'Телефон',email:'Почта',phoneLabel:'Номер телефона',emailLabel:'Эл. почта',continue:'Продолжить',privacy:'Продолжая, вы соглашаетесь с Условиями и Политикой конфиденциальности MIRA.',bottom:'Впервые в MIRA? <a href="signup.html">Регистрация</a>',alertPhone:'Введите номер телефона',alertEmail:'Введите электронную почту'},tr:{title:'Tekrar hoş geldin',subtitle:'Telefon numaran veya e-postan ile giriş yap.',phone:'Telefon',email:'E-posta',phoneLabel:'Telefon numarası',emailLabel:'E-posta adresi',continue:'Devam et',privacy:'Devam ederek MIRA Kullanım Şartları ve Gizlilik Politikasını kabul edersin.',bottom:'MIRA’da yeni misin? <a href="signup.html">Kayıt Ol</a>',alertPhone:'Telefon numaranı gir',alertEmail:'E-posta adresini gir'}};
 function setLang(lang){localStorage.setItem('mira_lang',lang);const t=T[lang]||T.en;const rtl=lang==='ar';document.documentElement.lang=lang;document.documentElement.dir=rtl?'rtl':'ltr';document.getElementById('title').textContent=t.title;document.getElementById('subtitle').textContent=t.subtitle;document.getElementById('phoneTab').textContent=t.phone;document.getElementById('emailTab').textContent=t.email;document.getElementById('phoneLabel').textContent=t.phoneLabel;document.getElementById('emailLabel').textContent=t.emailLabel;document.getElementById('continuePhone').textContent=t.continue;document.getElementById('continueEmail').textContent=t.continue;document.getElementById('privacy').textContent=t.privacy;document.getElementById('bottom').innerHTML=t.bottom;}
