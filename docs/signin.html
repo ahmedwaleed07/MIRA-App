@@ -45,8 +45,8 @@
   <div class="lang"><button onclick="setLang('en')">English</button> · <button onclick="setLang('ar')">العربية</button> · <button onclick="setLang('es')">Español</button> · <button onclick="setLang('ru')">Русский</button> · <button onclick="setLang('tr')">Türkçe</button></div>
   <div class="powered"><img src="assets/asas_footer.svg" alt="Powered by ASAS 360°"></div>
 </main>
-<script src="mira-cloud.js?v=20261007-0915"></script><script>
-const authReturn=new URLSearchParams(location.search).get("return")||sessionStorage.getItem("mira_auth_return")||"";if(authReturn)sessionStorage.setItem("mira_auth_return",authReturn);
+<script src="mira-cloud.js?v=20261007-1620"></script><script>
+const authReturn=new URLSearchParams(location.search).get("return")||sessionStorage.getItem("mira_auth_return")||"";if(authReturn){sessionStorage.setItem("mira_auth_return",authReturn);localStorage.setItem("mira_auth_return",authReturn)}
 function showTab(which){const phone=which==='phone';document.getElementById('phonePanel').classList.toggle('active',phone);document.getElementById('emailPanel').classList.toggle('active',!phone);document.getElementById('phoneTab').classList.toggle('active',phone);document.getElementById('emailTab').classList.toggle('active',!phone);} 
 async function goOtp(type){
     const val=type==='phone'?document.getElementById('phone').value.trim():document.getElementById('email').value.trim();
@@ -58,7 +58,7 @@ async function goOtp(type){
     const btn=type==='phone'?continuePhone:continueEmail;const oldText=btn.textContent;btn.disabled=true;btn.textContent='…';
     try{
       sessionStorage.setItem('mira_otp_via',type);sessionStorage.setItem('mira_otp_target',target);sessionStorage.setItem('mira_otp_mode','signin');
-      await MiraCloud.startOtp(type==='email'?{email:target,createUser:false}:{phone:target,createUser:false});
+      const callback=new URL('auth-callback.html',location.href).href;await MiraCloud.startOtp(type==='email'?{email:target,createUser:false,redirectTo:callback}:{phone:target,createUser:false});
       location.href='otp.html?via='+encodeURIComponent(type)+'&mode=signin';
     }catch(e){
       let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
