@@ -59,7 +59,7 @@ async function goOtp(type){
     const btn=type==='phone'?continuePhone:continueEmail;const oldText=btn.textContent;btn.disabled=true;btn.textContent='…';
     try{
       sessionStorage.setItem('mira_otp_via',type);sessionStorage.setItem('mira_otp_target',target);sessionStorage.setItem('mira_otp_mode','signin');
-      const callback=new URL('auth-callback.html',location.href).href;await MiraCloud.startOtp(type==='email'?{email:target,createUser:false,redirectTo:callback}:{phone:target,createUser:false});
+      const cb=new URL('auth-callback.html',location.href);const next=localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||'home.html';cb.searchParams.set('next',next);const callback=cb.href;await MiraCloud.startOtp(type==='email'?{email:target,createUser:false,redirectTo:callback}:{phone:target,createUser:false});
       location.href='otp.html?via='+encodeURIComponent(type)+'&mode=signin';
     }catch(e){
       let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
