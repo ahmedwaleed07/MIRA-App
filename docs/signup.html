@@ -49,6 +49,17 @@ async function continueSignup(){
     }catch(e){let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}alert(m);continueBtn.disabled=false;continueBtn.textContent=oldText}
   } 
 setLang(localStorage.getItem('mira_lang')||'en');
+(()=>{
+ const method=sessionStorage.getItem('mira_prefill_method'),value=sessionStorage.getItem('mira_prefill_value'),cc=sessionStorage.getItem('mira_prefill_code');
+ if(!method||!value)return;
+ showTab(method);
+ if(method==='email')email.value=value;
+ else{
+   phone.value=value;
+   if(cc){const opt=[...code.options].find(o=>o.textContent.includes(cc));if(opt)code.value=opt.value}
+ }
+ ['mira_prefill_method','mira_prefill_value','mira_prefill_code'].forEach(k=>sessionStorage.removeItem(k));
+})();
 </script>
 </body>
 </html>
