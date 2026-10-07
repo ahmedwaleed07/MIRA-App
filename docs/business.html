@@ -54,7 +54,7 @@ async function loadOrders(){
 function renderOrders(){
  const counts={};Object.keys(ORDER_LABELS).forEach(k=>counts[k]=merchantOrders.filter(o=>o.status===k).length);
  orderCount.textContent=counts.new||0;
- orderSummary.innerHTML='<span>New <b>'+(counts.new||0)+'</b></span><span>Active <b>'+((counts.accepted||0)+(counts.preparing||0)+(counts.ready||0)+(counts.out_for_delivery||0))+'</b></span><span>Completed <b>'+(counts.completed||0)+'</b></span>';
+ orderSummary.innerHTML='<span>Received <b>'+(counts.new||0)+'</b></span><span>Active <b>'+((counts.accepted||0)+(counts.preparing||0)+(counts.ready||0)+(counts.out_for_delivery||0))+'</b></span><span>Delivered <b>'+(counts.completed||0)+'</b></span>';
  const filter=orderFilter.value||'all',rows=filter==='all'?merchantOrders:merchantOrders.filter(o=>o.status===filter);
  if(!rows.length){ordersList.innerHTML='<div class="notice">'+(merchantOrders.length?'No orders in this status.':'No customer orders yet.')+'</div>';return}
  ordersList.innerHTML=rows.map(o=>{
