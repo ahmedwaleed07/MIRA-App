@@ -94,4 +94,10 @@ window.MIRA_TAXONOMY = [
     {slug:'occasion',ar:'حسب المناسبة',en:'By Occasion',types:[['birthday','عيد ميلاد','Birthday'],['wedding','زواج','Wedding'],['graduation','تخرج','Graduation'],['newborn','مولود','Newborn']]},
     {slug:'type',ar:'حسب النوع',en:'By Type',types:[['gift-sets','بوكسات هدايا','Gift Sets'],['flowers','زهور','Flowers'],['personalized','هدايا مخصصة','Personalized Gifts']]}
   ]}
+,
+  {slug:'restaurants',ar:'المطاعم والمقاهي',en:'Restaurants & Cafes',subs:[
+    {slug:'restaurants',ar:'مطاعم',en:'Restaurants',types:[['fast-food','وجبات سريعة','Fast Food'],['grills','مشويات','Grills'],['international','مطابخ عالمية','International Cuisine'],['local','مطبخ محلي','Local Cuisine']]},
+    {slug:'cafes',ar:'مقاهي',en:'Cafes',types:[['coffee','قهوة','Coffee'],['desserts','حلويات','Desserts'],['breakfast','فطور','Breakfast'],['drinks','مشروبات','Drinks']]},
+    {slug:'sweets-bakeries',ar:'حلويات ومخابز',en:'Sweets & Bakeries',types:[['cakes','كيك','Cakes'],['pastries','معجنات','Pastries'],['sweets','حلويات','Sweets'],['bread','خبز','Bread']]}
+  ]}
 ];
