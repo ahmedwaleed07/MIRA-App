@@ -16,10 +16,11 @@ window.MiraCloud={
     if(!r.ok)throw new Error(await r.text());
     this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
   },
-  async startOtp({email='',phone='',createUser=false,data={}}={}){
+  async startOtp({email='',phone='',createUser=false,data={},redirectTo=''}={}){
     const c=window.MIRA_SUPABASE;
     const body=email?{email,create_user:createUser,data}:{phone,create_user:createUser,data};
-    const r=await fetch(c.url+'/auth/v1/otp',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const suffix=redirectTo?'?redirect_to='+encodeURIComponent(redirectTo):'';
+    const r=await fetch(c.url+'/auth/v1/otp'+suffix,{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok)throw new Error(await r.text());
     const t=await r.text();return t?JSON.parse(t):{};
   },
