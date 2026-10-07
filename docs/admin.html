@@ -25,6 +25,7 @@
       <button class="active" data-panel="overview"><span class="dot"></span>Overview</button>
       <button data-panel="stores"><span class="dot"></span>Stores</button>
       <button data-panel="offers"><span class="dot"></span>Offers / Products / Services</button>
+      <button data-panel="taxonomy"><span class="dot"></span>Product Taxonomy</button>
       <button data-panel="orders"><span class="dot"></span>Orders</button>
       <button data-panel="requests"><span class="dot"></span>Store Requests</button>
       <button data-panel="media"><span class="dot"></span>Media</button>
@@ -110,6 +111,13 @@
       </div>
     </section>
 
+    <section class="panel" id="taxonomy">
+      <div class="card" style="margin-top:0">
+        <div class="card-head"><div><h2>Product Taxonomy</h2><p>Manage Category → Subcategory → Product Type → Attributes.</p></div><div class="top-actions"><button class="btn primary" type="button" id="taxonomyAddCategory">+ Category</button><button class="btn soft" type="button" id="taxonomySave">Save Taxonomy</button></div></div>
+        <div class="card-body"><div class="notice">Hidden items stay in the taxonomy but are removed from customer and merchant selection screens.</div><div id="taxonomyTree"></div></div>
+      </div>
+    </section>
+
     <section class="panel" id="orders">
       <div class="card" style="margin-top:0"><div class="card-head"><div><h2>Customer Orders</h2><p>All orders across MIRA merchants.</p></div></div><div class="card-body"><div class="toolbar"><input id="adminOrderSearch" placeholder="Search customer, phone or order ID"><select id="adminOrderStore"><option value="all">All stores</option></select><select id="adminOrderStatus"><option value="all">All statuses</option><option value="new">New</option><option value="accepted">Accepted</option><option value="preparing">Preparing</option><option value="ready">Ready</option><option value="out_for_delivery">Out for delivery</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div><div class="table-wrap" id="ordersTableWrap"></div></div></div>
     </section>
@@ -138,7 +146,7 @@ if(MiraCloud.session&&MiraCloud.session.access_token)showAdmin();
 document.getElementById('authSubmit').onclick=async()=>{authError.textContent='Signing in…';try{await MiraCloud.signIn(authEmail.value.trim(),authPassword.value);authError.textContent='';showAdmin();await cloudSync()}catch(err){console.error(err);let msg='Sign in failed.';try{const d=JSON.parse(String(err.message||''));msg=d.msg||d.message||d.error_description||msg}catch(_){msg=String(err.message||msg)}authError.textContent=msg}};
 document.getElementById('adminLogout').onclick=()=>{MiraCloud.signOut();location.reload()};
 const CATEGORIES=['Fashion & Clothing','Shoes','Accessories','Beauty & Cosmetics','Perfumes & Fragrances','Electronics','Restaurants & Cafés','Supermarkets & Groceries','Home & Furniture','Travel & Hotels','Cars & Automotive','Sports & Fitness','Kids & Family','Health','Entertainment','Jewelry & Watches','Services'];
-const TAXONOMY=window.MIRA_TAXONOMY||[];
+let TAXONOMY=window.MIRA_TAXONOMY||[];
 const LEGACY_CATEGORY={clothing:'Fashion & Clothing',shoes:'Shoes',accessories:'Accessories',beauty:'Beauty & Cosmetics',perfumes:'Perfumes & Fragrances',electronics:'Electronics',restaurants:'Restaurants & Cafés',home:'Home & Furniture',automotive:'Cars & Automotive',sports:'Sports & Fitness','toys-kids':'Kids & Family',jewelry:'Jewelry & Watches',watches:'Jewelry & Watches'};
 const LEGACY_TO_SLUG=Object.fromEntries(Object.entries(LEGACY_CATEGORY).map(([k,v])=>[v,k]));
 function fillOfferCategories(selected=''){offerCategory.innerHTML=TAXONOMY.map(x=>`<option value="${esc(x.slug)}">${esc(x.en)}</option>`).join('');if(selected&&TAXONOMY.some(x=>x.slug===selected))offerCategory.value=selected;fillOfferSubcategories()}
@@ -158,7 +166,7 @@ function uid(prefix){return prefix+'-'+Date.now().toString(36)+'-'+Math.random()
 function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function toastMsg(s){toast.textContent=s;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1600)}
 function fillCategories(){const opts=CATEGORIES.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');storeCategory.innerHTML=opts;fillOfferCategories()}
-function switchPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.menu button').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));const map={overview:['Overview','Manage MIRA stores and paid placements.'],stores:['Stores','Create and manage merchant profiles.'],offers:['Offers','Create offers, targeting and paid Home placements.'],orders:['Orders','Review customer orders across all MIRA stores.'],requests:['Store Requests','Review merchant profile changes before publishing.'],media:['Media','Review store and offer images.'],data:['Data','Export or import prototype content.']};pageTitle.textContent=map[id][0];pageSub.textContent=map[id][1];if(id==='offers')refreshStoreSelect()}
+function switchPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.menu button').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));const map={overview:['Overview','Manage MIRA stores and paid placements.'],stores:['Stores','Create and manage merchant profiles.'],offers:['Offers','Create offers, targeting and paid Home placements.'],taxonomy:['Product Taxonomy','Manage categories, subcategories, product types and attributes.'],orders:['Orders','Review customer orders across all MIRA stores.'],requests:['Store Requests','Review merchant profile changes before publishing.'],media:['Media','Review store and offer images.'],data:['Data','Export or import prototype content.']};pageTitle.textContent=map[id][0];pageSub.textContent=map[id][1];if(id==='offers')refreshStoreSelect()}
 document.querySelectorAll('.menu button').forEach(b=>b.onclick=()=>switchPanel(b.dataset.panel));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>switchPanel(b.dataset.go));
 offerCategory.addEventListener('change',()=>fillOfferSubcategories());
 offerSubcategory.addEventListener('change',()=>fillOfferProductTypes());
