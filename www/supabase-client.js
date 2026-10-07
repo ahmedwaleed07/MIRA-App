@@ -81,5 +81,63 @@
     return data;
   }
 
-  window.MIRA_DB={enabled,client,getSession,signInEmail,signInPhone,verifyPhone,signOut,insertOrder};
+  async function ensureMerchantProfile(profile){
+    if(!client)return {demo:true};
+    const session=await getSession();
+    if(!session)throw new Error('Authentication required');
+    const row={
+      id:session.user.id,
+      business_name:profile.business_name,
+      phone:profile.phone||session.user.phone||null,
+      email:profile.email||session.user.email||null,
+      country:profile.country||'Iraq',
+      city:profile.city||null,
+      address:profile.address||null
+    };
+    const {data,error}=await client.from('merchant_profiles').upsert(row,{onConflict:'id'}).select().single();
+    if(error)throw error;
+    return data;
+  }
+  async function listCustomerOrders(){
+    if(!client)return [];
+    const session=await getSession();
+    if(!session)return [];
+    const {data,error}=await client.from('orders')
+      .select('*,order_items(*),order_status_history(*)')
+      .eq('customer_id',session.user.id)
+      .order('created_at',{ascending:false});
+    if(error)throw error;
+    return data||[];
+  }
+  async function listMerchantOrders(){
+    if(!client)return [];
+    const session=await getSession();
+    if(!session)return [];
+    const {data,error}=await client.from('orders')
+      .select('*,order_items(*),order_status_history(*)')
+      .eq('merchant_id',session.user.id)
+      .order('created_at',{ascending:false});
+    if(error)throw error;
+    return data||[];
+  }
+  async function updateOrderStatus(orderId,status){
+    if(!client)return {demo:true};
+    const {data,error}=await client.from('orders')
+      .update({status})
+      .eq('id',orderId)
+      .select()
+      .single();
+    if(error)throw error;
+    return data;
+  }
+  async function listPublicOffers(){
+    if(!client)return [];
+    const {data,error}=await client.from('offers')
+      .select('*,merchant_profiles(business_name,city)')
+      .eq('is_active',true)
+      .order('created_at',{ascending:false});
+    if(error)throw error;
+    return data||[];
+  }
+  window.MIRA_DB={enabled,client,getSession,signInEmail,signInPhone,verifyPhone,signOut,insertOrder,ensureMerchantProfile,listCustomerOrders,listMerchantOrders,updateOrderStatus,listPublicOffers};
 })();
