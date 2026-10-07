@@ -10,4 +10,26 @@
       if(ret){sessionStorage.removeItem('mira_auth_return');location.href=ret}else location.href=mode==='signup'?'market.html':'home.html';
     }catch(e){let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}notice.textContent=m;verifyBtn.disabled=false}
   }
-  async function resendCode(){const target=sessionStorage.getItem('mira_otp_target')||'',profile=JSON.parse(sessionStorage.getItem('mira_signup_profile')||'{}');try{await MiraCloud.startOtp(via==='email'?{email:target,createUser:mode==='signup',data:profile}:{phone:target,createUser:mode==='signup',data:profile});notice.textContent=(T[getLang()]||T.en).s}catch(e){notice.textContent=e.message||String(e)}}applyLang(getLang());inputs[0].focus();</script></body></html>
+  async function resendCode(){const target=sessionStorage.getItem('mira_otp_target')||'',profile=JSON.parse(sessionStorage.getItem('mira_signup_profile')||'{}');try{await MiraCloud.startOtp(via==='email'?{email:target,createUser:mode==='signup',data:profile}:{phone:target,createUser:mode==='signup',data:profile});notice.textContent=(T[getLang()]||T.en).s}catch(e){notice.textContent=e.message||String(e)}}function completedAuthDestination(){
+  try{
+    const raw=localStorage.getItem('mira_auth_complete');
+    if(raw){const x=JSON.parse(raw);if(x&&x.at&&Date.now()-Number(x.at)<10*60*1000)return x.returnTo||'home.html'}
+  }catch(_){}
+  return sessionStorage.getItem('mira_auth_return')||localStorage.getItem('mira_auth_return')||'home.html';
+}
+function customerSessionReady(){
+  try{const s=JSON.parse(localStorage.getItem('mira_customer_session')||'null');return !!(s&&s.access_token&&s.user&&s.user.id)}catch(_){return false}
+}
+function continueIfVerified(){
+  if(!customerSessionReady())return false;
+  const dest=completedAuthDestination();
+  localStorage.removeItem('mira_auth_complete');
+  sessionStorage.removeItem('mira_auth_return');
+  localStorage.removeItem('mira_auth_return');
+  location.replace(dest);
+  return true;
+}
+window.addEventListener('storage',e=>{if(e.key==='mira_customer_session'||e.key==='mira_auth_complete')continueIfVerified()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')continueIfVerified()});
+setInterval(continueIfVerified,1200);
+applyLang(getLang());if(!continueIfVerified())inputs[0].focus();</script></body></html>
