@@ -3,42 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#FFF8F7">
+<meta name="theme-color" content="#E8E8E8">
 <title>MIRA — Categories</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pink:#FF4D8D;
-  --pink2:#FF7EB6;
-  --coral:#FF7F73;
-  --peach:#FFC8A1;
-  --burgundy:#8F123F;
-  --ink:#A62C63;
-  --muted:#B86A8E;
-  --line:#F3D7E2;
-  --bg:#FFF9F9;
+  --pink:#A27F7B;
+  --pink2:#BAABA6;
+  --coral:#A27F7B;
+  --peach:#E5DAD4;
+  --burgundy:#6D494B;
+  --ink:#6D494B;
+  --muted:#A27F7B;
+  --line:#E5DAD4;
+  --bg:#E8E8E8;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%;font-family:Poppins,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
 body{display:flex;justify-content:center}
-.app{width:min(100vw,430px);min-height:100svh;background:radial-gradient(circle at 8% 0%,rgba(255,77,141,.11),transparent 25%),radial-gradient(circle at 100% 5%,rgba(255,127,115,.12),transparent 28%),linear-gradient(180deg,#fff9fa 0%,#fffdfc 46%,#fff8f8 100%);padding:calc(16px + env(safe-area-inset-top)) 16px calc(94px + env(safe-area-inset-bottom))}
+.app{width:min(100vw,430px);min-height:100svh;background:radial-gradient(circle at 8% 0%,rgba(162,127,123,.11),transparent 25%),radial-gradient(circle at 100% 5%,rgba(255,127,115,.12),transparent 28%),linear-gradient(180deg,#F2EFEA 0%,#F2EFEA 46%,#E8E8E8 100%);padding:calc(16px + env(safe-area-inset-top)) 16px calc(94px + env(safe-area-inset-bottom))}
 .title{margin-top:8px;font-size:25px;font-weight:800;letter-spacing:-.5px;color:var(--burgundy)}
 .sub{font-size:11px;color:var(--muted);line-height:1.55;margin-top:4px}
-.search{margin-top:17px;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:12px 13px;box-shadow:0 7px 20px rgba(143,18,63,.035)}
+.search{margin-top:17px;display:flex;align-items:center;gap:9px;background:#F2EFEA;border:1px solid var(--line);border-radius:17px;padding:12px 13px;box-shadow:0 7px 20px rgba(109,73,75,.035)}
 .search svg{width:20px;color:var(--pink)}
 .search input{border:0;outline:0;background:transparent;width:100%;font:500 12px Poppins;color:var(--burgundy)}
-.search input::placeholder{color:#C88AA5}
+.search input::placeholder{color:#A27F7B}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
-.cat{-webkit-appearance:none;appearance:none;border:1px solid var(--line);background:#fff;border-radius:22px;padding:15px;min-height:128px;display:flex;flex-direction:column;justify-content:space-between;text-align:start;box-shadow:0 10px 26px rgba(92,50,76,.055);cursor:pointer;color:var(--burgundy);font-family:Poppins}
+.cat{-webkit-appearance:none;appearance:none;border:1px solid var(--line);background:#F2EFEA;border-radius:22px;padding:15px;min-height:128px;display:flex;flex-direction:column;justify-content:space-between;text-align:start;box-shadow:0 10px 26px rgba(109,73,75,.055);cursor:pointer;color:var(--burgundy);font-family:Poppins}
 .cat:active{transform:scale(.985)}
-.ico{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#FFF0F5 0%,#FFF5F0 100%);display:grid;place-items:center}
+.ico{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#E5DAD4 0%,#E5DAD4 100%);display:grid;place-items:center}
 .ico svg{width:24px;height:24px;color:var(--pink)}
 .cat b{font-size:12px;line-height:1.25;color:var(--burgundy);font-weight:700}
 .cat small{font-size:9px;color:var(--muted)}
-.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(100vw,430px);padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-top:1px solid #F4DFE7;display:grid;grid-template-columns:repeat(4,1fr)}
-.nav{color:#B18499;text-decoration:none;font:600 9.5px Poppins;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(100vw,430px);padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-top:1px solid #E5DAD4;display:grid;grid-template-columns:repeat(4,1fr)}
+.nav{color:#A27F7B;text-decoration:none;font:600 9.5px Poppins;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nav svg{width:22px;height:22px}
 .nav.active{color:var(--pink)}
 </style>
@@ -59,20 +59,13 @@ body{display:flex;justify-content:center}
   <a class="nav" href="saved.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 21s-8-4.7-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.3-8 11-8 11z"/></svg><span id="nSaved"></span></a>
   <a class="nav" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.4 3.7-7 8-7s7 2.6 8 7"/></svg><span id="nProfile"></span></a>
 </nav>
-<script>
+<script src="taxonomy.js?v=20261007-taxonomy"></script><script src="mira-cloud.js?v=20261007-taxonomy"></script><script>
 const T={
  en:{title:'Categories',sub:'Browse all MIRA categories',search:'Search categories',home:'Home',cat:'Categories',saved:'Saved',profile:'Profile'},
  ar:{title:'التصنيفات',sub:'تصفح جميع تصنيفات MIRA',search:'ابحث في التصنيفات',home:'الرئيسية',cat:'التصنيفات',saved:'المحفوظات',profile:'حسابي'},
  es:{title:'Categorías',sub:'Explora todas las categorías de MIRA',search:'Buscar categorías',home:'Inicio',cat:'Categorías',saved:'Guardado',profile:'Perfil'},
  ru:{title:'Категории',sub:'Все категории MIRA',search:'Поиск категорий',home:'Главная',cat:'Категории',saved:'Сохранено',profile:'Профиль'},
  tr:{title:'Kategoriler',sub:'Tüm MIRA kategorilerine göz at',search:'Kategori ara',home:'Ana Sayfa',cat:'Kategoriler',saved:'Kaydedilenler',profile:'Profil'}
-};
-const C={
- en:['Fashion & Clothing','Shoes','Accessories','Beauty & Cosmetics','Perfumes & Fragrances','Electronics','Restaurants & Cafés','Supermarkets & Groceries','Home & Furniture','Travel & Hotels','Cars & Automotive','Sports & Fitness','Kids & Family','Health','Entertainment','Jewelry & Watches','Services'],
- ar:['الأزياء والملابس','الأحذية','الإكسسوارات','الجمال ومستحضرات التجميل','العطور','الإلكترونيات','المطاعم والمقاهي','السوبرماركت والمواد الغذائية','المنزل والأثاث','السفر والفنادق','السيارات','الرياضة واللياقة','الأطفال والعائلة','الصحة','الترفيه','المجوهرات والساعات','الخدمات'],
- es:['Moda y ropa','Calzado','Accesorios','Belleza y cosmética','Perfumes','Electrónica','Restaurantes y cafés','Supermercados','Hogar y muebles','Viajes y hoteles','Automóviles','Deportes y fitness','Niños y familia','Salud','Entretenimiento','Joyas y relojes','Servicios'],
- ru:['Мода и одежда','Обувь','Аксессуары','Красота и косметика','Парфюмерия','Электроника','Рестораны и кафе','Супермаркеты','Дом и мебель','Путешествия и отели','Автомобили','Спорт и фитнес','Дети и семья','Здоровье','Развлечения','Ювелирные изделия и часы','Услуги'],
- tr:['Moda ve Giyim','Ayakkabı','Aksesuar','Güzellik ve Kozmetik','Parfüm','Elektronik','Restoran ve Kafeler','Süpermarket','Ev ve Mobilya','Seyahat ve Oteller','Otomotiv','Spor ve Fitness','Çocuk ve Aile','Sağlık','Eğlence','Mücevher ve Saat','Hizmetler']
 };
 const paths=[
 '<path d="M8 4l-4 3 2 4 2-1v10h8V10l2 1 2-4-4-3-2 2h-4L8 4z"/>',
@@ -97,11 +90,12 @@ function render(){
  const l=localStorage.getItem('mira_lang')||'en',t=T[l]||T.en;
  document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
  title.textContent=t.title;sub.textContent=t.sub;q.placeholder=t.search;nHome.textContent=t.home;nCat.textContent=t.cat;nSaved.textContent=t.saved;nProfile.textContent=t.profile;
- const items=C[l]||C.en;
- const draw=(filter='')=>{grid.innerHTML='';items.forEach((name,i)=>{if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?cat='+i;b.innerHTML=`<div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${paths[i]||paths[0]}</svg></div><b>${name}</b><small>MIRA</small>`;grid.appendChild(b)})};
+ const items=(window.MIRA_TAXONOMY||[]).filter(x=>x.active!==false);
+ const txName=x=>l==='ar'?(x.ar||x.en):(x.en||x.ar);
+ const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${paths[i%paths.length]||paths[0]}</svg></div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;grid.appendChild(b)})};
  draw();q.oninput=()=>draw(q.value)
 }
-render();
+render();window.addEventListener('mira-taxonomy-synced',render);
 </script>
 </body>
 </html>
