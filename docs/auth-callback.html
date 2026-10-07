@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MIRA — Signing in</title><style>body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:#fff8fb;color:#A62C63;display:grid;place-items:center;min-height:100vh}.box{text-align:center;padding:28px}.logo{font-size:38px;font-weight:800}.msg{margin-top:12px;color:#B86A8E}</style></head><body><div class="box"><div class="logo">MIRA</div><div class="msg" id="msg">Signing you in…</div></div><script src="mira-cloud.js?v=20261007-1620"></script><script>
+(async()=>{
+ try{
+  const h=new URLSearchParams(location.hash.replace(/^#/,''));
+  const access_token=h.get('access_token'),refresh_token=h.get('refresh_token'),expires_in=Number(h.get('expires_in')||3600),token_type=h.get('token_type')||'bearer';
+  if(!access_token)throw new Error('The sign-in link is invalid or expired.');
+  const r=await fetch(MIRA_SUPABASE.url+'/auth/v1/user',{headers:{apikey:MIRA_SUPABASE.key,Authorization:'Bearer '+access_token}});
+  if(!r.ok)throw new Error('Could not verify your MIRA account.');
+  const user=await r.json();
+  MiraCloud.session={access_token,refresh_token,expires_in,expires_at:Math.floor(Date.now()/1000)+expires_in,token_type,user};
+  localStorage.setItem('mira_customer_session',JSON.stringify(MiraCloud.session));
+  const ret=localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||'home.html';
+  localStorage.removeItem('mira_auth_return');sessionStorage.removeItem('mira_auth_return');
+  location.replace(ret);
+ }catch(e){msg.textContent=e.message||String(e)}
+})();
+</script></body></html>
