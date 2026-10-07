@@ -141,3 +141,5 @@ window.MIRA_TAXONOMY = [
   })));
   window.MIRA_DEFAULT_ATTRIBUTES=true;
 })();
+
+try{const cached=JSON.parse(localStorage.getItem('mira_taxonomy')||'null');if(Array.isArray(cached)&&cached.length)window.MIRA_TAXONOMY=cached}catch(e){}
