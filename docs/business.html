@@ -42,7 +42,7 @@ async function loadMerchant(){
  await renderItems();
 }
 function escHtml(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-const ORDER_LABELS={new:'New',accepted:'Accepted',preparing:'Preparing',ready:'Ready',out_for_delivery:'Out for delivery',completed:'Completed',cancelled:'Cancelled'};
+const ORDER_LABELS={new:'Received',accepted:'Confirmed',preparing:'Preparing',ready:'Shipped',out_for_delivery:'Out for delivery',completed:'Delivered',cancelled:'Cancelled'};
 function orderItemsText(o){const arr=Array.isArray(o.items)?o.items:[];return arr.length?arr.map(i=>escHtml((i.title||'Item')+' × '+(i.quantity||1))).join('<br>'):'No item details'}
 async function loadOrders(){
  if(!merchant)return;
