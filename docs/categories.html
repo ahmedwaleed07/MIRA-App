@@ -59,7 +59,7 @@ body{display:flex;justify-content:center}
   <a class="nav" href="saved.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 21s-8-4.7-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.3-8 11-8 11z"/></svg><span id="nSaved"></span></a>
   <a class="nav" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.4 3.7-7 8-7s7 2.6 8 7"/></svg><span id="nProfile"></span></a>
 </nav>
-<script src="taxonomy.js?v=20261007-taxonomy"></script><script>
+<script src="taxonomy.js?v=20261007-taxonomy"></script><script src="mira-cloud.js?v=20261007-taxonomy"></script><script>
 const T={
  en:{title:'Categories',sub:'Browse all MIRA categories',search:'Search categories',home:'Home',cat:'Categories',saved:'Saved',profile:'Profile'},
  ar:{title:'التصنيفات',sub:'تصفح جميع تصنيفات MIRA',search:'ابحث في التصنيفات',home:'الرئيسية',cat:'التصنيفات',saved:'المحفوظات',profile:'حسابي'},
@@ -90,12 +90,12 @@ function render(){
  const l=localStorage.getItem('mira_lang')||'en',t=T[l]||T.en;
  document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
  title.textContent=t.title;sub.textContent=t.sub;q.placeholder=t.search;nHome.textContent=t.home;nCat.textContent=t.cat;nSaved.textContent=t.saved;nProfile.textContent=t.profile;
- const items=window.MIRA_TAXONOMY||[];
+ const items=(window.MIRA_TAXONOMY||[]).filter(x=>x.active!==false);
  const txName=x=>l==='ar'?(x.ar||x.en):(x.en||x.ar);
- const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${paths[i%paths.length]||paths[0]}</svg></div><b>${name}</b><small>${item.subs.length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;grid.appendChild(b)})};
+ const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${paths[i%paths.length]||paths[0]}</svg></div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;grid.appendChild(b)})};
  draw();q.oninput=()=>draw(q.value)
 }
-render();
+render();window.addEventListener('mira-taxonomy-synced',render);
 </script>
 </body>
 </html>
