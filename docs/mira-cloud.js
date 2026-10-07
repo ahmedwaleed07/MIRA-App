@@ -24,12 +24,26 @@ window.MiraCloud={
     if(!r.ok){this.signOut();throw new Error('Session expired. Please sign in again.')}
     this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
   },
+  tokenExpired(skewSeconds=30){const p=this.payload();return !!(p&&p.exp&&Date.now()/1000>=Number(p.exp)-skewSeconds)},
+  async ensureFreshSession(){if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();return this.session},
   async request(path,options={}){
     const c=window.MIRA_SUPABASE;
-    if(options.requireAuth)this.requireAuth();
+    const requireAuth=!!options.requireAuth;
+    if(requireAuth)this.requireAuth();
+    if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();
     const clean={...options};delete clean.requireAuth;
-    const headers={apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':'application/json',Prefer:'return=representation',...(clean.headers||{})};
-    const r=await fetch(c.url+'/rest/v1/'+path,{...clean,headers});
+    const send=async()=>{
+      const headers={apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':'application/json',Prefer:'return=representation',...(clean.headers||{})};
+      return fetch(c.url+'/rest/v1/'+path,{...clean,headers});
+    };
+    let r=await send();
+    if(!r.ok&&this.session?.refresh_token&&(r.status===401||r.status===403)){
+      const body=await r.text();
+      if(/JWT expired|PGRST303|invalid JWT|token.*expired/i.test(body)){
+        await this.refreshSession();
+        r=await send();
+      }else throw new Error(body);
+    }
     if(!r.ok)throw new Error(await r.text());
     const t=await r.text();return t?JSON.parse(t):[];
   },
@@ -44,13 +58,19 @@ window.MiraCloud={
   async remove(id){return this.request('mira_records?id=eq.'+encodeURIComponent(id),{method:'DELETE'});},
   async upload(file,folder='misc'){
     const c=window.MIRA_SUPABASE;
+    if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();
     const ext=((file.name||'image.jpg').split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
     const path=folder+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,9)+'.'+ext;
-    const r=await fetch(c.url+'/storage/v1/object/mira-media/'+path,{
+    const send=()=>fetch(c.url+'/storage/v1/object/mira-media/'+path,{
       method:'POST',
       headers:{apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},
       body:file
     });
+    let r=await send();
+    if(!r.ok&&this.session?.refresh_token&&(r.status===401||r.status===403)){
+      const body=await r.text();
+      if(/JWT expired|invalid JWT|token.*expired/i.test(body)){await this.refreshSession();r=await send()}else throw new Error(body)
+    }
     if(!r.ok)throw new Error(await r.text());
     return c.url+'/storage/v1/object/public/mira-media/'+path;
   }
