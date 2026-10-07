@@ -130,6 +130,34 @@
     if(error)throw error;
     return data;
   }
+  async function createOffer(offer){
+    if(!client)return {demo:true};
+    const session=await getSession();
+    if(!session)throw new Error('Authentication required');
+    const attrs=Object.assign({},offer.attributes||{},{
+      _taxonomy:{
+        category:offer.category||null,
+        subcategory:offer.subcategory||null,
+        productType:offer.productType||null
+      }
+    });
+    const {data,error}=await client.from('offers').insert({
+      merchant_id:session.user.id,
+      title:offer.title,
+      description:offer.description||null,
+      original_price:offer.original_price||null,
+      offer_price:offer.offer_price,
+      currency:offer.currency||'IQD',
+      offer_type:offer.offer_type||'standard',
+      branch_scope:offer.branch_scope||null,
+      attributes:attrs,
+      starts_at:offer.starts_at||null,
+      ends_at:offer.ends_at||null,
+      is_active:true
+    }).select().single();
+    if(error)throw error;
+    return data;
+  }
   async function listPublicOffers(){
     if(!client)return [];
     const {data,error}=await client.from('offers')
@@ -139,5 +167,5 @@
     if(error)throw error;
     return data||[];
   }
-  window.MIRA_DB={enabled,client,getSession,signInEmail,signInPhone,verifyPhone,signOut,insertOrder,ensureMerchantProfile,listCustomerOrders,listMerchantOrders,updateOrderStatus,listPublicOffers};
+  window.MIRA_DB={enabled,client,getSession,signInEmail,signInPhone,verifyPhone,signOut,insertOrder,ensureMerchantProfile,listCustomerOrders,listMerchantOrders,updateOrderStatus,createOffer,listPublicOffers};
 })();
