@@ -8,6 +8,8 @@ window.MiraCloud={
   sessionKey(){return /business\.html$/i.test(location.pathname)?'mira_merchant_session':'mira_admin_session'},
   loadSession(){try{this.session=JSON.parse(localStorage.getItem(this.sessionKey())||'null')}catch(e){this.session=null}return this.session},
   token(){return this.session&&this.session.access_token?this.session.access_token:window.MIRA_SUPABASE.key},
+  payload(){try{const t=this.session&&this.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}},
+  requireAuth(){const p=this.payload();if(!p||p.role!=='authenticated'||!p.sub)throw new Error('Authenticated Supabase session required. Please sign out and sign in again.');return p},
   async signIn(email,password){
     const c=window.MIRA_SUPABASE;
     const r=await fetch(c.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
@@ -24,8 +26,10 @@ window.MiraCloud={
   },
   async request(path,options={}){
     const c=window.MIRA_SUPABASE;
-    const headers={apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':'application/json',Prefer:'return=representation',...(options.headers||{})};
-    const r=await fetch(c.url+'/rest/v1/'+path,{...options,headers});
+    if(options.requireAuth)this.requireAuth();
+    const clean={...options};delete clean.requireAuth;
+    const headers={apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':'application/json',Prefer:'return=representation',...(clean.headers||{})};
+    const r=await fetch(c.url+'/rest/v1/'+path,{...clean,headers});
     if(!r.ok)throw new Error(await r.text());
     const t=await r.text();return t?JSON.parse(t):[];
   },
