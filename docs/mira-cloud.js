@@ -5,7 +5,7 @@ window.MIRA_SUPABASE={
 };
 window.MiraCloud={
   session:null,
-  sessionKey(){return /business\.html$/i.test(location.pathname)?'mira_merchant_session':'mira_admin_session'},
+  sessionKey(){const p=location.pathname;return /business\.html$/i.test(p)?'mira_merchant_session':/admin\.html$/i.test(p)?'mira_admin_session':'mira_customer_session'},
   loadSession(){try{this.session=JSON.parse(localStorage.getItem(this.sessionKey())||'null')}catch(e){this.session=null}return this.session},
   token(){return this.session&&this.session.access_token?this.session.access_token:window.MIRA_SUPABASE.key},
   payload(){try{const t=this.session&&this.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}},
@@ -13,6 +13,20 @@ window.MiraCloud={
   async signIn(email,password){
     const c=window.MIRA_SUPABASE;
     const r=await fetch(c.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    if(!r.ok)throw new Error(await r.text());
+    this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
+  },
+  async startOtp({email='',phone='',createUser=false,data={}}={}){
+    const c=window.MIRA_SUPABASE;
+    const body=email?{email,create_user:createUser,data}:{phone,create_user:createUser,data};
+    const r=await fetch(c.url+'/auth/v1/otp',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok)throw new Error(await r.text());
+    const t=await r.text();return t?JSON.parse(t):{};
+  },
+  async verifyOtp({email='',phone='',token=''}={}){
+    const c=window.MIRA_SUPABASE;
+    const body=email?{email,token,type:'email'}:{phone,token,type:'sms'};
+    const r=await fetch(c.url+'/auth/v1/verify',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok)throw new Error(await r.text());
     this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
   },
