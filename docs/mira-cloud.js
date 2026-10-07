@@ -71,6 +71,24 @@ window.MiraCloud={
     return this.request('mira_records?on_conflict=id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify(body)});
   },
   async remove(id){return this.request('mira_records?id=eq.'+encodeURIComponent(id),{method:'DELETE'});},
+  async syncTaxonomy(){
+    const rows=await this.list('taxonomy');
+    const rec=rows.find(x=>x.id==='taxonomy-current')||rows[0];
+    const items=rec&&(rec.items||rec.taxonomy);
+    if(Array.isArray(items)&&items.length){
+      localStorage.setItem('mira_taxonomy',JSON.stringify(items));
+      window.MIRA_TAXONOMY=items;
+      return items;
+    }
+    return window.MIRA_TAXONOMY||[];
+  },
+  async saveTaxonomy(items){
+    if(!Array.isArray(items)||!items.length)throw new Error('Taxonomy cannot be empty.');
+    await this.upsert('taxonomy',{id:'taxonomy-current',items,updatedAt:new Date().toISOString()});
+    localStorage.setItem('mira_taxonomy',JSON.stringify(items));
+    window.MIRA_TAXONOMY=items;
+    return items;
+  },
   async upload(file,folder='misc'){
     const c=window.MIRA_SUPABASE;
     if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();
