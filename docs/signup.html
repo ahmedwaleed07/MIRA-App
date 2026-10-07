@@ -29,6 +29,7 @@
 </main>
 <script src="mira-cloud.js?v=20261007-0915"></script><script>
 const authReturn=new URLSearchParams(location.search).get("return")||sessionStorage.getItem("mira_auth_return")||"";if(authReturn)sessionStorage.setItem("mira_auth_return",authReturn);
+const elName=document.getElementById('name'),elGender=document.getElementById('gender'),elDobDay=document.getElementById('dobDay'),elDobMonth=document.getElementById('dobMonth'),elDobYear=document.getElementById('dobYear'),elPhone=document.getElementById('phone'),elEmail=document.getElementById('email'),elCode=document.getElementById('code'),elContinue=document.getElementById('continueBtn');
 for(let i=1;i<=31;i++){dobDay.innerHTML+=`<option value="${i}">${i}</option>`;}const monthsEn=['Month','January','February','March','April','May','June','July','August','September','October','November','December'];for(let i=1;i<monthsEn.length;i++){dobMonth.innerHTML+=`<option value="${i}">${monthsEn[i]}</option>`;}const currentYear=new Date().getFullYear();for(let y=currentYear;y>=1940;y--){dobYear.innerHTML+=`<option value="${y}">${y}</option>`;}
 let currentMethod='phone';function showTab(which){currentMethod=which;const phone=which==='phone';document.getElementById('phonePanel').classList.toggle('active',phone);document.getElementById('emailPanel').classList.toggle('active',!phone);document.getElementById('phoneTab').classList.toggle('active',phone);document.getElementById('emailTab').classList.toggle('active',!phone);} 
 const T={en:{title:'Create your MIRA account',subtitle:'Join MIRA and keep your shopping preferences wherever you go.',name:'Full name',namePh:'Your name',gender:'Gender',genderPh:'Select gender',male:'Male',female:'Female',prefer:'Prefer not to say',dob:'Date of birth',day:'Day',month:'Month',year:'Year',months:['January','February','March','April','May','June','July','August','September','October','November','December'],phone:'Phone',email:'Email',phoneLabel:'Phone number',emailLabel:'Email address',continue:'Continue',privacy:"By continuing, you agree to MIRA's Terms and Privacy Policy.",bottom:'Already have an account? <a href="signin.html">Sign In</a>',alertName:'Enter your full name',alertGender:'Select gender',alertDob:'Select your date of birth',alertPhone:'Enter your phone number',alertEmail:'Enter your email'},ar:{title:'أنشئ حساب MIRA',subtitle:'سجّل حتى تبقى اختياراتك محفوظة وين ما تروح.',name:'الاسم الكامل',namePh:'اسمك',gender:'الجنس',genderPh:'اختر الجنس',male:'ذكر',female:'أنثى',prefer:'أفضل عدم الإفصاح',dob:'تاريخ الميلاد',day:'اليوم',month:'الشهر',year:'السنة',months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],phone:'الهاتف',email:'الإيميل',phoneLabel:'رقم الهاتف',emailLabel:'البريد الإلكتروني',continue:'متابعة',privacy:'بالمتابعة أنت توافق على شروط الاستخدام وسياسة الخصوصية في MIRA.',bottom:'عندك حساب؟ <a href="signin.html">تسجيل الدخول</a>',alertName:'اكتب الاسم الكامل',alertGender:'اختر الجنس',alertDob:'اختر تاريخ الميلاد',alertPhone:'اكتب رقم الهاتف',alertEmail:'اكتب البريد الإلكتروني'},es:{title:'Crea tu cuenta MIRA',subtitle:'Únete a MIRA y mantén tus preferencias dondequiera que vayas.',name:'Nombre completo',namePh:'Tu nombre',gender:'Género',genderPh:'Selecciona género',male:'Hombre',female:'Mujer',prefer:'Prefiero no decirlo',dob:'Fecha de nacimiento',day:'Día',month:'Mes',year:'Año',months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],phone:'Teléfono',email:'Correo',phoneLabel:'Número de teléfono',emailLabel:'Correo electrónico',continue:'Continuar',privacy:'Al continuar, aceptas los Términos y la Política de privacidad de MIRA.',bottom:'¿Ya tienes cuenta? <a href="signin.html">Iniciar sesión</a>',alertName:'Introduce tu nombre completo',alertGender:'Selecciona género',alertDob:'Selecciona tu fecha de nacimiento',alertPhone:'Introduce tu número',alertEmail:'Introduce tu correo'},ru:{title:'Создайте аккаунт MIRA',subtitle:'Присоединяйтесь к MIRA и сохраняйте свои предпочтения.',name:'Полное имя',namePh:'Ваше имя',gender:'Пол',genderPh:'Выберите пол',male:'Мужской',female:'Женский',prefer:'Предпочитаю не указывать',dob:'Дата рождения',day:'День',month:'Месяц',year:'Год',months:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],phone:'Телефон',email:'Почта',phoneLabel:'Номер телефона',emailLabel:'Эл. почта',continue:'Продолжить',privacy:'Продолжая, вы соглашаетесь с Условиями и Политикой конфиденциальности MIRA.',bottom:'Уже есть аккаунт? <a href="signin.html">Войти</a>',alertName:'Введите полное имя',alertGender:'Выберите пол',alertDob:'Выберите дату рождения',alertPhone:'Введите номер телефона',alertEmail:'Введите эл. почту'},tr:{title:'MIRA hesabını oluştur',subtitle:'MIRA’ya katıl, tercihlerini her yerde yanında taşı.',name:'Ad Soyad',namePh:'Adın',gender:'Cinsiyet',genderPh:'Cinsiyet seç',male:'Erkek',female:'Kadın',prefer:'Belirtmek istemiyorum',dob:'Doğum tarihi',day:'Gün',month:'Ay',year:'Yıl',months:['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],phone:'Telefon',email:'E-posta',phoneLabel:'Telefon numarası',emailLabel:'E-posta adresi',continue:'Devam et',privacy:'Devam ederek MIRA Kullanım Şartları ve Gizlilik Politikasını kabul edersin.',bottom:'Zaten hesabın var mı? <a href="signin.html">Giriş Yap</a>',alertName:'Ad soyad gir',alertGender:'Cinsiyet seç',alertDob:'Doğum tarihini seç',alertPhone:'Telefon numaranı gir',alertEmail:'E-posta adresini gir'}};
@@ -36,27 +37,47 @@ function refillMonths(lang){const t=T[lang]||T.en;const current=dobMonth.value;d
 function refillGender(lang){const t=T[lang]||T.en;const current=gender.value;gender.innerHTML=`<option value="">${t.genderPh}</option><option value="male">${t.male}</option><option value="female">${t.female}</option><option value="prefer_not">${t.prefer}</option>`;if(current) gender.value=current;}
 function setLang(lang){localStorage.setItem('mira_lang',lang);const t=T[lang]||T.en;const rtl=lang==='ar';document.documentElement.lang=lang;document.documentElement.dir=rtl?'rtl':'ltr';title.textContent=t.title;subtitle.textContent=t.subtitle;nameLabel.textContent=t.name;name.placeholder=t.namePh;genderLabel.textContent=t.gender;dobLabel.textContent=t.dob;phoneTab.textContent=t.phone;emailTab.textContent=t.email;phoneLabel.textContent=t.phoneLabel;emailLabel.textContent=t.emailLabel;continueBtn.textContent=t.continue;privacy.textContent=t.privacy;bottom.innerHTML=t.bottom;document.querySelector('#dobDay option').textContent=t.day;document.querySelector('#dobYear option').textContent=t.year;refillMonths(lang);refillGender(lang);} 
 async function continueSignup(){
-    const t=T[document.documentElement.lang||'en'];const nameVal=name.value.trim();
-    if(!nameVal){alert(t.alertName);return}if(!gender.value){alert(t.alertGender);return}if(!dobDay.value||!dobMonth.value||!dobYear.value){alert(t.alertDob);return}
-    const value=currentMethod==='phone'?phone.value.trim():email.value.trim();if(!value){alert(currentMethod==='phone'?t.alertPhone:t.alertEmail);return}
-    let target='';if(currentMethod==='email')target=value.toLowerCase();else{const cc=(code.value.match(/\+\d+/)||['+964'])[0];let local=value.replace(/\D/g,'');if(local.startsWith('0'))local=local.slice(1);target=cc+local}
-    const profile={full_name:nameVal,gender:gender.value,date_of_birth:dobYear.value+'-'+String(dobMonth.value).padStart(2,'0')+'-'+String(dobDay.value).padStart(2,'0')};
-    continueBtn.disabled=true;const oldText=continueBtn.textContent;continueBtn.textContent='…';
+    const t=T[document.documentElement.lang||'en'];
     try{
-      sessionStorage.setItem('mira_otp_via',currentMethod);sessionStorage.setItem('mira_otp_target',target);sessionStorage.setItem('mira_otp_mode','signup');sessionStorage.setItem('mira_signup_profile',JSON.stringify(profile));
+      const nameVal=elName.value.trim();
+      if(!nameVal){alert(t.alertName);return}
+      if(!elGender.value){alert(t.alertGender);return}
+      if(!elDobDay.value||!elDobMonth.value||!elDobYear.value){alert(t.alertDob);return}
+      const value=currentMethod==='phone'?elPhone.value.trim():elEmail.value.trim();
+      if(!value){alert(currentMethod==='phone'?t.alertPhone:t.alertEmail);return}
+      let target='';
+      if(currentMethod==='email')target=value.toLowerCase();
+      else{
+        const cc=(elCode.value.match(/\+\d+/)||['+964'])[0];
+        let local=value.replace(/\D/g,'');
+        if(local.startsWith('0'))local=local.slice(1);
+        target=cc+local;
+      }
+      const profile={full_name:nameVal,gender:elGender.value,date_of_birth:elDobYear.value+'-'+String(elDobMonth.value).padStart(2,'0')+'-'+String(elDobDay.value).padStart(2,'0')};
+      elContinue.disabled=true;const oldText=elContinue.textContent;elContinue.textContent='…';
+      sessionStorage.setItem('mira_otp_via',currentMethod);
+      sessionStorage.setItem('mira_otp_target',target);
+      sessionStorage.setItem('mira_otp_mode','signup');
+      sessionStorage.setItem('mira_signup_profile',JSON.stringify(profile));
       await MiraCloud.startOtp(currentMethod==='email'?{email:target,createUser:true,data:profile}:{phone:target,createUser:true,data:profile});
       location.href='otp.html?mode=signup&via='+encodeURIComponent(currentMethod);
-    }catch(e){let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}alert(m);continueBtn.disabled=false;continueBtn.textContent=oldText}
-  } 
+    }catch(e){
+      let m=e&&e.message?e.message:String(e||'Sign up failed.');
+      try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
+      alert(m);
+      elContinue.disabled=false;
+      elContinue.textContent=(T[document.documentElement.lang||'en']||T.en).continue;
+    }
+  }
 setLang(localStorage.getItem('mira_lang')||'en');
 (()=>{
  const method=sessionStorage.getItem('mira_prefill_method'),value=sessionStorage.getItem('mira_prefill_value'),cc=sessionStorage.getItem('mira_prefill_code');
  if(!method||!value)return;
  showTab(method);
- if(method==='email')email.value=value;
+ if(method==='email')elEmail.value=value;
  else{
-   phone.value=value;
-   if(cc){const opt=[...code.options].find(o=>o.textContent.includes(cc));if(opt)code.value=opt.value}
+   elPhone.value=value;
+   if(cc){const opt=[...elCode.options].find(o=>o.textContent.includes(cc));if(opt)elCode.value=opt.value}
  }
  ['mira_prefill_method','mira_prefill_value','mira_prefill_code'].forEach(k=>sessionStorage.removeItem(k));
 })();
