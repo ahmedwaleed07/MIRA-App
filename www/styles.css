@@ -151,3 +151,36 @@ background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,
 .screen:not(.auth-neon) .cat-svg{width:23px;height:23px;color:#800020;display:block}
 .screen:not(.auth-neon) .store-heart{width:100%;border:1px solid rgba(128,0,32,.16);border-radius:14px;padding:12px;background:#FFFFFF;color:#800020;font:700 12px inherit;margin:10px 0}
 .screen:not(.auth-neon) .store-heart.on{background:#FC618F;color:#FFFFFF;border-color:#FC618F}
+
+/* STRICT MIRA PALETTE — FINAL OVERRIDE */
+:root{--p:#FC618F;--p2:#800020;--pe:#FC618F;--sky:#FFFFFF;--lime:#FC618F;--ink:#800020;--muted:#800020;--line:#800020;--midnight:#FFFFFF}
+html,body,#app,.app{background:#FFFFFF!important;color:#800020!important}
+.screen:not(.auth-neon){background:#FFFFFF!important;color:#800020!important}
+.screen:not(.auth-neon) .top,.screen:not(.auth-neon) .nav,.screen:not(.auth-neon) .card,.screen:not(.auth-neon) .item,.screen:not(.auth-neon) .offer,.screen:not(.auth-neon) .kpi,.screen:not(.auth-neon) .field,.screen:not(.auth-neon) .secondary,.screen:not(.auth-neon) .search,.screen:not(.auth-neon) .cat,.screen:not(.auth-neon) .fav,.screen:not(.auth-neon) .ico,.screen:not(.auth-neon) .notice,.screen:not(.auth-neon) .tabs,.screen:not(.auth-neon) .chip,.screen:not(.auth-neon) .map,.screen:not(.auth-neon) .profile{
+background:#FFFFFF!important;color:#800020!important;border-color:#800020!important;box-shadow:none!important}
+.screen:not(.auth-neon) input,.screen:not(.auth-neon) select,.screen:not(.auth-neon) textarea{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
+.screen:not(.auth-neon) input::placeholder,.screen:not(.auth-neon) textarea::placeholder{color:#800020!important}
+.screen:not(.auth-neon) .sub,.screen:not(.auth-neon) .small,.screen:not(.auth-neon) .merchant,.screen:not(.auth-neon) .old,.screen:not(.auth-neon) .empty{color:#800020!important}
+.screen:not(.auth-neon) .primary{background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important;box-shadow:none!important}
+.screen:not(.auth-neon) .secondary,.screen:not(.auth-neon) .iconbtn,.screen:not(.auth-neon) .back{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important;box-shadow:none!important}
+.screen:not(.auth-neon) .banner{background:#800020!important;color:#FFFFFF!important;box-shadow:none!important}
+.screen:not(.auth-neon) .tabs button{background:#FFFFFF!important;color:#800020!important}
+.screen:not(.auth-neon) .tabs button.on,.screen:not(.auth-neon) .chip.on{background:#800020!important;color:#FFFFFF!important}
+.screen:not(.auth-neon) .link,.screen:not(.auth-neon) .price,.screen:not(.auth-neon) .nav button.on{color:#FC618F!important}
+.screen:not(.auth-neon) .badge{background:#FC618F!important;color:#FFFFFF!important}
+.screen:not(.auth-neon) .offerimg,.screen:not(.auth-neon) .cat b,.screen:not(.auth-neon) .avatar{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
+.screen:not(.auth-neon) .cat b{border:1px solid #FC618F!important}
+.screen:not(.auth-neon) .cat-svg{color:#800020!important}
+.screen:not(.auth-neon) .fav{background:#FFFFFF!important;color:#800020!important;border:1px solid #800020!important}
+.screen:not(.auth-neon) .toggle{background:#800020!important}.screen:not(.auth-neon) .toggle.on{background:#FC618F!important}.screen:not(.auth-neon) .toggle:after{background:#FFFFFF!important}
+.screen:not(.auth-neon) .store-heart{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}.screen:not(.auth-neon) .store-heart.on{background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important}
+.brand b{color:#800020!important}.brand img{filter:url('assets/mira-palette-filter.svg#palette')!important}
+.auth-neon{background:#800020!important}
+.auth-neon-art{filter:url('assets/mira-palette-filter.svg#palette')!important}
+.auth-neon .auth-neon-input,.auth-neon .auth-neon-code{background:#800020!important;color:#FFFFFF!important;border-color:#FC618F!important}
+.auth-neon .auth-neon-input::placeholder{color:#FFFFFF!important}
+.auth-neon .auth-neon-tabs{background:#800020!important;border-color:#FC618F!important}
+.auth-neon .auth-neon-tabs button{color:#FFFFFF!important}.auth-neon .auth-neon-tabs button.on{background:#FC618F!important;color:#FFFFFF!important}
+.auth-neon .auth-neon-primary{background:#FC618F!important;color:#FFFFFF!important}
+.auth-neon .auth-neon-text{color:#FFFFFF!important}
+.auth-neon .auth-neon-langs button{background:#800020!important;color:#FFFFFF!important;border-color:#FC618F!important}
