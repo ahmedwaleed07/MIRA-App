@@ -160,3 +160,9 @@ td,th{border-color:rgba(128,0,32,.10)!important}
   .ecosystem-hero{padding:22px}
   .ecosystem-hero h2{font-size:24px}
 }
+
+/* Favorite action on detail pages */
+.save{background:#FFFFFF!important;color:#800020!important;border:1px solid rgba(128,0,32,.14)!important;box-shadow:0 5px 15px rgba(128,0,32,.10)!important}
+.save svg{fill:transparent!important;stroke:currentColor!important}
+.save.saved{background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important}
+.save.saved svg{fill:currentColor!important}
