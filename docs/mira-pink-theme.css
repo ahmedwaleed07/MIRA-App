@@ -89,11 +89,11 @@ hr,.divider{border-color:rgba(128,0,32,.12)!important}
   background:#FFFFFF!important;border:1px solid rgba(128,0,32,.10)!important;
   border-radius:18px!important;box-shadow:0 9px 24px rgba(128,0,32,.06)!important
 }
-.cat-icon,.ecosystem-icon{
+.cat-icon,.cat .ico,.ecosystem-icon{
   background:rgba(252,97,143,.10)!important;color:#800020!important;
   border:1px solid rgba(252,97,143,.18)!important;border-radius:16px!important
 }
-.cat svg,.ecosystem-icon svg{color:#800020!important}
+.cat svg,.cat .ico svg,.ecosystem-icon svg{color:#800020!important;width:22px;height:22px}
 .cat:hover,.cat:focus-visible{border-color:#FC618F!important;transform:translateY(-1px)}
 
 /* Store / product / service cards in the consumer app */
