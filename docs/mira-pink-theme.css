@@ -1,81 +1,162 @@
-/* MIRA white + pastel brand theme
-   Palette priority:
-   1 #EA255F
-   2 #FC618F
-   3 #F68AB4
-   4 #C3AAEA
-   5 #8DB9FA
-   Logos and fonts are intentionally untouched.
+/* MIRA ecosystem UI — approved identity
+   Brand colors only: #FC618F, #800020, #FFFFFF.
+   Existing MIRA / ASAS logo assets and font declarations are intentionally untouched.
 */
 :root{
-  --mira-primary:#EA255F;
-  --mira-secondary:#FC618F;
-  --mira-tertiary:#F68AB4;
-  --mira-lilac:#C3AAEA;
-  --mira-blue:#8DB9FA;
-  --mira-bg:#FFFFFF;
-  --mira-ink:#2E2230;
-  --mira-muted:#75636C;
-  --pink:#EA255F!important;
-  --pink2:#FC618F!important;
-  --peach:#F68AB4!important;
-  --blue:#8DB9FA!important;
-  --coral:#EA255F!important;
-  --coral2:#FC618F!important;
+  --mira-pink:#FC618F;
+  --mira-burgundy:#800020;
+  --mira-white:#FFFFFF;
+  --mira-pink-04:rgba(252,97,143,.04);
+  --mira-pink-08:rgba(252,97,143,.08);
+  --mira-pink-12:rgba(252,97,143,.12);
+  --mira-pink-18:rgba(252,97,143,.18);
+  --mira-pink-28:rgba(252,97,143,.28);
+  --mira-burgundy-06:rgba(128,0,32,.06);
+  --mira-burgundy-10:rgba(128,0,32,.10);
+  --mira-burgundy-16:rgba(128,0,32,.16);
+  --mira-burgundy-64:rgba(128,0,32,.64);
+  --pink:#FC618F!important;
+  --pink2:#800020!important;
+  --peach:#FC618F!important;
+  --blue:#FFFFFF!important;
+  --coral:#FC618F!important;
+  --coral2:#800020!important;
   --bg:#FFFFFF!important;
   --surface:#FFFFFF!important;
-  --ink:#2E2230!important;
-  --burgundy:#2E2230!important;
-  --muted:#75636C!important;
-  --line:#F68AB4!important;
-  --soft:#FFFFFF!important;
-  --danger:#EA255F!important;
-  --ok:#8DB9FA!important;
+  --ink:#800020!important;
+  --burgundy:#800020!important;
+  --muted:rgba(128,0,32,.64)!important;
+  --line:rgba(128,0,32,.14)!important;
+  --soft:rgba(252,97,143,.08)!important;
+  --danger:#800020!important;
+  --ok:#FC618F!important;
 }
-html,body{background:#FFFFFF!important;color:#2E2230!important}
-body,.app,.shell,.main,.login{background:#FFFFFF!important;color:#2E2230!important}
-.sidebar{background:#FFFFFF!important;color:#2E2230!important;border-right:1px solid #F68AB4!important}
-.top,.nav,.box,.card,.item,.offer,.kpi,.info,.order-card,.preview-card,.upload-box,.notice,.request-status,.current-state,.total,.search,.location,.chip,.cat,.fav,.ghost,.field,.empty{
-  background:#FFFFFF!important;
-  color:#2E2230!important;
-  border-color:#F68AB4!important;
+html,body{background:#FFFFFF!important;color:#800020!important}
+body,.app,.shell,.main{background:#FFFFFF!important;color:#800020!important}
+a{color:inherit}
+.top,.topbar,.nav,.bottom{background:rgba(255,255,255,.96)!important;border-color:rgba(128,0,32,.10)!important}
+.sidebar{background:#FFFFFF!important;color:#800020!important;border-right:1px solid rgba(128,0,32,.10)!important}
+.box,.card,.item,.offer,.kpi,.metric,.info,.order-card,.preview-card,.upload-box,.notice,.request-status,.current-state,.total,.search,.location,.chip,.cat,.fav,.ghost,.field,.empty,.table-wrap{
+  background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.12)!important
 }
+.card,.item,.offer,.kpi,.metric,.preview-card,.order-card,.cat,.search{
+  box-shadow:0 12px 30px rgba(128,0,32,.07)!important
+}
+.card,.offer,.preview-card,.order-card{border-radius:20px!important}
+.item,.kpi,.metric{border-radius:16px!important}
+.search{border-radius:18px!important}
 input,select,textarea,.field input,.field select,.field textarea{
-  background:#FFFFFF!important;
-  color:#2E2230!important;
-  border-color:#F68AB4!important;
+  background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.18)!important
 }
-input::placeholder,textarea::placeholder{color:#A28691!important}
-.sub,.small,.merchant,.subtitle,.time,.order-time,.order-data div,.preview-note,.items,.delivery{color:#75636C!important}
-.primary,.auth-neon-primary{
-  background:linear-gradient(90deg,#EA255F 0%,#FC618F 25%,#F68AB4 50%,#C3AAEA 75%,#8DB9FA 100%)!important;
-  color:#FFFFFF!important;
-  border-color:transparent!important;
+input:focus,select:focus,textarea:focus,.field:focus{
+  border-color:#FC618F!important;box-shadow:0 0 0 3px rgba(252,97,143,.12)!important;outline:0
 }
-.secondary,.ghost,.back,.refresh,.iconbtn{
-  background:#FFFFFF!important;
-  color:#EA255F!important;
-  border-color:#C3AAEA!important;
+input::placeholder,textarea::placeholder{color:rgba(128,0,32,.42)!important}
+.sub,.small,.merchant,.subtitle,.time,.order-time,.order-data div,.preview-note,.items,.delivery{color:rgba(128,0,32,.64)!important}
+.primary,.auth-neon-primary,.btn.primary,.order-actions button{
+  background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important;
+  box-shadow:0 9px 22px rgba(252,97,143,.24)!important
 }
-.banner,.preview-image{
-  background:linear-gradient(120deg,#EA255F 0%,#FC618F 24%,#F68AB4 49%,#C3AAEA 74%,#8DB9FA 100%);
+.primary:hover,.btn.primary:hover{filter:brightness(.98)}
+.secondary,.ghost,.back,.refresh,.iconbtn,.btn.soft{
+  background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.18)!important
 }
-.tabs{background:#FFFFFF!important;border:1px solid #F68AB4!important}
-.tabs button{color:#2E2230!important}
+.secondary:hover,.ghost:hover,.btn.soft:hover{background:rgba(252,97,143,.08)!important;border-color:#FC618F!important}
+.banner,.preview-image,.ecosystem-hero{
+  background:linear-gradient(120deg,#800020 0%,#800020 42%,#FC618F 100%)!important;color:#FFFFFF!important
+}
+.tabs{background:rgba(252,97,143,.08)!important;border:1px solid rgba(128,0,32,.10)!important}
+.tabs button{color:#800020!important}
 .tabs button.on,.chip.on,.menu button.active,.menu button:hover{
-  background:#EA255F!important;
-  color:#FFFFFF!important;
+  background:#800020!important;color:#FFFFFF!important
 }
-.link,.price,.category,.discount,.nav button.on,.current-state b,.step.current,.error,.danger{color:#EA255F!important}
-.badge,.pill,.status,.count-badge{background:#EA255F!important;color:#FFFFFF!important}
-.status.cancelled{background:#FC618F!important;color:#FFFFFF!important}
-.step{color:#8DB9FA!important}
-.step .dot{background:#C3AAEA!important}
-.step.done .dot,.step.current .dot{background:#EA255F!important}
-.menu button{color:#2E2230!important}
-.order-actions button{background:#EA255F!important;color:#FFFFFF!important}
-.order-actions select,.order-tools select{background:#FFFFFF!important;color:#2E2230!important;border-color:#F68AB4!important}
-.toggle{background:#C3AAEA!important}
-.toggle.on{background:#EA255F!important}
+.link,.price,.category,.discount,.nav button.on,.current-state b,.step.current,.error,.danger{color:#800020!important}
+.see,.nav.active,.bottom .active{color:#FC618F!important}
+.badge,.pill,.status,.count-badge{background:#FC618F!important;color:#FFFFFF!important}
+.status.cancelled{background:#800020!important;color:#FFFFFF!important}
+.step{color:rgba(128,0,32,.64)!important}
+.step .dot{background:rgba(252,97,143,.28)!important}
+.step.done .dot,.step.current .dot{background:#FC618F!important}
+.menu button{color:#800020!important}
+.order-actions select,.order-tools select{background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.16)!important}
+.toggle{background:rgba(128,0,32,.16)!important}
+.toggle.on{background:#FC618F!important}
 .toggle:after{background:#FFFFFF!important}
-hr,.divider{border-color:#F68AB4!important}
+hr,.divider{border-color:rgba(128,0,32,.12)!important}
+
+/* Modern category cards */
+.cat{
+  background:#FFFFFF!important;border:1px solid rgba(128,0,32,.10)!important;
+  border-radius:18px!important;box-shadow:0 9px 24px rgba(128,0,32,.06)!important
+}
+.cat-icon,.ecosystem-icon{
+  background:rgba(252,97,143,.10)!important;color:#800020!important;
+  border:1px solid rgba(252,97,143,.18)!important;border-radius:16px!important
+}
+.cat svg,.ecosystem-icon svg{color:#800020!important}
+.cat:hover,.cat:focus-visible{border-color:#FC618F!important;transform:translateY(-1px)}
+
+/* Store / product / service cards in the consumer app */
+.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.product-card,.service-card,.store-card{
+  position:relative;background:#FFFFFF!important;border:1px solid rgba(128,0,32,.10)!important;
+  border-radius:20px!important;box-shadow:0 12px 30px rgba(128,0,32,.08)!important;overflow:hidden
+}
+.featured-visual,.flash-visual,.soft-visual,.map-visual,.offerimg,.visual{
+  background:linear-gradient(135deg,rgba(252,97,143,.16),rgba(255,255,255,.96))!important
+}
+.mira-heart{
+  position:absolute;z-index:8;top:10px;right:10px;width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(128,0,32,.14);background:rgba(255,255,255,.96);color:#800020;
+  display:grid;place-items:center;padding:0;box-shadow:0 5px 15px rgba(128,0,32,.10);cursor:pointer
+}
+.mira-heart svg{width:18px;height:18px;fill:transparent;stroke:currentColor;stroke-width:1.8}
+.mira-heart.is-saved{background:#FC618F;color:#FFFFFF;border-color:#FC618F}
+.mira-heart.is-saved svg{fill:currentColor}
+[dir=rtl] .mira-heart{right:auto;left:10px}
+
+/* Business / Admin dashboard visual system */
+.ecosystem-hero{
+  position:relative;overflow:hidden;border-radius:24px;padding:28px;margin:0 0 20px;
+  box-shadow:0 18px 40px rgba(128,0,32,.14)
+}
+.ecosystem-hero:after{
+  content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-72px;top:-95px;
+  border:42px solid rgba(255,255,255,.12)
+}
+.ecosystem-hero>*{position:relative;z-index:1}
+.ecosystem-hero h2{margin:0 0 8px;font-size:28px;line-height:1.05}
+.ecosystem-hero p{margin:0;max-width:620px;color:rgba(255,255,255,.86);font-size:13px;line-height:1.55}
+.ecosystem-hero .hero-pill{
+  display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:9px 13px;border-radius:999px;
+  background:#FFFFFF;color:#800020;font-size:12px;font-weight:700
+}
+.ecosystem-quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px}
+.ecosystem-quick button,.ecosystem-quick a{
+  appearance:none;text-decoration:none;text-align:left;border:1px solid rgba(128,0,32,.10);background:#FFFFFF;color:#800020;
+  border-radius:18px;padding:14px;min-height:112px;box-shadow:0 10px 26px rgba(128,0,32,.07);cursor:pointer
+}
+.ecosystem-quick strong{display:block;margin-top:10px;font-size:13px}
+.ecosystem-quick span{display:block;margin-top:3px;font-size:10px;color:rgba(128,0,32,.58)}
+.ecosystem-quick .ecosystem-icon{width:38px;height:38px;display:grid;place-items:center}
+.ecosystem-quick .ecosystem-icon svg{width:21px;height:21px}
+
+/* Admin tables + panels */
+table{color:#800020!important}
+th{color:#800020!important;background:rgba(252,97,143,.08)!important}
+td,th{border-color:rgba(128,0,32,.10)!important}
+.panel .card,.main .card{border:1px solid rgba(128,0,32,.10)!important}
+.metric strong,.kpi strong{color:#800020!important}
+.metric em{color:#FC618F!important}
+.side-note{background:rgba(252,97,143,.08)!important;color:rgba(128,0,32,.72)!important;border-color:rgba(128,0,32,.10)!important}
+
+/* Preserve dark/neon auth artwork overlays where they explicitly exist. */
+.auth-neon,.auth-neon *{--mira-auth-preserve:1}
+.auth-neon{background:#0A0A12!important}
+.auth-neon .auth-neon-input,.auth-neon .auth-neon-code{color:#FFFFFF!important}
+.auth-neon .auth-neon-input::placeholder{color:rgba(255,255,255,.56)!important}
+
+@media(max-width:760px){
+  .ecosystem-quick{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ecosystem-hero{padding:22px}
+  .ecosystem-hero h2{font-size:24px}
+}
