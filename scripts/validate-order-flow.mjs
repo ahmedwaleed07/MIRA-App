@@ -26,7 +26,7 @@ function makeCheckout(cartItems,{guest=false,failStore=null}={}){
   phoneSecondary:element(''),governorate:element('Baghdad'),area:element('Mansour'),
   fullAddress:element('Test street'),customerNote:element('QA dry run')
  });
- const local=storage({mira_lang:'en',mira_cart:JSON.stringify(cartItems)});
+ const local=storage({mira_lang:'en',mira_cart:JSON.stringify(cartItems),mira_checkout:JSON.stringify({name:'Test Customer',phone1:'07700000000',phone2:'',governorate:'Baghdad',area:'Mansour',address:'Test street',note:'QA dry run'})});
  const tab=storage();const location={href:''},timers=[],requests=[];
  const cloud={
   payload:()=>guest?null:{role:'authenticated',sub:'customer-123'},
