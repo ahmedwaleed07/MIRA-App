@@ -18,10 +18,63 @@ body{display:flex;justify-content:center;align-items:flex-start;min-height:100sv
 .signin{left:9.5%;width:81%;top:63.7%;height:6.9%;z-index:30}
 .signup{left:9.5%;width:81%;top:71.7%;height:6.9%;z-index:40}
 .guest{left:18%;width:64%;top:80.5%;height:5.8%;z-index:35}
+
+
+/* Adaptive welcome presentation. Exact artwork and its tap zones stay together
+   in a 9:16 stage; the backdrop fills tall iPhone viewports without cropping art. */
+html,body{min-height:100%;min-height:100svh}
+body{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100svh;overflow:hidden;background:#FC618F
+}
+.screen{
+  position:relative;isolation:isolate;
+  width:min(100vw,430px);height:100svh;min-height:100svh;
+  max-height:none;aspect-ratio:auto;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:#FC618F
+}
+.screen::before{
+  content:"";position:absolute;inset:-30px;z-index:-2;
+  background-color:#FC618F;
+  background-image:var(--welcome-art,none);
+  background-position:center;background-size:cover;background-repeat:no-repeat;
+  filter:blur(28px) saturate(.75) brightness(.96);
+  transform:scale(1.1);opacity:.64;pointer-events:none
+}
+.screen::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,#FC618F 0%,transparent 18%,transparent 76%,#FC618F 100%);
+  opacity:.24
+}
+.welcome-art-stage{
+  position:relative;flex:0 0 auto;
+  width:min(100%,52svh);
+  aspect-ratio:9/16;
+  height:auto;max-height:100%;
+  overflow:hidden;
+}
+.welcome-art-stage .art{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:fill;display:block;pointer-events:none;
+  filter:none!important
+}
+.welcome-art-stage .hot{position:absolute}
+.welcome-art-stage .hot:focus-visible{
+  outline:2px solid #FFFFFF;outline-offset:1px;border-radius:14px
+}
+@media(max-height:590px){
+  .welcome-art-stage{width:min(100%,54svh)}
+}
+@media(prefers-reduced-motion:reduce){
+  .screen::before{filter:blur(28px) saturate(.75)}
+}
+
 </style>
 </head>
 <body>
-<main class="screen">
+<main class="screen" id="welcomeScreen">
+  <div class="welcome-art-stage">
   <img id="art" class="art" alt="MIRA welcome" draggable="false">
 
   <button class="hot lang en" type="button" data-lang="en" aria-label="English"></button>
@@ -33,6 +86,7 @@ body{display:flex;justify-content:center;align-items:flex-start;min-height:100sv
   <a class="hot signin" href="signin.html" aria-label="Sign In"></a>
   <a class="hot signup" href="signup.html" aria-label="Sign Up"></a>
   <a class="hot guest" href="market.html" aria-label="Continue as Guest"></a>
+  </div>
 </main>
 <script>
 const images={en:'assets/welcome-en.png',ar:'assets/welcome-ar.png',es:'assets/welcome-es.png',ru:'assets/welcome-ru.png',tr:'assets/welcome-tr.png'};
@@ -44,6 +98,7 @@ function applyLang(code){
   document.documentElement.lang=lang;
   document.documentElement.dir=lang==='ar'?'rtl':'ltr';
   document.getElementById('art').src=images[lang];
+  document.getElementById('welcomeScreen').style.setProperty('--welcome-art','url("'+images[lang]+'")');
 }
 applyLang(lang);
 document.querySelectorAll('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{

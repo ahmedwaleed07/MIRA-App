@@ -20,6 +20,96 @@ img{filter:url('assets/mira-palette-filter.svg#palette')}</style>
 .bottom,.bottom a{color:#FFFFFF!important}
 .bottom a{text-decoration:underline}
 :is(button,input,select):focus-visible{outline:2px solid #FFFFFF!important;outline-offset:2px}
+
+/* MIRA sign-up responsive composition | preserve original logo assets and font. */
+html,body{min-height:100%;min-height:100svh}
+body{min-height:100svh;align-items:stretch}
+.app{
+  position:relative;display:flex;flex-direction:column;align-items:stretch;
+  justify-content:space-between;
+  width:min(100%,430px);min-height:100svh;height:auto;overflow:visible;
+  padding:calc(env(safe-area-inset-top) + 18px) 0
+          calc(env(safe-area-inset-bottom) + 20px);
+  background:#800020!important;color:#FFFFFF!important
+}
+.brand-lockup{flex:0 0 auto;padding-top:0;margin:0 auto;text-align:center}
+.brand-lockup .icon,.brand-lockup .wordmark{filter:none!important}
+.sheet{
+  flex:0 0 auto;margin:12px 6% 0;padding:clamp(16px,4.1vw,20px);
+  border:1px solid #FFFFFF;border-radius:24px;
+  background:#800020!important;color:#FFFFFF!important;
+  box-shadow:none!important
+}
+.sheet h1{font-size:clamp(22px,5.3vw,26px);line-height:1.32;margin:0 0 7px}
+.sheet .sub{font-size:12px;line-height:1.65;margin:0 0 16px}
+.field{min-width:0;margin-top:11px}
+.label{font-size:12px;line-height:1.4;margin:0 0 6px}
+.input,.select,.code{
+  box-sizing:border-box;min-width:0;width:100%;height:46px;
+  padding:0 12px;border:1px solid #FFFFFF;border-radius:13px;
+  font:500 13px "Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#800020!important;color:#FFFFFF!important
+}
+.input::placeholder{color:#FFFFFF!important;opacity:.9}
+.personal-row{display:grid;grid-template-columns:1fr;gap:0}
+.personal-row > .field{margin-top:12px!important;min-width:0}
+.personal-row .dob-field{width:100%!important}
+.row-3{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;
+  width:100%;min-width:0
+}
+.row-3 .select{width:100%;min-width:0;padding:0 9px;font-size:12px}
+#gender{width:100%;font-size:13px}
+[dir=rtl] #name,[dir=rtl] #gender{text-align:right}
+#code,#phone,#email{direction:ltr!important;text-align:left!important}
+#code{width:98px!important;min-width:98px!important;flex:0 0 98px!important}
+.panel .row{display:flex;gap:8px;min-width:0}
+.panel .row .input{width:100%;min-width:0;flex:1}
+.tabs{margin-top:16px;gap:6px;border:1px solid #FFFFFF}
+.tab{min-height:43px;color:#FFFFFF!important;font-size:13px}
+.tab.active,.primary{
+  background:#FC618F!important;background-image:none!important;
+  color:#FFFFFF!important;box-shadow:none!important
+}
+.panel{margin-top:11px}
+.primary{height:48px;margin-top:14px;font-size:14px}
+.privacy{margin:12px 0 0;font-size:10px;line-height:1.6}
+.bottom{margin-top:12px;font-size:12px;line-height:1.5}
+.bottom a{color:#FFFFFF!important;text-decoration:underline;text-underline-offset:3px}
+.languages{
+  flex:0 0 auto;margin:16px 6% 0;
+  grid-template-columns:repeat(5,minmax(0,1fr));gap:5px
+}
+.languages button{
+  height:42px;padding:0 2px;min-width:0;
+  font:500 10px "Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  border-radius:11px;background:#800020!important;color:#FFFFFF!important
+}
+.languages button.active{border-color:#FC618F;box-shadow:0 0 0 1px #FC618F}
+.footer-brand{
+  flex:0 0 auto;margin-top:16px;padding:0 0 2px;
+  min-height:64px;display:flex;align-items:center;justify-content:center
+}
+.footer-brand img{
+  display:block;width:min(64%,244px);height:auto;opacity:1!important;
+  filter:brightness(0) invert(1) drop-shadow(0 0 2px #FFFFFF)!important
+}
+.app .shade,.app .auth-art{pointer-events:none}
+@media(max-width:350px){
+  .sheet{margin-inline:5%;padding:14px}
+  .row-3{gap:5px}
+  .row-3 .select{padding:0 6px;font-size:11px}
+  .languages{margin-inline:5%}
+  .languages button{font-size:9px}
+}
+@media(max-height:730px){
+  .app{justify-content:flex-start;padding-top:18px}
+  .brand-lockup .icon{width:64px}
+  .brand-lockup .wordmark{width:106px}
+  .sheet{margin-top:12px}
+  .footer-brand{margin-top:14px}
+}
+
 </style>
 </head>
 <body>
@@ -30,9 +120,9 @@ img{filter:url('assets/mira-palette-filter.svg#palette')}</style>
   <section class="sheet">
     <h1 id="title">Create your MIRA account</h1><p class="sub" id="subtitle">Join MIRA and keep your shopping preferences wherever you go.</p>
     <div class="field"><label class="label" id="nameLabel" for="name">Full name</label><input class="input" id="name" type="text" autocomplete="name" placeholder="Your name"></div>
-    <div class="row">
+    <div class="row personal-row">
       <div class="field" style="flex:1"><label class="label" id="genderLabel" for="gender">Gender</label><select class="select" id="gender"><option value="">Select gender</option><option value="male">Male</option><option value="female">Female</option><option value="prefer_not">Prefer not to say</option></select></div>
-      <div class="field" style="flex:1.3"><label class="label" id="dobLabel">Date of birth</label><div class="row-3"><select class="select" id="dobDay"><option value="">Day</option></select><select class="select" id="dobMonth"><option value="">Month</option></select><select class="select" id="dobYear"><option value="">Year</option></select></div></div>
+      <div class="field dob-field" style="flex:1.3"><label class="label" id="dobLabel">Date of birth</label><div class="row-3"><select class="select" id="dobDay"><option value="">Day</option></select><select class="select" id="dobMonth"><option value="">Month</option></select><select class="select" id="dobYear"><option value="">Year</option></select></div></div>
     </div>
     <div class="tabs"><button class="tab active" id="phoneTab" onclick="showTab('phone')">Phone</button><button class="tab" id="emailTab" onclick="showTab('email')">Email</button></div>
     <div class="panel active" id="phonePanel"><label class="sr-only" id="phoneLabel" for="phone">Phone number</label><div class="row"><select class="code" id="code" aria-label="Country code"><option>+964</option><option>+965</option><option>+966</option><option>+973</option><option>+974</option><option>+971</option><option>+968</option><option>+962</option><option>+961</option><option>+970</option><option>+20</option><option>+1</option><option>+61</option><option>+44</option><option>+39</option><option>+49</option><option>+33</option><option>+31</option><option>+358</option><option>+32</option><option>+43</option><option>+46</option></select><input class="input" id="phone" type="tel" inputmode="tel" placeholder="7XX XXX XXXX"></div></div>
@@ -52,7 +142,7 @@ let currentMethod='phone';function showTab(which){currentMethod=which;const phon
 const T={en:{title:'Create your MIRA account',subtitle:'Join MIRA and keep your shopping preferences wherever you go.',name:'Full name',namePh:'Your name',gender:'Gender',genderPh:'Select gender',male:'Male',female:'Female',prefer:'Prefer not to say',dob:'Date of birth',day:'Day',month:'Month',year:'Year',months:['January','February','March','April','May','June','July','August','September','October','November','December'],phone:'Phone',email:'Email',phoneLabel:'Phone number',emailLabel:'Email address',continue:'Continue',privacy:"By continuing, you agree to MIRA's Terms and Privacy Policy.",bottom:'Already have an account? <a href="signin.html">Sign In</a>',alertName:'Enter your full name',alertGender:'Select gender',alertDob:'Select your date of birth',alertPhone:'Enter your phone number',alertEmail:'Enter your email'},ar:{title:'أنشئ حساب MIRA',subtitle:'سجّل حتى تبقى اختياراتك محفوظة وين ما تروح.',name:'الاسم الكامل',namePh:'اسمك',gender:'الجنس',genderPh:'اختر الجنس',male:'ذكر',female:'أنثى',prefer:'أفضل عدم الإفصاح',dob:'تاريخ الميلاد',day:'اليوم',month:'الشهر',year:'السنة',months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],phone:'الهاتف',email:'الإيميل',phoneLabel:'رقم الهاتف',emailLabel:'البريد الإلكتروني',continue:'متابعة',privacy:'بالمتابعة أنت توافق على شروط الاستخدام وسياسة الخصوصية في MIRA.',bottom:'عندك حساب؟ <a href="signin.html">تسجيل الدخول</a>',alertName:'اكتب الاسم الكامل',alertGender:'اختر الجنس',alertDob:'اختر تاريخ الميلاد',alertPhone:'اكتب رقم الهاتف',alertEmail:'اكتب البريد الإلكتروني'},es:{title:'Crea tu cuenta MIRA',subtitle:'Únete a MIRA y mantén tus preferencias dondequiera que vayas.',name:'Nombre completo',namePh:'Tu nombre',gender:'Género',genderPh:'Selecciona género',male:'Hombre',female:'Mujer',prefer:'Prefiero no decirlo',dob:'Fecha de nacimiento',day:'Día',month:'Mes',year:'Año',months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],phone:'Teléfono',email:'Correo',phoneLabel:'Número de teléfono',emailLabel:'Correo electrónico',continue:'Continuar',privacy:'Al continuar, aceptas los Términos y la Política de privacidad de MIRA.',bottom:'¿Ya tienes cuenta? <a href="signin.html">Iniciar sesión</a>',alertName:'Introduce tu nombre completo',alertGender:'Selecciona género',alertDob:'Selecciona tu fecha de nacimiento',alertPhone:'Introduce tu número',alertEmail:'Introduce tu correo'},ru:{title:'Создайте аккаунт MIRA',subtitle:'Присоединяйтесь к MIRA и сохраняйте свои предпочтения.',name:'Полное имя',namePh:'Ваше имя',gender:'Пол',genderPh:'Выберите пол',male:'Мужской',female:'Женский',prefer:'Предпочитаю не указывать',dob:'Дата рождения',day:'День',month:'Месяц',year:'Год',months:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],phone:'Телефон',email:'Почта',phoneLabel:'Номер телефона',emailLabel:'Эл. почта',continue:'Продолжить',privacy:'Продолжая, вы соглашаетесь с Условиями и Политикой конфиденциальности MIRA.',bottom:'Уже есть аккаунт? <a href="signin.html">Войти</a>',alertName:'Введите полное имя',alertGender:'Выберите пол',alertDob:'Выберите дату рождения',alertPhone:'Введите номер телефона',alertEmail:'Введите эл. почту'},tr:{title:'MIRA hesabını oluştur',subtitle:'MIRA’ya katıl, tercihlerini her yerde yanında taşı.',name:'Ad Soyad',namePh:'Adın',gender:'Cinsiyet',genderPh:'Cinsiyet seç',male:'Erkek',female:'Kadın',prefer:'Belirtmek istemiyorum',dob:'Doğum tarihi',day:'Gün',month:'Ay',year:'Yıl',months:['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],phone:'Telefon',email:'E-posta',phoneLabel:'Telefon numarası',emailLabel:'E-posta adresi',continue:'Devam et',privacy:'Devam ederek MIRA Kullanım Şartları ve Gizlilik Politikasını kabul edersin.',bottom:'Zaten hesabın var mı? <a href="signin.html">Giriş Yap</a>',alertName:'Ad soyad gir',alertGender:'Cinsiyet seç',alertDob:'Doğum tarihini seç',alertPhone:'Telefon numaranı gir',alertEmail:'E-posta adresini gir'}};
 function refillMonths(lang){const t=T[lang]||T.en;const current=dobMonth.value;dobMonth.innerHTML=`<option value="">${t.month}</option>`;t.months.forEach((m,i)=>dobMonth.innerHTML+=`<option value="${i+1}">${m}</option>`);if(current) dobMonth.value=current;}
 function refillGender(lang){const t=T[lang]||T.en;const current=gender.value;gender.innerHTML=`<option value="">${t.genderPh}</option><option value="male">${t.male}</option><option value="female">${t.female}</option><option value="prefer_not">${t.prefer}</option>`;if(current) gender.value=current;}
-function setLang(lang){localStorage.setItem('mira_lang',lang);document.querySelectorAll('.languages button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));const t=T[lang]||T.en;const rtl=lang==='ar';document.documentElement.lang=lang;document.documentElement.dir=rtl?'rtl':'ltr';title.textContent=t.title;subtitle.textContent=t.subtitle;nameLabel.textContent=t.name;name.placeholder=t.namePh;genderLabel.textContent=t.gender;dobLabel.textContent=t.dob;phoneTab.textContent=t.phone;emailTab.textContent=t.email;phoneLabel.textContent=t.phoneLabel;emailLabel.textContent=t.emailLabel;continueBtn.textContent=t.continue;privacy.textContent=t.privacy;bottom.innerHTML=t.bottom;document.querySelector('#dobDay option').textContent=t.day;document.querySelector('#dobYear option').textContent=t.year;refillMonths(lang);refillGender(lang);} 
+function setLang(lang){localStorage.setItem('mira_lang',lang);document.querySelectorAll('.languages button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));const t=T[lang]||T.en;const rtl=lang==='ar';document.documentElement.lang=lang;document.documentElement.dir=rtl?'rtl':'ltr';title.textContent=t.title;subtitle.textContent=t.subtitle;nameLabel.textContent=t.name;elName.placeholder=t.namePh;genderLabel.textContent=t.gender;dobLabel.textContent=t.dob;phoneTab.textContent=t.phone;emailTab.textContent=t.email;phoneLabel.textContent=t.phoneLabel;emailLabel.textContent=t.emailLabel;continueBtn.textContent=t.continue;privacy.textContent=t.privacy;bottom.innerHTML=t.bottom;document.querySelector('#dobDay option').textContent=t.day;document.querySelector('#dobYear option').textContent=t.year;refillMonths(lang);refillGender(lang);} 
 async function continueSignup(){
     const t=T[document.documentElement.lang||'en'];
     try{

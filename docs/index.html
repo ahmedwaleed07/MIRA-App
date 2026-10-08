@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#FC618F">
 <title>MIRA</title>
 <script>
-localStorage.setItem('mira_lang','en');
-location.replace('welcome.html?lang=en');
+const lang=localStorage.getItem('mira_lang')||'en';
+location.replace('welcome.html?lang='+encodeURIComponent(lang));
 </script>
 </head>
 <body></body>
