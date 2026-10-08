@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<style>.i{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}</style>
+<symbol id="cat-clothing" viewBox="0 0 24 24"><path class="i" d="M8 4 4.5 7l2 4 2-1v10h7V10l2 1 2-4L16 4l-2.1 2h-3.8L8 4Z"/><path class="i" d="M10 6.2c.5 1 1.2 1.5 2 1.5s1.5-.5 2-1.5"/></symbol>
+<symbol id="cat-shoes" viewBox="0 0 24 24"><path class="i" d="M3 15.5c4.6.4 7.4-1.3 8.6-5.2l2.4 1.2c1.8 2.9 3.7 4.1 7 4.5v3H4a1 1 0 0 1-1-1v-2.5Z"/><path class="i" d="m12 12 2-2"/></symbol>
+<symbol id="cat-accessories" viewBox="0 0 24 24"><circle class="i" cx="7" cy="12" r="3.5"/><circle class="i" cx="17" cy="12" r="3.5"/><path class="i" d="M10.5 12h3M3.5 11.5 2.5 9M20.5 11.5 21.5 9"/></symbol>
+<symbol id="cat-beauty" viewBox="0 0 24 24"><path class="i" d="M8 3h8v4H8zM7 7h10v14H7z"/><path class="i" d="M9.5 11h5M9.5 15h5"/></symbol>
+<symbol id="cat-perfumes" viewBox="0 0 24 24"><path class="i" d="M9 3h6v4H9zM8 7h8l2 3v10H6V10l2-3Z"/><path class="i" d="M10 13h4"/></symbol>
+<symbol id="cat-electronics" viewBox="0 0 24 24"><rect class="i" x="7" y="2.5" width="10" height="19" rx="2"/><path class="i" d="M10 5h4M11 18.5h2"/></symbol>
+<symbol id="cat-restaurants" viewBox="0 0 24 24"><path class="i" d="M6 3v8M3.5 3v5c0 2 1 3 2.5 3s2.5-1 2.5-3V3M6 11v10M15 3v18M15 3c4 2 4 7 0 9"/></symbol>
+<symbol id="cat-grocery" viewBox="0 0 24 24"><path class="i" d="M3 5h2l2 10h10l2-7H6"/><circle class="i" cx="9" cy="19" r="1.4"/><circle class="i" cx="17" cy="19" r="1.4"/></symbol>
+<symbol id="cat-home" viewBox="0 0 24 24"><path class="i" d="m3 11 9-8 9 8M5 10v10h14V10M9 20v-6h6v6"/></symbol>
+<symbol id="cat-travel" viewBox="0 0 24 24"><rect class="i" x="5" y="7" width="14" height="13" rx="2"/><path class="i" d="M9 7V5h6v2M9 11v5M15 11v5"/></symbol>
+<symbol id="cat-automotive" viewBox="0 0 24 24"><path class="i" d="m5 16 1-5 2-3h8l2 3 1 5"/><rect class="i" x="3" y="13" width="18" height="6" rx="2"/><circle class="i" cx="7" cy="18" r="1"/><circle class="i" cx="17" cy="18" r="1"/></symbol>
+<symbol id="cat-sports" viewBox="0 0 24 24"><path class="i" d="M5 9v6M8 7v10M16 7v10M19 9v6M8 12h8"/></symbol>
+<symbol id="cat-toys-kids" viewBox="0 0 24 24"><circle class="i" cx="12" cy="8" r="4"/><path class="i" d="M5 21c.8-4.5 3.2-7 7-7s6.2 2.5 7 7"/><path class="i" d="M9 8h.01M15 8h.01M10.5 10.5c1 .7 2 .7 3 0"/></symbol>
+<symbol id="cat-health" viewBox="0 0 24 24"><path class="i" d="M12 21S4 16.5 4 10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"/><path class="i" d="M9 12h6M12 9v6"/></symbol>
+<symbol id="cat-entertainment" viewBox="0 0 24 24"><rect class="i" x="3" y="6" width="18" height="12" rx="2"/><path class="i" d="m10 9.5 5 2.5-5 2.5Z"/></symbol>
+<symbol id="cat-jewelry" viewBox="0 0 24 24"><path class="i" d="m8 6 2-3h4l2 3-4 5-4-5Z"/><circle class="i" cx="12" cy="15.5" r="5.5"/></symbol>
+<symbol id="cat-watches" viewBox="0 0 24 24"><path class="i" d="m9 4 1-2h4l1 2M9 20l1 2h4l1-2"/><circle class="i" cx="12" cy="12" r="6"/><path class="i" d="M12 8v4l2 2"/></symbol>
+<symbol id="cat-services" viewBox="0 0 24 24"><path class="i" d="M14.5 5.5a4 4 0 0 0-5 5L4 16l4 4 5.5-5.5a4 4 0 0 0 5-5l-3 3-4-4 3-3Z"/></symbol>
+<symbol id="cat-bags" viewBox="0 0 24 24"><path class="i" d="M6 8h12l1 12H5L6 8Z"/><path class="i" d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+<symbol id="cat-default" viewBox="0 0 24 24"><rect class="i" x="4" y="4" width="6" height="6" rx="2"/><rect class="i" x="14" y="4" width="6" height="6" rx="2"/><rect class="i" x="4" y="14" width="6" height="6" rx="2"/><rect class="i" x="14" y="14" width="6" height="6" rx="2"/></symbol>
+</defs></svg>
