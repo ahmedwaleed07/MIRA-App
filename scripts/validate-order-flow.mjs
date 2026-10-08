@@ -91,7 +91,7 @@ async function testCheckout(){
 }
 
 async function testMerchantStatusUpdate(){
- const business=inlineScript('docs/business.html');
+ const business=[...read('docs/business.html').matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).join('\n');
  const start=business.indexOf('async function updateOrderStatus(id){');
  const end=business.indexOf('window.updateOrderStatus=updateOrderStatus',start);
  check(start>=0&&end>start,'merchant status update handler missing');
