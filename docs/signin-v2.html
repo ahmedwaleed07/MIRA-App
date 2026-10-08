@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0A0A12">
+<meta name="theme-color" content="#FC618F">
 <title>MIRA — Sign In</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;font-family:Poppins,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#0A0A12;color:#fff}
+html,body{margin:0;min-height:100%;font-family:Poppins,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#800020;color:#FFFFFF}
 body{display:flex;justify-content:center}
-.app{position:relative;width:min(100vw,430px);min-height:100svh;overflow:hidden;background:#0A0A12}
+.app{position:relative;width:min(100vw,430px);min-height:100svh;overflow:hidden;background:#800020}
 .auth-stage{position:relative;width:100%}
-.auth-art{position:relative;width:100%;height:auto;display:block;user-select:none;pointer-events:none}
+.auth-art{filter:url('assets/mira-palette-filter.svg#palette');position:relative;width:100%;height:auto;display:block;user-select:none;pointer-events:none}
 .auth-layer{position:absolute;inset:0;z-index:2}
 .tabs{position:absolute;top:44.25%;left:18.9%;right:21.3%;height:4.7%;display:grid;grid-template-columns:1fr 1fr;direction:ltr}
 .tab{position:relative;z-index:2;border:0;background:transparent;color:transparent}
@@ -22,7 +22,7 @@ body{display:flex;justify-content:center}
 #phonePanel{top:50.3%}
 #emailPanel{top:59.1%}
 .row{display:flex;direction:ltr;gap:0;width:100%;height:100%}
-.code,.input{height:100%;border:0;background:rgba(7,17,48,.90);color:#fff;font:600 16px inherit;outline:none;box-shadow:none;-webkit-appearance:none;appearance:none}
+.code,.input{height:100%;border:0;background:rgba(7,17,48,.90);color:#FFFFFF;font:600 16px inherit;outline:none;box-shadow:none;-webkit-appearance:none;appearance:none}
 .code{width:31%;border-radius:14px 0 0 14px;padding:0 10px;direction:ltr}
 .input{width:100%;border-radius:14px;padding:0 18px;direction:ltr}
 .row .input{border-radius:0 14px 14px 0}
@@ -34,7 +34,7 @@ body{display:flex;justify-content:center}
 .bottom-link{position:absolute;top:71.8%;left:22%;right:22%;height:4.8%;border:0;background:transparent}
 .languages{position:absolute;top:78.82%;left:6.7%;right:6.9%;height:4.35%;display:grid;grid-template-columns:repeat(5,1fr);gap:3%;direction:ltr}
 .languages button{position:relative;z-index:2;border:1px solid transparent;border-radius:13px;background:transparent;color:transparent}
-.languages button.active{border-color:#FF2ED1;box-shadow:0 0 14px rgba(255,44,168,.58)}
+.languages button.active{border-color:#FC618F;box-shadow:0 0 14px rgba(255,44,168,.58)}
 .app:not([data-lang="ar"]) .languages:after{content:"";position:absolute;z-index:1;right:0;top:0;width:17.2%;height:100%;border-radius:13px;background:rgba(7,17,48,.72);border:1px solid rgba(255,255,255,.22)}
 .phone-mode #emailPanel{display:none}
 .email-mode #phonePanel{display:none}
