@@ -61,7 +61,7 @@ async function testCheckout(){
 
  const complete=makeCheckout(items);await pause();
  await complete.objects.confirmBtn.onclick();
- check(complete.requests.length===2,'cart must create exactly two merchant orders');
+ check(complete.requests.length===2,'cart must create exactly two merchant orders (sent '+complete.requests.length+', UI: '+complete.objects.msg.textContent+')');
  check(complete.requests.map(x=>x.store_id).join(',')==='store-A,store-B','merchant routing mismatch');
  check(complete.requests.every(x=>x.customer_user_id==='customer-123'&&x.status==='new'),'incorrect owner or initial status');
  check(complete.requests[0].items[0].quantity===2&&complete.requests[0].subtotal===200,'item totals wrong');
