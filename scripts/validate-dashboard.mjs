@@ -46,7 +46,7 @@ for (const { file, attr, names } of cases) {
     file + ': dashboard overrides must be loaded last');
   for (const [i, button] of buttons.entries()) {
     ensure(button.includes('class="dashboard-tile"'), file + ': missing class on card ' + i);
-    ensure((button.match(/\bclass=/g) || []).length === 1, file + ': duplicate class attributes on card ' + i);
+    ensure((button.slice(0, button.indexOf('>') + 1).match(/\bclass=/g) || []).length === 1, file + ': duplicate class attributes on card ' + i);
     ensure(/<span class="ecosystem-icon"><svg[^>]+>[\s\S]*?<\/svg><\/span>/.test(button),
       file + ': missing icon on card ' + i);
     ensure(/<\/strong><span>[^<]+<\/span>/.test(button), file + ': missing subtitle on card ' + i);
