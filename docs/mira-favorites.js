@@ -31,7 +31,7 @@
     return {id:String(id),type,storeId:card.dataset.storeId||'',name,title,discount:card.dataset.discount||'',letter:(name[0]||'M').toUpperCase(),href};
   }
   function enhance(root=document){
-    const sel='.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.offer,.store-card,.product-card,.service-card,[data-favorite-card]';
+    const sel='.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.offer,.offer-card,.results .item,.list .card,.grid .card,.store-card,.product-card,.service-card,[data-favorite-card]';
     root.querySelectorAll(sel).forEach(card=>{
       if(card.closest('.saved-grid')||card.querySelector(':scope > .mira-heart'))return;
       if(getComputedStyle(card).position==='static')card.style.position='relative';
@@ -51,5 +51,5 @@
   window.MiraFavorites=api;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>enhance());
   else enhance();
-  new MutationObserver(m=>{for(const x of m)for(const n of x.addedNodes)if(n.nodeType===1)enhance(n.matches?.('.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.offer,.store-card,.product-card,.service-card,[data-favorite-card]')?n.parentElement:n)}).observe(document.documentElement,{childList:true,subtree:true});
+  new MutationObserver(m=>{for(const x of m)for(const n of x.addedNodes)if(n.nodeType===1)enhance(n.matches?.('.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.offer,.offer-card,.results .item,.list .card,.grid .card,.store-card,.product-card,.service-card,[data-favorite-card]')?n.parentElement:n)}).observe(document.documentElement,{childList:true,subtree:true});
 })();
