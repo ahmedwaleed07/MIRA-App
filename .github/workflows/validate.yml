@@ -16,6 +16,7 @@ jobs:
         run: |
           node --check www/app.js
           node scripts/validate-docs.mjs
+          node scripts/validate-dashboard.mjs
       - name: Validate required release files
         run: |
           test -f www/index.html
