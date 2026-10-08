@@ -132,3 +132,134 @@ td,th{border-color:#800020!important}
 svg{color:inherit}
 ::selection{background:#FC618F;color:#FFFFFF}
 @media(max-width:760px){.ecosystem-quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* MIRA LUXE CONTRAST SYSTEM — 2026-10-08 */
+/* Surface-level invariant: burgundy/pink surfaces use WHITE foreground;
+   white surfaces use burgundy/pink. No two brand colors as foreground/background. */
+:root{--mira-surface:#FFFFFF;--mira-text:#800020;--mira-accent:#FC618F}
+html{color-scheme:light}
+body,.app,.main,.shell{color:#800020!important}
+
+/* White editorial surfaces, refined hairline edges without rearranging content. */
+:is(.box,.card,.item,.offer,.kpi,.metric,.info,.order-card,.preview-card,.request-status,
+.notice,.upload-box,.table-wrap,.cat,.featured-card,.flash-card,.recent-card,
+.interest-card,.near-card,.product-card,.service-card,.store-card,.offer-card){
+  background-color:#FFFFFF!important;color:#800020!important;
+  border-color:#800020!important;
+}
+:is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.card,.cat,
+.order-card,.preview-card,.auth-box){box-shadow:0 1px 0 #800020!important}
+
+/* Solid, legible primary and tertiary actions; never burgundy copy on pink. */
+:is(.primary,.btn.primary,.btn.coral,.auth-neon-primary,.order-actions button,
+.cta,.filter.active,.tx-chip.active,.badge,.pill,.count-badge,.status,
+.chip.on,.tabs button.on){
+  background:#FC618F!important;color:#FFFFFF!important;
+  border-color:#FC618F!important;
+  background-image:none!important;
+}
+:is(.primary,.btn.primary,.btn.coral,.auth-neon-primary,.order-actions button,
+.cta,.filter.active,.tx-chip.active,.badge,.pill,.count-badge,.status,
+.chip.on,.tabs button.on) :is(svg,path,use){color:#FFFFFF!important;stroke:currentColor}
+
+/* Burgundy is paired exclusively with white. */
+:is(.banner,.ecosystem-hero,.preview-image,.category-note,.auth-neon,
+.auth-gate,.login){background-color:#800020!important;color:#FFFFFF!important}
+.banner{background:#800020!important}
+:is(.banner,.ecosystem-hero,.category-note) :is(h1,h2,h3,h4,h5,h6,p,span,small,b,strong,em){
+  color:#FFFFFF!important
+}
+.banner .hero-pill,.ecosystem-hero .hero-pill{background:#FFFFFF!important;color:#800020!important}
+:is(.category-note,.category-note b,.category-note small){color:#FFFFFF!important}
+.login .box,.auth-gate .auth-box{background:#FFFFFF!important;color:#800020!important}
+.login .box :is(h1,h2,h3,p,small,label),
+.auth-gate .auth-box :is(h1,h2,h3,p,small,label){color:#800020!important}
+
+/* Promotional visual backgrounds do not hide merchant-uploaded background images. */
+:is(.featured-visual,.soft-visual,.map-visual,.visual,.cover,.hero){
+  background-color:#800020!important;color:#FFFFFF!important
+}
+.flash-visual{background-color:#FC618F!important;color:#FFFFFF!important}
+.admin-visual:after,.visual.photo:after{background:transparent!important}
+:is(.featured-visual,.flash-visual,.soft-visual,.map-visual,.hero) :is(h1,h2,h3,p,span,small,b,strong){
+  color:#FFFFFF!important
+}
+:is(.featured-visual,.flash-visual,.soft-visual,.map-visual,.hero) :is(.badge,.chip,.paid){
+  background:#FFFFFF!important;color:#800020!important;border-color:#FFFFFF!important
+}
+:is(.featured-visual,.flash-visual,.soft-visual,.map-visual,.hero) :is(.badge,.chip,.paid) *{color:#800020!important}
+
+/* White labels on burgundy/pink call-to-action surfaces, including Flash Sales. */
+:is(.cta,.primary,.btn.primary,.btn.coral,.auth-neon-primary,.order-actions button,
+.filter.active,.tx-chip.active,.chip.on,.tabs button.on) :is(span,b,strong,small,em,svg){
+  color:#FFFFFF!important
+}
+.flash-card .cta{background:#800020!important;color:#FFFFFF!important;border-color:#800020!important}
+:is(.cta,.primary,.btn.primary,.btn.coral,.auth-neon-primary,.order-actions button){font-weight:800}
+:is(.badge,.pill,.count-badge,.status,.chip.on){font-weight:800}
+:is(.time,.countdown .time,.order-summary span){background:#FFFFFF!important;color:#800020!important}
+:is(.time,.countdown .time) :is(span,b,strong){color:#800020!important}
+:is(.status.inactive,.status.cancelled,.action-btn.delete,.btn.danger){
+  background:#800020!important;color:#FFFFFF!important;border-color:#800020!important
+}
+:is(.status.active,.badge.featured){background:#FC618F!important;color:#FFFFFF!important}
+:is(.chip,.filter,.tx-chip,.tabs button,.action-btn,.btn.soft,
+.secondary,.ghost,.back,.refresh,.iconbtn,.location,.search){
+  background-color:#FFFFFF!important;color:#800020!important
+}
+:is(.chip,.filter,.tx-chip,.tabs button,.action-btn,.btn.soft,
+.secondary,.ghost,.back,.refresh,.iconbtn,.location,.search) :is(svg,path,use){
+  color:#800020!important
+}
+
+/* Category glyphs: explicitly stroke, never fallback to browser's black SVG fill.
+   Their original paths, sizes and shapes remain unchanged. */
+:is(.cat .ico,.cat-icon,.ecosystem-icon){
+  background:#FFFFFF!important;color:#800020!important;
+  border:1px solid #FC618F!important
+}
+:is(.cat .ico,.cat-icon,.ecosystem-icon) svg,
+:is(.cat .ico,.cat-icon,.ecosystem-icon) svg use{
+  color:#800020!important;stroke:#800020!important;fill:none!important
+}
+.cat.sponsored:after{background:#FC618F!important;color:#FFFFFF!important;box-shadow:none!important}
+.cat b,.cat small{color:#800020!important}
+
+/* Admin: a solid burgundy navigation rail, white text and white active menu. */
+.sidebar{background:#800020!important;color:#FFFFFF!important;border-color:#800020!important}
+.sidebar .brandmark{background:#FFFFFF!important}
+.sidebar .brand,.sidebar .brand small{color:#FFFFFF!important;border-color:#FFFFFF!important}
+.sidebar .menu button{background:transparent!important;color:#FFFFFF!important}
+.sidebar .menu button.active,.sidebar .menu button:hover{
+  background:#FFFFFF!important;color:#800020!important
+}
+.sidebar .dot{background:#FFFFFF!important;box-shadow:0 0 0 4px #800020!important}
+.sidebar .side-note{background:#FFFFFF!important;color:#800020!important;border-color:#FFFFFF!important}
+.sidebar .side-note :is(b,strong,small,span,p){color:#800020!important}
+
+/* Forms and text on white: burgundy; on colored auth panels: white. */
+input,select,textarea{background-color:#FFFFFF!important;color:#800020!important;caret-color:#800020}
+input::placeholder,textarea::placeholder{color:#800020!important}
+.auth-neon .auth-neon-input,.auth-neon .auth-neon-code{
+  background:#800020!important;color:#FFFFFF!important;caret-color:#FFFFFF!important
+}
+.auth-neon .auth-neon-input::placeholder{color:#FFFFFF!important}
+
+/* Elegant focus, press and hover feedback without moving or rebuilding layouts. */
+:is(button,a,input,select,textarea){transition:color .18s ease,background-color .18s ease,border-color .18s ease,box-shadow .18s ease}
+:is(button,a,input,select,textarea):focus-visible{
+  outline:2px solid #FC618F!important;outline-offset:3px
+}
+@media(hover:hover){
+  :is(.cta,.primary,.btn.primary,.btn.coral,.cat,.featured-card,.flash-card):hover{
+    outline:1px solid #FC618F;outline-offset:1px
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  :is(button,a,input,select,textarea){transition:none!important}
+}
+/* Prevent top content from sitting under the iPhone status bar in fullscreen pages. */
+@media(max-width:600px){
+  body > main.app{padding-top:max(66px,calc(16px + env(safe-area-inset-top)))!important}
+}
