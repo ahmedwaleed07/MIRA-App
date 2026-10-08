@@ -263,3 +263,41 @@ input::placeholder,textarea::placeholder{color:#800020!important}
 @media(max-width:600px){
   body > main.app{padding-top:max(66px,calc(16px + env(safe-area-inset-top)))!important}
 }
+
+
+/* MIRA FINAL COMPONENT CONTRAST — 2026-10-08 */
+/* Components outside the shared .card/.primary class families. */
+:is(.paid,.toast,.section-pill,.mark,.avatar){
+  background:#800020!important;color:#FFFFFF!important;border-color:#800020!important
+}
+:is(.paid,.toast,.section-pill,.mark,.avatar) :is(b,span,strong,p,small,svg){
+  color:#FFFFFF!important
+}
+:is(.empty-rail,.order-total,.row,.lang,.tag,.tab,.interest,.error){
+  background:#FFFFFF!important;color:#800020!important;border-color:#800020!important
+}
+:is(.empty-rail,.order-total,.row,.lang,.tag,.tab,.interest,.error) :is(b,span,strong,p,small){
+  color:#800020!important
+}
+:is(.tab.active,.lang.active,.interest.selected){
+  background:#800020!important;color:#FFFFFF!important;border-color:#800020!important;
+  background-image:none!important
+}
+:is(.tab.active,.lang.active,.interest.selected) :is(b,span,strong,.name,.icon,svg){
+  color:#FFFFFF!important
+}
+.interest .icon{color:#800020!important}
+.interest.selected .icon{color:#FFFFFF!important}
+.interest .check{
+  background:#FFFFFF!important;color:#800020!important;box-shadow:none!important
+}
+/* CTA buttons with page-specific names. */
+:is(.browse,.open,#saveBtn:not([aria-label])){
+  background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important;
+  background-image:none!important
+}
+:is(.browse,.open,#saveBtn:not([aria-label])) :is(span,b,strong,svg){color:#FFFFFF!important}
+.remove{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
+.logo{color:#FFFFFF!important}
+/* The empty/error state stays legible against the white document canvas. */
+:is(.empty-rail,.order-total,.error) :is(b,span,strong,small,p){color:#800020!important}
