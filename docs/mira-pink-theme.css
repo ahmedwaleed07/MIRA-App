@@ -59,7 +59,7 @@ input::placeholder,textarea::placeholder{color:#800020!important}
   box-shadow:none!important;
 }
 .banner,.preview-image,.ecosystem-hero{
-  background:#800020!important;
+  background-color:#800020!important;
   color:#FFFFFF!important;
   box-shadow:none!important;
 }
@@ -91,7 +91,7 @@ hr,.divider{border-color:#800020!important}
   border-color:#800020!important;
   box-shadow:none!important;
 }
-.featured-visual,.flash-visual,.soft-visual,.map-visual,.offerimg,.visual,.cover,.hero{background:#FFFFFF!important}
+.featured-visual,.flash-visual,.soft-visual,.map-visual,.offerimg,.visual,.cover,.hero{background-color:#FFFFFF!important}
 .mira-heart,.save{
   background:#FFFFFF!important;color:#800020!important;border:1px solid #800020!important;box-shadow:none!important
 }
