@@ -6,7 +6,39 @@ window.MIRA_SUPABASE={
 window.MiraCloud={
   session:null,
   sessionKey(){const p=location.pathname;return /business\.html$/i.test(p)?'mira_merchant_session':/admin\.html$/i.test(p)?'mira_admin_session':'mira_customer_session'},
-  loadSession(){try{this.session=JSON.parse(localStorage.getItem(this.sessionKey())||'null')}catch(e){this.session=null}return this.session},
+  // Merchant "Remember Me" controls storage scope, never stores email passwords.
+  // Remembered sessions survive browser restarts; session-only sessions survive refresh.
+  isMerchant(){return /business\.html$/i.test(location.pathname)},
+  rememberKey(){return 'mira_merchant_remember_me'},
+  rememberMe(){return !this.isMerchant()||localStorage.getItem(this.rememberKey())!=='false'},
+  setRememberMe(enabled){
+    if(!this.isMerchant())return;
+    localStorage.setItem(this.rememberKey(),enabled?'true':'false');
+    if(this.session)this.saveSession();
+  },
+  saveSession(){
+    if(!this.session)return;
+    const key=this.sessionKey(),serialized=JSON.stringify(this.session);
+    if(this.isMerchant()&&!this.rememberMe()){
+      sessionStorage.setItem(key,serialized);
+      localStorage.removeItem(key);
+    }else{
+      localStorage.setItem(key,serialized);
+      if(this.isMerchant())sessionStorage.removeItem(key);
+    }
+  },
+  loadSession(){
+    try{
+      const key=this.sessionKey();
+      if(this.isMerchant()&&!this.rememberMe()){
+        localStorage.removeItem(key); // never reuse a stale remembered session
+        this.session=JSON.parse(sessionStorage.getItem(key)||'null');
+      }else{
+        this.session=JSON.parse(localStorage.getItem(key)||'null');
+      }
+    }catch(e){this.session=null}
+    return this.session;
+  },
   token(){return this.session&&this.session.access_token?this.session.access_token:window.MIRA_SUPABASE.key},
   payload(){try{const t=this.session&&this.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}},
   requireAuth(){const p=this.payload();if(!p||p.role!=='authenticated'||!p.sub)throw new Error('Authenticated Supabase session required. Please sign out and sign in again.');return p},
@@ -14,7 +46,7 @@ window.MiraCloud={
     const c=window.MIRA_SUPABASE;
     const r=await fetch(c.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
     if(!r.ok)throw new Error(await r.text());
-    this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
+    this.session=await r.json();this.saveSession();return this.session;
   },
   async startOtp({email='',phone='',createUser=false,data={},redirectTo=''}={}){
     const c=window.MIRA_SUPABASE;
@@ -29,15 +61,24 @@ window.MiraCloud={
     const body=email?{email,token,type:'email'}:{phone,token,type:'sms'};
     const r=await fetch(c.url+'/auth/v1/verify',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok)throw new Error(await r.text());
-    this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
+    this.session=await r.json();this.saveSession();return this.session;
   },
-  signOut(){this.session=null;localStorage.removeItem(this.sessionKey())},
+  signOut(){
+    this.session=null;
+    localStorage.removeItem(this.sessionKey());
+    if(this.isMerchant())sessionStorage.removeItem(this.sessionKey());
+  },
   async refreshSession(){
     if(!this.session?.refresh_token)throw new Error('Session expired. Please sign in again.');
     const c=window.MIRA_SUPABASE;
     const r=await fetch(c.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:this.session.refresh_token})});
-    if(!r.ok){this.signOut();throw new Error('Session expired. Please sign in again.')}
-    this.session=await r.json();localStorage.setItem(this.sessionKey(),JSON.stringify(this.session));return this.session;
+    if(!r.ok){
+      if([400,401,403,422].includes(r.status)){
+        this.signOut();throw new Error('Session expired. Please sign in again.');
+      }
+      throw new Error('Could not reach the login service. Please try again.');
+    }
+    this.session=await r.json();this.saveSession();return this.session;
   },
   tokenExpired(skewSeconds=30){const p=this.payload();return !!(p&&p.exp&&Date.now()/1000>=Number(p.exp)-skewSeconds)},
   async ensureFreshSession(){if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();return this.session},
