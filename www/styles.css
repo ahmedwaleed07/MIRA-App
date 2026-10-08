@@ -39,3 +39,21 @@
 .auth-neon-text{width:100%;margin-top:9px;border:0;background:transparent;color:#ff55d2;font:700 11px inherit}
 .auth-neon-langs{position:absolute;z-index:3;left:5.5%;right:5.5%;top:78.6%;display:grid;grid-template-columns:repeat(5,1fr);gap:2.5%;direction:ltr}
 .auth-neon-langs button{border:1px solid rgba(255,255,255,.24);border-radius:13px;background:rgba(7,17,48,.52);color:#fff;padding:10px 2px;font:600 10px inherit}
+
+/* Auth artwork alignment override — keep live controls inside baked artwork */
+.auth-neon-stage .auth-neon-hot-tabs{position:absolute;top:44.25%;left:18.9%;right:21.3%;height:4.7%;display:grid;grid-template-columns:1fr 1fr;direction:ltr;margin:0;padding:0;border:0;border-radius:999px;background:transparent;overflow:visible;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.auth-neon-stage .auth-neon-hot-tabs button{position:relative;z-index:2;border:0!important;padding:0!important;margin:0!important;border-radius:999px;background:transparent!important;box-shadow:none!important;color:transparent}
+.auth-neon-stage.email-selected .auth-neon-hot-tabs:before{content:"";position:absolute;z-index:1;left:0;top:0;width:50%;height:100%;border-radius:999px;background:linear-gradient(90deg,rgba(255,44,168,.92),rgba(255,70,126,.88),rgba(217,47,255,.90));box-shadow:0 0 18px rgba(255,44,168,.48)}
+.auth-neon-stage.email-selected .auth-neon-hot-tabs:after{content:"";position:absolute;z-index:1;right:0;top:0;width:50%;height:100%;border-radius:999px;background:rgba(7,17,48,.72)}
+.auth-neon-stage .auth-neon-live-field{position:absolute;top:50.3%;left:18.5%;right:20.5%;height:5%;display:flex;direction:ltr;padding:4px}
+.auth-neon-stage .auth-neon-live-field.auth-email-field{top:59.1%}
+.auth-neon-stage .auth-neon-code,.auth-neon-stage .auth-neon-input{height:100%;border:0!important;background:rgba(7,17,48,.90);color:#fff;box-shadow:none!important;outline:none;font:600 15px inherit;-webkit-appearance:none;appearance:none}
+.auth-neon-stage .auth-neon-code{width:31%;border-radius:14px 0 0 14px;padding:0 9px;direction:ltr}
+.auth-neon-stage .auth-neon-live-field .auth-neon-input{width:100%;border-radius:0 14px 14px 0;padding:0 17px;direction:ltr}
+.auth-neon-stage .auth-email-field .auth-neon-input{border-radius:14px;padding-left:74px;background:linear-gradient(90deg,transparent 0 58px,rgba(7,17,48,.92) 58px 100%)}
+.auth-neon-stage .auth-neon-hot-login{position:absolute;top:65.55%;left:18.5%;right:20.5%;height:5.55%;border:0!important;border-radius:22px;background:transparent!important;box-shadow:none!important;padding:0!important}
+.auth-neon-stage .auth-neon-hot-signup{position:absolute;top:71.8%;left:22%;right:22%;height:4.8%;border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important}
+.auth-neon-stage .auth-neon-hot-langs{position:absolute;top:78.82%;left:6.7%;right:6.9%;height:4.35%;display:grid;grid-template-columns:repeat(5,1fr);gap:3%;direction:ltr}
+.auth-neon-stage .auth-neon-hot-langs button{position:relative;z-index:2;border:1px solid transparent!important;border-radius:13px;background:transparent!important;box-shadow:none;padding:0!important}
+.auth-neon-stage .auth-neon-hot-langs button.on{border-color:#ff58d7!important;box-shadow:0 0 14px rgba(255,44,168,.58)!important}
+.auth-neon-stage .auth-neon-hot-langs.lang-nonar:after{content:"";position:absolute;z-index:1;right:0;top:0;width:17.2%;height:100%;border-radius:13px;background:rgba(7,17,48,.72);border:1px solid rgba(255,255,255,.22)}
