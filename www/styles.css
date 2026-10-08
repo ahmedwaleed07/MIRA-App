@@ -168,7 +168,7 @@ background:#FFFFFF!important;color:#800020!important;border-color:#800020!import
 .screen:not(.auth-neon) .tabs button.on,.screen:not(.auth-neon) .chip.on{background:#800020!important;color:#FFFFFF!important}
 .screen:not(.auth-neon) .link,.screen:not(.auth-neon) .price,.screen:not(.auth-neon) .nav button.on{color:#FC618F!important}
 .screen:not(.auth-neon) .badge{background:#FC618F!important;color:#FFFFFF!important}
-.screen:not(.auth-neon) .offerimg,.screen:not(.auth-neon) .cat b,.screen:not(.auth-neon) .avatar{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
+.screen:not(.auth-neon) .offerimg,.screen:not(.auth-neon) .cat b,.screen:not(.auth-neon) .avatar{background-color:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
 .screen:not(.auth-neon) .cat b{border:1px solid #FC618F!important}
 .screen:not(.auth-neon) .cat-svg{color:#800020!important}
 .screen:not(.auth-neon) .fav{background:#FFFFFF!important;color:#800020!important;border:1px solid #800020!important}
