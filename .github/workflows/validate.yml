@@ -18,6 +18,7 @@ jobs:
           node scripts/validate-docs.mjs
           node scripts/validate-dashboard.mjs
           node scripts/validate-merchant-session.mjs
+          node scripts/validate-order-flow.mjs
       - name: Validate required release files
         run: |
           test -f www/index.html
