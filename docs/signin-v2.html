@@ -40,6 +40,15 @@ body{display:flex;justify-content:center}
 .email-mode #phonePanel{display:none}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 </style>
+
+<style id="mira-auth-contrast-20261008">
+/* Input surfaces: white only on burgundy. Preserve approved static artwork. */
+.auth-stage :is(.input,.code){background-color:#800020!important;color:#FFFFFF!important;caret-color:#FFFFFF!important}
+.auth-stage :is(.input,.code)::placeholder{color:#FFFFFF!important}
+.email-mode .tabs:before{background:#FC618F!important}
+.email-mode .tabs:after{background:#800020!important}
+.auth-stage :is(button,input,select):focus-visible{outline:2px solid #FFFFFF!important;outline-offset:2px}
+</style>
 </head>
 <body>
 <main class="app phone-mode" id="authApp">
