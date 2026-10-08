@@ -184,3 +184,83 @@ background:#FFFFFF!important;color:#800020!important;border-color:#800020!import
 .auth-neon .auth-neon-primary{background:#FC618F!important;color:#FFFFFF!important}
 .auth-neon .auth-neon-text{color:#FFFFFF!important}
 .auth-neon .auth-neon-langs button{background:#800020!important;color:#FFFFFF!important;border-color:#FC618F!important}
+
+
+/* MIRA LUXE CONTRAST SYSTEM — 2026-10-08 */
+/* Applies to Capacitor/mobile MIRA screens. Preserve approved image art,
+   MIRA wordmark, fonts, geometry and the existing navigation structure. */
+:root{--mira-pink:#FC618F;--mira-burgundy:#800020;--mira-white:#FFFFFF}
+.screen:not(.auth-neon){background:#FFFFFF!important;color:#800020!important}
+.screen:not(.auth-neon) :is(.card,.item,.offer,.kpi,.cat,.search,.field,
+.secondary,.notice,.profile,.tabs,.chip,.nav,.top){
+  background-color:#FFFFFF!important;color:#800020!important;border-color:#800020!important
+}
+.screen:not(.auth-neon) :is(.card,.item,.offer,.kpi,.cat){box-shadow:0 1px 0 #800020!important}
+.screen:not(.auth-neon) :is(.primary,.banner .primary,.chip.on,.tabs button.on,.badge){
+  background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important;
+  background-image:none!important
+}
+.screen:not(.auth-neon) :is(.primary,.chip.on,.tabs button.on,.badge) :is(b,span,strong,small,svg){
+  color:#FFFFFF!important
+}
+.screen:not(.auth-neon) .banner{
+  background:#800020!important;color:#FFFFFF!important
+}
+.screen:not(.auth-neon) .banner :is(h1,h2,h3,h4,b,strong,p,span,small){
+  color:#FFFFFF!important
+}
+.screen:not(.auth-neon) .banner .primary{background:#FC618F!important;color:#FFFFFF!important}
+.screen:not(.auth-neon) :is(.chip,.tabs button,.iconbtn,.back,.secondary){
+  background:#FFFFFF!important;color:#800020!important
+}
+.screen:not(.auth-neon) :is(.link,.price,.nav button.on){color:#800020!important}
+.screen:not(.auth-neon) .merchant,.screen:not(.auth-neon) .sub,
+.screen:not(.auth-neon) .small,.screen:not(.auth-neon) .old{
+  color:#800020!important
+}
+.screen:not(.auth-neon) .offerimg{background-color:#800020!important}
+.screen:not(.auth-neon) :is(.cat b,.ico){
+  background-color:#FFFFFF!important;color:#800020!important;border-color:#FC618F!important
+}
+.screen:not(.auth-neon) :is(.cat-svg,.cat-svg use,.ico svg,.ico svg use){
+  color:#800020!important;fill:none!important;stroke:#800020!important
+}
+.screen:not(.auth-neon) .fav{background:#FFFFFF!important;color:#800020!important}
+.screen:not(.auth-neon) .store-heart.on{background:#FC618F!important;color:#FFFFFF!important}
+.screen:not(.auth-neon) .toggle{background:#800020!important}
+.screen:not(.auth-neon) .toggle.on{background:#FC618F!important}
+.screen:not(.auth-neon) .toggle:after{background:#FFFFFF!important}
+.screen:not(.auth-neon) input,.screen:not(.auth-neon) select,
+.screen:not(.auth-neon) textarea{
+  background-color:#FFFFFF!important;color:#800020!important;caret-color:#800020
+}
+.screen:not(.auth-neon) :is(input,textarea)::placeholder{color:#800020!important}
+
+/* Only white foreground for the two brand-colored auth surfaces. */
+.auth-neon,.auth-signup-card{background-color:#800020!important;color:#FFFFFF!important}
+.auth-neon :is(.auth-neon-input,.auth-neon-code){
+  background-color:#800020!important;color:#FFFFFF!important;caret-color:#FFFFFF!important
+}
+.auth-neon .auth-neon-input::placeholder{color:#FFFFFF!important}
+.auth-neon :is(.auth-neon-primary,.auth-neon-tabs button.on){
+  background:#FC618F!important;color:#FFFFFF!important;background-image:none!important
+}
+.auth-neon .auth-neon-text,.auth-neon .auth-signup-card :is(p,h1,h2,h3,span,small){
+  color:#FFFFFF!important
+}
+.auth-neon .auth-neon-hot-tabs:before{background:#FC618F!important}
+.auth-neon .auth-neon-hot-tabs:after{background:#800020!important}
+.screen :is(button,a,input,select,textarea){
+  transition:color .18s ease,background-color .18s ease,border-color .18s ease,box-shadow .18s ease
+}
+.screen :is(button,a,input,select,textarea):focus-visible{
+  outline:2px solid #FC618F!important;outline-offset:3px
+}
+@media(hover:hover){
+  .screen:not(.auth-neon) :is(.primary,.cat,.card,.offer):hover{
+    outline:1px solid #FC618F;outline-offset:1px
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .screen :is(button,a,input,select,textarea){transition:none!important}
+}
