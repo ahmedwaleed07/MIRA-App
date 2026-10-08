@@ -9,6 +9,43 @@ function money(v){return Number(v||0).toLocaleString(ar?'ar-IQ':undefined)+' IQD
 function groups(){const out={};cart().forEach(x=>{const k=x.storeId||'unknown';(out[k]=out[k]||{storeId:k,storeName:x.storeName||'MIRA Merchant',items:[]}).items.push(x)});return Object.values(out)}
 function renderSummary(){const rows=cart(),gs=groups(),total=rows.reduce((n,x)=>n+Number(x.unitPrice||0)*(x.quantity||1),0);orderSummary.innerHTML='<b>'+T.total+':</b> '+money(total)+'<br><b>'+T.merchants+':</b> '+gs.length+'<br>'+gs.map(g=>'<b>'+g.storeName+':</b> '+g.items.reduce((n,x)=>n+(x.quantity||1),0)+' item(s)').join('<br>')}
 async function boot(){const p=MiraCloud.payload();if(!p||p.role!=='authenticated'||!p.sub){sessionStorage.setItem('mira_auth_return','checkout.html');location.href='signin.html?return='+encodeURIComponent('checkout.html');return}try{await MiraCloud.ensureFreshSession()}catch(e){}const u=MiraCloud.session?.user||{},meta=u.user_metadata||{},saved=JSON.parse(localStorage.getItem('mira_checkout')||'{}');customerName.value=saved.name||meta.full_name||localStorage.getItem('mira_profile_name')||'';phonePrimary.value=saved.phone1||u.phone||'';phoneSecondary.value=saved.phone2||'';governorate.value=saved.governorate||'';area.value=saved.area||'';fullAddress.value=saved.address||'';customerNote.value=saved.note||'';if(!cart().length)location.href='cart.html';renderSummary()}
-confirmBtn.onclick=async()=>{msg.style.color='var(--danger)';msg.textContent=ar?'جاري إرسال الطلب…':'Sending order…';confirmBtn.disabled=true;try{const p=MiraCloud.requireAuth();await MiraCloud.ensureFreshSession();const d={name:customerName.value.trim(),phone1:phonePrimary.value.trim(),phone2:phoneSecondary.value.trim(),governorate:governorate.value.trim(),area:area.value.trim(),address:fullAddress.value.trim(),note:customerNote.value.trim()};if(!d.name||!d.phone1||!d.governorate||!d.area||!d.address)throw new Error(ar?'كمّل الاسم والرقم الأساسي والمحافظة والمنطقة والعنوان.':'Complete name, primary phone, governorate/state, area and full address.');localStorage.setItem('mira_checkout',JSON.stringify(d));for(const g of groups()){const items=g.items.map(x=>({offer_id:x.offerId,title:x.title||'Item',quantity:x.quantity||1,unit_price:Number(x.unitPrice||0),total:Number(x.unitPrice||0)*(x.quantity||1),attributes:x.attributes||{}})),subtotal=items.reduce((n,x)=>n+x.total,0),payload={customer_user_id:p.sub,store_id:g.storeId,offer_id:items[0]?.offer_id||null,customer_name:d.name,phone_primary:d.phone1,phone_secondary:d.phone2||null,governorate_city:d.governorate,full_address:d.address,landmark:d.area,customer_note:d.note||null,items,subtotal,total:subtotal,currency:'IQD',status:'new'};await MiraCloud.request('mira_orders',{method:'POST',requireAuth:true,body:JSON.stringify(payload)})}localStorage.setItem('mira_cart','[]');msg.style.color='var(--ok)';msg.textContent=ar?'تم تأكيد الطلب بنجاح.':'Order confirmed successfully.';setTimeout(()=>location.href='orders.html',650)}catch(e){msg.textContent=e.message||String(e);confirmBtn.disabled=false}};
+confirmBtn.onclick=async()=>{
+ msg.style.color='var(--danger)';
+ msg.textContent=ar?'جاري إرسال الطلب…':'Sending order…';
+ confirmBtn.disabled=true;
+ let sent=0;
+ try{
+  const p=MiraCloud.requireAuth();
+  await MiraCloud.ensureFreshSession();
+  const d={name:customerName.value.trim(),phone1:phonePrimary.value.trim(),phone2:phoneSecondary.value.trim(),governorate:governorate.value.trim(),area:area.value.trim(),address:fullAddress.value.trim(),note:customerNote.value.trim()};
+  if(!d.name||!d.phone1||!d.governorate||!d.area||!d.address)throw new Error(ar?'كمّل الاسم والرقم الأساسي والمحافظة والمنطقة والعنوان.':'Complete name, primary phone, governorate/state, area and full address.');
+  const pending=groups();
+  if(!pending.length)throw new Error(ar?'السلة فارغة.':'Your cart is empty.');
+  if(pending.some(g=>!g.storeId||g.storeId==='unknown'))throw new Error(ar?'أحد المنتجات غير مرتبط بمتجر. ارجع للسلة.':'An item is not assigned to a store. Return to the cart.');
+  localStorage.setItem('mira_checkout',JSON.stringify(d));
+  for(const g of pending){
+   const items=g.items.map(x=>({offer_id:x.offerId,title:x.title||'Item',quantity:x.quantity||1,unit_price:Number(x.unitPrice||0),total:Number(x.unitPrice||0)*(x.quantity||1),attributes:x.attributes||{}}));
+   const subtotal=items.reduce((n,x)=>n+x.total,0);
+   const payload={customer_user_id:p.sub,store_id:g.storeId,offer_id:items[0]?.offer_id||null,customer_name:d.name,phone_primary:d.phone1,phone_secondary:d.phone2||null,governorate_city:d.governorate,full_address:d.address,landmark:d.area,customer_note:d.note||null,items,subtotal,total:subtotal,currency:'IQD',status:'new'};
+   // One POST per merchant. After confirmation, keep only unsent merchants
+   // in the cart, so a retry cannot duplicate previously confirmed stores.
+   await MiraCloud.request('mira_orders',{method:'POST',requireAuth:true,body:JSON.stringify(payload)});
+   sent++;
+   localStorage.setItem('mira_cart',JSON.stringify(cart().filter(x=>x.storeId!==g.storeId)));
+  }
+  msg.style.color='var(--ok)';
+  msg.textContent=ar?'تم تأكيد الطلب بنجاح.':'Order confirmed successfully.';
+  setTimeout(()=>location.href='orders.html',650);
+ }catch(e){
+  const reason=e.message||String(e);
+  if(sent){
+   msg.textContent=(ar?'تم إرسال بعض الطلبات وبقيت الطلبات غير المرسلة بالسلة. راجع «طلباتي» قبل إعادة المحاولة.':'Some orders were sent; the unsent items remain in your cart. Check My Orders before retrying.')+' '+reason;
+   renderSummary();
+  }else{
+   msg.textContent=reason;
+  }
+  confirmBtn.disabled=false;
+ }
+};
 boot();
 </script></body></html>
