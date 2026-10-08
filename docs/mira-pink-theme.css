@@ -33,7 +33,7 @@
   --ok:#8DB9FA!important;
 }
 html,body{background:#FFFFFF!important;color:#2E2230!important}
-body,.app,.shell,.main,.login{background-color:#FFFFFF!important;color:#2E2230!important}
+body,.app,.shell,.main,.login{background:#FFFFFF!important;color:#2E2230!important}
 .sidebar{background:#FFFFFF!important;color:#2E2230!important;border-right:1px solid #F68AB4!important}
 .top,.nav,.box,.card,.item,.offer,.kpi,.info,.order-card,.preview-card,.upload-box,.notice,.request-status,.current-state,.total,.search,.location,.chip,.cat,.fav,.ghost,.field,.empty{
   background:#FFFFFF!important;
