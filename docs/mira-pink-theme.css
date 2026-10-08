@@ -1,20 +1,14 @@
-/* MIRA ecosystem UI — approved identity
-   Brand colors only: #FC618F, #800020, #FFFFFF.
-   Existing MIRA / ASAS logo assets and font declarations are intentionally untouched.
+/* MIRA STRICT PALETTE
+   ONLY:
+   #FC618F
+   #800020
+   #FFFFFF
+   Shapes, layout, MIRA logo geometry and fonts are untouched.
 */
 :root{
   --mira-pink:#FC618F;
   --mira-burgundy:#800020;
   --mira-white:#FFFFFF;
-  --mira-pink-04:rgba(252,97,143,.04);
-  --mira-pink-08:rgba(252,97,143,.08);
-  --mira-pink-12:rgba(252,97,143,.12);
-  --mira-pink-18:rgba(252,97,143,.18);
-  --mira-pink-28:rgba(252,97,143,.28);
-  --mira-burgundy-06:rgba(128,0,32,.06);
-  --mira-burgundy-10:rgba(128,0,32,.10);
-  --mira-burgundy-16:rgba(128,0,32,.16);
-  --mira-burgundy-64:rgba(128,0,32,.64);
   --pink:#FC618F!important;
   --pink2:#800020!important;
   --peach:#FC618F!important;
@@ -25,144 +19,116 @@
   --surface:#FFFFFF!important;
   --ink:#800020!important;
   --burgundy:#800020!important;
-  --muted:rgba(128,0,32,.64)!important;
-  --line:rgba(128,0,32,.14)!important;
-  --soft:rgba(252,97,143,.08)!important;
+  --muted:#800020!important;
+  --line:#800020!important;
+  --soft:#FFFFFF!important;
   --danger:#800020!important;
   --ok:#FC618F!important;
 }
+*{border-color:#800020}
 html,body{background:#FFFFFF!important;color:#800020!important}
-body,.app,.shell,.main{background:#FFFFFF!important;color:#800020!important}
-a{color:inherit}
-.top,.topbar,.nav,.bottom{background:rgba(255,255,255,.96)!important;border-color:rgba(128,0,32,.10)!important}
-.sidebar{background:#FFFFFF!important;color:#800020!important;border-right:1px solid rgba(128,0,32,.10)!important}
-.box,.card,.item,.offer,.kpi,.metric,.info,.order-card,.preview-card,.upload-box,.notice,.request-status,.current-state,.total,.search,.location,.chip,.cat,.fav,.ghost,.field,.empty,.table-wrap{
-  background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.12)!important
+body,.app,.shell,.main,.login,.auth-gate{background:#FFFFFF!important;color:#800020!important}
+a{color:#800020}
+.top,.topbar,.nav,.bottom,.sidebar{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
+.brandmark,.logo,.auth-logo{background:#FC618F!important}
+.box,.card,.item,.offer,.kpi,.metric,.info,.order-card,.preview-card,.upload-box,.notice,.request-status,.current-state,.total,.search,.location,.chip,.cat,.fav,.ghost,.field,.empty,.table-wrap,.auth-box,.order-summary span,.order-items,.time{
+  background:#FFFFFF!important;
+  color:#800020!important;
+  border-color:#800020!important;
+  box-shadow:none!important;
 }
-.card,.item,.offer,.kpi,.metric,.preview-card,.order-card,.cat,.search{
-  box-shadow:0 12px 30px rgba(128,0,32,.07)!important
-}
-.card,.offer,.preview-card,.order-card{border-radius:20px!important}
-.item,.kpi,.metric{border-radius:16px!important}
-.search{border-radius:18px!important}
 input,select,textarea,.field input,.field select,.field textarea{
-  background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.18)!important
+  background:#FFFFFF!important;
+  color:#800020!important;
+  border-color:#800020!important;
+  box-shadow:none!important;
 }
-input:focus,select:focus,textarea:focus,.field:focus{
-  border-color:#FC618F!important;box-shadow:0 0 0 3px rgba(252,97,143,.12)!important;outline:0
-}
-input::placeholder,textarea::placeholder{color:rgba(128,0,32,.42)!important}
-.sub,.small,.merchant,.subtitle,.time,.order-time,.order-data div,.preview-note,.items,.delivery{color:rgba(128,0,32,.64)!important}
+input:focus,select:focus,textarea:focus,.field:focus{border-color:#FC618F!important;outline:2px solid #FC618F!important;box-shadow:none!important}
+input::placeholder,textarea::placeholder{color:#800020!important}
+.sub,.small,.merchant,.subtitle,.time,.order-time,.order-data div,.preview-note,.items,.delivery,.side-note{color:#800020!important}
 .primary,.auth-neon-primary,.btn.primary,.order-actions button{
-  background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important;
-  box-shadow:0 9px 22px rgba(252,97,143,.24)!important
+  background:#FC618F!important;
+  color:#FFFFFF!important;
+  border-color:#FC618F!important;
+  box-shadow:none!important;
 }
-.primary:hover,.btn.primary:hover{filter:brightness(.98)}
 .secondary,.ghost,.back,.refresh,.iconbtn,.btn.soft{
-  background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.18)!important
+  background:#FFFFFF!important;
+  color:#800020!important;
+  border-color:#800020!important;
+  box-shadow:none!important;
 }
-.secondary:hover,.ghost:hover,.btn.soft:hover{background:rgba(252,97,143,.08)!important;border-color:#FC618F!important}
 .banner,.preview-image,.ecosystem-hero{
-  background:linear-gradient(120deg,#800020 0%,#800020 42%,#FC618F 100%)!important;color:#FFFFFF!important
+  background:#800020!important;
+  color:#FFFFFF!important;
+  box-shadow:none!important;
 }
-.tabs{background:rgba(252,97,143,.08)!important;border:1px solid rgba(128,0,32,.10)!important}
-.tabs button{color:#800020!important}
-.tabs button.on,.chip.on,.menu button.active,.menu button:hover{
-  background:#800020!important;color:#FFFFFF!important
-}
-.link,.price,.category,.discount,.nav button.on,.current-state b,.step.current,.error,.danger{color:#800020!important}
-.see,.nav.active,.bottom .active{color:#FC618F!important}
+.tabs{background:#FFFFFF!important;border:1px solid #800020!important}
+.tabs button{background:#FFFFFF!important;color:#800020!important}
+.tabs button.on,.chip.on,.menu button.active,.menu button:hover{background:#800020!important;color:#FFFFFF!important}
+.link,.price,.category,.discount,.nav button.on,.current-state b,.step.current,.error,.danger,.see,.nav.active,.bottom .active{color:#FC618F!important}
 .badge,.pill,.status,.count-badge{background:#FC618F!important;color:#FFFFFF!important}
 .status.cancelled{background:#800020!important;color:#FFFFFF!important}
-.step{color:rgba(128,0,32,.64)!important}
-.step .dot{background:rgba(252,97,143,.28)!important}
+.step,.menu button{color:#800020!important}
+.step .dot{background:#800020!important}
 .step.done .dot,.step.current .dot{background:#FC618F!important}
-.menu button{color:#800020!important}
-.order-actions select,.order-tools select{background:#FFFFFF!important;color:#800020!important;border-color:rgba(128,0,32,.16)!important}
-.toggle{background:rgba(128,0,32,.16)!important}
+.order-actions select,.order-tools select{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
+.toggle{background:#800020!important}
 .toggle.on{background:#FC618F!important}
 .toggle:after{background:#FFFFFF!important}
-hr,.divider{border-color:rgba(128,0,32,.12)!important}
-
-/* Modern category cards */
-.cat{
-  background:#FFFFFF!important;border:1px solid rgba(128,0,32,.10)!important;
-  border-radius:18px!important;box-shadow:0 9px 24px rgba(128,0,32,.06)!important
+hr,.divider{border-color:#800020!important}
+.cat,.cat-icon,.cat .ico,.ecosystem-icon{
+  background:#FFFFFF!important;
+  color:#800020!important;
+  border-color:#800020!important;
+  box-shadow:none!important;
 }
-.cat-icon,.cat .ico,.ecosystem-icon{
-  background:rgba(252,97,143,.10)!important;color:#800020!important;
-  border:1px solid rgba(252,97,143,.18)!important;border-radius:16px!important
+.cat-icon,.cat .ico,.ecosystem-icon{border:1px solid #FC618F!important}
+.cat svg,.cat .ico svg,.ecosystem-icon svg{color:#800020!important}
+.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.product-card,.service-card,.store-card,.offer-card,.results .item,.list .card,.grid .card{
+  background:#FFFFFF!important;
+  color:#800020!important;
+  border-color:#800020!important;
+  box-shadow:none!important;
 }
-.cat svg,.cat .ico svg,.ecosystem-icon svg{color:#800020!important;width:22px;height:22px}
-.cat:hover,.cat:focus-visible{border-color:#FC618F!important;transform:translateY(-1px)}
-
-/* Store / product / service cards in the consumer app */
-.featured-card,.flash-card,.recent-card,.interest-card,.near-card,.product-card,.service-card,.store-card{
-  position:relative;background:#FFFFFF!important;border:1px solid rgba(128,0,32,.10)!important;
-  border-radius:20px!important;box-shadow:0 12px 30px rgba(128,0,32,.08)!important;overflow:hidden
+.featured-visual,.flash-visual,.soft-visual,.map-visual,.offerimg,.visual,.cover,.hero{background:#FFFFFF!important}
+.mira-heart,.save{
+  background:#FFFFFF!important;color:#800020!important;border:1px solid #800020!important;box-shadow:none!important
 }
-.featured-visual,.flash-visual,.soft-visual,.map-visual,.offerimg,.visual{
-  background:linear-gradient(135deg,rgba(252,97,143,.16),rgba(255,255,255,.96))!important
-}
-.mira-heart{
-  position:absolute;z-index:8;top:10px;right:10px;width:34px;height:34px;border-radius:50%;
-  border:1px solid rgba(128,0,32,.14);background:rgba(255,255,255,.96);color:#800020;
-  display:grid;place-items:center;padding:0;box-shadow:0 5px 15px rgba(128,0,32,.10);cursor:pointer
-}
-.mira-heart svg{width:18px;height:18px;fill:transparent;stroke:currentColor;stroke-width:1.8}
-.mira-heart.is-saved{background:#FC618F;color:#FFFFFF;border-color:#FC618F}
-.mira-heart.is-saved svg{fill:currentColor}
-[dir=rtl] .mira-heart{right:auto;left:10px}
-
-/* Business / Admin dashboard visual system */
-.ecosystem-hero{
-  position:relative;overflow:hidden;border-radius:24px;padding:28px;margin:0 0 20px;
-  box-shadow:0 18px 40px rgba(128,0,32,.14)
-}
-.ecosystem-hero:after{
-  content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-72px;top:-95px;
-  border:42px solid rgba(255,255,255,.12)
-}
-.ecosystem-hero>*{position:relative;z-index:1}
-.ecosystem-hero h2{margin:0 0 8px;font-size:28px;line-height:1.05}
-.ecosystem-hero p{margin:0;max-width:620px;color:rgba(255,255,255,.86);font-size:13px;line-height:1.55}
-.ecosystem-hero .hero-pill{
-  display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:9px 13px;border-radius:999px;
-  background:#FFFFFF;color:#800020;font-size:12px;font-weight:700
-}
-.ecosystem-quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px}
+.mira-heart.is-saved,.save.saved{background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important}
+.mira-heart svg,.save svg{stroke:currentColor!important}
+.mira-heart.is-saved svg,.save.saved svg{fill:currentColor!important}
+.ecosystem-hero{border:1px solid #800020!important}
+.ecosystem-hero:after{border-color:#FC618F!important}
+.ecosystem-hero p{color:#FFFFFF!important}
+.ecosystem-hero .hero-pill{background:#FFFFFF!important;color:#800020!important}
 .ecosystem-quick button,.ecosystem-quick a{
-  appearance:none;text-decoration:none;text-align:left;border:1px solid rgba(128,0,32,.10);background:#FFFFFF;color:#800020;
-  border-radius:18px;padding:14px;min-height:112px;box-shadow:0 10px 26px rgba(128,0,32,.07);cursor:pointer
+  background:#FFFFFF!important;color:#800020!important;border-color:#800020!important;box-shadow:none!important
 }
-.ecosystem-quick strong{display:block;margin-top:10px;font-size:13px}
-.ecosystem-quick span{display:block;margin-top:3px;font-size:10px;color:rgba(128,0,32,.58)}
-.ecosystem-quick .ecosystem-icon{width:38px;height:38px;display:grid;place-items:center}
-.ecosystem-quick .ecosystem-icon svg{width:21px;height:21px}
-
-/* Admin tables + panels */
+.ecosystem-quick span{color:#800020!important}
 table{color:#800020!important}
-th{color:#800020!important;background:rgba(252,97,143,.08)!important}
-td,th{border-color:rgba(128,0,32,.10)!important}
-.panel .card,.main .card{border:1px solid rgba(128,0,32,.10)!important}
+th{color:#FFFFFF!important;background:#800020!important}
+td,th{border-color:#800020!important}
 .metric strong,.kpi strong{color:#800020!important}
 .metric em{color:#FC618F!important}
-.side-note{background:rgba(252,97,143,.08)!important;color:rgba(128,0,32,.72)!important;border-color:rgba(128,0,32,.10)!important}
+#authIdentityBox{background:#FFFFFF!important;color:#800020!important;border-color:#800020!important}
+.order-msg{color:#800020!important}
 
-/* Preserve dark/neon auth artwork overlays where they explicitly exist. */
-.auth-neon,.auth-neon *{--mira-auth-preserve:1}
-.auth-neon{background:#0A0A12!important}
-.auth-neon .auth-neon-input,.auth-neon .auth-neon-code{color:#FFFFFF!important}
-.auth-neon .auth-neon-input::placeholder{color:rgba(255,255,255,.56)!important}
-
-@media(max-width:760px){
-  .ecosystem-quick{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .ecosystem-hero{padding:22px}
-  .ecosystem-hero h2{font-size:24px}
+/* Brand / auth artwork is palette-quantized without changing its geometry. */
+.auth-neon{background:#800020!important}
+.auth-neon-art,#art,#welcome img,.brand img,.auth-logo img{
+  filter:url('assets/mira-palette-filter.svg#palette')!important
 }
+.auth-neon .auth-neon-input,.auth-neon .auth-neon-code{background:#800020!important;color:#FFFFFF!important;border-color:#FC618F!important}
+.auth-neon .auth-neon-input::placeholder{color:#FFFFFF!important}
+.auth-neon-tabs{background:#800020!important;border-color:#FC618F!important}
+.auth-neon-tabs button{color:#FFFFFF!important}
+.auth-neon-tabs button.on{background:#FC618F!important;color:#FFFFFF!important}
+.auth-neon-primary{background:#FC618F!important;color:#FFFFFF!important}
+.auth-neon-text{color:#FFFFFF!important}
+.auth-neon-langs button{background:#800020!important;color:#FFFFFF!important;border-color:#FC618F!important}
 
-/* Favorite action on detail pages */
-.save{background:#FFFFFF!important;color:#800020!important;border:1px solid rgba(128,0,32,.14)!important;box-shadow:0 5px 15px rgba(128,0,32,.10)!important}
-.save svg{fill:transparent!important;stroke:currentColor!important}
-.save.saved{background:#FC618F!important;color:#FFFFFF!important;border-color:#FC618F!important}
-.save.saved svg{fill:currentColor!important}
+/* Strict UI color lock. */
+svg{color:inherit}
+::selection{background:#FC618F;color:#FFFFFF}
+@media(max-width:760px){.ecosystem-quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
