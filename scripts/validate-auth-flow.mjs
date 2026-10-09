@@ -153,3 +153,53 @@ for(const protectedPage of ['checkout','orders']){
 }
 console.log('PASS orders/checkout reject guest sessions and recover requested destination');
 
+
+
+async function simulateCallback(path,responseHandler){
+ const c=fakeContext(responseHandler,path);
+ c.history={replaceState:()=>{c.history.cleared=true}};
+ c.msg={textContent:''};
+ const html=read('docs/auth-callback.html');
+ const source=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean).at(-1);
+ vm.runInContext(source,c,{filename:'auth-callback-inline.js'});
+ await new Promise(resolve=>setImmediate(resolve));
+ return c;
+}
+{
+ const path='https://ahmedwaleed07.github.io/MIRA-App/auth-callback.html?next=orders.html#access_token='+encodeURIComponent(current)+'&refresh_token=refresh-good&expires_in=3600';
+ const c=await simulateCallback(path,async url=>{
+  if(url.includes('/rest/v1'))return response(200,[]);
+  if(url.endsWith('/auth/v1/user'))return response(200,{id:'member-1'});
+  throw Error('Unexpected endpoint '+url);
+ });
+ assert.equal(c.location.lastRedirect,'orders.html');
+ assert.equal(c.history.cleared,true);
+ assert.ok(c.localStorage.getItem('mira_customer_session'));
+ console.log('PASS email fragment link verifies Supabase identity, clears browser tokens and returns to requested MIRA page');
+}
+{
+ const url='https://ahmedwaleed07.github.io/MIRA-App/auth-callback.html?next=https%3A%2F%2Fevil.example%2Fsteal&token_hash=valid-hash&type=magiclink';
+ let request=null;
+ const c=await simulateCallback(url,async (path,options={})=>{
+  if(path.includes('/rest/v1'))return response(200,[]);
+  if(path.endsWith('/auth/v1/verify')){request=options;return response(200,fresh)}
+  if(path.endsWith('/auth/v1/user'))return response(200,{id:'member-1'});
+  throw Error('Unexpected endpoint '+path);
+ });
+ assert.deepEqual(plain(JSON.parse(request.body)),{token_hash:'valid-hash',type:'magiclink'});
+ assert.equal(c.location.lastRedirect,'home.html');
+ assert.equal(c.history.cleared,true);
+ console.log('PASS hashed email link verifies and unsafe external return destinations are blocked');
+}
+{
+ const path='https://ahmedwaleed07.github.io/MIRA-App/auth-callback.html?token_hash=invalid&type=magiclink';
+ const c=await simulateCallback(path,async url=>{
+  if(url.includes('/rest/v1'))return response(200,[]);
+  if(url.endsWith('/auth/v1/verify'))return response(403,{msg:'Expired'});
+  throw Error('Unexpected endpoint '+url);
+ });
+ assert.equal(c.location.lastRedirect,undefined);
+ assert.equal(c.localStorage.getItem('mira_customer_session'),null);
+ assert.ok(c.msg.textContent.includes('request a new'));
+ console.log('PASS expired magic links display an error without creating a login session');
+}
