@@ -1,0 +1,38 @@
+/* MIRA notification inbox: approved white, burgundy and pink only. */
+.mira-notification-page{background:#FFFFFF!important;color:#800020!important;font-family:Poppins,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.mira-notification-page .mira-notification-app{max-width:430px;min-height:100svh;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 18px calc(35px + env(safe-area-inset-bottom));background:#FFFFFF!important}
+.mira-notification-page .mira-notification-head{display:flex;gap:12px;justify-content:space-between;align-items:center}
+.mira-notification-page .mira-notification-head button{display:grid;place-items:center;border:1px solid #800020!important;background:#FFFFFF!important;color:#800020!important;width:40px;height:40px;border-radius:13px;font-size:20px}
+.mira-notification-page .mira-notification-head .brandmark{width:112px;height:35px;background:#FC618F!important;-webkit-mask:url("assets/mira_wordmark.svg") center/contain no-repeat;mask:url("assets/mira_wordmark.svg") center/contain no-repeat}
+.mira-notification-page .mira-notification-title{font-size:25px;font-weight:800;margin:22px 0 4px;color:#800020!important}
+.mira-notification-page .mira-notification-subtitle{font-size:12px;line-height:1.65;color:#800020!important;margin:0 0 17px}
+.mira-notification-page .mira-notification-actions{display:flex;align-items:center;justify-content:space-between;gap:9px;margin:16px 0}
+.mira-notification-page .mira-notification-count{font-size:12px;font-weight:800;color:#800020!important}
+.mira-notification-page .mira-notification-mark{border:1px solid #800020!important;background:#FFFFFF!important;color:#800020!important;border-radius:12px;padding:10px 12px;font:600 11px Poppins;cursor:pointer}
+.mira-notification-page .mira-notification-list{display:grid;gap:11px}
+.mira-notification-page .mira-notification-card{display:flex;gap:12px;align-items:start;text-align:start;width:100%;border:1px solid #800020!important;background:#FFFFFF!important;color:#800020!important;border-radius:19px;padding:14px;cursor:pointer;font:inherit;box-shadow:0 5px 17px rgba(128,0,32,.07)}
+.mira-notification-page .mira-notification-card.unread{border-color:#FC618F!important;border-width:2px}
+.mira-notification-page .mira-notification-glyph{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:#800020!important;color:#FFFFFF!important}
+.mira-notification-page .mira-notification-glyph svg{width:21px;height:21px;stroke:#FFFFFF!important;fill:none!important}
+.mira-notification-page .mira-notification-content{min-width:0;flex:1;display:grid;gap:5px}
+.mira-notification-page .mira-notification-card strong{font-size:12px;line-height:1.5;font-weight:800;color:#800020!important}
+.mira-notification-page .mira-notification-card small{font-size:10px;color:#800020!important}
+.mira-notification-page .mira-notification-card time{font-size:9px;color:#800020!important}
+.mira-notification-page .mira-notification-dot{width:9px;height:9px;border-radius:50%;background:#FC618F!important;flex:none;margin-top:6px}
+.mira-notification-page .mira-notification-empty{border:1px dashed #800020;border-radius:18px;text-align:center;padding:28px 16px;font-size:12px;line-height:1.8;color:#800020!important}
+.mira-notification-page .mira-notification-cta{display:block;margin:14px auto 0;padding:12px 20px;background:#800020!important;color:#FFFFFF!important;border:0;border-radius:13px;font:700 12px Poppins;cursor:pointer}
+.mira-top-actions{display:flex;align-items:center;gap:8px;min-width:0}
+.mira-top-actions .mira-notification-bell{flex:0 0 39px}
+button.mira-notification-bell{position:relative;display:inline-grid;place-items:center;width:39px;height:39px;padding:7px;border:1px solid #800020!important;border-radius:13px;background:#FFFFFF!important;color:#800020!important;cursor:pointer;box-shadow:none!important}
+button.mira-notification-bell svg{width:22px;height:22px;fill:none!important;stroke:#800020!important;stroke-width:1.9}
+.mira-notification-badge:not([hidden]){position:absolute;top:-5px;inset-inline-end:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#FC618F!important;color:#FFFFFF!important;border:1px solid #FFFFFF!important;font:800 10px Poppins;display:grid!important;place-items:center}
+.mira-notification-badge[hidden]{display:none!important}
+.mira-notification-page .mira-notification-error{font-size:11px;color:#800020!important;line-height:1.7}
+.mira-business-notifications{margin-top:14px;display:grid;gap:8px;padding:12px;border-radius:15px;background:#FFFFFF!important;color:#800020!important;border:1px solid #800020!important}
+.mira-business-notifications .mira-business-notification-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mira-business-notifications .mira-business-notification-head strong{font-size:13px;color:#800020!important}
+.mira-business-notifications .mira-business-notification-head button{border:1px solid #800020!important;background:#FFFFFF!important;color:#800020!important;border-radius:10px;padding:7px 9px;font:600 10px Poppins}
+.mira-business-notifications .mira-business-alert{border:1px solid #FC618F!important;border-radius:11px;background:#FFFFFF!important;color:#800020!important;padding:10px;font:600 11px Poppins;text-align:start;cursor:pointer}
+.mira-business-notifications .mira-business-alert small{display:block;margin-top:4px;font-size:9px;color:#800020!important}
+.mira-business-notifications .mira-business-empty{font-size:11px;color:#800020!important}
+@media(max-width:370px){.mira-top-actions .location{max-width:116px}}
