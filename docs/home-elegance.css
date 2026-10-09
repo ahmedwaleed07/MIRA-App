@@ -1,0 +1,108 @@
+/* Home-only editorial polish. Do not alter logos, fonts, actions, or other pages. */
+body.mira-home-elegance .app{
+  background:#FFFFFF!important;color:#800020!important;
+}
+body.mira-home-elegance .top{padding:6px 0 4px}
+body.mira-home-elegance #homeSearch{
+  min-height:56px;
+  padding:11px 14px!important;
+  border-radius:18px!important;
+  border:1px solid #800020!important;
+  background:#FFFFFF!important;
+  box-shadow:0 8px 22px #80002019!important;
+}
+body.mira-home-elegance #homeSearch:focus-within{
+  border-color:#800020!important;box-shadow:0 0 0 2px #FC618F!important
+}
+body.mira-home-elegance #homeSearch svg{color:#800020!important;stroke:#800020!important}
+body.mira-home-elegance #homeSearch input{
+  background:#FFFFFF!important;color:#800020!important
+}
+body.mira-home-elegance #homeSearch input::placeholder{color:#800020!important;opacity:.73}
+body.mira-home-elegance .home-editorial{
+  margin:18px 0 1px;padding:18px 19px 17px;
+  background:#FFFFFF!important;
+  border:1px solid #800020!important;border-radius:20px;
+  box-shadow:0 9px 25px #80002012;
+  display:flex;flex-direction:column;align-items:flex-start;
+  position:relative;overflow:hidden;text-align:start;
+}
+body.mira-home-elegance .home-editorial::before{
+  content:"";position:absolute;inset-block:16px;inset-inline-start:0;
+  width:4px;background:#800020;border-radius:0 4px 4px 0
+}
+body.mira-home-elegance .home-editorial-kicker{
+  color:#FC618F!important;font-size:10px;letter-spacing:.1em;font-weight:800
+}
+body.mira-home-elegance .home-editorial-title{
+  display:block;color:#800020!important;font-size:17px;font-weight:800;
+  letter-spacing:-.25px;line-height:1.4;margin-top:7px
+}
+body.mira-home-elegance .home-editorial-description{
+  color:#800020!important;opacity:.84;font-size:11px;line-height:1.6;
+  margin:5px 0 0
+}
+body.mira-home-elegance .section{margin-top:28px!important}
+body.mira-home-elegance .section-head{
+  align-items:center!important;gap:10px!important;margin-bottom:14px!important;
+  padding-inline-start:12px;border-inline-start:3px solid #800020;
+}
+body.mira-home-elegance .section-title{
+  color:#800020!important;font-size:19px;font-weight:800
+}
+body.mira-home-elegance .see{
+  color:#FC618F!important;font-weight:800;
+  background:#FFFFFF!important;border-radius:10px!important;
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card){
+  border:1px solid #800020!important;
+  border-radius:22px!important;
+  background:#FFFFFF!important;
+  box-shadow:0 12px 28px #80002019!important;
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card) :is(.body,.flash-body){
+  padding:16px!important;background:#FFFFFF!important;color:#800020!important
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card) h4{
+  color:#800020!important;line-height:1.5;font-weight:800
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card) :is(.body p,.mini){
+  color:#800020!important;opacity:.84;line-height:1.65
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card) :is(.cta,.badge,.chip,.paid){
+  background:#800020!important;color:#FFFFFF!important;
+  border-color:#800020!important;background-image:none!important
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card) .discount{
+  color:#800020!important
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card) .time{
+  background:#FFFFFF!important;color:#800020!important;border-color:#800020!important
+}
+body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card) .time :is(b,span){
+  color:#800020!important
+}
+body.mira-home-elegance #cats .cat{
+  background:#FFFFFF!important;color:#800020!important;
+  border:1px solid #800020!important;
+  box-shadow:0 6px 17px #8000200D!important
+}
+body.mira-home-elegance #cats .cat :is(.cat-icon,.cat-icon svg){
+  background:transparent!important;color:#800020!important
+}
+body.mira-home-elegance #cats .cat.sponsored::after{
+  background:#800020!important;color:#FFFFFF!important;background-image:none!important
+}
+@media(max-width:360px){
+ body.mira-home-elegance .home-editorial{padding:15px}
+ body.mira-home-elegance .home-editorial-title{font-size:15px}
+ body.mira-home-elegance .section-title{font-size:17px}
+}
+@media(prefers-reduced-motion:no-preference){
+ body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card){
+ transition:box-shadow .18s ease,border-color .18s ease
+ }
+ body.mira-home-elegance :is(.featured-card,.flash-card,.recent-card,.interest-card,.near-card):active{
+ box-shadow:0 5px 14px #80002022!important
+ }
+}
