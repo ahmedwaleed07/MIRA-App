@@ -145,3 +145,11 @@ assert.ok(callback.includes('MiraAuthFlow.safeReturn('));
 assert.ok(callback.includes("location.replace(destination)"));
 assert.ok(callback.includes("history.replaceState(null,'',location.pathname)"));
 console.log('PASS flow wiring, OTP state only after send, six-digit UI, resend rate guard and sanitized email callback');
+for(const protectedPage of ['checkout','orders']){
+ const html=read('docs/'+protectedPage+'.html');
+ assert.ok(html.includes('mira-auth-flow.js'),protectedPage+' must load shared guarded auth flow');
+ assert.ok(html.includes('await MiraAuthFlow.getVerifiedCustomer()'),protectedPage+' must verify stored session remotely');
+ assert.ok(html.includes("MiraAuthFlow.setReturn('"+protectedPage+".html')"),protectedPage+' must preserve deep-link destination');
+}
+console.log('PASS orders/checkout reject guest sessions and recover requested destination');
+
