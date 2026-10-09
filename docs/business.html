@@ -84,12 +84,32 @@ function renderOrders(){
  }).join('');
 }
 async function updateOrderStatus(id){
- const o=merchantOrders.find(x=>x.id===id);if(!o)return;
- const el=document.getElementById('status-'+id),status=el.value;
+ const o=merchantOrders.find(x=>x.id===id&&x.store_id===merchant?.storeId);
+ if(!o||!merchant?.storeId)return;
+ const el=document.getElementById('status-'+id),status=el?.value;
+ if(!Object.prototype.hasOwnProperty.call(ORDER_LABELS,status)){
+  alert('Invalid order status.');return;
+ }
+ if(status===o.status)return;
+ if(o._updating)return;
+ o._updating=true;
  try{
-  await MiraCloud.request('mira_orders?id=eq.'+encodeURIComponent(id),{method:'PATCH',requireAuth:true,headers:{Prefer:'return=minimal'},body:JSON.stringify({status,updated_at:new Date().toISOString()})});
-  o.status=status;renderOrders();
- }catch(e){alert(e.message||'Could not update order status.')}
+  const path='mira_orders?id=eq.'+encodeURIComponent(id)+'&store_id=eq.'+encodeURIComponent(merchant.storeId)+'&select=id,store_id,status,updated_at';
+  const rows=await MiraCloud.request(path,{
+   method:'PATCH',requireAuth:true,
+   headers:{Prefer:'return=representation'},
+   body:JSON.stringify({status})
+  });
+  const saved=Array.isArray(rows)?rows[0]:null;
+  if(rows.length!==1||String(saved?.id)!==String(id)||String(saved?.store_id)!==String(merchant.storeId)||saved.status!==status)
+   throw new Error('Order update was not confirmed by the server. Refresh orders and try again.');
+  o.status=saved.status;
+  o.updated_at=saved.updated_at||o.updated_at;
+  renderOrders();
+ }catch(e){
+  alert(e.message||'Could not update order status.');
+  await loadOrders();
+ }finally{o._updating=false}
 }
 window.updateOrderStatus=updateOrderStatus;
 refreshOrders.onclick=loadOrders;orderFilter.onchange=renderOrders;
