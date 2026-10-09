@@ -5,9 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#FC618F">
 <title>MIRA</title>
+<script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script>
 <script>
 const lang=localStorage.getItem('mira_lang')||'en';
-location.replace('welcome.html?lang='+encodeURIComponent(lang));
+const session=window.MiraCloud.session,identity=window.MiraCloud.payload();
+// Home is public. Server-side account checks remain required for orders, checkout, and notifications.
+// A remembered customer should not be sent through welcome and sign-in on every launch.
+if(session?.refresh_token&&identity?.role==='authenticated'&&identity?.sub){
+ location.replace('home.html');
+}else{
+ location.replace('welcome.html?lang='+encodeURIComponent(lang));
+}
 </script>
 </head>
 <body></body>
