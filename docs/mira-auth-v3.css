@@ -163,28 +163,28 @@ body.mira-auth-v3 :is(.welcome-panel,.sheet,.form-panel,.card){
  box-shadow:0 10px 33px #800020;
 }
 body.mira-auth-v3 .hero-brand{margin-top:clamp(4px,1svh,12px)}
-body.mira-auth-v3 .welcome-view .hero-brand{margin-top:clamp(8px,3svh,30px)}
+body.mira-auth-v3.welcome-view .hero-brand{margin-top:clamp(8px,3svh,30px)}
 body.mira-auth-v3 .welcome-panel{margin-top:clamp(12px,3svh,28px)}
 body.mira-auth-v3 :is(.sheet,.form-panel,.welcome-panel,.card){
  background:#800020;
 }
-body.mira-auth-v3 .signup-view .brand-lockup{
+body.mira-auth-v3.signup-view .brand-lockup{
  margin-top:0;margin-bottom:13px;
 }
-body.mira-auth-v3 .signup-view .app{padding-top:clamp(83px,10svh,115px)}
-body.mira-auth-v3 .signup-view .sheet{margin-top:0}
-body.mira-auth-v3 .signup-view .footer-brand{margin-top:22px}
-body.mira-auth-v3 .auth-view .form-panel{margin-top:clamp(5px,2svh,20px)}
-body.mira-auth-v3 .auth-view .auth-stage{gap:9px}
-body.mira-auth-v3 .otp-view .brand-lockup{margin:8px auto 18px}
-body.mira-auth-v3 .otp-view .hero{margin-top:6px}
-body.mira-auth-v3 .otp-view .card{margin:18px auto 0}
+body.mira-auth-v3.signup-view .app{padding-top:clamp(83px,10svh,115px)}
+body.mira-auth-v3.signup-view .sheet{margin-top:0}
+body.mira-auth-v3.signup-view .footer-brand{margin-top:22px}
+body.mira-auth-v3.auth-view .form-panel{margin-top:clamp(5px,2svh,20px)}
+body.mira-auth-v3.auth-view .auth-stage{gap:9px}
+body.mira-auth-v3.otp-view .brand-lockup{margin:8px auto 18px}
+body.mira-auth-v3.otp-view .hero{margin-top:6px}
+body.mira-auth-v3.otp-view .card{margin:18px auto 0}
 body.mira-auth-v3 .otp{gap:clamp(5px,1.4vw,9px)}
 body.mira-auth-v3 .otp input{
  min-width:0;max-width:100%;height:clamp(45px,12vw,58px);
  border-radius:13px;
 }
-body.mira-auth-v3 .otp-view .primary{background:#FC618F;color:#FFFFFF}
+body.mira-auth-v3.otp-view .primary{background:#FC618F;color:#FFFFFF}
 body.mira-auth-v3 :is(.input,.code,.select){
  background:#800020;color:#FFFFFF;
  border-color:#FFFFFF;
@@ -198,6 +198,6 @@ body.mira-auth-v3 .btn-white{color:#800020}
 }
 @media(max-height:740px){
  body.mira-auth-v3 :is(.app,.auth-screen){padding-top:70px;padding-bottom:90px}
- body.mira-auth-v3 .signup-view .app{padding-top:84px}
+ body.mira-auth-v3.signup-view .app{padding-top:84px}
  body.mira-auth-v3 :is(.brand-footer,.footer-brand){margin-top:18px}
 }
