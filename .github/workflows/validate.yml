@@ -25,6 +25,7 @@ jobs:
           node scripts/validate-notifications.mjs
           node scripts/validate-auth-ui.mjs
           node scripts/validate-auth-flow.mjs
+          node scripts/validate-remember-me.mjs
       - name: Validate required release files
         run: |
           test -f www/index.html
