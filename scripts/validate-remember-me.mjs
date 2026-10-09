@@ -123,7 +123,7 @@ console.log('PASS concurrent session checks rotate refresh tokens only once and 
  }};
  a.navigator={locks};b.navigator={locks};
  await Promise.all([a.MiraCloud.ensureFreshSession(),b.MiraCloud.ensureFreshSession()]);
- assert.equal(exchanges,1,'two tabs must share one Supabase refresh-token rotation: '+JSON.stringify({trace,stored:JSON.parse(shared.getItem('mira_customer_session'))?.refresh_token,first:a.MiraCloud.session?.refresh_token,second:b.MiraCloud.session?.refresh_token,navA:vm.runInContext('typeof navigator',a),navB:vm.runInContext('typeof navigator',b)}));
+ assert.equal(exchanges,1,'two tabs must share one Supabase refresh-token rotation: '+JSON.stringify({trace,stored:JSON.parse(shared.getItem('mira_customer_session'))?.refresh_token,first:a.MiraCloud.session?.refresh_token,second:b.MiraCloud.session?.refresh_token,navA:vm.runInContext('typeof navigator',a),navB:vm.runInContext('typeof navigator',b),lockA:vm.runInContext('typeof navigator.locks?.request',a),rememberA:a.MiraCloud.rememberMe(),rememberB:b.MiraCloud.rememberMe(),keyA:a.MiraCloud.sessionKey()}));
  assert.equal(a.MiraCloud.session.refresh_token,'after-rotation');
  assert.equal(b.MiraCloud.session.refresh_token,'after-rotation');
  assert.equal(JSON.parse(shared.getItem('mira_customer_session')).refresh_token,'after-rotation');
