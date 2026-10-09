@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#FC618F"><title>MIRA — OTP</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="mira-auth-v3.css?v=20261009-logo-fix-1">
-</head><body class="mira-auth-v3 otp-view"><main class="app"><div class="topbar"><button class="back" onclick="history.back()" aria-label="Back">‹</button></div><div class="brand-lockup" aria-label="MIRA"><img class="icon" src="assets/mira_icon_frameless.svg" alt=""><img class="wordmark" src="assets/mira_wordmark.svg" alt="MIRA"></div><section class="hero"><h1 id="title"></h1><p class="sub" id="subtitle"></p></section><section class="card"><div class="email-link-note" id="emailLinkNote"></div><div class="otp" id="otpInputs" aria-label="Six-digit verification code"><input maxlength="6" inputmode="numeric" autocomplete="one-time-code" aria-label="Verification code"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div><button class="primary" id="verifyBtn" onclick="verifyCode()"></button><div class="resend"><span id="noCode"></span> <button id="resendBtn" onclick="resendCode()"></button></div><div class="notice" id="notice"></div></section><nav class="languages" aria-label="Languages"><button data-lang="en" onclick="setLang('en')">English</button><button data-lang="ar" onclick="setLang('ar')">العربية</button><button data-lang="es" onclick="setLang('es')">Español</button><button data-lang="ru" onclick="setLang('ru')">Русский</button><button data-lang="tr" onclick="setLang('tr')">Türkçe</button></nav><footer class="brand-footer"><span class="partner-powered">Powered by</span><img class="partner-logo" src="assets/asas360_master_vector.svg?v=20261009-pdf-eagle-3" alt="ASAS 360°"></footer></main><script src="mira-cloud.js?v=20261007-0915"></script><script>const params=new URLSearchParams(location.search),via=params.get('via')||sessionStorage.getItem('mira_otp_via')||'phone',mode=params.get('mode')||sessionStorage.getItem('mira_otp_mode')||'signin';const T={en:{t:'Verify your account',p:'Enter the 6-digit code we sent to your phone.',e:'Check your email and open the MIRA sign-in link.',el:'No code is needed for email right now. Open the email from MIRA and tap the sign-in link. You will return to MIRA automatically.',v:'Verify & continue',n:"Didn't get the email?",r:'Resend',s:'A new sign-in email has been sent.',b:'Enter the complete 6-digit code.',o:'Verified. Continuing...'},ar:{t:'تأكيد الحساب',p:'اكتب الرمز المكوّن من 6 أرقام اللي أرسلناه إلى رقم هاتفك.',e:'افتح بريدك الإلكتروني واضغط رابط تسجيل الدخول الخاص بـ MIRA.',el:'حالياً التحقق بالإيميل يتم عن طريق الرابط، وما تحتاج تكتب كود من 6 أرقام. افتح رسالة MIRA واضغط رابط تسجيل الدخول، وراح ترجع إلى MIRA تلقائياً.',v:'تأكيد ومتابعة',n:'ما وصلتك الرسالة؟',r:'إعادة الإرسال',s:'تم إرسال رابط تسجيل دخول جديد.',b:'اكتب الرمز كامل من 6 أرقام.',o:'تم التحقق. جاري المتابعة...'},es:{t:'Verifica tu cuenta',p:'Introduce el código de 6 dígitos enviado a tu teléfono.',e:'Revisa tu correo y abre el enlace de inicio de sesión de MIRA.',el:'Ahora no necesitas un código para el correo. Abre el mensaje de MIRA y toca el enlace de inicio de sesión.',v:'Verificar y continuar',n:'¿No recibiste el correo?',r:'Reenviar',s:'Se envió un nuevo correo de acceso.',b:'Introduce el código completo de 6 dígitos.',o:'Verificado. Continuando...'},ru:{t:'Подтвердите аккаунт',p:'Введите 6-значный код, отправленный на ваш телефон.',e:'Проверьте почту и откройте ссылку входа MIRA.',el:'Для электронной почты код сейчас не нужен. Откройте письмо MIRA и нажмите ссылку входа.',v:'Подтвердить и продолжить',n:'Не получили письмо?',r:'Отправить снова',s:'Новое письмо для входа отправлено.',b:'Введите полный 6-значный код.',o:'Подтверждено. Продолжаем...'},tr:{t:'Hesabınızı doğrulayın',p:'Telefonunuza gönderilen 6 haneli kodu girin.',e:'E-postanızı kontrol edin ve MIRA giriş bağlantısını açın.',el:'E-posta için şu anda kod gerekmiyor. MIRA e-postasını açıp giriş bağlantısına dokunun.',v:'Doğrula ve devam et',n:'E-posta gelmedi mi?',r:'Tekrar gönder',s:'Yeni giriş e-postası gönderildi.',b:'6 haneli kodun tamamını girin.',o:'Doğrulandı. Devam ediliyor...'}};const inputs=[...document.querySelectorAll('.otp input')];
+</head><body class="mira-auth-v3 otp-view"><main class="app"><div class="topbar"><button class="back" onclick="history.back()" aria-label="Back">‹</button></div><div class="brand-lockup" aria-label="MIRA"><img class="icon" src="assets/mira_icon_frameless.svg" alt=""><img class="wordmark" src="assets/mira_wordmark.svg" alt="MIRA"></div><section class="hero"><h1 id="title"></h1><p class="sub" id="subtitle"></p></section><section class="card"><div class="email-link-note" id="emailLinkNote"></div><div class="otp" id="otpInputs" aria-label="Six-digit verification code"><input maxlength="6" inputmode="numeric" autocomplete="one-time-code" aria-label="Verification code"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div><button class="primary" id="verifyBtn" onclick="verifyCode()"></button><div class="resend"><span id="noCode"></span> <button id="resendBtn" onclick="resendCode()"></button></div><div class="notice" id="notice" role="status" aria-live="polite"></div></section><nav class="languages" aria-label="Languages"><button data-lang="en" onclick="setLang('en')">English</button><button data-lang="ar" onclick="setLang('ar')">العربية</button><button data-lang="es" onclick="setLang('es')">Español</button><button data-lang="ru" onclick="setLang('ru')">Русский</button><button data-lang="tr" onclick="setLang('tr')">Türkçe</button></nav><footer class="brand-footer"><span class="partner-powered">Powered by</span><img class="partner-logo" src="assets/asas360_master_vector.svg?v=20261009-pdf-eagle-3" alt="ASAS 360°"></footer></main><script src="mira-cloud.js?v=20261009-auth-refresh"></script><script src="mira-auth-flow.js?v=20261009-secure-1"></script><script>const params=new URLSearchParams(location.search),activePending=MiraAuthFlow.getPending(),via=activePending?.via||params.get('via')||'phone',mode=activePending?.mode||params.get('mode')||'signin';const T={en:{t:'Verify your account',p:'Enter the 6-digit code we sent to your phone.',e:'Check your email and open the MIRA sign-in link.',el:'No code is needed for email right now. Open the email from MIRA and tap the sign-in link. You will return to MIRA automatically.',v:'Verify & continue',n:"Didn't get the email?",r:'Resend',s:'A new sign-in email has been sent.',b:'Enter the complete 6-digit code.',o:'Verified. Continuing...'},ar:{t:'تأكيد الحساب',p:'اكتب الرمز المكوّن من 6 أرقام اللي أرسلناه إلى رقم هاتفك.',e:'افتح بريدك الإلكتروني واضغط رابط تسجيل الدخول الخاص بـ MIRA.',el:'حالياً التحقق بالإيميل يتم عن طريق الرابط، وما تحتاج تكتب كود من 6 أرقام. افتح رسالة MIRA واضغط رابط تسجيل الدخول، وراح ترجع إلى MIRA تلقائياً.',v:'تأكيد ومتابعة',n:'ما وصلتك الرسالة؟',r:'إعادة الإرسال',s:'تم إرسال رابط تسجيل دخول جديد.',b:'اكتب الرمز كامل من 6 أرقام.',o:'تم التحقق. جاري المتابعة...'},es:{t:'Verifica tu cuenta',p:'Introduce el código de 6 dígitos enviado a tu teléfono.',e:'Revisa tu correo y abre el enlace de inicio de sesión de MIRA.',el:'Ahora no necesitas un código para el correo. Abre el mensaje de MIRA y toca el enlace de inicio de sesión.',v:'Verificar y continuar',n:'¿No recibiste el correo?',r:'Reenviar',s:'Se envió un nuevo correo de acceso.',b:'Introduce el código completo de 6 dígitos.',o:'Verificado. Continuando...'},ru:{t:'Подтвердите аккаунт',p:'Введите 6-значный код, отправленный на ваш телефон.',e:'Проверьте почту и откройте ссылку входа MIRA.',el:'Для электронной почты код сейчас не нужен. Откройте письмо MIRA и нажмите ссылку входа.',v:'Подтвердить и продолжить',n:'Не получили письмо?',r:'Отправить снова',s:'Новое письмо для входа отправлено.',b:'Введите полный 6-значный код.',o:'Подтверждено. Продолжаем...'},tr:{t:'Hesabınızı doğrulayın',p:'Telefonunuza gönderilen 6 haneli kodu girin.',e:'E-postanızı kontrol edin ve MIRA giriş bağlantısını açın.',el:'E-posta için şu anda kod gerekmiyor. MIRA e-postasını açıp giriş bağlantısına dokunun.',v:'Doğrula ve devam et',n:'E-posta gelmedi mi?',r:'Tekrar gönder',s:'Yeni giriş e-postası gönderildi.',b:'6 haneli kodun tamamını girin.',o:'Doğrulandı. Devam ediliyor...'}};const inputs=[...document.querySelectorAll('.otp input')];
 function distributeOtp(start,text){
  const code=String(text||'').replace(/\D/g,'');
  if(!code)return;
@@ -27,37 +27,93 @@ inputs.forEach((x,i)=>{
  });
 });
 function getLang(){return localStorage.getItem('mira_lang')||'en'}function applyLang(l){const t=T[l]||T.en;document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';document.querySelectorAll('.languages button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));title.textContent=t.t;subtitle.textContent=via==='email'?t.e:t.p;verifyBtn.textContent=t.v;noCode.textContent=via==='email'?t.n:({ar:'ما وصلك رمز التأكيد؟',en:"Didn't receive the code?",es:'¿No recibiste el código?',ru:'Не пришёл код?',tr:'Kod gelmedi mi?'}[l]||t.n);resendBtn.textContent=t.r;if(via==='email'){emailLinkNote.style.display='block';emailLinkNote.innerHTML='<b>'+t.e+'</b>'+t.el;otpInputs.style.display='none';verifyBtn.style.display='none'}else{emailLinkNote.style.display='none';otpInputs.style.display='grid';verifyBtn.style.display='block'}}function setLang(l){localStorage.setItem('mira_lang',l);applyLang(l)}async function verifyCode(){
-    const t=T[getLang()]||T.en,c=inputs.map(i=>i.value).join('');if(c.length!==6){notice.textContent=t.b;return}
-    const target=sessionStorage.getItem('mira_otp_target')||'';if(!target){notice.textContent='Missing verification destination.';return}
-    notice.textContent=t.o;verifyBtn.disabled=true;
-    try{
-      await MiraCloud.verifyOtp(via==='email'?{email:target,token:c}:{phone:target,token:c});
-      if(mode==='signup'){try{const p=JSON.parse(sessionStorage.getItem('mira_signup_profile')||'{}');if(p.full_name)localStorage.setItem('mira_profile_name',p.full_name)}catch(_){}}
-      const ret=sessionStorage.getItem('mira_auth_return')||'';
-      ['mira_otp_via','mira_otp_target','mira_otp_mode','mira_signup_profile'].forEach(k=>sessionStorage.removeItem(k));
-      if(ret){sessionStorage.removeItem('mira_auth_return');location.href=ret}else location.href=mode==='signup'?'market.html':'home.html';
-    }catch(e){let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}notice.textContent=m;verifyBtn.disabled=false}
+ const t=T[getLang()]||T.en,c=inputs.map(i=>i.value).join('');
+ if(c.length!==6||!/^\d{6}$/.test(c)){notice.textContent=t.b;return}
+ const pending=MiraAuthFlow.getPending();
+ if(!pending||pending.via!==via||pending.mode!==mode){
+  notice.textContent=getLang()==='ar'?'انتهت صلاحية الطلب. ارجع واطلب رمز جديد.':'Verification request expired. Please start again.';
+  return;
+ }
+ notice.textContent=t.o;verifyBtn.disabled=true;
+ try{
+  await MiraCloud.verifyOtp(via==='email'?{email:pending.target,token:c}:{phone:pending.target,token:c});
+  if(mode==='signup'&&pending.profile?.full_name){
+   localStorage.setItem('mira_profile_name',pending.profile.full_name);
+   if(pending.profile.gender)localStorage.setItem('mira_profile_gender',pending.profile.gender);
+   if(pending.profile.date_of_birth)localStorage.setItem('mira_profile_dob',pending.profile.date_of_birth);
   }
-  async function resendCode(){const target=sessionStorage.getItem('mira_otp_target')||'',profile=JSON.parse(sessionStorage.getItem('mira_signup_profile')||'{}');try{let emailArgs=null;if(via==='email'){const cb=new URL('auth-callback.html',location.href);const next=localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||(mode==='signup'?'market.html':'home.html');cb.searchParams.set('next',next);emailArgs={email:target,createUser:mode==='signup',data:profile,redirectTo:cb.href}}await MiraCloud.startOtp(via==='email'?emailArgs:{phone:target,createUser:mode==='signup',data:profile});notice.textContent=via==='email'?(T[getLang()]||T.en).s:({ar:'تم إرسال رمز جديد إلى هاتفك.',en:'A new code has been sent to your phone.',es:'Se envió un nuevo código a tu teléfono.',ru:'Новый код отправлен на ваш телефон.',tr:'Telefonunuza yeni bir kod gönderildi.'}[getLang()]||'Code sent.')}catch(e){let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}notice.textContent=m}}function completedAuthDestination(){
-  try{
-    const raw=localStorage.getItem('mira_auth_complete');
-    if(raw){const x=JSON.parse(raw);if(x&&x.at&&Date.now()-Number(x.at)<10*60*1000)return x.returnTo||'home.html'}
-  }catch(_){}
-  return sessionStorage.getItem('mira_auth_return')||localStorage.getItem('mira_auth_return')||'home.html';
+  location.replace(MiraAuthFlow.finish('',mode==='signup'?'market.html':'home.html'));
+ }catch(e){
+  let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
+  notice.textContent=m;verifyBtn.disabled=false;
+ }
 }
-function customerSessionReady(){
-  try{const s=JSON.parse(localStorage.getItem('mira_customer_session')||'null');return !!(s&&s.access_token&&s.user&&s.user.id)}catch(_){return false}
+let lastResendAt=0;
+async function resendCode(){
+ const pending=MiraAuthFlow.getPending(),lang=getLang(),t=T[lang]||T.en;
+ if(!pending||pending.via!==via||pending.mode!==mode){
+  notice.textContent=lang==='ar'?'انتهت صلاحية الطلب. ابدأ من جديد.':'Verification request expired. Start again.';
+  return;
+ }
+ const now=Date.now();
+ if(lastResendAt&&now-lastResendAt<45000){
+  notice.textContent=lang==='ar'?'انتظر 45 ثانية بين طلبات الإرسال.':'Please wait 45 seconds before requesting another code.';
+  return;
+ }
+ resendBtn.disabled=true;
+ try{
+  let emailArgs=null;
+  if(via==='email'){
+   const cb=new URL('auth-callback.html',location.href);
+   cb.searchParams.set('next',MiraAuthFlow.getReturn(mode==='signup'?'market.html':'home.html'));
+   emailArgs={email:pending.target,createUser:mode==='signup',data:pending.profile||{},redirectTo:cb.href};
+  }
+  await MiraCloud.startOtp(via==='email'?emailArgs:{phone:pending.target,createUser:mode==='signup',data:pending.profile||{}});
+  lastResendAt=Date.now();
+  // Renew pending lifetime only after the new send succeeds.
+  MiraAuthFlow.setPending(pending);
+  notice.textContent=via==='email'?t.s:({ar:'تم إرسال رمز جديد إلى هاتفك.',en:'A new code has been sent to your phone.',es:'Se envió un nuevo código a tu teléfono.',ru:'Новый код отправлен на ваш телефон.',tr:'Telefonunuza yeni bir kod gönderildi.'}[lang]||'Code sent.');
+ }catch(e){
+  let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
+  notice.textContent=m;
+ }finally{resendBtn.disabled=false}
 }
-function continueIfVerified(){
-  if(!customerSessionReady())return false;
-  const dest=completedAuthDestination();
+function completedAuthDestination(){
+ try{
+  const raw=localStorage.getItem('mira_auth_complete');
+  if(!raw)return '';
+  const x=JSON.parse(raw);
+  if(!x?.at||Date.now()-Number(x.at)>10*60*1000){localStorage.removeItem('mira_auth_complete');return ''}
+  return MiraAuthFlow.safeReturn(x.returnTo||MiraAuthFlow.getReturn(),mode==='signup'?'market.html':'home.html');
+ }catch(_){localStorage.removeItem('mira_auth_complete');return ''}
+}
+let checkingSession=false;
+async function continueIfVerified(){
+ const dest=completedAuthDestination();
+ if(!dest||checkingSession)return false;
+ checkingSession=true;
+ try{
+  const user=await MiraAuthFlow.getVerifiedCustomer();
+  if(!user)return false;
   localStorage.removeItem('mira_auth_complete');
-  sessionStorage.removeItem('mira_auth_return');
-  localStorage.removeItem('mira_auth_return');
+  MiraAuthFlow.finish(dest,mode==='signup'?'market.html':'home.html');
   location.replace(dest);
   return true;
+ }catch(_){return false}
+ finally{checkingSession=false}
 }
-window.addEventListener('storage',e=>{if(e.key==='mira_customer_session'||e.key==='mira_auth_complete')continueIfVerified()});
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')continueIfVerified()});
-setInterval(continueIfVerified,1200);
-setLang((new URLSearchParams(location.search).get('lang')||getLang()));if(!continueIfVerified()&&via!=='email')inputs[0].focus();</script></body></html>
+window.addEventListener('storage',e=>{
+ if(e.key==='mira_customer_session'||e.key==='mira_auth_complete')void continueIfVerified();
+});
+document.addEventListener('visibilitychange',()=>{
+ if(document.visibilityState==='visible')void continueIfVerified();
+});
+window.addEventListener('pageshow',()=>void continueIfVerified());
+if(via==='email')setInterval(()=>void continueIfVerified(),4000);
+setLang((new URLSearchParams(location.search).get('lang')||getLang()));
+if(!activePending&&!completedAuthDestination()){
+ notice.textContent=getLang()==='ar'?'ماكو طلب تحقق صالح. ارجع وابدأ التسجيل من جديد.':'No valid verification request. Please start sign-in again.';
+ verifyBtn.disabled=true;resendBtn.disabled=true;
+}else if(via!=='email')inputs[0].focus();
+void continueIfVerified();
+</script></body></html>
