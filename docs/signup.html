@@ -28,9 +28,15 @@
   <div class="languages" aria-label="Languages"><button data-lang="tr" onclick="setLang('tr')">Türkçe</button><button data-lang="ru" onclick="setLang('ru')">Русский</button><button data-lang="es" onclick="setLang('es')">Español</button><button data-lang="en" onclick="setLang('en')">English</button><button data-lang="ar" onclick="setLang('ar')">العربية</button></div>
   <div class="footer-brand"><span class="partner-powered">Powered by</span><img class="partner-logo" src="assets/asas360_master_vector.svg?v=20261009-pdf-eagle-3" alt="ASAS 360°"></div>
 </main>
-<script src="mira-cloud.js?v=20261007-1620"></script><script>
-const authReturn=new URLSearchParams(location.search).get("return")||sessionStorage.getItem("mira_auth_return")||"";if(authReturn){sessionStorage.setItem("mira_auth_return",authReturn);localStorage.setItem("mira_auth_return",authReturn)}
-(()=>{const p=MiraCloud.payload();if(p&&p.role==='authenticated'&&p.sub){sessionStorage.setItem('mira_existing_session_checked','1');const ret=localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||'home.html';localStorage.removeItem('mira_auth_return');sessionStorage.removeItem('mira_auth_return');location.replace(ret)}})();
+<script src="mira-cloud.js?v=20261009-auth-refresh"></script><script src="mira-auth-flow.js?v=20261009-secure-1"></script><script>
+const requestedReturn=new URLSearchParams(location.search).get('return');
+if(requestedReturn)MiraAuthFlow.setReturn(requestedReturn);
+(async()=>{
+ try{
+  const user=await MiraAuthFlow.getVerifiedCustomer();
+  if(user){sessionStorage.setItem('mira_existing_session_checked','1');location.replace(MiraAuthFlow.finish('', 'home.html'))}
+ }catch(e){console.warn('MIRA customer session could not be verified:',e.message)}
+})();
 const elName=document.getElementById('name'),elGender=document.getElementById('gender'),elDobDay=document.getElementById('dobDay'),elDobMonth=document.getElementById('dobMonth'),elDobYear=document.getElementById('dobYear'),elPhone=document.getElementById('phone'),elEmail=document.getElementById('email'),elCode=document.getElementById('code'),elContinue=document.getElementById('continueBtn');
 for(let i=1;i<=31;i++){dobDay.innerHTML+=`<option value="${i}">${i}</option>`;}const monthsEn=['Month','January','February','March','April','May','June','July','August','September','October','November','December'];for(let i=1;i<monthsEn.length;i++){dobMonth.innerHTML+=`<option value="${i}">${monthsEn[i]}</option>`;}const currentYear=new Date().getFullYear();for(let y=currentYear;y>=1940;y--){dobYear.innerHTML+=`<option value="${y}">${y}</option>`;}
 let currentMethod='phone';function showTab(which){currentMethod=which;const phone=which==='phone';document.getElementById('phonePanel').classList.toggle('active',phone);document.getElementById('emailPanel').classList.toggle('active',!phone);document.getElementById('phoneTab').classList.toggle('active',phone);document.getElementById('emailTab').classList.toggle('active',!phone);} 
@@ -39,38 +45,39 @@ function refillMonths(lang){const t=T[lang]||T.en;const current=dobMonth.value;d
 function refillGender(lang){const t=T[lang]||T.en;const current=gender.value;gender.innerHTML=`<option value="">${t.genderPh}</option><option value="male">${t.male}</option><option value="female">${t.female}</option><option value="prefer_not">${t.prefer}</option>`;if(current) gender.value=current;}
 function setLang(lang){localStorage.setItem('mira_lang',lang);document.querySelectorAll('.languages button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));const t=T[lang]||T.en;const rtl=lang==='ar';document.documentElement.lang=lang;document.documentElement.dir=rtl?'rtl':'ltr';title.textContent=t.title;subtitle.textContent=t.subtitle;nameLabel.textContent=t.name;elName.placeholder=t.namePh;genderLabel.textContent=t.gender;dobLabel.textContent=t.dob;phoneTab.textContent=t.phone;emailTab.textContent=t.email;phoneLabel.textContent=t.phoneLabel;emailLabel.textContent=t.emailLabel;continueBtn.textContent=t.continue;privacy.textContent=t.privacy;bottom.innerHTML=t.bottom;document.querySelector('#dobDay option').textContent=t.day;document.querySelector('#dobYear option').textContent=t.year;refillMonths(lang);refillGender(lang);} 
 async function continueSignup(){
-    const t=T[document.documentElement.lang||'en'];
-    try{
-      const nameVal=elName.value.trim();
-      if(!nameVal){alert(t.alertName);return}
-      if(!elGender.value){alert(t.alertGender);return}
-      if(!elDobDay.value||!elDobMonth.value||!elDobYear.value){alert(t.alertDob);return}
-      const value=currentMethod==='phone'?elPhone.value.trim():elEmail.value.trim();
-      if(!value){alert(currentMethod==='phone'?t.alertPhone:t.alertEmail);return}
-      let target='';
-      if(currentMethod==='email')target=value.toLowerCase();
-      else{
-        const cc=(elCode.value.match(/\+\d+/)||['+964'])[0];
-        let local=value.replace(/\D/g,'');
-        if(local.startsWith('0'))local=local.slice(1);
-        target=cc+local;
-      }
-      const profile={full_name:nameVal,gender:elGender.value,date_of_birth:elDobYear.value+'-'+String(elDobMonth.value).padStart(2,'0')+'-'+String(elDobDay.value).padStart(2,'0')};
-      elContinue.disabled=true;const oldText=elContinue.textContent;elContinue.textContent='…';
-      sessionStorage.setItem('mira_otp_via',currentMethod);
-      sessionStorage.setItem('mira_otp_target',target);
-      sessionStorage.setItem('mira_otp_mode','signup');
-      sessionStorage.setItem('mira_signup_profile',JSON.stringify(profile));
-      const cb=new URL('auth-callback.html',location.href);const next=localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||'market.html';cb.searchParams.set('next',next);const callback=cb.href;await MiraCloud.startOtp(currentMethod==='email'?{email:target,createUser:true,data:profile,redirectTo:callback}:{phone:target,createUser:true,data:profile});
-      location.href='otp.html?mode=signup&via='+encodeURIComponent(currentMethod);
-    }catch(e){
-      let m=e&&e.message?e.message:String(e||'Sign up failed.');
-      try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
-      if(/Unsupported phone provider/i.test(m)){const lang=localStorage.getItem('mira_lang')||'en';m=lang==='ar'?'إنشاء حساب برقم الهاتف يحتاج تفعيل خدمة رسائل SMS في MIRA. استخدم الإيميل حالياً أو فعّل مزود SMS.':'Phone sign-up requires an SMS provider to be configured for MIRA. Use email for now or enable an SMS provider.'}if(/email rate limit exceeded|over_email_send_rate_limit|rate limit/i.test(m)){const lang=localStorage.getItem('mira_lang')||'en';m=lang==='ar'?'تم إرسال عدد كبير من رسائل التحقق حالياً. إذا كنت فتحت رابط التحقق السابق بنجاح، ارجع إلى MIRA وسوِّ تحديث. وإذا لا، انتظر إلى أن يسمح Supabase بإرسال رسالة جديدة.':'Too many verification emails were sent. If you already opened the previous verification link successfully, return to MIRA and refresh. Otherwise wait until Supabase allows another email.'}alert(m);
-      elContinue.disabled=false;
-      elContinue.textContent=(T[document.documentElement.lang||'en']||T.en).continue;
-    }
-  }
+ const t=T[document.documentElement.lang||'en']||T.en;
+ const nameVal=elName.value.trim();
+ if(!nameVal||nameVal.length>150){alert(t.alertName);return}
+ if(!elGender.value){alert(t.alertGender);return}
+ const day=Number(elDobDay.value),month=Number(elDobMonth.value),year=Number(elDobYear.value);
+ const date=new Date(Date.UTC(year,month-1,day));
+ const validDate=Boolean(year&&month&&day&&date.getUTCFullYear()===year&&date.getUTCMonth()===month-1&&date.getUTCDate()===day&&date.getTime()<=Date.now());
+ if(!validDate){alert(t.alertDob);return}
+ const target=currentMethod==='phone'
+  ?MiraAuthFlow.normalizePhone(elCode.value,elPhone.value)
+  :MiraAuthFlow.validEmail(elEmail.value);
+ if(!target){alert(currentMethod==='phone'?t.alertPhone:t.alertEmail);return}
+ const profile={full_name:nameVal,gender:elGender.value,date_of_birth:String(year).padStart(4,'0')+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0')};
+ const btn=elContinue,oldText=btn.textContent;
+ btn.disabled=true;btn.textContent='…';
+ try{
+  const callback=new URL('auth-callback.html',location.href);
+  callback.searchParams.set('next',MiraAuthFlow.getReturn('market.html'));
+  await MiraCloud.startOtp(currentMethod==='email'
+   ?{email:target,createUser:true,data:profile,redirectTo:callback.href}
+   :{phone:target,createUser:true,data:profile});
+  MiraAuthFlow.setPending({via:currentMethod,mode:'signup',target,profile});
+  location.href='otp.html?mode=signup&via='+encodeURIComponent(currentMethod);
+ }catch(e){
+  let m=e?.message||String(e||'Sign up failed.');
+  try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
+  if(/Unsupported phone provider/i.test(m))
+   m=(localStorage.getItem('mira_lang')==='ar')?'خدمة رسائل SMS مو مفعّلة بعد. استخدم الإيميل حالياً.':'SMS verification is not configured yet. Use email for now.';
+  else if(/rate limit|over_email_send_rate_limit/i.test(m))
+   m=(localStorage.getItem('mira_lang')==='ar')?'وصلت حد إرسال رموز التأكيد. انتظر شوي قبل إعادة المحاولة.':'Verification rate limit reached. Please wait before trying again.';
+  alert(m);btn.disabled=false;btn.textContent=oldText;
+ }
+}
 setLang(localStorage.getItem('mira_lang')||'en');
 (()=>{
  const method=sessionStorage.getItem('mira_prefill_method'),value=sessionStorage.getItem('mira_prefill_value'),cc=sessionStorage.getItem('mira_prefill_code');
