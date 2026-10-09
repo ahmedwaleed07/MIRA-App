@@ -28,4 +28,7 @@ function applyLang(code){
 const requested=new URLSearchParams(location.search).get('lang');
 applyLang(i18n[requested]?requested:(localStorage.getItem('mira_lang')||'ar'));
 document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{applyLang(b.dataset.lang);history.replaceState(null,'','welcome.html?lang='+encodeURIComponent(b.dataset.lang));}));
+</script><script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script><script>
+const remembered=window.MiraCloud.session,claim=window.MiraCloud.payload();
+if(remembered?.refresh_token&&claim?.role==='authenticated'&&claim?.sub)location.replace('home.html');
 </script></body></html>
