@@ -42,11 +42,37 @@ window.MiraCloud={
   token(){return this.session&&this.session.access_token?this.session.access_token:window.MIRA_SUPABASE.key},
   payload(){try{const t=this.session&&this.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}},
   requireAuth(){const p=this.payload();if(!p||p.role!=='authenticated'||!p.sub)throw new Error('Authenticated Supabase session required. Please sign out and sign in again.');return p},
+  // Store a session only after its returned JWT is checked.
+  acceptSession(data){
+    if(!data||typeof data.access_token!=='string'||!data.refresh_token)throw new Error('The authentication service did not return a complete session.');
+    const previous=this.session;
+    this.session=data;
+    const p=this.payload();
+    if(!p||p.role!=='authenticated'||!p.sub){
+      this.session=previous;
+      throw new Error('The authentication service returned an invalid session.');
+    }
+    this.saveSession();
+    return this.session;
+  },
+  async getCurrentUser(){
+    if(!this.session?.access_token)return null;
+    const c=window.MIRA_SUPABASE;
+    let response;
+    try{response=await fetch(c.url+'/auth/v1/user',{headers:{apikey:c.key,Authorization:'Bearer '+this.session.access_token}})}
+    catch(_){throw new Error('Could not reach the authentication service. Please check your connection.')}
+    if(response.status===401||response.status===403){this.signOut();return null}
+    if(!response.ok)throw new Error('Could not verify your account. Please try again.');
+    const user=await response.json(),p=this.payload();
+    if(!user?.id||!p?.sub||user.id!==p.sub){this.signOut();return null}
+    if(!this.session.user||this.session.user.id!==user.id){this.session.user=user;this.saveSession()}
+    return user;
+  },
   async signIn(email,password){
     const c=window.MIRA_SUPABASE;
     const r=await fetch(c.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
     if(!r.ok)throw new Error(await r.text());
-    this.session=await r.json();this.saveSession();return this.session;
+    this.acceptSession(await r.json());return this.session;
   },
   async startOtp({email='',phone='',createUser=false,data={},redirectTo=''}={}){
     const c=window.MIRA_SUPABASE;
@@ -61,7 +87,7 @@ window.MiraCloud={
     const body=email?{email,token,type:'email'}:{phone,token,type:'sms'};
     const r=await fetch(c.url+'/auth/v1/verify',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok)throw new Error(await r.text());
-    this.session=await r.json();this.saveSession();return this.session;
+    this.acceptSession(await r.json());return this.session;
   },
   signOut(){
     this.session=null;
@@ -78,10 +104,18 @@ window.MiraCloud={
       }
       throw new Error('Could not reach the login service. Please try again.');
     }
-    this.session=await r.json();this.saveSession();return this.session;
+    this.acceptSession(await r.json());return this.session;
   },
-  tokenExpired(skewSeconds=30){const p=this.payload();return !!(p&&p.exp&&Date.now()/1000>=Number(p.exp)-skewSeconds)},
-  async ensureFreshSession(){if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();return this.session},
+  tokenExpired(skewSeconds=30){
+    if(!this.session?.access_token)return false;
+    const p=this.payload();
+    const expiration=Number(p?.exp||this.session.expires_at||0);
+    return !expiration||Date.now()/1000>=expiration-skewSeconds;
+  },
+  async ensureFreshSession(){
+    if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();
+    return this.session;
+  },
   async request(path,options={}){
     const c=window.MIRA_SUPABASE;
     const requireAuth=!!options.requireAuth;
