@@ -53,7 +53,7 @@ function plain(x){return JSON.parse(JSON.stringify(x))}
  const c=fakeContext(),h=c.MiraAuthFlow;
  assert.equal(h.safeReturn('checkout.html?from=cart'),'checkout.html?from=cart');
  assert.equal(h.safeReturn('/MIRA-App/orders.html'),'orders.html');
- for(const unsafe of ['https://evil.example/checkout.html','//evil.example/checkout.html','javascript:alert(1)','../admin.html','admin.html','business.html','https://ahmedwaleed07.github.io/other/checkout.html','%2e%2e/checkout.html','\checkout.html'])
+ for(const unsafe of ['https://evil.example/checkout.html','//evil.example/checkout.html','javascript:alert(1)','../admin.html','admin.html','business.html','https://ahmedwaleed07.github.io/other/checkout.html','%2e%2e/checkout.html',String.fromCharCode(92)+'checkout.html'])
   assert.equal(h.safeReturn(unsafe),'home.html',unsafe);
  assert.equal(h.validEmail('  User@Example.COM '),'user@example.com');
  assert.equal(h.validEmail('not-an-email'),'');
