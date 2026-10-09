@@ -20,6 +20,7 @@ jobs:
           node scripts/validate-merchant-session.mjs
           node scripts/validate-order-flow.mjs
           node scripts/validate-auth-ui.mjs
+          node scripts/validate-auth-flow.mjs
       - name: Validate required release files
         run: |
           test -f www/index.html
