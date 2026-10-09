@@ -177,7 +177,7 @@ for(const page of ['signin','signup']){
  assert.ok(html.includes('customerRememberMe.addEventListener('),page+' must save toggled preference');
  for(const translated of ['Remember Me','تذكرني','Recordarme','Запомнить меня','Beni hatırla'])
   assert.ok(html.includes(translated),page+' missing localization '+translated);
- assert.ok(html.includes('mira-cloud.js?v=20261009-customer-remember-2'),page+' must not use stale session implementation');
+ assert.ok(html.includes('mira-cloud.js?v=20261009-cross-tab-remember-1'),page+' must not use stale session implementation');
 }
 const profile=read('profile.html');
 assert.ok(profile.includes('customerSignOutBtn')&&profile.includes('MiraCloud.signOut()'),'remembered accounts require sign out');

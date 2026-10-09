@@ -84,7 +84,7 @@ body{display:flex;justify-content:center}
     </div>
   </div>
 </main>
-<script src="mira-cloud.js?v=20261009-customer-remember-2"></script><script>
+<script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script><script>
 const authReturn=new URLSearchParams(location.search).get("return")||sessionStorage.getItem("mira_auth_return")||"";if(authReturn){sessionStorage.setItem("mira_auth_return",authReturn);localStorage.setItem("mira_auth_return",authReturn)}
 (()=>{const p=MiraCloud.payload();if(p&&p.role==='authenticated'&&p.sub){sessionStorage.setItem('mira_existing_session_checked','1');const ret=localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||'home.html';localStorage.removeItem('mira_auth_return');sessionStorage.removeItem('mira_auth_return');location.replace(ret)}})();
 function showTab(which){const phone=which==='phone';document.getElementById('authApp').classList.toggle('phone-mode',phone);document.getElementById('authApp').classList.toggle('email-mode',!phone);document.getElementById('phonePanel').classList.toggle('active',phone);document.getElementById('emailPanel').classList.toggle('active',!phone);document.getElementById('phoneTab').classList.toggle('active',phone);document.getElementById('emailTab').classList.toggle('active',!phone);} 
