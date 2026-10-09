@@ -1,49 +1,30 @@
-# MIRA Customer → Merchant Order Integration
+# MIRA Customer → Merchant orders — production status
 
-The web checkout, direct offer checkout, merchant dashboard and My Orders tracking all use `public.mira_orders`.
+The live Supabase project is `xjspokwtikefpgwczehp`. The production `public.mira_orders` table already existed before these changes and contains customer orders; the client pages rely on this table.
 
-## Current source changes
+## Production schema — IMPORTANT
 
-- `docs/cart.html` always routes checkout through the authenticated customer gate. Guest browsing and cart storage remain intact.
-- `docs/checkout.html` verifies the customer's session with Supabase before ordering and splits multi-store carts into one order per store.
-- `docs/offer.html` verifies the customer session for direct orders and blocks double submission.
-- `docs/business.html` limits status updates to the current store and trusts **only** the status acknowledged in a database response.
-- `docs/orders.html` retrieves only the authenticated customer's orders and refreshes while the page is visible.
-- `scripts/validate-order-flow.mjs` uses mocked requests to exercise customer checkout, partial-send recovery, merchant update and customer tracking.
-- `scripts/validate-order-contract.mjs` checks the same table/columns and access-control contract across these files and the SQL migration.
+**Do not apply `supabase/migrations/20261009_mira_web_orders_contract.sql` to the existing MIRA production database.** That earlier draft describes a fresh-instance table and differs from the live schema, particularly nullable fields and the existing foreign key; attempting to overlay it is not the approved deployment path.
 
-## Supabase database migration — action required
+The correct additive migration was deployed on 2026-10-09:
 
-**The GitHub repository does not deploy SQL migrations to Supabase automatically.** Confirm which Supabase project powers MIRA, inspect the existing `public.mira_orders` table and **all existing RLS policies**, and then apply:
+`supabase/migrations/20261009_mira_live_order_status_history.sql`
 
-`supabase/migrations/20261009_mira_web_orders_contract.sql`
+It left existing `mira_orders` data, RLS policies and `mira_merchants` assignments intact. It created the `mira_order_status_history` table, an AFTER INSERT/UPDATE OF status trigger, a safe SELECT policy limited to authorized order participants via the existing `mira_orders` RLS, and an initial event for the existing order.
 
-Prerequisite: `public.mira_merchants` must exist with `user_id` and `store_id` fields. Its assignments must reflect MIRA Business users. The migration deliberately fails if it cannot find this table. The older `orders` / `order_items` tables are a **separate schema** and are not deleted, modified or automatically synchronized.
+## Verified in UI and automated tests
 
-If `mira_orders` is already in production, review its exact schema and any permissive policies before running the migration. The new policies do **not** automatically remove other pre-existing policies. Do not rely on client-side filters to protect customer addresses.
+- Guest shopping/cart remains available. Before checkout, the customer signs in.
+- Multi-merchant carts create one order per merchant and keep unsubmitted items if an operation fails.
+- Direct offer ordering requires a verified customer account and prevents accidental repeated clicks.
+- Merchant status updates are limited to their assigned store and require server acknowledgement.
+- Customer My Orders displays current merchant status.
+- Automatic in-app customer notifications can read historic status events after app reopen.
 
-Useful checks in the Supabase SQL Editor:
+`scripts/validate-order-flow.mjs`, `scripts/validate-order-contract.mjs`, and `scripts/validate-notifications.mjs` provide mocked end-to-end and contract regression tests.
 
-```sql
-select table_name
-from information_schema.tables
-where table_schema='public' and table_name in ('mira_orders','mira_merchants','mira_order_status_history');
+## Remaining acceptance checks
 
-select tablename,policyname,cmd,roles,qual,with_check
-from pg_policies
-where schemaname='public' and tablename in ('mira_orders','mira_order_status_history')
-order by tablename,policyname;
-```
+Sign in as a real **test** customer, place orders from two approved test stores, inspect both merchants' lists, change status in Business, refresh My Orders and the Notifications inbox, and confirm unauthorized customer or merchant access fails against the **live REST API**.
 
-## Final live smoke test (test users only)
-
-1. Create a customer and sign in. Browse as a guest first, add an offer to the cart, and verify the cart remains intact when asked to sign in at checkout.
-2. Use two approved test merchants with working `mira_merchants` assignments. Place an order with offers from both stores. Confirm two separate orders appear, with the customer's name, primary and backup numbers, governorate, area, address and optional note.
-3. Sign into Merchant A. Confirm Merchant A sees its order, **not** Merchant B's. Update status from `new` to `accepted`.
-4. Return to the customer account → My Orders, refresh and confirm `accepted` is shown with the correct order.
-5. From Merchant B, attempt to update Merchant A's order: the database must reject it, return no confirmed row, and the UI must show an error rather than claiming success.
-6. Sign in as an unrelated customer, query the first customer's orders directly via the REST API and verify RLS rejects/returns no records.
-7. Verify the status audit row exists and current order data cannot be overwritten by a status-update request.
-8. Test a network interruption after sending the first store's order. Confirm only the unsent merchant remains in the local cart. Before retrying an ambiguous network failure, inspect My Orders to avoid a duplicate.
-
-**Limitations before production:** Frontend-driven order prices are not trusted payment totals. Implement server-side catalog/price validation and an idempotency key when adding online payments. Current tests simulate the API; they cannot prove SMS delivery, live database RLS enforcement or a merchant notification until Supabase is connected and test accounts are available.
+This is not proof of background phone push, inventory controls or payment-grade pricing. Confirm catalog prices on the server and add idempotency before accepting online payments. No customer order was created, changed or deleted by the schema migration/permission tests.
