@@ -56,3 +56,5 @@ button.mira-notification-bell svg{width:22px;height:22px;fill:none!important;str
 .mira-admin-notifications .mira-admin-history-item{border:1px solid #800020;border-radius:12px;padding:12px;background:#FFFFFF;color:#800020;font:500 11px Poppins}
 .mira-admin-notifications .mira-admin-history-item b{display:block;margin-bottom:3px}
 @media(max-width:650px){.mira-admin-notifications .mira-admin-notification-form{grid-template-columns:1fr}.mira-admin-notifications .mira-admin-field.wide{grid-column:1}}
+
+.mira-admin-notifications [hidden]{display:none!important}
