@@ -201,3 +201,47 @@ body.mira-auth-v3 .btn-white{color:#800020}
  body.mira-auth-v3.signup-view .app{padding-top:84px}
  body.mira-auth-v3 :is(.brand-footer,.footer-brand){margin-top:18px}
 }
+
+
+/* V5: fix white Welcome CTA, crisp official ASAS logo and browser-safe footer */
+body.mira-auth-v3 #welcomeSignin.btn.btn-white,
+body.mira-auth-v3 #welcomeSignin.btn.btn-white:hover,
+body.mira-auth-v3 #welcomeSignin.btn.btn-white:focus-visible{
+ background:#FFFFFF!important;color:#800020!important;border-color:#FFFFFF!important;
+}
+body.mira-auth-v3 :is(.brand-footer,.footer-brand){
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ flex-direction:row!important;direction:ltr!important;gap:9px!important;
+ height:62px!important;min-height:62px!important;flex:0 0 62px!important;
+ margin:clamp(17px,3svh,31px) auto 0!important;padding:0!important;
+ background:transparent!important;
+}
+body.mira-auth-v3 :is(.brand-footer,.footer-brand) span.partner-powered{
+ font:500 clamp(11px,2.8vw,13px) "Poppins",sans-serif;
+ display:block;flex:0 0 auto;color:#FFFFFF!important;
+ white-space:nowrap;opacity:1!important;
+}
+body.mira-auth-v3 :is(.brand-footer,.footer-brand) img.partner-logo{
+ display:block!important;
+ width:clamp(174px,53vw,226px)!important;max-width:66%!important;
+ height:auto!important;max-height:60px!important;
+ flex:0 1 auto!important;object-fit:contain!important;
+ filter:none!important;opacity:1!important;
+}
+body.mira-auth-v3.signup-view .app{
+ padding-top:clamp(74px,8.5svh,96px)!important;
+ padding-bottom:max(150px,calc(env(safe-area-inset-bottom) + 125px))!important;
+}
+body.mira-auth-v3.signup-view .brand-lockup{margin-top:0!important;margin-bottom:8px!important}
+body.mira-auth-v3.signup-view .sheet{padding:clamp(17px,4vw,23px)!important}
+body.mira-auth-v3.signup-view .languages{margin-top:14px!important}
+body.mira-auth-v3.signup-view .footer-brand{margin-top:17px!important}
+body.mira-auth-v3:not(.signup-view) :is(.app,.auth-screen){
+ padding-bottom:max(114px,calc(env(safe-area-inset-bottom) + 96px))!important;
+}
+body.mira-auth-v3 .otp-view .otp input{direction:ltr}
+@media(max-width:360px){
+ body.mira-auth-v3 :is(.brand-footer,.footer-brand){gap:6px!important}
+ body.mira-auth-v3 :is(.brand-footer,.footer-brand) img.partner-logo{width:clamp(165px,53vw,205px)!important}
+ body.mira-auth-v3 :is(.brand-footer,.footer-brand) span.partner-powered{font-size:11px}
+}
