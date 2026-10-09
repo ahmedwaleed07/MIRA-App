@@ -72,6 +72,28 @@ function observe(role,owner,rows){
  }
  return state.items;
 }
+function observeHistory(owner,rows,customerOrders){
+ if(!Array.isArray(rows))throw Error('Order status history response must be an array');
+ const allowed=new Set(customerOrders.map(o=>String(o.id)));
+ const state=read('customer',owner);
+ let changed=false;
+ for(const entry of rows.slice(0,200)){
+  if(!entry?.id||!entry.order_id||!STATUS.has(entry.status)||!allowed.has(String(entry.order_id)))continue;
+  if(!validTime({created_at:entry.created_at}))continue;
+  const id='order-status:'+String(entry.id),orderId=String(entry.order_id),status=entry.status;
+  const matching=state.items.find(item=>item.id===id);
+  if(matching)continue;
+  const legacy=state.items.find(item=>item.kind==='automatic'&&item.orderId===orderId&&item.status===status&&item.id.startsWith(orderId+':'));
+  state.items=state.items.filter(item=>item!==legacy);
+  state.items.unshift({id,orderId,status,kind:'automatic',at:entry.created_at,read:legacy?.read||false});
+  changed=true;
+ }
+ if(changed){
+  state.items.sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  write('customer',owner,state);
+ }
+ return state.items;
+}
 function observeManual(owner,rows,market){
  if(!Array.isArray(rows))throw Error('Manual messages must come from Supabase');
  const state=read('customer',owner);
@@ -110,13 +132,39 @@ function safeDestination(raw){
 }
 function list(role,owner){return read(role,owner).items}
 function unread(role,owner){return list(role,owner).filter(n=>!n.read).length}
+async function persistRead(owner,keys){
+ const cloud=window.MiraCloud,p=cloud?.payload?.();
+ if(!cloud?.session?.access_token||String(p?.sub)!==String(owner)||p.role!=='authenticated')return false;
+ const valid=keys.filter(id=>typeof id==='string'&&id.length>0&&id.length<=180).slice(0,100);
+ if(!valid.length)return true;
+ await cloud.request('mira_notification_reads?on_conflict=user_id,event_key',{
+  method:'POST',requireAuth:true,keepalive:true,
+  headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
+  body:JSON.stringify(valid.map(event_key=>({user_id:owner,event_key})))
+ });
+ return true;
+}
+async function syncReadReceipts(owner){
+ const cloud=window.MiraCloud;
+ const records=await cloud.request('mira_notification_reads?user_id=eq.'+encodeURIComponent(owner)+'&select=event_key&order=read_at.desc&limit=250',{requireAuth:true});
+ const remote=new Set(records.filter(r=>typeof r.event_key==='string').map(r=>r.event_key));
+ const state=read('customer',owner);
+ let changed=false;
+ for(const item of state.items){
+  if(remote.has(item.id)&&!item.read){item.read=true;changed=true}
+ }
+ if(changed)write('customer',owner,state);
+ const pending=state.items.filter(item=>item.read&&!remote.has(item.id)).map(item=>item.id);
+ if(pending.length)await persistRead(owner,pending);
+ return true;
+}
 function markRead(role,owner,id){
  const state=read(role,owner),item=state.items.find(n=>n.id===id);
- if(item&&!item.read){item.read=true;write(role,owner,state)}
+ if(item&&!item.read){item.read=true;write(role,owner,state);if(role==='customer')void persistRead(owner,[item.id]).catch(e=>console.warn('Notification read sync will retry:',e.message))}
 }
 function markAllRead(role,owner){
  const state=read(role,owner);
- if(state.items.some(n=>!n.read)){state.items.forEach(n=>n.read=true);write(role,owner,state)}
+ if(state.items.some(n=>!n.read)){const pending=state.items.filter(n=>!n.read).map(n=>n.id);state.items.forEach(n=>n.read=true);write(role,owner,state);if(role==='customer')void persistRead(owner,pending).catch(e=>console.warn('Notification read sync will retry:',e.message))}
 }
 function language(){const l=localStorage.getItem('mira_lang')||'en';return TEXT[l]||TEXT.en}
 function label(n){const t=language();return n.kind==='manual'?n.title:n.kind==='merchantNew'?t.merchantNew:(t[n.status]||t.new)}
@@ -141,12 +189,22 @@ async function syncCustomer(){
  const owner=String(p.sub);
  const result=await cloud.request('mira_orders?customer_user_id=eq.'+encodeURIComponent(owner)+'&select=id,status,created_at,updated_at&order=created_at.desc&limit=100',{requireAuth:true});
  observe('customer',owner,result);
+ let historyError=null;
+ try{
+  const history=await cloud.request('mira_order_status_history?select=id,order_id,status,created_at&order=created_at.desc&limit=100',{requireAuth:true});
+  observeHistory(owner,history,result);
+ }catch(e){historyError=e;console.warn('MIRA status history unavailable:',e.message)}
  let manualError=null;
  try{
-  const manual=await cloud.request('mira_manual_notifications?select=id,title,body,audience,market_code,recipient_user_id,destination,published_at,expires_at&order=published_at.desc&limit=100',{requireAuth:true});
-  observeManual(owner,manual,localStorage.getItem('mira_market')||'IQ');
+  const market=String(localStorage.getItem('mira_market')||'IQ').toUpperCase();
+  const selectors='or=(audience.eq.all,and(audience.eq.market,market_code.eq.'+encodeURIComponent(market)+'),and(audience.eq.user,recipient_user_id.eq.'+encodeURIComponent(owner)+'))';
+  const manual=await cloud.request('mira_manual_notifications?'+selectors+'&select=id,title,body,audience,market_code,recipient_user_id,destination,published_at,expires_at&order=published_at.desc&limit=100',{requireAuth:true});
+  observeManual(owner,manual,market);
  }catch(e){manualError=e;console.warn('MIRA manual notifications unavailable:',e.message)}
- return {owner,count:unread('customer',owner),items:list('customer',owner),manualError};
+ let readsError=null;
+ try{await syncReadReceipts(owner)}
+ catch(e){readsError=e;console.warn('MIRA cross-device read receipts unavailable:',e.message)}
+ return {owner,count:unread('customer',owner),items:list('customer',owner),manualError,historyError,readsError};
 }
 async function watchCustomer({interval=30000,onUpdate}={}){
  let active=false;
@@ -164,5 +222,5 @@ async function watchCustomer({interval=30000,onUpdate}={}){
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void sync()});
  return ()=>clearInterval(timer);
 }
-window.MiraNotifications={observe,observeManual,list,unread,markRead,markAllRead,label,orderLabel,updateBadges,safeDestination,syncCustomer,watchCustomer};
+window.MiraNotifications={observe,observeHistory,observeManual,list,unread,markRead,markAllRead,label,orderLabel,updateBadges,safeDestination,syncCustomer,syncReadReceipts,watchCustomer};
 })();
