@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#FC618F">
+<title>MIRA — Notifications</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2">
+<link rel="stylesheet" href="mira-notifications.css?v=20261009-notification-2"></head>
+<body class="mira-notification-page"><main class="mira-notification-app">
+ <header class="mira-notification-head">
+  <button type="button" onclick="location.href='home.html'" aria-label="Back">‹</button>
+  <div class="brandmark" aria-label="MIRA"></div>
+  <button id="refreshNotifications" type="button" aria-label="Refresh">↻</button>
+ </header>
+ <h1 class="mira-notification-title" id="notificationTitle"></h1>
+ <p class="mira-notification-subtitle" id="notificationSubtitle"></p>
+ <div class="mira-notification-actions">
+  <span class="mira-notification-count" id="notificationCount"></span>
+  <button class="mira-notification-mark" id="markAll" type="button"></button>
+ </div>
+ <div class="mira-notification-tabs" id="notificationTabs" role="group" aria-label="Notification types">
+  <button class="active" data-filter="all" type="button"></button>
+  <button data-filter="automatic" type="button"></button>
+  <button data-filter="manual" type="button"></button>
+ </div>
+ <div class="mira-notification-error" id="notificationError" role="status"></div>
+ <div class="mira-notification-list" id="notificationList" aria-live="polite"></div>
+</main>
+<script src="mira-cloud.js?v=20261009-auth-refresh"></script>
+<script src="mira-auth-flow.js?v=20261009-notification-return-1"></script>
+<script src="mira-notifications.js?v=20261009-notification-2"></script>
+<script>
+const I18N={
+ en:{title:'Notifications',sub:'Your order updates and messages selected by MIRA.',all:'All',auto:'Automatic',manual:'From MIRA',read:'Mark all as read',unread:'unread',empty:'Nothing here yet. New order updates and MIRA messages will appear here.',retry:'Could not update notifications. Pull to refresh or try again.',manualErr:'MIRA messages are temporarily unavailable.',login:'Sign in to read your private notifications.'},
+ ar:{title:'الإشعارات',sub:'تحديثات طلباتك التلقائية والرسائل اللي تختارها إدارة MIRA.',all:'الكل',auto:'تلقائية',manual:'من MIRA',read:'تحديد الكل كمقروء',unread:'غير مقروء',empty:'ماكو إشعارات حالياً. تحديثات الطلبات ورسائل MIRA تظهر هنا.',retry:'تعذّر تحديث الإشعارات. حاول مرة ثانية.',manualErr:'رسائل MIRA مو متاحة مؤقتاً.',login:'سجّل دخولك حتى تشوف إشعاراتك الخاصة.'},
+ es:{title:'Notificaciones',sub:'Actualizaciones de pedidos y mensajes elegidos por MIRA.',all:'Todas',auto:'Automáticas',manual:'De MIRA',read:'Marcar todas como leídas',unread:'sin leer',empty:'No hay notificaciones por ahora.',retry:'No se pudieron actualizar las notificaciones.',manualErr:'Los mensajes de MIRA no están disponibles temporalmente.',login:'Inicia sesión para ver tus notificaciones.'},
+ ru:{title:'Уведомления',sub:'Обновления заказов и сообщения от MIRA.',all:'Все',auto:'Автоматические',manual:'От MIRA',read:'Прочитать все',unread:'непрочитанных',empty:'Уведомлений пока нет.',retry:'Не удалось обновить уведомления.',manualErr:'Сообщения MIRA временно недоступны.',login:'Войдите, чтобы увидеть уведомления.'},
+ tr:{title:'Bildirimler',sub:'Sipariş güncellemelerin ve MIRA mesajların.',all:'Tümü',auto:'Otomatik',manual:'MIRA’dan',read:'Tümünü okundu işaretle',unread:'okunmamış',empty:'Henüz bildirim yok.',retry:'Bildirimler güncellenemedi.',manualErr:'MIRA mesajlarına geçici olarak ulaşılamıyor.',login:'Bildirimlerinizi görmek için giriş yapın.'}
+};
+const lang=localStorage.getItem('mira_lang')||'en',t=I18N[lang]||I18N.en;
+document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+notificationTitle.textContent=t.title;notificationSubtitle.textContent=t.sub;markAll.textContent=t.read;
+const filterLabels={all:t.all,automatic:t.auto,manual:t.manual};
+document.querySelectorAll('[data-filter]').forEach(b=>b.textContent=filterLabels[b.dataset.filter]);
+let owner='',items=[],activeFilter='all',syncing=false;
+function escapeText(value){
+ return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function formatTime(time){
+ try{return new Intl.DateTimeFormat(lang==='ar'?'ar-IQ':lang,{dateStyle:'medium',timeStyle:'short'}).format(new Date(time))}
+ catch(_){return ''}
+}
+function render(){
+ const filtered=items.filter(n=>activeFilter==='all'||(activeFilter==='automatic'&&n.kind!=='manual')||(activeFilter==='manual'&&n.kind==='manual'));
+ const count=owner?MiraNotifications.unread('customer',owner):0;
+ notificationCount.textContent=count+' '+t.unread;
+ markAll.disabled=!count;
+ if(!filtered.length){
+  notificationList.innerHTML='<div class="mira-notification-empty">'+escapeText(t.empty)+'</div>';
+  return;
+ }
+ notificationList.innerHTML=filtered.map(n=>{
+  const glyph=n.kind==='manual'?'<path d="M4 11v4M8 9l9-4v14l-9-4H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2zM9 16l2 5"/>':'<rect x="4" y="6" width="16" height="15" rx="2"/><path d="M8 6V3h8v3M8 11h8M8 15h6"/>';
+  const detail=n.kind==='manual'?escapeText(n.body):escapeText(MiraNotifications.orderLabel(n));
+  return '<button class="mira-notification-card'+(n.read?'':' unread')+'" type="button" data-notification-id="'+escapeText(n.id)+'">'+
+   '<span class="mira-notification-glyph"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+glyph+'</svg></span>'+
+   '<span class="mira-notification-content"><strong>'+escapeText(MiraNotifications.label(n))+'</strong><small>'+detail+'</small><time>'+escapeText(formatTime(n.at))+'</time></span>'+
+   (n.read?'':'<span class="mira-notification-dot" aria-hidden="true"></span>')+'</button>';
+ }).join('');
+}
+function report(error,kind){
+ if(!error){notificationError.textContent='';return}
+ notificationError.textContent=kind==='manual'?t.manualErr:t.retry;
+ console.warn('MIRA notification sync:',error.message||error);
+}
+async function sync(){
+ if(syncing||!owner||document.visibilityState==='hidden')return;
+ syncing=true;
+ try{
+  const state=await MiraNotifications.syncCustomer();
+  if(!state)return;
+  items=state.items;
+  report(state.manualError,state.manualError?'manual':'general');
+  render();
+ }catch(e){report(e);render()}
+ finally{syncing=false}
+}
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{
+ activeFilter=b.dataset.filter;
+ document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));
+ render();
+});
+notificationList.onclick=e=>{
+ const b=e.target.closest('[data-notification-id]');
+ if(!b)return;
+ const n=items.find(x=>x.id===b.dataset.notificationId);
+ if(!n)return;
+ MiraNotifications.markRead('customer',owner,n.id);
+ if(n.kind==='manual')location.href=MiraNotifications.safeDestination(n.destination);
+ else location.href='orders.html';
+};
+markAll.onclick=()=>{if(!owner)return;MiraNotifications.markAllRead('customer',owner);items=MiraNotifications.list('customer',owner);render()};
+refreshNotifications.onclick=sync;
+window.addEventListener('mira-notifications-changed',()=>{if(owner){items=MiraNotifications.list('customer',owner);render()}});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void sync()});
+(async()=>{
+ try{
+  const user=await MiraAuthFlow.getVerifiedCustomer();
+  if(!user){
+   MiraAuthFlow.setReturn('notifications.html');
+   location.replace('signin.html?return=notifications.html');
+   return;
+  }
+  owner=String(user.id);
+  items=MiraNotifications.list('customer',owner);
+  render();await sync();
+  setInterval(sync,30000);
+ }catch(e){
+  notificationError.textContent=t.retry;
+  console.warn(e);
+ }
+})();
+</script></body></html>
