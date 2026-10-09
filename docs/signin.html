@@ -28,12 +28,12 @@ if(authReturn)MiraAuthFlow.setReturn(authReturn);
 function showTab(which){const phone=which==='phone';document.getElementById('authApp').classList.toggle('phone-mode',phone);document.getElementById('authApp').classList.toggle('email-mode',!phone);document.getElementById('phonePanel').classList.toggle('active',phone);document.getElementById('emailPanel').classList.toggle('active',!phone);document.getElementById('phoneTab').classList.toggle('active',phone);document.getElementById('emailTab').classList.toggle('active',!phone);} 
 async function goOtp(type){
  const t=T[document.documentElement.lang||'en']||T.en;
- const val=(type==='phone'?phone.value:email.value).trim();
+ const val=(type==='phone'?document.getElementById('phone').value:document.getElementById('email').value).trim();
  const target=type==='email'
   ?MiraAuthFlow.validEmail(val)
-  :MiraAuthFlow.normalizePhone(code.value,val);
+  :MiraAuthFlow.normalizePhone(document.getElementById('code').value,val);
  if(!target){alert(type==='phone'?t.alertPhone:t.alertEmail);return}
- const btn=type==='phone'?continuePhone:continueEmail;
+ const btn=document.getElementById(type==='phone'?'continuePhone':'continueEmail');
  const oldText=btn.textContent;btn.disabled=true;btn.textContent='…';
  try{
   const callback=new URL('auth-callback.html',location.href);
@@ -48,7 +48,7 @@ async function goOtp(type){
   if(/Signups not allowed for otp|user not found|user not registered/i.test(m)){
    sessionStorage.setItem('mira_prefill_method',type);
    sessionStorage.setItem('mira_prefill_value',val);
-   if(type==='phone')sessionStorage.setItem('mira_prefill_code',code.value);
+   if(type==='phone')sessionStorage.setItem('mira_prefill_code',document.getElementById('code').value);
    const lang=localStorage.getItem('mira_lang')||'en';
    alert(lang==='ar'?'هذا الحساب مو مسجل بعد. راح نفتح إنشاء حساب.':'This account is not registered yet. Please create an account.');
    location.href='signup.html?return='+encodeURIComponent(MiraAuthFlow.getReturn('market.html'));
