@@ -90,9 +90,8 @@ const concurrent=browser('signin.html',storage(),storage(),async url=>{
  throw Error('Unexpected network request '+url);
 });
 concurrent.MiraCloud.acceptSession({...goodSession,access_token:makeJWT(Math.floor(Date.now()/1000)+35)});
-const [customer1,customer2]=await Promise.all([
- concurrent.MiraCloud.getCurrentUser(),concurrent.MiraCloud.getCurrentUser()
-]);
+const verified=async()=>{await concurrent.MiraCloud.ensureFreshSession();return concurrent.MiraCloud.getCurrentUser()};
+const [customer1,customer2]=await Promise.all([verified(),verified()]);
 assert.equal(customer1.id,'test-customer');
 assert.equal(customer2.id,'test-customer');
 assert.equal(refreshCount,1,'concurrent session users must share one refresh-token exchange');
