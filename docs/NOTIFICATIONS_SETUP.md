@@ -1,42 +1,47 @@
-# MIRA Notifications — two customer channels
+# MIRA Notifications — customer delivery and setup
 
-This feature supports **in-app** notifications:
+The MIRA inbox supports **two customer channels**, with a branded Home bell and an unread count:
 
-1. **Automatic**: order received, confirmed, preparing, shipped, out for delivery, delivered, cancelled. Customer notifications are generated from **their own** \`mira_orders\` events and shown in their own MIRA inbox. MIRA Business also alerts a merchant about newly received customer orders.
-2. **Selected by MIRA**: Admin writes a subject and message, optionally chooses an internal destination, then targets **all customers**, **a MIRA shopping country**, or **one customer by Supabase Auth UUID**.
+1. **Automatic:** customer order receipt, confirmation, preparation, shipment, out for delivery, delivery and cancellation; new-order alerts also appear in Business.
+2. **MIRA-curated:** authorized administrators compose a title, message and optional internal MIRA link for all customers, a shopping country or a specific customer's Supabase Auth UUID.
 
-## Screens and client logic
+Customer UI: `docs/notifications.html` with All / Automatic / From MIRA tabs and five languages. Admin UI: `docs/admin.html`, Notifications panel.
 
-- Customer inbox: \`docs/notifications.html\` (five languages), tabs **All / Automatic / From MIRA**.
-- Home: bell and unread count; Profile: Notifications row.
-- Admin: Notifications panel with audience, title, body, link and recently published history.
-- Merchant: New order alerts next to Orders.
-- JavaScript: \`docs/mira-notifications.js\` (customer/merchant account-scoped inbox, polling and read flags) and \`docs/mira-admin-notifications.js\` (publisher allow-list check and composer).
+The notifications system uses authenticated Supabase requests, and preserves each account's local notification cache. If its database tables are deployed, automatic events also replay from the server's `mira_order_status_history`, and read/unread flags sync between the customer's devices through `mira_notification_reads`. If a migration is missing, the UI falls back to local state and logs the unavailable feature.
 
-The unread/read state is currently saved to **this device/browser for the authenticated account**, not synced across multiple devices.
+## Activate the live backend
 
-## Activate on Supabase (required before sending manual notifications)
+**GitHub Pages deployment never applies Supabase migrations.** Connect the correct MIRA Supabase project with privileged admin access, inspect existing table definitions and policies, then carefully apply these migrations:
 
-**GitHub Pages does not execute database SQL migrations.** Supabase needs a trusted admin connection.
+- `supabase/migrations/20261009_mira_web_orders_contract.sql` — orders, merchant membership gate and server-generated status-event history. Check prerequisites and audit existing policies first.
+- `supabase/migrations/20261009_mira_manual_notifications.sql` — admin-approved manual notices and recipient targeting.
+- `supabase/migrations/20261009_mira_notification_reads.sql` — private read receipts for cross-device synchronization.
 
-1. Confirm you are operating on MIRA's correct Supabase project, then review existing tables and policies.
-2. Apply \`supabase/migrations/20261009_mira_manual_notifications.sql\` in the Supabase SQL Editor.
-3. Grant the designated Admin *Supabase Auth UUID* access using the SQL Editor with privileges, **not** the browser or publishable API key:
+Grant notification-publisher access to the designated **trusted Supabase Auth UUID**, using the Supabase SQL Editor with privileged access — never through the client/publishable key:
 
-   \`\`\`sql
-   insert into public.mira_notification_admins(user_id)
-   values ('REPLACE-WITH-TRUSTED-ADMIN-UUID')
-   on conflict (user_id) do nothing;
-   \`\`\`
+```sql
+insert into public.mira_notification_admins (user_id)
+values ('REPLACE-WITH-TRUSTED-ADMIN-UUID')
+on conflict (user_id) do nothing;
+```
 
-4. Login to \`admin.html\` with that user, open **Notifications**, compose a test to one customer ID, then check \`notifications.html\` while signed in as that customer.
-5. Test a broadcast and a country-specific notification, then test that another customer cannot see the personal message; inspect REST RLS and allowed publishers.
-6. Confirm the deployed \`public.mira_orders\` schema/RLS is healthy so order-state notifications load. See \`ORDER_BACKEND_SETUP.md\`.
+The Admin UI checks the same server-backed allow-list at publication time. Other customers and merchants must not be allowed to insert manual notifications or grant publisher membership.
 
-Publishing permissions are enforced **in the database**, not only by hiding Admin controls. The market filter is intentionally based on the customer's selected shopping country, which can change. Do not include sensitive information in a country-targeted announcement. For private notices use a recipient UUID.
+Country-targeted messages are filtered by the customer's *selected shopping market*, which is a changeable preference, not a verified country. Do not send confidential content in country-wide notices. For private notices use the customer's UUID.
 
-**Important:** This is in-app delivery while the MIRA website/app is active, or when the user next opens it. Background push to a locked phone (APNs/FCM/Web Push) is **not active**; it requires production server push, signed push tokens, customer permission prompts, secure per-device registrations and delivery/error handling. Do not promise device push from the in-app inbox.
+## Actual acceptance test
 
-## CI
+1. Sign into a verified customer account, submit a **test** checkout order, and confirm a new automatic notification appears.
+2. Update its status from the associated authorized merchant Business account. Verify the customer receives a new alert without duplicating prior events.
+3. Using a trusted MIRA Admin account, send a notice to one test customer's UUID and check that only that customer can see the notice.
+4. Send an all-customer notice, and then a shopping-country-targeted notice. Switch the customer's market to check audience filtering.
+5. Mark a notification read on Device A, open the same customer account on Device B, and verify the read state synchronizes.
+6. Sign into another customer account and test that Supabase RLS prevents access to the first customer's private order notifications or read receipts.
+7. Check `mira_notification_admins` and `mira_manual_notifications` access with a merchant account; unauthorized publishing must fail on the server.
+8. Test offline and restoration; local notifications should remain and server events sync on reopening.
 
-\`node scripts/validate-notifications.mjs\` checks duplicate prevention, account separation, market and individual targeting, read state, allowed links, merchant alerts, RLS statements and authenticated API calls.
+**In-app delivery only:** These notifications appear while MIRA is open or next opened. Device-level background push to a locked phone is **not configured**. Native APNs/FCM or Web Push would additionally require secure device registration, delivery provider credentials, opt-in permissions and a server-side sender. Never claim push is active based on the inbox alone.
+
+## Automated checks
+
+Run `node scripts/validate-notifications.mjs`, plus the repository's `MIRA Validation` workflow. Checks cover automatic history replay, manual targeting, duplicate avoidance, account isolation, read syncing, destination safety, SQL policy requirements and authenticated requests. Mock checks do **not** replace the real Supabase acceptance test.
