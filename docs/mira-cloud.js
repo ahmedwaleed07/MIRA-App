@@ -252,4 +252,11 @@ window.MiraCloud={
   }
 };
 window.MiraCloud.loadSession();
+// Keep remembered tabs in sync: signing out in one tab signs out its peers.
+if(typeof window.addEventListener==='function')window.addEventListener('storage',event=>{
+  const cloud=window.MiraCloud;
+  if(event.key!==cloud.sessionKey()||!cloud.rememberMe())return;
+  if(!event.newValue){cloud.session=null;return}
+  cloud.syncRememberedSession();
+});
 window.MiraCloud.syncTaxonomy().catch(e=>console.warn('MIRA taxonomy sync failed',e));
