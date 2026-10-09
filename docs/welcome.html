@@ -1,111 +1,31 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#FC618F">
-<title>MIRA</title>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:#FC618F}
-body{display:flex;justify-content:center;align-items:flex-start;min-height:100svh;overflow:hidden}
-.screen{position:relative;width:min(100vw,430px);aspect-ratio:9/16;max-height:100svh;overflow:hidden;background:#FC618F;touch-action:manipulation}
-.art{filter:url('assets/mira-palette-filter.svg#palette');position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none}
-.hot{position:absolute;display:block;border:0;background:transparent;padding:0;margin:0;touch-action:manipulation;cursor:pointer}
-.lang{top:2.6%;height:6%;z-index:50}
-.en{left:5%;width:19%}.ar{left:23.5%;width:19%}.es{left:42.5%;width:18.5%}.ru{left:60.5%;width:19%}.tr{left:79%;width:16%}
-/* Measured directly from the 9:16 welcome artwork. CTA zones never overlap. */
-.signin{left:9.5%;width:81%;top:63.7%;height:6.9%;z-index:30}
-.signup{left:9.5%;width:81%;top:71.7%;height:6.9%;z-index:40}
-.guest{left:18%;width:64%;top:80.5%;height:5.8%;z-index:35}
-
-
-/* Adaptive welcome presentation. Exact artwork and its tap zones stay together
-   in a 9:16 stage; the backdrop fills tall iPhone viewports without cropping art. */
-html,body{min-height:100%;min-height:100svh}
-body{
-  display:flex;align-items:center;justify-content:center;
-  min-height:100svh;overflow:hidden;background:#FC618F
-}
-.screen{
-  position:relative;isolation:isolate;
-  width:min(100vw,430px);height:100svh;min-height:100svh;
-  max-height:none;aspect-ratio:auto;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;background:#FC618F
-}
-.screen::before{
-  content:"";position:absolute;inset:-30px;z-index:-2;
-  background-color:#FC618F;
-  background-image:var(--welcome-art,none);
-  background-position:center;background-size:cover;background-repeat:no-repeat;
-  filter:blur(28px) saturate(.75) brightness(.96);
-  transform:scale(1.1);opacity:.64;pointer-events:none
-}
-.screen::after{
-  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(180deg,#FC618F 0%,transparent 18%,transparent 76%,#FC618F 100%);
-  opacity:.24
-}
-.welcome-art-stage{
-  position:relative;flex:0 0 auto;
-  width:min(100%,52svh);
-  aspect-ratio:9/16;
-  height:auto;max-height:100%;
-  overflow:hidden;
-}
-.welcome-art-stage .art{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:fill;display:block;pointer-events:none;
-  filter:none!important
-}
-.welcome-art-stage .hot{position:absolute}
-.welcome-art-stage .hot:focus-visible{
-  outline:2px solid #FFFFFF;outline-offset:1px;border-radius:14px
-}
-@media(max-height:590px){
-  .welcome-art-stage{width:min(100%,54svh)}
-}
-@media(prefers-reduced-motion:reduce){
-  .screen::before{filter:blur(28px) saturate(.75)}
-}
-
-</style>
-</head>
-<body>
-<main class="screen" id="welcomeScreen">
-  <div class="welcome-art-stage">
-  <img id="art" class="art" alt="MIRA welcome" draggable="false">
-
-  <button class="hot lang en" type="button" data-lang="en" aria-label="English"></button>
-  <button class="hot lang ar" type="button" data-lang="ar" aria-label="العربية"></button>
-  <button class="hot lang es" type="button" data-lang="es" aria-label="Español"></button>
-  <button class="hot lang ru" type="button" data-lang="ru" aria-label="Русский"></button>
-  <button class="hot lang tr" type="button" data-lang="tr" aria-label="Türkçe"></button>
-
-  <a class="hot signin" href="signin.html" aria-label="Sign In"></a>
-  <a class="hot signup" href="signup.html" aria-label="Sign Up"></a>
-  <a class="hot guest" href="market.html" aria-label="Continue as Guest"></a>
-  </div>
-</main>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#800020"><title>MIRA — Welcome</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="mira-auth-v3.css?v=20261009-interactive-1"></head>
+<body class="mira-auth-v3 welcome-view">
+<main class="auth-screen"><nav class="languages" aria-label="Languages"><button type="button" data-lang="en">English</button><button type="button" data-lang="ar">العربية</button><button type="button" data-lang="es">Español</button><button type="button" data-lang="ru">Русский</button><button type="button" data-lang="tr">Türkçe</button></nav><div class="hero-brand" aria-label="MIRA"><img class="icon" src="assets/mira_icon.svg" alt=""><img class="wordmark" src="assets/mira_wordmark.svg" alt="MIRA"></div>
+<section class="welcome-panel"><h1 id="welcomeTitle">عروض طوال السنة</h1><p id="welcomeSubtitle">اكتشف عروضاً صُممت لك، أينما كنت.</p>
+<nav class="welcome-actions"><a class="btn btn-white" href="signin.html" id="welcomeSignin">تسجيل الدخول ←</a><a class="btn btn-wine" href="signup.html" id="welcomeSignup">إنشاء حساب ←</a><div class="or-row" id="welcomeOr">أو</div><a class="btn btn-outline" href="market.html" id="welcomeGuest">المتابعة كضيف ←</a></nav></section>
+<footer class="brand-footer"><img src="assets/asas_footer.svg" alt="Powered by ASAS 360°"></footer></main>
 <script>
-const images={en:'assets/welcome-en.png',ar:'assets/welcome-ar.png',es:'assets/welcome-es.png',ru:'assets/welcome-ru.png',tr:'assets/welcome-tr.png'};
-const q=new URLSearchParams(location.search);
-let lang=images[q.get('lang')]?q.get('lang'):(localStorage.getItem('mira_lang')||'en');
+const i18n={
+ ar:{title:'عروض طوال السنة',sub:'اكتشف عروضاً صُممت لك، أينما كنت.',signin:'تسجيل الدخول',signup:'إنشاء حساب',guest:'المتابعة كضيف',or:'أو'},
+ en:{title:'Offers all year round',sub:'Discover offers made for you, wherever you are.',signin:'Sign In',signup:'Sign Up',guest:'Continue as Guest',or:'or'},
+ es:{title:'Ofertas todo el año',sub:'Descubre ofertas hechas para ti, estés donde estés.',signin:'Iniciar sesión',signup:'Crear cuenta',guest:'Continuar como invitado',or:'o'},
+ ru:{title:'Акции круглый год',sub:'Находите предложения для себя где бы вы ни были.',signin:'Войти',signup:'Создать аккаунт',guest:'Продолжить как гость',or:'или'},
+ tr:{title:'Yıl boyunca fırsatlar',sub:'Nerede olursan ol sana özel fırsatları keşfet.',signin:'Giriş Yap',signup:'Hesap Aç',guest:'Misafir olarak devam et',or:'veya'}
+};
 function applyLang(code){
-  lang=images[code]?code:'en';
-  localStorage.setItem('mira_lang',lang);
-  document.documentElement.lang=lang;
-  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
-  document.getElementById('art').src=images[lang];
-  document.getElementById('welcomeScreen').style.setProperty('--welcome-art','url("'+images[lang]+'")');
+ const lang=i18n[code]?code:'ar',t=i18n[lang];
+ localStorage.setItem('mira_lang',lang);
+ document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+ document.getElementById('welcomeTitle').textContent=t.title;
+ document.getElementById('welcomeSubtitle').textContent=t.sub;
+ document.getElementById('welcomeSignin').textContent=t.signin+' ›';
+ document.getElementById('welcomeSignup').textContent=t.signup+' ›';
+ document.getElementById('welcomeGuest').textContent=t.guest+' ›';
+ document.getElementById('welcomeOr').textContent=t.or;
+ document.querySelectorAll('[data-lang]').forEach(b=>{const on=b.dataset.lang===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false')});
 }
-applyLang(lang);
-document.querySelectorAll('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{
-  const code=btn.dataset.lang;
-  applyLang(code);
-  history.replaceState(null,'','welcome.html?lang='+code);
-}));
-</script>
-</body>
-</html>
+const requested=new URLSearchParams(location.search).get('lang');
+applyLang(i18n[requested]?requested:(localStorage.getItem('mira_lang')||'ar'));
+document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{applyLang(b.dataset.lang);history.replaceState(null,'','welcome.html?lang='+encodeURIComponent(b.dataset.lang));}));
+</script></body></html>
