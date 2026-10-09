@@ -107,3 +107,97 @@ body.mira-auth-v3 input::placeholder{opacity:.85}
  .languages button{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* V4 mobile visual corrections based on iPhone screenshots.
+   Full-bleed backgrounds, safe interaction zones, visible partner mark. */
+html{width:100%;min-height:100%;background:#800020}
+body.mira-auth-v3{
+ width:100%;min-height:100dvh;display:block;margin:0;
+ overflow-x:hidden;overflow-y:auto;
+ background:
+ radial-gradient(ellipse 90% 24% at -15% 12%,#FC618F 0%,transparent 100%),
+ radial-gradient(ellipse 80% 28% at 112% 61%,#FC618F 0%,transparent 100%),
+ linear-gradient(160deg,#800020 0%,#800020 55%,#FC618F 100%);
+}
+body.mira-auth-v3 :is(.auth-screen,.app){
+ width:100%;max-width:none;min-height:100dvh;min-height:100svh;
+ margin:0;overflow:visible;
+ padding:clamp(66px,8svh,94px) clamp(16px,5.5vw,26px) clamp(92px,11svh,118px);
+ background:transparent;
+}
+body.mira-auth-v3 :is(.auth-screen,.app)::before{
+ background:
+ radial-gradient(ellipse 70% 32% at 0% 19%,#FC618F 0%,transparent 100%),
+ radial-gradient(ellipse 72% 31% at 107% 63%,#FC618F 0%,transparent 100%),
+ linear-gradient(158deg,#800020 0%,#800020 50%,#FC618F 100%);
+ opacity:.85;
+}
+body.mira-auth-v3 :is(.auth-screen,.app)::after{
+ height:22%;inset:auto -24% 0 -24%;
+ background:linear-gradient(16deg,#FC618F,#800020);opacity:.85;
+}
+body.mira-auth-v3 :is(.brand-footer,.footer-brand){
+ width:100%;margin:clamp(22px,3.5svh,40px) auto 0;
+ padding:0;min-height:78px;flex:0 0 78px;
+ display:flex;justify-content:center;align-items:center;
+ position:relative;z-index:3;
+}
+body.mira-auth-v3 :is(.brand-footer,.footer-brand) img{
+ display:block;width:min(78%,290px);height:78px;max-width:100%;
+ opacity:1!important;filter:none!important;
+ object-fit:contain;
+}
+body.mira-auth-v3 .languages{
+ width:100%;grid-template-columns:repeat(5,minmax(0,1fr));
+ gap:clamp(3px,1vw,7px);margin-top:16px;
+}
+body.mira-auth-v3 .languages button{
+ min-width:0;max-width:100%;overflow:hidden;white-space:nowrap;
+ text-overflow:clip;padding:8px 1px;
+ font-size:clamp(8px,2.55vw,11px);letter-spacing:-.18px;
+}
+body.mira-auth-v3 :is(.welcome-panel,.sheet,.form-panel,.card){
+ width:100%;max-width:510px;margin-left:auto;margin-right:auto;
+ border:1px solid #FFFFFF;border-radius:26px;
+ box-shadow:0 10px 33px #800020;
+}
+body.mira-auth-v3 .hero-brand{margin-top:clamp(4px,1svh,12px)}
+body.mira-auth-v3 .welcome-view .hero-brand{margin-top:clamp(8px,3svh,30px)}
+body.mira-auth-v3 .welcome-panel{margin-top:clamp(12px,3svh,28px)}
+body.mira-auth-v3 :is(.sheet,.form-panel,.welcome-panel,.card){
+ background:#800020;
+}
+body.mira-auth-v3 .signup-view .brand-lockup{
+ margin-top:0;margin-bottom:13px;
+}
+body.mira-auth-v3 .signup-view .app{padding-top:clamp(83px,10svh,115px)}
+body.mira-auth-v3 .signup-view .sheet{margin-top:0}
+body.mira-auth-v3 .signup-view .footer-brand{margin-top:22px}
+body.mira-auth-v3 .auth-view .form-panel{margin-top:clamp(5px,2svh,20px)}
+body.mira-auth-v3 .auth-view .auth-stage{gap:9px}
+body.mira-auth-v3 .otp-view .brand-lockup{margin:8px auto 18px}
+body.mira-auth-v3 .otp-view .hero{margin-top:6px}
+body.mira-auth-v3 .otp-view .card{margin:18px auto 0}
+body.mira-auth-v3 .otp{gap:clamp(5px,1.4vw,9px)}
+body.mira-auth-v3 .otp input{
+ min-width:0;max-width:100%;height:clamp(45px,12vw,58px);
+ border-radius:13px;
+}
+body.mira-auth-v3 .otp-view .primary{background:#FC618F;color:#FFFFFF}
+body.mira-auth-v3 :is(.input,.code,.select){
+ background:#800020;color:#FFFFFF;
+ border-color:#FFFFFF;
+}
+body.mira-auth-v3 :is(.btn,.continue-hot,.primary,.tab.active){color:#FFFFFF}
+body.mira-auth-v3 .btn-white{color:#800020}
+@media(min-width:700px){
+ body.mira-auth-v3 :is(.app,.auth-screen){
+  width:min(100%,520px);margin:auto;
+ }
+}
+@media(max-height:740px){
+ body.mira-auth-v3 :is(.app,.auth-screen){padding-top:70px;padding-bottom:90px}
+ body.mira-auth-v3 .signup-view .app{padding-top:84px}
+ body.mira-auth-v3 :is(.brand-footer,.footer-brand){margin-top:18px}
+}

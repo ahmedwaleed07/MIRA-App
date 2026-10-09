@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 79" role="img" aria-label="Powered by ASAS 360°">
+<defs>
+<filter id="clean-white" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+<feComponentTransfer in="SourceGraphic">
+<feFuncR type="constant" intercept="1"/>
+<feFuncG type="constant" intercept="1"/>
+<feFuncB type="constant" intercept="1"/>
+<feFuncA type="linear" slope="12" intercept="0"/>
+</feComponentTransfer>
+</filter>
+</defs>
+<image href="asas_footer.svg" x="0" y="0" width="240" height="79" preserveAspectRatio="xMidYMid meet" filter="url(#clean-white)"/>
+</svg>
