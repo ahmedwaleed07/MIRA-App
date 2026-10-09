@@ -23,8 +23,8 @@ function browser(path,localStorage=storage(),sessionStorage=storage(),fetcher=as
  if(url.includes('/rest/v1/'))return response(200,[]);
  if(url.endsWith('/auth/v1/user'))return response(200,{id:'test-customer'});
  throw Error('Unexpected request: '+url);
-}){
- const ctx={window:null,localStorage,sessionStorage,location:{pathname:'/MIRA-App/'+path},console,JSON,Math,Date,fetch:fetcher,
+},navigatorOverride=undefined){
+ const ctx={window:null,localStorage,sessionStorage,location:{pathname:'/MIRA-App/'+path},console,JSON,Math,Date,fetch:fetcher,navigator:navigatorOverride,
   atob:input=>Buffer.from(input,'base64').toString('binary'),escape:globalThis.escape,
   CustomEvent:class{},URL};
  ctx.window=ctx;
@@ -111,8 +111,6 @@ console.log('PASS concurrent session checks rotate refresh tokens only once and 
   if(url.endsWith('/auth/v1/user'))return response(200,{id:'test-customer'});
   throw Error('Unexpected '+url);
  };
- const a=browser('home.html',shared,first,fetcher);
- const b=browser('notifications.html',shared,second,fetcher);
  let last=Promise.resolve();
  const locks={request:(name,settings,handler)=>{
   assert.ok(name.includes('mira_customer_session'),'customer locks must be account-scoped');
@@ -121,7 +119,8 @@ console.log('PASS concurrent session checks rotate refresh tokens only once and 
   last=result.then(()=>{},()=>{});
   return result;
  }};
- a.navigator={locks};b.navigator={locks};
+ const a=browser('home.html',shared,first,fetcher,{locks});
+ const b=browser('notifications.html',shared,second,fetcher,{locks});
  await Promise.all([a.MiraCloud.ensureFreshSession(),b.MiraCloud.ensureFreshSession()]);
  assert.equal(exchanges,1,'two tabs must share one Supabase refresh-token rotation: '+JSON.stringify({trace,stored:JSON.parse(shared.getItem('mira_customer_session'))?.refresh_token,first:a.MiraCloud.session?.refresh_token,second:b.MiraCloud.session?.refresh_token,navA:vm.runInContext('typeof navigator',a),navB:vm.runInContext('typeof navigator',b),lockA:vm.runInContext('typeof navigator.locks?.request',a),rememberA:a.MiraCloud.rememberMe(),rememberB:b.MiraCloud.rememberMe(),keyA:a.MiraCloud.sessionKey()}));
  assert.equal(a.MiraCloud.session.refresh_token,'after-rotation');
