@@ -39,3 +39,6 @@ body .featured-card,body .flash-card,body .recent-card,body .interest-card,
 body .near-card,body .offer-card,body .store-card,body .product-card,
 body .service-card,body .results .item,body .list .card,body .grid .card,
 body .cover,body .hero{position:relative}
+
+/* Center the brand in the offer top bar after moving the heart onto the image. */
+body .top > .spacer{flex:0 0 42px;width:42px;height:42px}

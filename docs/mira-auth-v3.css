@@ -285,3 +285,21 @@ html[dir="rtl"] body.mira-auth-v3.signup-view select:is(#gender,#dobDay,#dobMont
   padding-left:30px!important;
   padding-right:12px!important;
 }
+
+
+/* Country-dial selector only; preserve selected code and native options. */
+body.mira-auth-v3 select#code{
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  background-color:#800020!important;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22%23FFFFFF%22%20stroke-width=%222.5%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%3E%3Cpath%20d=%22m6%209%206%206%206-6%22/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important;
+  background-size:16px 16px!important;
+  background-position:right 9px center!important;
+  color:#FFFFFF!important;
+  padding-right:28px!important;
+  padding-left:10px!important;
+  direction:ltr!important;
+  text-align:left!important;
+}
+body.mira-auth-v3 select#code option{background:#800020;color:#FFFFFF}
