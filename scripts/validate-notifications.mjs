@@ -74,12 +74,12 @@ const historyEntries=[
  {id:'history-accepted',order_id:'order-001',status:'accepted',created_at:new Date(Date.now()+500).toISOString()},
  {id:'history-other',order_id:'not-this-customer',status:'new',created_at:now}
 ];
-n.observeHistory('customer','customer-A',historyEntries,[order]);
+n.observeHistory('customer-A',historyEntries,[order]);
 let historical=n.list('customer','customer-A').filter(i=>i.kind==='automatic'&&i.id.startsWith('order-status:'));
 assert.equal(historical.length,2,'verified history should preserve both status events');
 assert.equal(n.list('customer','customer-A').filter(i=>i.kind==='automatic').length,2,'legacy snapshots should not double-count server history');
 assert.equal(n.list('customer','customer-A').filter(i=>i.orderId==='not-this-customer').length,0,'do not accept history outside customer-owned orders');
-n.observeHistory('customer','customer-A',historyEntries,[order]);
+n.observeHistory('customer-A',historyEntries,[order]);
 assert.equal(n.list('customer','customer-A').filter(i=>i.kind==='automatic').length,2);
 console.log('PASS Supabase order-status history replay without duplicating previous local snapshots or another customer order');
 
@@ -92,7 +92,7 @@ reader.MiraCloud={session:{access_token:'test-token'},ensureFreshSession:async()
   if(query.startsWith('mira_notification_reads?'))return [{event_key:'order-status:history-new'}];
   throw Error('Unexpected read receipt API request: '+query);
  }};
-reader.MiraNotifications.observeHistory('customer','customer-A',[historyEntries[0]],[order]);
+reader.MiraNotifications.observeHistory('customer-A',[historyEntries[0]],[order]);
 assert.equal(reader.MiraNotifications.unread('customer','customer-A'),1);
 await reader.MiraNotifications.syncReadReceipts('customer-A');
 assert.equal(reader.MiraNotifications.unread('customer','customer-A'),0,'read receipts from another signed-in device should be applied');
