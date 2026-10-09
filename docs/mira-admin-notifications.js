@@ -7,7 +7,7 @@ const CONFIG={form:'adminNotifyForm',title:'adminNotifyTitle',body:'adminNotifyB
  user:'adminNotifyUser',userField:'adminNotifyUserField',destination:'adminNotifyDestination',
  result:'adminNotifyResult',history:'adminNotifyHistory',access:'adminNotifyAccess',send:'adminNotifySend'};
 let authorized=false,checkedUser='',checking=false,sending=false;
-const safeText=text=>String(text||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',''':'&#39;'}[c]));
+const safeText=text=>String(text||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function updateFields(){
  const audience=el(CONFIG.audience)?.value;
  if(el(CONFIG.marketField))el(CONFIG.marketField).hidden=audience!=='market';
