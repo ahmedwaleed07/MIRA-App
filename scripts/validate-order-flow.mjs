@@ -96,26 +96,36 @@ async function testMerchantStatusUpdate(){
  const start=business.indexOf('async function updateOrderStatus(id){');
  const end=business.indexOf('window.updateOrderStatus=updateOrderStatus',start);
  check(start>=0&&end>start,'merchant status update handler missing');
- const updates=[];
+ const updates=[],alerts=[],orders=[{id:'order-1',status:'new',store_id:'store-A'},{id:'other-order',status:'new',store_id:'store-B'}];
+ let serverAccepts=true,refreshCount=0;
  const ctx=vm.createContext({
-  merchantOrders:[{id:'order-1',status:'new',store_id:'store-A'}],
+  merchant:{storeId:'store-A'},
+  ORDER_LABELS:{new:'Received',accepted:'Confirmed',preparing:'Preparing',ready:'Shipped',out_for_delivery:'Out for delivery',completed:'Delivered',cancelled:'Cancelled'},
+  merchantOrders:orders,
   document:{getElementById:()=>({value:'accepted'})},
   MiraCloud:{request:async(path,options)=>{
-   updates.push({path,options});return [];
+   updates.push({path,options});
+   return serverAccepts?[{id:'order-1',store_id:'store-A',status:'accepted',updated_at:'2026-10-09T10:00:00Z'}]:[];
   }},
-  renderOrders:()=>{},alert:(message)=>{throw Error('unexpected merchant status alert: '+message)},
-  Date,JSON,encodeURIComponent
+  renderOrders:()=>{},loadOrders:async()=>{refreshCount++},
+  alert:message=>alerts.push(message),Date,JSON,encodeURIComponent
  });
  vm.runInContext(business.slice(start,end),ctx);
+ await vm.runInContext("updateOrderStatus('other-order')",ctx);
+ check(updates.length===0,'a merchant cannot update another store\'s order');
  await vm.runInContext("updateOrderStatus('order-1')",ctx);
- check(updates.length===1,'merchant update should issue exactly one PATCH');
- check(updates[0].path==='mira_orders?id=eq.order-1','merchant must target selected order');
+ check(updates.length===1,'merchant update must issue exactly one PATCH');
+ check(updates[0].path==='mira_orders?id=eq.order-1&store_id=eq.store-A&select=id,store_id,status,updated_at','merchant must scope update to both order and assigned store');
  check(updates[0].options.method==='PATCH'&&updates[0].options.requireAuth===true,'merchant update must require auth');
+ check(updates[0].options.headers.Prefer==='return=representation','merchant must demand server confirmation');
  check(JSON.parse(updates[0].options.body).status==='accepted','merchant state transition incorrect');
- check(ctx.merchantOrders[0].status==='accepted','merchant must update local state');
- console.log('PASS merchant updates only selected order and uses an authenticated request');
+ check(orders[0].status==='accepted','merchant must show server-confirmed status');
+ orders[0].status='new';serverAccepts=false;
+ await vm.runInContext("updateOrderStatus('order-1')",ctx);
+ check(orders[0].status==='new','unconfirmed update must not appear successful');
+ check(refreshCount===1&&alerts.length===1,'missing server acknowledgement must trigger refresh and error');
+ console.log('PASS assigned merchant scopes order updates, confirms server status, and rejects missing acknowledgments');
 }
-
 async function testCustomerTracking(){
  const ordersSource=inlineScript('docs/orders.html');
  const objects=Object.fromEntries(['pageTitle','pageSub','orders','refreshBtn'].map(k=>[k,element()]));
