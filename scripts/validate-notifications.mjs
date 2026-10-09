@@ -120,6 +120,27 @@ for(const phrase of [
 ])assert.ok(receiptsSQL.includes(phrase),'cross-device receipt protection missing: '+phrase);
 console.log('PASS receipt schema restricts read/write access to each authenticated customer');
 
+const liveHistorySQL=read('supabase/migrations/20261009_mira_live_order_status_history.sql');
+for(const phrase of [
+ 'create table if not exists public.mira_order_status_history',
+ 'after insert or update of status on public.mira_orders',
+ 'mira_record_order_status_change',
+ 'exists(select 1 from public.mira_orders o',
+ 'from public.mira_orders o',
+ 'where not exists ('
+])assert.ok(liveHistorySQL.includes(phrase),'production additive history migration missing '+phrase);
+assert.ok(!/drop\s+table\s+(if\s+exists\s+)?public\.mira_orders\b/i.test(liveHistorySQL),'live history migration must never remove orders');
+const invokerSQL=read('supabase/migrations/20261009_mira_notification_invoker_permissions.sql');
+assert.ok(invokerSQL.includes('security invoker'));
+assert.ok(invokerSQL.includes('mira_notification_admins'));
+assert.ok(invokerSQL.includes('where m.user_id=auth.uid()'));
+const rpcPermissions=read('supabase/migrations/20261009_mira_notification_function_permissions.sql');
+assert.ok(rpcPermissions.includes('revoke execute on function public.mira_record_order_status_change() from public, anon, authenticated'));
+assert.ok(rpcPermissions.includes('revoke execute on function public.mira_manual_notification_author() from public, anon, authenticated'));
+assert.ok(invokerSQL.includes('revoke execute on function public.mira_can_publish_notification() from public,anon'));
+console.log('PASS live additive order migration, caller-only admin authorization and locked-down notification RPC');
+
+
 
 const home=read('docs/home.html'),profile=read('docs/profile.html'),inbox=read('docs/notifications.html'),admin=read('docs/admin.html'),business=read('docs/business.html'),auth=read('docs/mira-auth-flow.js');
 assert.ok(home.includes('data-mira-notification-count')&&home.includes('mira-notifications.js'));
