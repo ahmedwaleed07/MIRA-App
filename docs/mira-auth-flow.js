@@ -25,6 +25,7 @@ function normalizePhone(code,value){
  const dial=String(code||'').replace(/[^\d+]/g,''),raw=String(value||'').replace(/[^\d]/g,'');
  if(!/^\+[1-9]\d{0,3}$/.test(dial)||!raw)return '';
  const local=raw.replace(/^0+/,'');
+ if((dial==='+1'||dial==='+964')&&local.length!==10)return '';
  const full=dial+local;
  return /^\+[1-9]\d{7,14}$/.test(full)?full:'';
 }
