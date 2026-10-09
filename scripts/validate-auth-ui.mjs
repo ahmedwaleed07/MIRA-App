@@ -55,3 +55,36 @@ const originalEagle=exactLogo.split('transform="matrix(1 0 0 -1 401.3701 213.824
 const originalShield=exactLogo.split('transform="matrix(1 0 0 -1 400.2676 278.33753)" d="')[1]?.split('"')[0];
 if(originalEagle?.length!==3739||originalShield?.length!==872)throw new Error('ASAS original Illustrator eagle or shield vector was truncated');
 console.log('PASS card selection clarity, Home scoped elegance, and original ASAS Illustrator vector geometry');
+
+/* UI regression coverage: unique category icons and unboxed favourites. */
+const glyphSource=readFileSync('docs/mira-category-glyphs.js','utf8');
+const shapesJSON=glyphSource.split('const shapes=')[1]?.split(';\nwindow.MIRACategoryIcon')[0];
+if(!shapesJSON)throw new Error('MIRA category icon library missing');
+const glyphs=JSON.parse(shapesJSON);
+const taxonomySource=readFileSync('docs/taxonomy.js','utf8');
+const taxonomySlugs=[...taxonomySource.matchAll(/^  \{slug:'([^']+)'/gm)].map(x=>x[1]);
+if(taxonomySlugs.length!==18||taxonomySlugs.some(slug=>!glyphs[slug])||new Set(Object.values(glyphs)).size!==18)
+  throw new Error('Each of 18 top-level categories must have a distinct icon');
+for(const page of ['home','categories','interests','category']){
+ const html=readFileSync('docs/'+page+'.html','utf8');
+ if(!html.includes('mira-category-glyphs.js')||!html.includes('window.MIRACategoryIcon('))
+   throw new Error(page+' must use the shared unique icons');
+}
+const heartCSS=readFileSync('docs/mira-favorite-heart.css','utf8');
+const heartScript=readFileSync('docs/mira-favorites.js','utf8');
+if(!heartCSS.includes('background:transparent!important')||!heartCSS.includes('stroke:#FFFFFF!important')||!heartCSS.includes('stroke:#FC618F!important'))
+  throw new Error('Favourite hearts must be unboxed, white then pink');
+if(!heartCSS.includes('top:13px!important')||!heartCSS.includes('bottom:auto!important'))
+  throw new Error('Favourite button must not be clipped at offer corner');
+if(!heartScript.includes('localStorage.setItem')||!heartScript.includes('mira-favorites-changed')||!heartScript.includes('is-saved'))
+  throw new Error('Favourite save/unsave persistence must stay wired');
+for(const page of ['home','store','offer','category','search','section']){
+ if(!readFileSync('docs/'+page+'.html','utf8').includes('mira-favorite-heart.css'))
+  throw new Error(page+' missing unboxed favourite styles');
+}
+if(!readFileSync('docs/offer.html','utf8').includes('<section class="hero"><button class="save" id="saveBtn"'))
+  throw new Error('Offer favourite heart must be positioned over offer image');
+const codeStyles=readFileSync('docs/mira-auth-v3.css','utf8');
+if(!codeStyles.includes('body.mira-auth-v3 select#code')||!codeStyles.includes('%23FFFFFF'))
+  throw new Error('Country calling-code selector arrow must be white');
+console.log('PASS 18 unique icons, functional unboxed hearts, no clipped corner, and white calling-code arrows');
