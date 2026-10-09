@@ -122,6 +122,7 @@ async function testCustomerTracking(){
  let current='new';const calls=[];
  const cloud={
   payload:()=>({role:'authenticated',sub:'customer-123'}),
+  requireAuth:()=>({role:'authenticated',sub:'customer-123'}),
   ensureFreshSession:async()=>{},
   request:async(path,options)=>{
    calls.push({path,options});
