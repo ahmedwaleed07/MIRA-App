@@ -15,7 +15,7 @@
 @media(max-width:620px){.main{padding:13px}.topbar{display:block}.top-actions{margin-top:12px}.metrics{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:13px}.metric strong{font-size:23px}.form-grid{grid-template-columns:1fr}.menu{grid-template-columns:repeat(5,max-content)}.card-body,.card-head{padding:14px}.topbar h1{font-size:23px}}
 .auth-gate{position:fixed;inset:0;z-index:999;background:linear-gradient(145deg,#800020,#800020);display:flex;align-items:center;justify-content:center;padding:22px}.auth-box{width:min(420px,100%);background:#800020;border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}.auth-logo{width:150px;height:52px;margin:0 auto 12px;background:var(--pink);-webkit-mask:url('assets/mira_wordmark.svg') center/contain no-repeat;mask:url('assets/mira_wordmark.svg') center/contain no-repeat}.auth-box h2{margin:8px 0 4px}.auth-box p{margin:0 0 18px;color:var(--muted);font-size:11px}.auth-box input{width:100%;margin:6px 0;border:1px solid var(--line);border-radius:13px;padding:12px}.auth-box button{width:100%;margin-top:10px}.auth-error{min-height:18px;margin-top:9px;color:var(--danger);font-size:10px}.auth-gate.hidden{display:none}#taxonomyTree .item{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--line)}#taxonomyTree .item:last-child{border-bottom:0}#taxonomyTree small{color:var(--muted)}
 </style>
-<link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><link rel="stylesheet" href="dashboard-sections.css?v=20261008-dashboard-2"></head>
+<link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><link rel="stylesheet" href="dashboard-sections.css?v=20261008-dashboard-2"><link rel="stylesheet" href="mira-notifications.css?v=20261009-notification-2"></head>
 <body>
 <div class="auth-gate" id="authGate"><div class="auth-box" id="authForm"><div class="auth-logo"></div><h2>Admin Login</h2><p>Sign in with your authorized MIRA administrator account.</p><input id="authEmail" type="email" autocomplete="username" placeholder="Email" required><input id="authPassword" type="password" autocomplete="current-password" placeholder="Password" required><button class="btn primary" type="button" id="authSubmit">Sign In</button><div class="auth-error" id="authError"></div></div></div>
 <div class="shell">
@@ -27,6 +27,7 @@
       <button data-panel="offers"><span class="dot"></span>Offers / Products / Services</button>
       <button data-panel="taxonomy"><span class="dot"></span>Product Taxonomy</button>
       <button data-panel="orders"><span class="dot"></span>Orders</button>
+      <button data-panel="notifications"><span class="dot"></span>Notifications</button>
       <button data-panel="requests"><span class="dot"></span>Store Requests</button>
       <button data-panel="media"><span class="dot"></span>Media</button>
       <button data-panel="data"><span class="dot"></span>Data</button>
@@ -45,6 +46,7 @@
 <button class="dashboard-tile" type="button" data-go="stores"><span class="ecosystem-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10h16v10H4z"/><path d="M3 10 5 5h14l2 5"/></svg></span><strong>Stores</strong><span>Approve & manage</span></button>
 <button class="dashboard-tile" type="button" data-go="offers"><span class="ecosystem-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 7h14v13H5zM8 7V5h8v2"/><path d="M9 11h6M9 15h6"/></svg></span><strong>Products & Services</strong><span>Manage content</span></button>
 <button class="dashboard-tile" type="button" data-go="taxonomy"><span class="ecosystem-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="2"/><rect x="14" y="4" width="6" height="6" rx="2"/><rect x="4" y="14" width="6" height="6" rx="2"/><rect x="14" y="14" width="6" height="6" rx="2"/></svg></span><strong>Categories</strong><span>Taxonomy control</span></button>
+<button class="dashboard-tile" type="button" data-go="notifications"><span class="ecosystem-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 10h18c0-3-3-3-3-10M10 21h4"/></svg></span><strong>Notifications</strong><span>Send MIRA messages</span></button>
 <button class="dashboard-tile" type="button" data-go="orders"><span class="ecosystem-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h2l2 10h10l2-7H7"/><circle cx="10" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/></svg></span><strong>Orders</strong><span>Monitor activity</span></button>
 <button class="dashboard-tile" type="button" data-go="offers"><span class="ecosystem-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m4 9 6-6M14 5h5v5M8 15l3 3 5-6"/></svg></span><strong>Flash Sales / Offers</strong><span>Manage promotions</span></button>
 <button class="dashboard-tile" type="button" data-go="media"><span class="ecosystem-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m5 18 5-5 3 3 3-4 4 5"/></svg></span><strong>Media Assets</strong><span>Review uploaded media</span></button>
@@ -129,6 +131,24 @@
       </div>
     </section>
 
+    <section class="panel" id="notifications">
+      <div class="mira-admin-notifications">
+        <h2>MIRA Customer Notifications</h2>
+        <p style="font-size:12px;line-height:1.7;margin:8px 0 20px">Automatic order updates are generated by the system. Send your own notices to all customers, a selected market, or one customer from here.</p>
+        <div class="mira-admin-notice" id="adminNotifyAccess" role="status">Checking notification publishing permission…</div>
+        <form class="mira-admin-notification-form" id="adminNotifyForm">
+          <div class="mira-admin-field wide"><label for="adminNotifyTitle">Title (up to 120 characters)</label><input id="adminNotifyTitle" maxlength="120" required placeholder="New MIRA offer"></div>
+          <div class="mira-admin-field wide"><label for="adminNotifyBody">Notification text (up to 700 characters)</label><textarea id="adminNotifyBody" maxlength="700" required placeholder="Tell customers what is new"></textarea></div>
+          <div class="mira-admin-field"><label for="adminNotifyAudience">Send to</label><select id="adminNotifyAudience"><option value="all">All MIRA customers</option><option value="market">Customers in a shopping country</option><option value="user">One customer (account UUID)</option></select></div>
+          <div class="mira-admin-field" id="adminNotifyMarketField" hidden><label for="adminNotifyMarket">MIRA shopping country</label><select id="adminNotifyMarket"><option value="IQ">Iraq</option><option value="KW">Kuwait</option><option value="SA">Saudi Arabia</option><option value="BH">Bahrain</option><option value="QA">Qatar</option><option value="AE">United Arab Emirates</option><option value="OM">Oman</option><option value="JO">Jordan</option><option value="LB">Lebanon</option><option value="PS">Palestine</option><option value="EG">Egypt</option><option value="US">United States</option><option value="CA">Canada</option><option value="TR">Turkey</option><option value="GB">United Kingdom</option><option value="DE">Germany</option><option value="FR">France</option></select></div>
+          <div class="mira-admin-field wide" id="adminNotifyUserField" hidden><label for="adminNotifyUser">Customer Supabase Auth UUID</label><input id="adminNotifyUser" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off"></div>
+          <div class="mira-admin-field wide"><label for="adminNotifyDestination">Open when tapped</label><input id="adminNotifyDestination" value="home.html" maxlength="270" placeholder="home.html or offer.html?id=..."></div>
+          <div class="mira-admin-field wide"><button class="mira-admin-send" id="adminNotifySend" type="submit" disabled>Publish notification</button><div class="mira-admin-notice" id="adminNotifyResult" role="status"></div></div>
+        </form>
+        <h2 style="font-size:15px;margin:24px 0 10px">Recently published</h2>
+        <div class="mira-admin-history" id="adminNotifyHistory"><div class="mira-admin-notice">No notifications loaded.</div></div>
+      </div>
+    </section>
     <section class="panel" id="orders">
       <div class="card" style="margin-top:0"><div class="card-head"><div><h2>Customer Orders</h2><p>All orders across MIRA merchants.</p></div></div><div class="card-body"><div class="toolbar"><input id="adminOrderSearch" placeholder="Search customer, phone or order ID"><select id="adminOrderStore"><option value="all">All stores</option></select><select id="adminOrderStatus"><option value="all">All statuses</option><option value="new">Received</option><option value="accepted">Confirmed</option><option value="preparing">Preparing</option><option value="ready">Shipped</option><option value="out_for_delivery">Out for delivery</option><option value="completed">Delivered</option><option value="cancelled">Cancelled</option></select></div><div class="table-wrap" id="ordersTableWrap"></div></div></div>
     </section>
@@ -152,7 +172,7 @@
 const authGate=document.getElementById('authGate'),authForm=document.getElementById('authForm'),authError=document.getElementById('authError');
 function jwtPayload(){try{const t=MiraCloud.session&&MiraCloud.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}}
 function showAuthIdentity(){const p=jwtPayload(),value=p?((p.email||'no-email')+' · UID '+(p.sub||'no-uid')+' · role '+(p.role||'no-role')):'no JWT';const el=document.getElementById('authDebug');if(el)el.textContent='Auth: '+value;let box=document.getElementById('authIdentityBox');if(!box){box=document.createElement('div');box.id='authIdentityBox';box.style.cssText='margin:12px 20px;padding:12px 14px;border:1px solid #800020;border-radius:14px;background:#800020;color:#FFFFFF;font-size:13px;word-break:break-all';const main=document.querySelector('main');if(main)main.prepend(box)}if(box)box.innerHTML='<b>Supabase session</b><br>'+value}
-function showAdmin(){authGate.classList.add('hidden');showAuthIdentity()}
+function showAdmin(){authGate.classList.add('hidden');showAuthIdentity();if(window.MIRAAdminNotifications)void window.MIRAAdminNotifications.init()}
 if(MiraCloud.session&&MiraCloud.session.access_token)showAdmin();
 document.getElementById('authSubmit').onclick=async()=>{authError.textContent='Signing in…';try{await MiraCloud.signIn(authEmail.value.trim(),authPassword.value);authError.textContent='';showAdmin();await cloudSync()}catch(err){console.error(err);let msg='Sign in failed.';try{const d=JSON.parse(String(err.message||''));msg=d.msg||d.message||d.error_description||msg}catch(_){msg=String(err.message||msg)}authError.textContent=msg}};
 document.getElementById('adminLogout').onclick=()=>{MiraCloud.signOut();location.reload()};
@@ -205,7 +225,7 @@ async function deleteTaxAttribute(catSlug,subSlug,typeSlug,key){const type=taxTy
 async function syncTaxonomyCloud(){try{const items=await MiraCloud.syncTaxonomy();if(Array.isArray(items)&&items.length)TAXONOMY=items;fillCategories();renderTaxonomy()}catch(e){console.error('MIRA taxonomy sync failed',e);renderTaxonomy()}}
 taxonomyAddCategory.onclick=addTaxCategory;taxonomySave.onclick=()=>persistTaxonomy();
 
-function switchPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.menu button').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));const map={overview:['Overview','Manage MIRA stores and paid placements.'],stores:['Stores','Create and manage merchant profiles.'],offers:['Offers','Create offers, targeting and paid Home placements.'],taxonomy:['Product Taxonomy','Manage categories, subcategories, product types and attributes.'],orders:['Orders','Review customer orders across all MIRA stores.'],requests:['Store Requests','Review merchant profile changes before publishing.'],media:['Media','Review store and offer images.'],data:['Data','Export or import prototype content.']};pageTitle.textContent=map[id][0];pageSub.textContent=map[id][1];if(id==='offers')refreshStoreSelect()}
+function switchPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.menu button').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));const map={overview:['Overview','Manage MIRA stores and paid placements.'],stores:['Stores','Create and manage merchant profiles.'],offers:['Offers','Create offers, targeting and paid Home placements.'],taxonomy:['Product Taxonomy','Manage categories, subcategories, product types and attributes.'],orders:['Orders','Review customer orders across all MIRA stores.'],notifications:['Notifications','Publish selected announcements and offers to MIRA customers.'],requests:['Store Requests','Review merchant profile changes before publishing.'],media:['Media','Review store and offer images.'],data:['Data','Export or import prototype content.']};pageTitle.textContent=map[id][0];pageSub.textContent=map[id][1];if(id==='offers')refreshStoreSelect()}
 document.querySelectorAll('.menu button').forEach(b=>b.onclick=()=>switchPanel(b.dataset.panel));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{switchPanel(b.dataset.go);const focus=b.dataset.focus;if(focus)document.getElementById(focus)?.scrollIntoView({behavior:'smooth',block:'start'});});
 offerCategory.addEventListener('change',()=>fillOfferSubcategories());
 offerSubcategory.addEventListener('change',()=>fillOfferProductTypes());
@@ -295,5 +315,6 @@ importFile.onchange=()=>{const f=importFile.files&&importFile.files[0];if(!f)ret
 clearAll.onclick=()=>{if(!confirm('Clear all prototype stores and offers from this browser?'))return;stores=[];offers=[];save();resetStore();resetOffer();toastMsg('Prototype data cleared')};
 fillCategories();resetStore();resetOffer();renderAll();(async()=>{try{if(MiraCloud.session?.access_token)await MiraCloud.ensureFreshSession()}catch(e){console.error(e)}await syncTaxonomyCloud();await cloudSync()})();
 </script>
+<script src="mira-admin-notifications.js?v=20261009-admin-notifications-1"></script>
 </body>
 </html>
