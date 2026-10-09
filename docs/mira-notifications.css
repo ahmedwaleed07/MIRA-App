@@ -36,3 +36,23 @@ button.mira-notification-bell svg{width:22px;height:22px;fill:none!important;str
 .mira-business-notifications .mira-business-alert small{display:block;margin-top:4px;font-size:9px;color:#800020!important}
 .mira-business-notifications .mira-business-empty{font-size:11px;color:#800020!important}
 @media(max-width:370px){.mira-top-actions .location{max-width:116px}}
+
+.mira-notification-page .mira-notification-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:0 0 16px}
+.mira-notification-page .mira-notification-tabs button{border:1px solid #800020!important;background:#FFFFFF!important;color:#800020!important;border-radius:12px;padding:10px 3px;font:700 10px Poppins;cursor:pointer}
+.mira-notification-page .mira-notification-tabs button.active{background:#800020!important;color:#FFFFFF!important}
+.mira-admin-notifications{padding:19px;border:1px solid #800020!important;border-radius:19px;background:#FFFFFF!important;color:#800020!important}
+.mira-admin-notifications h2,.mira-admin-notifications p,.mira-admin-notifications label{color:#800020!important}
+.mira-admin-notifications .mira-admin-notification-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mira-admin-notifications .mira-admin-field{display:grid;gap:7px}
+.mira-admin-notifications .mira-admin-field.wide{grid-column:1/-1}
+.mira-admin-notifications .mira-admin-field label{font:700 11px Poppins}
+.mira-admin-notifications input,.mira-admin-notifications select,.mira-admin-notifications textarea{width:100%;border:1px solid #800020!important;background:#FFFFFF!important;color:#800020!important;border-radius:12px;padding:11px;font:500 12px Poppins;min-height:40px}
+.mira-admin-notifications textarea{min-height:110px;resize:vertical}
+.mira-admin-notifications select{color-scheme:light}
+.mira-admin-notifications .mira-admin-send{border:0;background:#800020!important;color:#FFFFFF!important;border-radius:12px;padding:12px 18px;font:700 12px Poppins;cursor:pointer}
+.mira-admin-notifications .mira-admin-send:disabled{opacity:.5;cursor:not-allowed}
+.mira-admin-notifications .mira-admin-notice{font:500 11px Poppins;line-height:1.7;color:#800020!important}
+.mira-admin-notifications .mira-admin-history{display:grid;gap:9px;margin-top:15px}
+.mira-admin-notifications .mira-admin-history-item{border:1px solid #800020;border-radius:12px;padding:12px;background:#FFFFFF;color:#800020;font:500 11px Poppins}
+.mira-admin-notifications .mira-admin-history-item b{display:block;margin-bottom:3px}
+@media(max-width:650px){.mira-admin-notifications .mira-admin-notification-form{grid-template-columns:1fr}.mira-admin-notifications .mira-admin-field.wide{grid-column:1}}
