@@ -48,6 +48,25 @@ window.MiraCloud={
     }catch(e){this.session=null}
     return this.session;
   },
+  rememberedSession(){
+    if(!this.rememberMe()||(!this.isMerchant()&&!this.isCustomer()))return null;
+    try{
+      const data=JSON.parse(localStorage.getItem(this.sessionKey())||'null');
+      return data?.access_token&&data?.refresh_token?data:null;
+    }catch(_){return null}
+  },
+  // Share newly rotated tokens when another browser tab refreshes a remembered login.
+  syncRememberedSession(){
+    const stored=this.rememberedSession();
+    if(!stored||stored.refresh_token===this.session?.refresh_token)return false;
+    const prior=this.session,oldUser=this.payload()?.sub;
+    this.session=stored;
+    const p=this.payload();
+    if(!p||p.role!=='authenticated'||!p.sub||(oldUser&&p.sub!==oldUser)||this.tokenExpired(20)){
+      this.session=prior;return false;
+    }
+    return true;
+  },
   token(){return this.session&&this.session.access_token?this.session.access_token:window.MIRA_SUPABASE.key},
   payload(){try{const t=this.session&&this.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}},
   requireAuth(){const p=this.payload();if(!p||p.role!=='authenticated'||!p.sub)throw new Error('Authenticated Supabase session required. Please sign out and sign in again.');return p},
@@ -71,7 +90,9 @@ window.MiraCloud={
     try{response=await fetch(c.url+'/auth/v1/user',{headers:{apikey:c.key,Authorization:'Bearer '+this.session.access_token}})}
     catch(_){throw new Error('Could not reach the authentication service. Please check your connection.')}
     if(response.status===401||response.status===403){
-      if(this.session?.refresh_token&&this.tokenExpired(120)){
+      if(this.syncRememberedSession())
+        response=await fetch(c.url+'/auth/v1/user',{headers:{apikey:c.key,Authorization:'Bearer '+this.session.access_token}});
+      if((response.status===401||response.status===403)&&this.session?.refresh_token&&this.tokenExpired(120)){
         await this.refreshSession();
         response=await fetch(c.url+'/auth/v1/user',{headers:{apikey:c.key,Authorization:'Bearer '+this.session.access_token}});
       }
@@ -111,24 +132,42 @@ window.MiraCloud={
   },
   refreshPromise:null,
   async refreshSession(){
-    // Deduplicate concurrent refresh calls to avoid Supabase refresh-token rotation races.
+    // Only one refresh per tab, and a Web Lock serializes rotations across tabs.
     if(this.refreshPromise)return this.refreshPromise;
-    this.refreshPromise=(async()=>{
+    const run=async()=>{
       if(!this.session?.refresh_token)throw new Error('Session expired. Please sign in again.');
-      const c=window.MIRA_SUPABASE;
+      if(this.syncRememberedSession())return this.session;
+      const original=this.session,usedRefresh=original.refresh_token,c=window.MIRA_SUPABASE;
       let r;
       try{
-        r=await fetch(c.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:this.session.refresh_token})});
+        r=await fetch(c.url+'/auth/v1/token?grant_type=refresh_token',{
+          method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},
+          body:JSON.stringify({refresh_token:usedRefresh})
+        });
       }catch(_){throw new Error('Could not reach the login service. Please check your connection.')}
+      if(this.syncRememberedSession())return this.session;
+      if(this.session!==original||this.session?.refresh_token!==usedRefresh)
+        throw new Error('Your sign-in session changed. Please try again.');
       if(!r.ok){
         if([400,401,403,422].includes(r.status)){
+          if(this.syncRememberedSession())return this.session;
           this.signOut();throw new Error('Session expired. Please sign in again.');
         }
         throw new Error('Could not reach the login service. Please try again.');
       }
       this.acceptSession(await r.json());
       return this.session;
-    })();
+    };
+    const execute=async()=>{
+      const locks=typeof navigator!=='undefined'&&navigator.locks;
+      if(this.rememberMe()&&locks&&typeof locks.request==='function')
+        return locks.request('mira-session-refresh:'+this.sessionKey(),{mode:'exclusive'},async()=>{
+          if(this.syncRememberedSession())return this.session;
+          return run();
+        });
+      return run();
+    };
+    this.refreshPromise=execute();
     try{return await this.refreshPromise}finally{this.refreshPromise=null}
   },
   tokenExpired(skewSeconds=30){
@@ -138,14 +177,16 @@ window.MiraCloud={
     return !expiration||Date.now()/1000>=expiration-skewSeconds;
   },
   async ensureFreshSession(){
-    if(this.session?.access_token&&this.tokenExpired(120))await this.refreshSession();
+    if(this.session?.access_token&&this.tokenExpired(120)){
+      if(!this.syncRememberedSession())await this.refreshSession();
+    }
     return this.session;
   },
   async request(path,options={}){
     const c=window.MIRA_SUPABASE;
     const requireAuth=!!options.requireAuth;
     if(requireAuth)this.requireAuth();
-    if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();
+    if(this.session?.access_token&&this.tokenExpired()&&!this.syncRememberedSession())await this.refreshSession();
     const clean={...options};delete clean.requireAuth;
     const send=async()=>{
       const headers={apikey:c.key,Authorization:'Bearer '+this.token(),'Content-Type':'application/json',Prefer:'return=representation',...(clean.headers||{})};
@@ -193,7 +234,7 @@ window.MiraCloud={
   },
   async upload(file,folder='misc'){
     const c=window.MIRA_SUPABASE;
-    if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();
+    if(this.session?.access_token&&this.tokenExpired()&&!this.syncRememberedSession())await this.refreshSession();
     const ext=((file.name||'image.jpg').split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
     const path=folder+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,9)+'.'+ext;
     const send=()=>fetch(c.url+'/storage/v1/object/mira-media/'+path,{
