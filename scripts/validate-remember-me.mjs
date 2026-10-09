@@ -13,9 +13,9 @@ function storage(){
   clear:()=>m.clear()
  };
 }
-const makeJWT=(exp=Math.floor(Date.now()/1000)+3600)=>{
+const makeJWT=(exp=Math.floor(Date.now()/1000)+3600,sub='test-customer')=>{
  const encode=o=>Buffer.from(JSON.stringify(o)).toString('base64url');
- return encode({alg:'HS256'})+'.'+encode({role:'authenticated',sub:'test-customer',exp})+'.signature';
+ return encode({alg:'HS256'})+'.'+encode({role:'authenticated',sub,exp})+'.signature';
 };
 const validToken=makeJWT(),goodSession={access_token:validToken,refresh_token:'refresh-me',user:{id:'test-customer'},expires_at:Math.floor(Date.now()/1000)+3600};
 const response=(status,data)=>({status,ok:status>=200&&status<300,text:async()=>JSON.stringify(data),json:async()=>data});
@@ -28,6 +28,10 @@ function browser(path,localStorage=storage(),sessionStorage=storage(),fetcher=as
   atob:input=>Buffer.from(input,'base64').toString('binary'),escape:globalThis.escape,
   CustomEvent:class{},URL};
  ctx.window=ctx;
+ const listeners=new Map();
+ ctx.addEventListener=(type,listener)=>listeners.set(type,[...(listeners.get(type)||[]),listener]);
+ ctx.fireStorage=event=>(listeners.get('storage')||[]).forEach(listener=>listener(event));
+ ctx.location.replace=destination=>{ctx.location.redirectedTo=destination};
  vm.createContext(ctx);vm.runInContext(cloudSource,ctx,{filename:'mira-cloud.js'});
  return ctx;
 }
@@ -168,6 +172,40 @@ console.log('PASS concurrent session checks rotate refresh tokens only once and 
  vm.runInContext(embedded,guest,{filename:'index.html'});
  assert.ok(guest.location.redirectedTo.startsWith('welcome.html?lang='));
  console.log('PASS MIRA launcher opens Home for remembered customers and welcome for guests');
+}
+
+
+{
+ // Browser storage events only fire in other tabs, not in the writer tab.
+ const shared=storage();
+ const first=browser('home.html',shared,storage());
+ const peer=browser('orders.html',shared,storage());
+ first.MiraCloud.acceptSession(goodSession);
+ peer.fireStorage({key:'mira_customer_session',newValue:shared.getItem('mira_customer_session')});
+ assert.equal(peer.MiraCloud.payload()?.sub,'test-customer','a second tab must adopt a new remembered sign-in');
+ const refreshed={...goodSession,refresh_token:'rotated-from-another-tab'};
+ first.MiraCloud.acceptSession(refreshed);
+ peer.fireStorage({key:'mira_customer_session',newValue:shared.getItem('mira_customer_session')});
+ assert.equal(peer.MiraCloud.session.refresh_token,'rotated-from-another-tab','a second tab must adopt a same-customer refresh');
+ assert.equal(peer.location.redirectedTo,undefined,'token rotation must not interrupt the checkout/order UI');
+ const switched={...goodSession,access_token:makeJWT(undefined,'another-customer'),refresh_token:'other-account-session',user:{id:'another-customer'}};
+ first.MiraCloud.acceptSession(switched);
+ peer.fireStorage({key:'mira_customer_session',newValue:shared.getItem('mira_customer_session')});
+ assert.equal(peer.MiraCloud.session,null,'a tab must not retain a previous customer after an account switch');
+ assert.equal(peer.location.redirectedTo,'signin.html?return=orders.html','a protected screen must re-check the newly selected account');
+ assert.equal(JSON.parse(shared.getItem('mira_customer_session')).refresh_token,'other-account-session','invalidating the old tab must preserve the new account');
+ console.log('PASS cross-tab login, token adoption, account switch and protected-page revalidation');
+}
+{
+ const shared=storage();
+ const initiator=browser('home.html',shared,storage());
+ initiator.MiraCloud.acceptSession(goodSession);
+ const protectedTab=browser('checkout.html',shared,storage());
+ initiator.MiraCloud.signOut();
+ protectedTab.fireStorage({key:'mira_customer_session',newValue:null});
+ assert.equal(protectedTab.MiraCloud.session,null,'cross-tab sign-out must clear the checkout identity');
+ assert.equal(protectedTab.location.redirectedTo,'signin.html?return=checkout.html','checkout must not expose former account details after sign-out');
+ console.log('PASS cross-tab sign-out closes a private checkout screen without changing the public UI');
 }
 
 for(const page of ['signin','signup']){
