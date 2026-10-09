@@ -98,6 +98,78 @@ assert.equal(refreshCount,1,'concurrent session users must share one refresh-tok
 assert.equal(concurrent.MiraCloud.payload().sub,'test-customer');
 console.log('PASS concurrent session checks rotate refresh tokens only once and retain the customer login');
 
+
+{
+ const shared=storage(),first=storage(),second=storage();
+ const expired={...goodSession,access_token:makeJWT(Math.floor(Date.now()/1000)-50),refresh_token:'before-rotation'};
+ shared.setItem('mira_customer_session',JSON.stringify(expired));
+ let exchanges=0;
+ const rotated={...goodSession,refresh_token:'after-rotation'};
+ const fetcher=async url=>{
+  if(url.includes('/rest/v1/'))return response(200,[]);
+  if(url.includes('grant_type=refresh_token')){exchanges++;await Promise.resolve();return response(200,rotated)}
+  if(url.endsWith('/auth/v1/user'))return response(200,{id:'test-customer'});
+  throw Error('Unexpected '+url);
+ };
+ const a=browser('home.html',shared,first,fetcher);
+ const b=browser('notifications.html',shared,second,fetcher);
+ let last=Promise.resolve();
+ const locks={request:(name,settings,handler)=>{
+  assert.ok(name.includes('mira_customer_session'),'customer locks must be account-scoped');
+  const result=last.then(handler);
+  last=result.then(()=>{},()=>{});
+  return result;
+ }};
+ a.navigator={locks};b.navigator={locks};
+ await Promise.all([a.MiraCloud.ensureFreshSession(),b.MiraCloud.ensureFreshSession()]);
+ assert.equal(exchanges,1,'two tabs must share one Supabase refresh-token rotation');
+ assert.equal(a.MiraCloud.session.refresh_token,'after-rotation');
+ assert.equal(b.MiraCloud.session.refresh_token,'after-rotation');
+ assert.equal(JSON.parse(shared.getItem('mira_customer_session')).refresh_token,'after-rotation');
+ console.log('PASS Web Locks serialize token renewal across two open MIRA customer tabs');
+}
+{
+ const shared=storage(),expired={...goodSession,access_token:makeJWT(Math.floor(Date.now()/1000)-70),refresh_token:'stale'};
+ shared.setItem('mira_customer_session',JSON.stringify(expired));
+ let failedResolve;
+ const blocked=new Promise(resolve=>{failedResolve=resolve});
+ const loser=browser('home.html',shared,storage(),async url=>{
+  if(url.includes('/rest/v1/'))return response(200,[]);
+  if(url.includes('grant_type=refresh_token')){await blocked;return response(400,{msg:'refresh token already used'})}
+  throw Error('Unexpected '+url);
+ });
+ const winner=browser('checkout.html',shared,storage(),async url=>{
+  if(url.includes('/rest/v1/'))return response(200,[]);
+  if(url.includes('grant_type=refresh_token'))return response(200,{...goodSession,refresh_token:'fresh-token'});
+  throw Error('Unexpected '+url);
+ });
+ const pending=loser.MiraCloud.ensureFreshSession();
+ await Promise.resolve();
+ await winner.MiraCloud.ensureFreshSession();
+ failedResolve();
+ await pending;
+ assert.equal(loser.MiraCloud.session.refresh_token,'fresh-token');
+ assert.ok(shared.getItem('mira_customer_session'),'stale refresh denial must never erase another tabs newer login');
+ console.log('PASS rejected stale refresh safely adopts a newer remembered session without logging out');
+}
+{
+ const index=read('index.html'),welcome=read('welcome.html');
+ assert.ok(index.includes('mira-cloud.js')&&index.includes("location.replace('home.html')"),'MIRA launcher must skip repeated login when a valid local session exists');
+ assert.ok(welcome.includes('mira-cloud.js')&&welcome.includes("location.replace('home.html')"),'bookmarked welcome should open Home for returning customers');
+ const persisted=storage();
+ persisted.setItem('mira_customer_session',JSON.stringify(goodSession));
+ const visit=browser('index.html',persisted,storage());
+ visit.location.replace=dest=>{visit.location.redirectedTo=dest};
+ const embedded=[...index.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean).at(-1);
+ vm.runInContext(embedded,visit,{filename:'index.html'});
+ assert.equal(visit.location.redirectedTo,'home.html');
+ const guest=browser('index.html',storage(),storage());
+ guest.location.replace=dest=>{guest.location.redirectedTo=dest};
+ vm.runInContext(embedded,guest,{filename:'index.html'});
+ assert.ok(guest.location.redirectedTo.startsWith('welcome.html?lang='));
+ console.log('PASS MIRA launcher opens Home for remembered customers and welcome for guests');
+}
+
 for(const page of ['signin','signup']){
  const html=read(page+'.html');
  assert.ok(html.includes('id="customerRememberMe" checked'),page+' missing default checked toggle');
