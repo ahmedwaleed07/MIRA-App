@@ -245,3 +245,25 @@ body.mira-auth-v3 .otp-view .otp input{direction:ltr}
  body.mira-auth-v3 :is(.brand-footer,.footer-brand) img.partner-logo{width:clamp(165px,53vw,205px)!important}
  body.mira-auth-v3 :is(.brand-footer,.footer-brand) span.partner-powered{font-size:11px}
 }
+
+
+/* Preserve the brand artwork; hide only the extraneous bitmap rectangle. */
+body.mira-auth-v3 :is(.hero-brand,.brand-lockup),
+body.mira-auth-v3 :is(.hero-brand,.brand-lockup) .icon,
+body.mira-auth-v3 :is(.hero-brand,.brand-lockup) .wordmark{
+ background:transparent!important;
+ border:0!important;
+ outline:0!important;
+ box-shadow:none!important;
+}
+body.mira-auth-v3 :is(.hero-brand,.brand-lockup) .icon{
+ filter:none!important;object-fit:contain!important;
+ max-width:100%;height:auto!important;
+}
+body.mira-auth-v3 :is(.hero-brand,.brand-lockup) .wordmark{
+ filter:none!important;object-fit:contain!important;
+}
+body.mira-auth-v3 :is(.brand-footer,.footer-brand) img.partner-logo{
+ object-fit:contain!important;object-position:center!important;
+ overflow:visible!important;clip-path:none!important;
+}

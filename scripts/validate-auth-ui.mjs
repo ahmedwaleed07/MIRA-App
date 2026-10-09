@@ -3,7 +3,7 @@ const read=(name)=>readFileSync('docs/'+name+'.html','utf8');
 const files=['welcome','signin','signup','otp'];
 for(const name of files){
  const html=read(name);
- for(const asset of ['mira-auth-v3.css','assets/mira_icon.svg','assets/mira_wordmark.svg','assets/asas360_master_vector.svg']){
+ for(const asset of ['mira-auth-v3.css','assets/mira_icon_frameless.svg','assets/mira_wordmark.svg','assets/asas360_master_vector.svg']){
   if(!html.includes(asset))throw new Error(name+' missing '+asset);
  }
  console.log('PASS '+name+' linked to responsive layout and repository branding');
@@ -25,3 +25,12 @@ if(!otp.includes('maxlength="6" inputmode="numeric" autocomplete="one-time-code"
 if(!otp.includes("distributeOtp(i,digits)")||!otp.includes("addEventListener('paste'"))throw new Error('OTP digits must distribute on SMS autofill and paste');
 if(!otp.includes("setLang((new URLSearchParams(location.search).get('lang')||getLang()))"))throw new Error('OTP query language must be stored for validation prompts');
 console.log('PASS iPhone SMS autofill, paste distribution and OTP language persistence');
+
+const gift=readFileSync('docs/assets/mira_icon_frameless.svg','utf8');
+const originalGift=readFileSync('docs/assets/mira_icon.svg','utf8');
+const originalData=originalGift.match(/data:image\/webp;base64,[^\"]+/)?.[0];
+if(!originalData||!gift.includes(originalData))throw new Error('Gift must retain exact original MIRA pixels');
+if(!gift.includes('mira-gift-contour'))throw new Error('MIRA bitmap frame not masked');
+const fullLogo=readFileSync('docs/assets/asas360_master_vector.svg','utf8');
+if(!fullLogo.includes('viewBox="-4 -7 282 82"'))throw new Error('ASAS shield safe area missing');
+console.log('PASS MIRA original mark pixels preserved with extraneous frame masked, and complete ASAS vector with bleed');
