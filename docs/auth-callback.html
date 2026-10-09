@@ -1,19 +1,50 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MIRA — Signing in</title><style>body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:#800020;color:#FFFFFF;display:grid;place-items:center;min-height:100vh}.box{text-align:center;padding:28px}.logo{font-size:38px;font-weight:800}.msg{margin-top:12px;color:#FC618F}</style></head><body><div class="box"><div class="logo">MIRA</div><div class="msg" id="msg">Signing you in…</div></div><script src="mira-cloud.js?v=20261007-1620"></script><script>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MIRA — Signing in</title><style>body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:#800020;color:#FFFFFF;display:grid;place-items:center;min-height:100vh}.box{text-align:center;padding:28px}.logo{font-size:38px;font-weight:800}.msg{margin-top:12px;color:#FC618F}</style></head><body><div class="box"><div class="logo">MIRA</div><div class="msg" id="msg">Signing you in…</div></div><script src="mira-cloud.js?v=20261009-auth-refresh"></script><script src="mira-auth-flow.js?v=20261009-secure-1"></script><script>
 (async()=>{
  try{
-  const h=new URLSearchParams(location.hash.replace(/^#/,''));
-  const access_token=h.get('access_token'),refresh_token=h.get('refresh_token'),expires_in=Number(h.get('expires_in')||3600),token_type=h.get('token_type')||'bearer';
-  if(!access_token)throw new Error('The sign-in link is invalid or expired.');
-  const r=await fetch(MIRA_SUPABASE.url+'/auth/v1/user',{headers:{apikey:MIRA_SUPABASE.key,Authorization:'Bearer '+access_token}});
-  if(!r.ok)throw new Error('Could not verify your MIRA account.');
-  const user=await r.json();
-  MiraCloud.session={access_token,refresh_token,expires_in,expires_at:Math.floor(Date.now()/1000)+expires_in,token_type,user};
-  localStorage.setItem('mira_customer_session',JSON.stringify(MiraCloud.session));
-  let ret=new URLSearchParams(location.search).get('next')||localStorage.getItem('mira_auth_return')||sessionStorage.getItem('mira_auth_return')||'home.html';
-  try{const dest=new URL(ret,location.href);ret=dest.origin===location.origin?(dest.pathname+dest.search+dest.hash):'home.html'}catch(_){ret='home.html'}
-  localStorage.setItem('mira_auth_complete',JSON.stringify({at:Date.now(),returnTo:ret}));
-  localStorage.removeItem('mira_auth_return');sessionStorage.removeItem('mira_auth_return');
-  location.replace(ret);
- }catch(e){msg.textContent=e.message||String(e)}
+  const query=new URLSearchParams(location.search);
+  const fragment=new URLSearchParams(location.hash.replace(/^#/,''));
+  const error=fragment.get('error_description')||query.get('error_description');
+  if(error)throw new Error('The verification link failed or expired. Please request a new one.');
+  const destination=MiraAuthFlow.safeReturn(query.get('next')||MiraAuthFlow.getReturn('home.html'),'home.html');
+  const access_token=fragment.get('access_token');
+  const refresh_token=fragment.get('refresh_token');
+  if(access_token&&refresh_token){
+   const expires_in=Number(fragment.get('expires_in')||3600);
+   MiraCloud.acceptSession({
+    access_token,refresh_token,expires_in,
+    expires_at:Math.floor(Date.now()/1000)+expires_in,
+    token_type:fragment.get('token_type')||'bearer'
+   });
+  }else{
+   const token_hash=query.get('token_hash');
+   const type=query.get('type');
+   if(!token_hash||!['magiclink','signup','email','invite'].includes(type))
+    throw new Error('The verification link is invalid or expired. Please request a new email.');
+   const cfg=window.MIRA_SUPABASE;
+   const response=await fetch(cfg.url+'/auth/v1/verify',{
+    method:'POST',
+    headers:{apikey:cfg.key,'Content-Type':'application/json'},
+    body:JSON.stringify({token_hash,type})
+   });
+   if(!response.ok)throw new Error('Could not confirm this email link. Please request a new one.');
+   MiraCloud.acceptSession(await response.json());
+  }
+  // Tokens remain outside the address bar and account identity is checked remotely.
+  history.replaceState(null,'',location.pathname);
+  const user=await MiraAuthFlow.getVerifiedCustomer();
+  if(!user)throw new Error('Could not verify your MIRA account. Please sign in again.');
+  const pending=MiraAuthFlow.getPending();
+  if(pending?.mode==='signup'&&pending.profile?.full_name){
+   localStorage.setItem('mira_profile_name',pending.profile.full_name);
+   if(pending.profile.gender)localStorage.setItem('mira_profile_gender',pending.profile.gender);
+   if(pending.profile.date_of_birth)localStorage.setItem('mira_profile_dob',pending.profile.date_of_birth);
+  }
+  localStorage.setItem('mira_auth_complete',JSON.stringify({at:Date.now(),returnTo:destination}));
+  MiraAuthFlow.finish(destination);
+  location.replace(destination);
+ }catch(e){
+  history.replaceState(null,'',location.pathname);
+  msg.textContent=e.message||'Could not verify the MIRA sign-in link.';
+ }
 })();
 </script></body></html>
