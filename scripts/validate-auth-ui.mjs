@@ -9,7 +9,7 @@ for(const name of files){
  console.log('PASS '+name+' linked to responsive layout and repository branding');
 }
 const otp=read('otp');
-const inputs=(otp.match(/<input maxlength="1" inputmode="numeric"/g)||[]).length;
+const inputs=(otp.match(/<input maxlength="(?:1|6)" inputmode="numeric"/g)||[]).length;
 if(inputs!==6)throw new Error('Expected exactly 6 OTP fields, found '+inputs);
 if(!otp.includes('if(c.length!==6)')||!otp.includes('MiraCloud.verifyOtp'))throw new Error('OTP verification handler missing');
 for(const target of ['signin.html','signup.html','market.html'])if(!read('welcome').includes('href="'+target+'"'))throw new Error('Welcome target missing: '+target);
@@ -20,3 +20,8 @@ if(!style.includes('#welcomeSignin.btn.btn-white')||!style.includes('color:#8000
 const brand=readFileSync('docs/assets/asas360_master_vector.svg','utf8');
 if(!brand.includes('id="b"')||!brand.includes('fill="#800020"')||(brand.match(/<use /g)||[]).length!==7)throw new Error('Official ASAS vector asset is missing shield or wordmark elements');
 console.log('PASS welcome text contrast and exact vector ASAS footer');
+
+if(!otp.includes('maxlength="6" inputmode="numeric" autocomplete="one-time-code"'))throw new Error('First OTP input must accept whole iOS SMS autofill');
+if(!otp.includes("distributeOtp(i,digits)")||!otp.includes("addEventListener('paste'"))throw new Error('OTP digits must distribute on SMS autofill and paste');
+if(!otp.includes("setLang((new URLSearchParams(location.search).get('lang')||getLang()))"))throw new Error('OTP query language must be stored for validation prompts');
+console.log('PASS iPhone SMS autofill, paste distribution and OTP language persistence');
