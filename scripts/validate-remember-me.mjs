@@ -103,11 +103,11 @@ console.log('PASS concurrent session checks rotate refresh tokens only once and 
  const shared=storage(),first=storage(),second=storage();
  const expired={...goodSession,access_token:makeJWT(Math.floor(Date.now()/1000)-50),refresh_token:'before-rotation'};
  shared.setItem('mira_customer_session',JSON.stringify(expired));
- let exchanges=0;
+ let exchanges=0;const trace=[];
  const rotated={...goodSession,refresh_token:'after-rotation'};
  const fetcher=async url=>{
   if(url.includes('/rest/v1/'))return response(200,[]);
-  if(url.includes('grant_type=refresh_token')){exchanges++;await Promise.resolve();return response(200,rotated)}
+  if(url.includes('grant_type=refresh_token')){exchanges++;trace.push('api refresh:'+exchanges);await Promise.resolve();return response(200,rotated)}
   if(url.endsWith('/auth/v1/user'))return response(200,{id:'test-customer'});
   throw Error('Unexpected '+url);
  };
@@ -116,13 +116,14 @@ console.log('PASS concurrent session checks rotate refresh tokens only once and 
  let last=Promise.resolve();
  const locks={request:(name,settings,handler)=>{
   assert.ok(name.includes('mira_customer_session'),'customer locks must be account-scoped');
-  const result=last.then(handler);
+  trace.push('queue '+name);
+  const result=last.then(async()=>{trace.push('lock start');const r=await handler();trace.push('lock end');return r});
   last=result.then(()=>{},()=>{});
   return result;
  }};
  a.navigator={locks};b.navigator={locks};
  await Promise.all([a.MiraCloud.ensureFreshSession(),b.MiraCloud.ensureFreshSession()]);
- assert.equal(exchanges,1,'two tabs must share one Supabase refresh-token rotation');
+ assert.equal(exchanges,1,'two tabs must share one Supabase refresh-token rotation: '+JSON.stringify({trace,stored:JSON.parse(shared.getItem('mira_customer_session'))?.refresh_token,first:a.MiraCloud.session?.refresh_token,second:b.MiraCloud.session?.refresh_token,navA:vm.runInContext('typeof navigator',a),navB:vm.runInContext('typeof navigator',b)}));
  assert.equal(a.MiraCloud.session.refresh_token,'after-rotation');
  assert.equal(b.MiraCloud.session.refresh_token,'after-rotation');
  assert.equal(JSON.parse(shared.getItem('mira_customer_session')).refresh_token,'after-rotation');
