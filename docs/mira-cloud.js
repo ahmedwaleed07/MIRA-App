@@ -252,11 +252,29 @@ window.MiraCloud={
   }
 };
 window.MiraCloud.loadSession();
-// Keep remembered tabs in sync: signing out in one tab signs out its peers.
+// Keep remembered browser tabs in sync without retaining data from a previous account.
 if(typeof window.addEventListener==='function')window.addEventListener('storage',event=>{
   const cloud=window.MiraCloud;
   if(event.key!==cloud.sessionKey()||!cloud.rememberMe())return;
-  if(!event.newValue){cloud.session=null;return}
-  cloud.syncRememberedSession();
+  const previous=cloud.session;
+  if(!event.newValue){
+    cloud.session=null;
+  }else if(cloud.syncRememberedSession()){
+    return; // Same customer: safely adopted refreshed or newly issued tokens.
+  }else if(cloud.session?.refresh_token===cloud.rememberedSession()?.refresh_token){
+    return; // No change to this tab's credentials.
+  }else{
+    // Another tab switched customers or stored an invalid session. Do not
+    // keep using the previous account, and do not erase the new tab's tokens.
+    cloud.session=null;
+  }
+  if(previous?.access_token&&!cloud.session){
+    const page=location.pathname.split('/').pop().toLowerCase();
+    // Protected screens must not continue displaying a former customer's data.
+    if(['profile.html','edit-profile.html','checkout.html','orders.html','notifications.html'].includes(page)
+      &&typeof location.replace==='function'){
+      location.replace('signin.html?return='+encodeURIComponent(page));
+    }
+  }
 });
 window.MiraCloud.syncTaxonomy().catch(e=>console.warn('MIRA taxonomy sync failed',e));
