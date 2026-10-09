@@ -69,6 +69,36 @@ assert.equal(n.unread('merchant','store-A'),1,'store should not receive repeated
 assert.equal(n.unread('merchant','store-B'),0);
 console.log('PASS merchant new-order alerts separate from customer messages');
 
+const historyEntries=[
+ {id:'history-new',order_id:'order-001',status:'new',created_at:now},
+ {id:'history-accepted',order_id:'order-001',status:'accepted',created_at:new Date(Date.now()+500).toISOString()},
+ {id:'history-other',order_id:'not-this-customer',status:'new',created_at:now}
+];
+n.observeHistory('customer','customer-A',historyEntries,[order]);
+let historical=n.list('customer','customer-A').filter(i=>i.kind==='automatic'&&i.id.startsWith('order-status:'));
+assert.equal(historical.length,2,'verified history should preserve both status events');
+assert.equal(n.list('customer','customer-A').filter(i=>i.kind==='automatic').length,2,'legacy snapshots should not double-count server history');
+assert.equal(n.list('customer','customer-A').filter(i=>i.orderId==='not-this-customer').length,0,'do not accept history outside customer-owned orders');
+n.observeHistory('customer','customer-A',historyEntries,[order]);
+assert.equal(n.list('customer','customer-A').filter(i=>i.kind==='automatic').length,2);
+console.log('PASS Supabase order-status history replay without duplicating previous local snapshots or another customer order');
+
+const reader=context();
+reader.MiraCloud={session:{access_token:'test-token'},ensureFreshSession:async()=>{},
+ payload:()=>({sub:'customer-A',role:'authenticated'}),
+ request:async(query,options)=>{
+  assert.equal(options.requireAuth,true,'read receipt requests must always authenticate');
+  if(query.startsWith('mira_notification_reads?')&&options.method==='POST')return [];
+  if(query.startsWith('mira_notification_reads?'))return [{event_key:'order-status:history-new'}];
+  throw Error('Unexpected read receipt API request: '+query);
+ }};
+reader.MiraNotifications.observeHistory('customer','customer-A',[historyEntries[0]],[order]);
+assert.equal(reader.MiraNotifications.unread('customer','customer-A'),1);
+await reader.MiraNotifications.syncReadReceipts('customer-A');
+assert.equal(reader.MiraNotifications.unread('customer','customer-A'),0,'read receipts from another signed-in device should be applied');
+console.log('PASS customer read status syncs from Supabase across devices');
+
+
 const schema=read('supabase/migrations/20261009_mira_manual_notifications.sql');
 for(const table of ['mira_manual_notifications','mira_notification_admins'])
  assert.ok(schema.includes('public.'+table),'missing table '+table);
@@ -76,6 +106,20 @@ for(const key of ["('all','market','user')","mira_can_publish_notification","rec
  assert.ok(schema.includes(key),'manual notification authorization missing '+key);
 assert.ok(!/grant\s+insert\s+on\s+public\.mira_notification_admins/i.test(schema),'untrusted clients must not be able to grant themselves publishing access');
 console.log('PASS SQL RLS: only allow-listed admins can publish; customers read global/market/own targeted messages');
+
+const receiptsSQL=read('supabase/migrations/20261009_mira_notification_reads.sql');
+for(const phrase of [
+ 'public.mira_notification_reads',
+ 'primary key (user_id,event_key)',
+ 'alter table public.mira_notification_reads enable row level security',
+ 'revoke all on public.mira_notification_reads from anon',
+ 'for select to authenticated',
+ 'for insert to authenticated',
+ 'for update to authenticated',
+ 'using (user_id=auth.uid()) with check (user_id=auth.uid())'
+])assert.ok(receiptsSQL.includes(phrase),'cross-device receipt protection missing: '+phrase);
+console.log('PASS receipt schema restricts read/write access to each authenticated customer');
+
 
 const home=read('docs/home.html'),profile=read('docs/profile.html'),inbox=read('docs/notifications.html'),admin=read('docs/admin.html'),business=read('docs/business.html'),auth=read('docs/mira-auth-flow.js');
 assert.ok(home.includes('data-mira-notification-count')&&home.includes('mira-notifications.js'));
@@ -91,11 +135,16 @@ c.MiraCloud={session:{access_token:'test-token'},ensureFreshSession:async()=>{},
  request:async (query,options)=>{
   trace.push({query,options});
   if(query.startsWith('mira_orders?'))return [order];
+  if(query.startsWith('mira_order_status_history?'))return historyEntries.slice(0,2);
   if(query.startsWith('mira_manual_notifications?'))return campaigns.slice(0,2);
+  if(query.startsWith('mira_notification_reads?'))return [];
   throw Error('Unexpected query');
  }};
 await n.syncCustomer();
-assert.equal(trace.length,2);
+assert.ok(trace.length>=4,'order, status history, campaign, and read receipt queries are required');
 assert.ok(trace.every(x=>x.options.requireAuth===true),'notifications API must require authenticated user');
 assert.ok(trace[0].query.includes('customer_user_id=eq.customer-A'));
-console.log('PASS both automatic and curated messages loaded through authenticated Supabase requests');
+assert.ok(trace.some(x=>x.query.includes('mira_order_status_history?')),'status history query missing');
+assert.ok(trace.some(x=>x.query.includes('mira_notification_reads?')),'read receipt sync missing');
+assert.ok(trace.some(x=>x.query.includes('audience.eq.market')),'manual notice targeting filter missing');
+console.log('PASS automatic history, admin messages and cross-device receipt requests are authenticated');
