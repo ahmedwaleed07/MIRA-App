@@ -267,3 +267,21 @@ body.mira-auth-v3 :is(.brand-footer,.footer-brand) img.partner-logo{
  object-fit:contain!important;object-position:center!important;
  overflow:visible!important;clip-path:none!important;
 }
+
+
+/* Only sign-up's gender and birth-date selectors: white arrows on burgundy. */
+body.mira-auth-v3.signup-view select:is(#gender,#dobDay,#dobMonth,#dobYear){
+  -webkit-appearance:none!important;appearance:none!important;
+  background-color:#800020!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important;
+  background-size:17px 17px!important;
+  background-position:right 10px center!important;
+  color:#FFFFFF!important;
+  padding-right:31px!important;
+}
+html[dir="rtl"] body.mira-auth-v3.signup-view select:is(#gender,#dobDay,#dobMonth,#dobYear){
+  background-position:left 9px center!important;
+  padding-left:30px!important;
+  padding-right:12px!important;
+}

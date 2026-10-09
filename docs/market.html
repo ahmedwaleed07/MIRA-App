@@ -27,10 +27,52 @@ body{display:flex;justify-content:center}
 .country{border:1px solid var(--line);background:#800020;border-radius:20px;padding:16px 14px;display:flex;align-items:center;gap:11px;min-height:72px;cursor:pointer;text-align:left;font-family:inherit;box-shadow:0 8px 24px #800020} .country.selected{border-color:#800020;box-shadow:0 0 0 3px #FC618F} .flag{font-size:28px} .country-name{font-size:13px;font-weight:700;color:var(--ink)}
 .primary{width:100%;margin-top:26px;border:0;border-radius:17px;padding:15px 16px;font-weight:700;font-size:16px;color:#800020;background:linear-gradient(90deg,var(--pink),var(--pink2) 35%,var(--peach) 60%,var(--blue));box-shadow:0 12px 26px #FC618F;font-family:inherit} .primary:disabled{opacity:.45;box-shadow:none}
 .note{margin:12px 10px 0;text-align:center;color:var(--muted);font-size:11.5px;line-height:1.5}
-</style><link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"></head><body><main class="app">
+</style><link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><style id="mira-country-readability-v1">
+/* Only the country selection page: the global theme previously concealed country names. */
+body .app #countryGrid .country,
+body .app #countryGrid .country .country-name{
+  color:#FFFFFF!important;
+}
+body .app #countryGrid .country{
+  background:#800020!important;
+  border-color:#800020!important;
+}
+body .app #countryGrid .country.selected{border-color:#FC618F!important}
+body .app .search-wrap{
+  display:flex!important;align-items:center!important;gap:12px!important;
+  min-height:57px!important;padding:0 18px!important;
+  border:1px solid #800020!important;border-radius:19px!important;
+  background:#FFFFFF!important;box-shadow:0 5px 20px #800020!important;
+}
+body .app .search-wrap:focus-within{
+  border-color:#FC618F!important;
+  box-shadow:0 0 0 2px #FC618F!important;
+}
+body .app .search-wrap .search-icon{
+  flex:0 0 20px;display:block;width:20px;height:20px;
+  color:#800020!important;stroke:#800020!important;
+  margin:0!important;
+}
+body .app .search-wrap input.search{
+  display:block!important;flex:1 1 auto;min-width:0!important;
+  width:100%!important;height:55px!important;
+  margin:0!important;padding:0!important;
+  background:#FFFFFF!important;background-image:none!important;
+  color:#800020!important;caret-color:#800020!important;
+  border:0!important;outline:0!important;box-shadow:none!important;
+  appearance:none;-webkit-appearance:none;
+  font-size:14px!important;font-weight:500!important;
+}
+body .app .search-wrap input.search::placeholder{
+  color:#800020!important;opacity:.8!important;
+}
+body .app .search-wrap input.search::-webkit-search-cancel-button{
+  -webkit-appearance:none;
+}
+</style></head><body><main class="app">
 <div class="top"><button class="back" onclick="history.back()">‹</button><div class="brandmark"></div><div class="spacer"></div></div>
 <section class="hero"><h1 id="title"></h1><p class="sub" id="subtitle"></p></section>
-<div class="search-wrap"><span class="search-icon">⌕</span><input id="search" class="search" type="search" oninput="render()"></div>
+<div class="search-wrap"><svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.75"/><path d="m16 16 4.5 4.5"/></svg><input id="search" class="search" type="search" oninput="render()"></div>
 <div class="section-title" id="sectionTitle"></div><section class="grid" id="countryGrid"></section>
 <button class="primary" id="continueBtn" disabled onclick="continueMarket()"></button><p class="note" id="note"></p>
 <div class="lang"><button onclick="setLang('en')">English</button> · <button onclick="setLang('ar')">العربية</button> · <button onclick="setLang('es')">Español</button> · <button onclick="setLang('ru')">Русский</button> · <button onclick="setLang('tr')">Türkçe</button></div>

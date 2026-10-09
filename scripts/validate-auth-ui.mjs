@@ -34,3 +34,11 @@ if(!gift.includes('mira-gift-contour'))throw new Error('MIRA bitmap frame not ma
 const fullLogo=readFileSync('docs/assets/asas360_master_vector.svg','utf8');
 if(!fullLogo.includes('viewBox="-4 -7 282 82"'))throw new Error('ASAS shield safe area missing');
 console.log('PASS MIRA original mark pixels preserved with extraneous frame masked, and complete ASAS vector with bleed');
+
+/* Narrow-scope style regression checks for country choices, sign-up chevrons and eagle. */
+const marketHtml=readFileSync('docs/market.html','utf8');
+if(!marketHtml.includes('mira-country-readability-v1')||!marketHtml.includes('#countryGrid .country .country-name')||!marketHtml.includes('color:#FFFFFF!important'))throw new Error('Country names must be white on burgundy');
+if(!marketHtml.includes('<svg class="search-icon"')||!marketHtml.includes('.search-wrap:focus-within'))throw new Error('Country search must keep its clean magnifier and focus treatment');
+if(!style.includes('select:is(#gender,#dobDay,#dobMonth,#dobYear)')||!style.includes("stroke='%23FFFFFF'"))throw new Error('Birth date and gender selectors must have white chevrons');
+if(!brand.includes('translate(-35 -25) scale(.215)'))throw new Error('Official ASAS eagle group visibility correction missing');
+console.log('PASS country name contrast, polished search, white sign-up chevrons and complete ASAS shield size');
