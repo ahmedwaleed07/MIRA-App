@@ -39,7 +39,7 @@ function validTime(row){
 function notification(role,row,status,at){
  const id=String(row.id||'');
  return {id:id+':'+status+':'+String(at||''),orderId:id,status,
-  kind:role==='merchant'?'merchantNew':'status',
+  kind:role==='merchant'?'merchantNew':'automatic',
   at:at||new Date().toISOString(),read:false};
 }
 function observe(role,owner,rows){
@@ -72,6 +72,42 @@ function observe(role,owner,rows){
  }
  return state.items;
 }
+function observeManual(owner,rows,market){
+ if(!Array.isArray(rows))throw Error('Manual messages must come from Supabase');
+ const state=read('customer',owner);
+ const active=new Set();
+ const chosenMarket=String(market||'').toUpperCase();
+ for(const row of rows.slice(0,200)){
+  if(!row||!row.id||!row.title||!row.body)continue;
+  if(row.audience==='market'&&String(row.market_code||'').toUpperCase()!==chosenMarket)continue;
+  if(row.audience==='user'&&String(row.recipient_user_id)!==String(owner))continue;
+  const published=Date.parse(row.published_at||'');
+  if(!Number.isFinite(published)||published>Date.now()+60000)continue;
+  if(row.expires_at&&Date.parse(row.expires_at)<=Date.now())continue;
+  const id='manual:'+String(row.id);
+  active.add(id);
+  let item=state.items.find(n=>n.id===id);
+  if(!item){
+   item={id,orderId:'',status:'',kind:'manual',title:String(row.title).slice(0,120),
+    body:String(row.body).slice(0,700),destination:safeDestination(row.destination),
+    at:row.published_at,read:false};
+   state.items.unshift(item);
+  }else{
+   item.title=String(row.title).slice(0,120);
+   item.body=String(row.body).slice(0,700);
+   item.destination=safeDestination(row.destination);
+  }
+ }
+ state.items=state.items.filter(n=>n.kind!=='manual'||active.has(n.id));
+ state.items.sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+ write('customer',owner,state);
+ return state.items;
+}
+function safeDestination(raw){
+ if(typeof raw!=='string')return 'home.html';
+ const path=raw.trim();
+ return /^(home|orders|offer|categories|saved|profile)\.html(?:\?[a-zA-Z0-9_%=&.+-]{1,250})?$/.test(path)?path:'home.html';
+}
 function list(role,owner){return read(role,owner).items}
 function unread(role,owner){return list(role,owner).filter(n=>!n.read).length}
 function markRead(role,owner,id){
@@ -83,7 +119,7 @@ function markAllRead(role,owner){
  if(state.items.some(n=>!n.read)){state.items.forEach(n=>n.read=true);write(role,owner,state)}
 }
 function language(){const l=localStorage.getItem('mira_lang')||'en';return TEXT[l]||TEXT.en}
-function label(n){const t=language();return n.kind==='merchantNew'?t.merchantNew:(t[n.status]||t.new)}
+function label(n){const t=language();return n.kind==='manual'?n.title:n.kind==='merchantNew'?t.merchantNew:(t[n.status]||t.new)}
 function orderLabel(n){return language().order+' #'+String(n.orderId).slice(0,8).toUpperCase()}
 function updateBadges(role,owner){
  const count=unread(role,owner);
@@ -102,9 +138,15 @@ async function syncCustomer(){
  await cloud.ensureFreshSession();
  const p=cloud.payload();
  if(!p?.sub||p.role!=='authenticated')return null;
- const result=await cloud.request('mira_orders?customer_user_id=eq.'+encodeURIComponent(p.sub)+'&select=id,status,created_at,updated_at&order=created_at.desc&limit=100',{requireAuth:true});
- observe('customer',String(p.sub),result);
- return {owner:String(p.sub),count:unread('customer',String(p.sub)),items:list('customer',String(p.sub))};
+ const owner=String(p.sub);
+ const result=await cloud.request('mira_orders?customer_user_id=eq.'+encodeURIComponent(owner)+'&select=id,status,created_at,updated_at&order=created_at.desc&limit=100',{requireAuth:true});
+ observe('customer',owner,result);
+ let manualError=null;
+ try{
+  const manual=await cloud.request('mira_manual_notifications?select=id,title,body,audience,market_code,recipient_user_id,destination,published_at,expires_at&order=published_at.desc&limit=100',{requireAuth:true});
+  observeManual(owner,manual,localStorage.getItem('mira_market')||'IQ');
+ }catch(e){manualError=e;console.warn('MIRA manual notifications unavailable:',e.message)}
+ return {owner,count:unread('customer',owner),items:list('customer',owner),manualError};
 }
 async function watchCustomer({interval=30000,onUpdate}={}){
  let active=false;
@@ -122,5 +164,5 @@ async function watchCustomer({interval=30000,onUpdate}={}){
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void sync()});
  return ()=>clearInterval(timer);
 }
-window.MiraNotifications={observe,list,unread,markRead,markAllRead,label,orderLabel,updateBadges,syncCustomer,watchCustomer};
+window.MiraNotifications={observe,observeManual,list,unread,markRead,markAllRead,label,orderLabel,updateBadges,safeDestination,syncCustomer,watchCustomer};
 })();
