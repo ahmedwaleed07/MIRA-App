@@ -1,7 +1,7 @@
 // MIRA customer auth workflow helpers. No visual assets or UI styling.
 (function(){
 'use strict';
-const DESTINATIONS=new Set(['home.html','market.html','city.html','interests.html','categories.html','category.html','section.html','search.html','store.html','offer.html','saved.html','profile.html','edit-profile.html','cart.html','checkout.html','orders.html']);
+const DESTINATIONS=new Set(['home.html','market.html','city.html','interests.html','categories.html','category.html','section.html','search.html','store.html','offer.html','saved.html','profile.html','edit-profile.html','cart.html','checkout.html','orders.html','notifications.html']);
 const PENDING_KEY='mira_pending_otp';
 const PENDING_LIFETIME=15*60*1000;
 function safeReturn(value,fallback='home.html'){
