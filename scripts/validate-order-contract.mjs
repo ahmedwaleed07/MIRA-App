@@ -13,7 +13,7 @@ const cloud=read('docs/mira-cloud.js');
 const customerColumns=['customer_user_id','store_id','offer_id','customer_name','phone_primary','phone_secondary','governorate_city','full_address','landmark','customer_note','items','subtotal','total','currency','status'];
 for(const column of customerColumns){
  assert.match(migration,new RegExp('\\b'+column+'\\s+(?:uuid|text|jsonb|numeric)','i'),'Schema missing '+column);
- assert.ok(checkout.includes(column+':'),'Checkout missing '+column);
+ assert.match(checkout,new RegExp('\\b'+column+'\\s*(?::|,)'),'Checkout missing '+column);
 }
 for(const column of ['phone_primary','phone_secondary','governorate_city','full_address','landmark','customer_note','items','status']){
  assert.ok(business.includes(column),'Merchant order list missing '+column);
