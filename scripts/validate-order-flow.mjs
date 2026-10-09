@@ -43,6 +43,7 @@ function makeCheckout(cartItems,{guest=false,failStore=null}={}){
  };
  const ctx=vm.createContext({...objects,localStorage:local,sessionStorage:tab,
   location,document:{documentElement:{lang:'',dir:''}},MiraCloud:cloud,
+  MiraAuthFlow:{getVerifiedCustomer:async()=>guest?null:{id:'customer-123'},setReturn:dest=>tab.setItem('mira_auth_return',dest)},
   setTimeout:(callback)=>timers.push(callback),console,Date,JSON,Number,encodeURIComponent});
  vm.runInContext(inlineScript('docs/checkout.html'),ctx,{filename:'checkout-inline.js'});
  return {objects,local,location,timers,requests,cloud,ctx};
@@ -133,7 +134,7 @@ async function testCustomerTracking(){
  const ctx=vm.createContext({...objects,localStorage:storage({mira_lang:'en'}),
   sessionStorage:storage(),location:{href:''},
   document:{documentElement:{lang:'',dir:''},visibilityState:'visible'},
-  MiraCloud:cloud,setInterval:()=>{},console,Date,Number,JSON,Intl,encodeURIComponent
+  MiraCloud:cloud,MiraAuthFlow:{getVerifiedCustomer:async()=>({id:'customer-123'}),setReturn:()=>{}},setInterval:()=>{},console,Date,Number,JSON,Intl,encodeURIComponent
  });
  vm.runInContext(ordersSource,ctx,{filename:'orders-inline.js'});await pause();
  check(calls.length===1,'customer tracking fetch missing');
