@@ -11,7 +11,7 @@ for(const name of files){
 const otp=read('otp');
 const inputs=(otp.match(/<input maxlength="(?:1|6)" inputmode="numeric"/g)||[]).length;
 if(inputs!==6)throw new Error('Expected exactly 6 OTP fields, found '+inputs);
-if(!otp.includes('if(c.length!==6)')||!otp.includes('MiraCloud.verifyOtp'))throw new Error('OTP verification handler missing');
+if(!otp.includes('if(c.length!==6')||!otp.includes('MiraCloud.verifyOtp'))throw new Error('OTP verification handler missing');
 for(const target of ['signin.html','signup.html','market.html'])if(!read('welcome').includes('href="'+target+'"'))throw new Error('Welcome target missing: '+target);
 console.log('PASS six OTP fields, live verification, and welcome actions');
 
