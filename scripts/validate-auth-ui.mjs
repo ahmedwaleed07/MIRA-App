@@ -42,3 +42,16 @@ if(!marketHtml.includes('<svg class="search-icon"')||!marketHtml.includes('.sear
 if(!style.includes('select:is(#gender,#dobDay,#dobMonth,#dobYear)')||!style.includes("stroke='%23FFFFFF'"))throw new Error('Birth date and gender selectors must have white chevrons');
 if(!brand.includes('translate(-35 -25) scale(.215)'))throw new Error('Official ASAS eagle group visibility correction missing');
 console.log('PASS country name contrast, polished search, white sign-up chevrons and complete ASAS shield size');
+
+const interestsHtml=readFileSync('docs/interests.html','utf8');
+const homeHtml=readFileSync('docs/home.html','utf8');
+const homeStyles=readFileSync('docs/home-elegance.css','utf8');
+if(interestsHtml.includes('<span class="check">✓</span>'))throw new Error('Redundant interest selection circles must remain removed');
+if(!interestsHtml.includes("selected.has(id)?' selected':''"))throw new Error('Selected interest card highlighting must remain active');
+if(!homeHtml.includes('home-elegance.css')||!homeHtml.includes('homeEditorialKicker')||!homeHtml.includes('HOME_EDITORIAL'))throw new Error('Home editorial refinement or localization missing');
+if(!homeStyles.includes('.flash-visual,.soft-visual,.map-visual')||!homeStyles.includes('background-image:none!important'))throw new Error('Home fallback cards must not mix pink and burgundy backgrounds');
+const exactLogo=readFileSync('docs/assets/asas360_master_vector.svg','utf8');
+const originalEagle=exactLogo.match(/matrix\(1 0 0 -1 401\.3701 213\.82483\\)" d="([^"]+)"/)?.[1];
+const originalShield=exactLogo.match(/matrix\(1 0 0 -1 400\.2676 278\.33753\\)" d="([^"]+)"/)?.[1];
+if(originalEagle?.length!==3739||originalShield?.length!==872)throw new Error('ASAS original Illustrator eagle or shield vector was truncated');
+console.log('PASS card selection clarity, Home scoped elegance, and original ASAS Illustrator vector geometry');

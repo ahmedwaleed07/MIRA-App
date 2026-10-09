@@ -106,3 +106,11 @@ body.mira-home-elegance #cats .cat.sponsored::after{
  box-shadow:0 5px 14px #80002022!important
  }
 }
+
+/* Fallback media blocks are solid burgundy; no pink/burgundy gradient on one surface. */
+body.mira-home-elegance :is(.featured-visual,.flash-visual,.soft-visual,.map-visual):not(.admin-visual){
+  background:#800020!important;background-image:none!important;color:#FFFFFF!important;
+}
+body.mira-home-elegance :is(.featured-visual,.flash-visual,.soft-visual,.map-visual):not(.admin-visual) :is(.badge,.chip){
+  background:#800020!important;color:#FFFFFF!important;border:1px solid #FFFFFF!important;
+}
