@@ -1,0 +1,41 @@
+/* MIRA favourites: visible heart, no square box, no clipped bottom-corner widget. */
+button.mira-heart,button#storeFav,button#saveBtn.save{
+  position:absolute!important;
+  top:13px!important;
+  inset-inline-end:13px!important;
+  inset-inline-start:auto!important;
+  bottom:auto!important;
+  z-index:12!important;
+  display:grid!important;place-items:center!important;
+  box-sizing:border-box!important;
+  width:39px!important;height:39px!important;
+  min-width:39px!important;min-height:39px!important;
+  padding:5px!important;margin:0!important;
+  background:transparent!important;background-image:none!important;
+  color:#FFFFFF!important;
+  border:0!important;outline:0!important;
+  box-shadow:none!important;border-radius:0!important;
+  cursor:pointer;
+}
+button.mira-heart svg,button#storeFav svg,button#saveBtn.save svg{
+  display:block!important;width:29px!important;height:29px!important;
+  fill:none!important;stroke:#FFFFFF!important;stroke-width:2.3!important;
+  stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 1px 2px #800020);
+  pointer-events:none;
+}
+button.mira-heart.is-saved,button#storeFav.is-saved,button#saveBtn.save.saved{
+  background:transparent!important;border:0!important;
+  color:#FC618F!important;
+}
+button.mira-heart.is-saved svg,button#storeFav.is-saved svg,button#saveBtn.save.saved svg{
+  fill:#FC618F!important;stroke:#FC618F!important;
+}
+button.mira-heart:focus-visible,button#storeFav:focus-visible,button#saveBtn.save:focus-visible{
+  outline:2px solid #FFFFFF!important;outline-offset:2px;
+  border-radius:50%!important
+}
+body .featured-card,body .flash-card,body .recent-card,body .interest-card,
+body .near-card,body .offer-card,body .store-card,body .product-card,
+body .service-card,body .results .item,body .list .card,body .grid .card,
+body .cover,body .hero{position:relative}
