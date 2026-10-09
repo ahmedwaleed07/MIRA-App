@@ -6,35 +6,44 @@ window.MIRA_SUPABASE={
 window.MiraCloud={
   session:null,
   sessionKey(){const p=location.pathname;return /business\.html$/i.test(p)?'mira_merchant_session':/admin\.html$/i.test(p)?'mira_admin_session':'mira_customer_session'},
-  // Merchant "Remember Me" controls storage scope, never stores email passwords.
-  // Remembered sessions survive browser restarts; session-only sessions survive refresh.
+  // Customer/Merchant: checked stores session, never passwords, across browser restarts.
+  // Unchecked uses tab-only sessionStorage. Admin is unchanged.
   isMerchant(){return /business\.html$/i.test(location.pathname)},
-  rememberKey(){return 'mira_merchant_remember_me'},
-  rememberMe(){return !this.isMerchant()||localStorage.getItem(this.rememberKey())!=='false'},
+  isCustomer(){return !/(?:business|admin)\.html$/i.test(location.pathname)},
+  rememberKey(){return this.isMerchant()?'mira_merchant_remember_me':'mira_customer_remember_me'},
+  rememberMe(){
+    if(!this.isMerchant()&&!this.isCustomer())return true;
+    return localStorage.getItem(this.rememberKey())!=='false';
+  },
   setRememberMe(enabled){
-    if(!this.isMerchant())return;
+    if(!this.isMerchant()&&!this.isCustomer())return;
     localStorage.setItem(this.rememberKey(),enabled?'true':'false');
     if(this.session)this.saveSession();
+    else if(!enabled)localStorage.removeItem(this.sessionKey());
   },
   saveSession(){
     if(!this.session)return;
     const key=this.sessionKey(),serialized=JSON.stringify(this.session);
-    if(this.isMerchant()&&!this.rememberMe()){
+    if((this.isMerchant()||this.isCustomer())&&!this.rememberMe()){
       sessionStorage.setItem(key,serialized);
       localStorage.removeItem(key);
     }else{
       localStorage.setItem(key,serialized);
-      if(this.isMerchant())sessionStorage.removeItem(key);
+      sessionStorage.removeItem(key);
     }
   },
   loadSession(){
     try{
       const key=this.sessionKey();
-      if(this.isMerchant()&&!this.rememberMe()){
-        localStorage.removeItem(key); // never reuse a stale remembered session
+      if((this.isMerchant()||this.isCustomer())&&!this.rememberMe()){
+        localStorage.removeItem(key);
         this.session=JSON.parse(sessionStorage.getItem(key)||'null');
       }else{
         this.session=JSON.parse(localStorage.getItem(key)||'null');
+        if(!this.session&&sessionStorage.getItem(key)){
+          this.session=JSON.parse(sessionStorage.getItem(key));
+          this.saveSession();
+        }
       }
     }catch(e){this.session=null}
     return this.session;
@@ -61,7 +70,13 @@ window.MiraCloud={
     let response;
     try{response=await fetch(c.url+'/auth/v1/user',{headers:{apikey:c.key,Authorization:'Bearer '+this.session.access_token}})}
     catch(_){throw new Error('Could not reach the authentication service. Please check your connection.')}
-    if(response.status===401||response.status===403){this.signOut();return null}
+    if(response.status===401||response.status===403){
+      if(this.session?.refresh_token&&this.tokenExpired(120)){
+        await this.refreshSession();
+        response=await fetch(c.url+'/auth/v1/user',{headers:{apikey:c.key,Authorization:'Bearer '+this.session.access_token}});
+      }
+      if(response.status===401||response.status===403){this.signOut();return null}
+    }
     if(!response.ok)throw new Error('Could not verify your account. Please try again.');
     const user=await response.json(),p=this.payload();
     if(!user?.id||!p?.sub||user.id!==p.sub){this.signOut();return null}
@@ -92,19 +107,29 @@ window.MiraCloud={
   signOut(){
     this.session=null;
     localStorage.removeItem(this.sessionKey());
-    if(this.isMerchant())sessionStorage.removeItem(this.sessionKey());
+    sessionStorage.removeItem(this.sessionKey());
   },
+  refreshPromise:null,
   async refreshSession(){
-    if(!this.session?.refresh_token)throw new Error('Session expired. Please sign in again.');
-    const c=window.MIRA_SUPABASE;
-    const r=await fetch(c.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:this.session.refresh_token})});
-    if(!r.ok){
-      if([400,401,403,422].includes(r.status)){
-        this.signOut();throw new Error('Session expired. Please sign in again.');
+    // Deduplicate concurrent refresh calls to avoid Supabase refresh-token rotation races.
+    if(this.refreshPromise)return this.refreshPromise;
+    this.refreshPromise=(async()=>{
+      if(!this.session?.refresh_token)throw new Error('Session expired. Please sign in again.');
+      const c=window.MIRA_SUPABASE;
+      let r;
+      try{
+        r=await fetch(c.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:this.session.refresh_token})});
+      }catch(_){throw new Error('Could not reach the login service. Please check your connection.')}
+      if(!r.ok){
+        if([400,401,403,422].includes(r.status)){
+          this.signOut();throw new Error('Session expired. Please sign in again.');
+        }
+        throw new Error('Could not reach the login service. Please try again.');
       }
-      throw new Error('Could not reach the login service. Please try again.');
-    }
-    this.acceptSession(await r.json());return this.session;
+      this.acceptSession(await r.json());
+      return this.session;
+    })();
+    try{return await this.refreshPromise}finally{this.refreshPromise=null}
   },
   tokenExpired(skewSeconds=30){
     if(!this.session?.access_token)return false;
@@ -113,7 +138,7 @@ window.MiraCloud={
     return !expiration||Date.now()/1000>=expiration-skewSeconds;
   },
   async ensureFreshSession(){
-    if(this.session?.access_token&&this.tokenExpired())await this.refreshSession();
+    if(this.session?.access_token&&this.tokenExpired(120))await this.refreshSession();
     return this.session;
   },
   async request(path,options={}){
