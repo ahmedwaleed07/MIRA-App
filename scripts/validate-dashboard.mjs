@@ -25,7 +25,7 @@ const cases = [
   },
   {
     file: 'docs/admin.html', attr: 'go', names: [
-      'Stores', 'Products & Services', 'Categories', 'Orders',
+      'Stores', 'Products & Services', 'Categories', 'Notifications', 'Orders',
       'Flash Sales / Offers', 'Media Assets', 'Placement Model', 'Performance',
     ],
   },
