@@ -2,11 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#800020"><title>MIRA | الأسواق التراثية</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Changa:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--wine:#800020;--pink:#FC618F;--white:#fff;--ink:#29212a;--muted:#756b72;--line:#f0e6e9;--bg:#fff8fa}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;font-family:Poppins,"Noto Sans Arabic",sans-serif;background:var(--bg);color:var(--ink)}
+html,body{margin:0;min-height:100%;font-family:Poppins,"Changa",sans-serif;background:var(--bg);color:var(--ink)}
 body{display:flex;justify-content:center}.app{width:min(100%,480px);min-height:100svh;background:var(--bg);padding-bottom:35px}
 .hero{height:258px;position:relative;overflow:hidden;background:#382d31}
 .hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -14,8 +14,8 @@ body{display:flex;justify-content:center}.app{width:min(100%,480px);min-height:1
 .hero-top,.hero-copy{position:absolute;z-index:1;left:18px;right:18px;color:#fff}
 .hero-top{top:calc(15px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between}
 .hero-copy{bottom:20px}
-.brand{font-size:19px;font-weight:800;letter-spacing:.4px;color:#fff}
-.back{border:1px solid #ffffff88;background:#ffffff18;color:#fff;border-radius:13px;padding:8px 12px;font:700 11px Poppins,"Noto Sans Arabic";backdrop-filter:blur(9px)}
+.brand{display:flex;align-items:center}.brand img{display:block;width:66px;height:auto;filter:brightness(0) invert(1)}.brand-inline{width:44px;height:auto;vertical-align:middle;filter:brightness(0) invert(1)}
+.back{border:1px solid #ffffff88;background:#ffffff18;color:#fff;border-radius:13px;padding:8px 12px;font:700 11px Poppins,"Changa";backdrop-filter:blur(9px)}
 .eyebrow{margin:0 0 4px;font-size:10px;font-weight:700;color:#fff;opacity:.92}
 .title{font-size:27px;line-height:1.3;margin:0;font-weight:800;color:#fff;text-shadow:0 2px 12px #0008}
 .market-category{font-size:12px;margin:5px 0 0;color:#fff;font-weight:500;text-shadow:0 2px 10px #0008}
@@ -23,18 +23,16 @@ body{display:flex;justify-content:center}.app{width:min(100%,480px);min-height:1
 .tagline{margin:16px 2px 8px;color:var(--wine);font-size:16px;font-weight:800}
 .market-nav{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
 .market-nav::-webkit-scrollbar{display:none}
-.market-chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--wine);border-radius:999px;padding:8px 12px;font:700 10px Poppins,"Noto Sans Arabic";white-space:nowrap}
+.market-chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--wine);border-radius:999px;padding:8px 12px;font:700 10px Poppins,"Changa";white-space:nowrap}
 .market-chip.active{background:var(--pink);border-color:var(--pink);color:#fff}
 .market-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px;box-shadow:0 10px 28px #8000200b}
 .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:5px;background:#fff0f4;border-radius:15px;margin-bottom:12px}
-.mode{border:0;border-radius:12px;padding:11px 6px;background:transparent;color:var(--wine);font:800 12px Poppins,"Noto Sans Arabic"}
+.mode{border:0;border-radius:12px;padding:11px 6px;background:transparent;color:var(--wine);font:800 12px Poppins,"Changa"}
 .mode.active{background:var(--wine);color:#fff}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 10px}
 .section-head h2{margin:0;color:var(--wine);font-size:16px}
-.seller-entry{background:var(--pink);color:#fff;border:0;border-radius:12px;padding:9px 11px;font:800 10px Poppins,"Noto Sans Arabic"}
-.sides{display:flex;gap:8px;margin:12px 0}
-.side{flex:1;border:1px solid var(--line);background:#fff;color:var(--wine);border-radius:12px;padding:11px 5px;font:800 11px Poppins,"Noto Sans Arabic"}
-.side.active{background:var(--wine);color:#fff;border-color:var(--wine)}
+.seller-entry{background:var(--pink);color:#fff;border:0;border-radius:12px;padding:9px 11px;font:800 10px Poppins,"Changa"}
+.side-toggle{flex:1;border:0;border-radius:12px;padding:11px 8px;background:var(--wine);color:#fff;font:800 12px Poppins,Changa;text-align:center}.side-toggle:active{transform:scale(.98)}
 .listings{display:grid;gap:11px}
 .stall-card,.shop-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px 14px 13px;box-shadow:0 5px 18px #8000200a}
 .stall-number{position:absolute;top:12px;right:12px;width:39px;height:39px;border-radius:13px;background:var(--pink);color:#fff;display:grid;place-items:center;font-size:17px;font-weight:800}
@@ -43,37 +41,37 @@ body{display:flex;justify-content:center}.app{width:min(100%,480px);min-height:1
 .price-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px}
 .price{color:var(--wine);font-size:15px;font-weight:800}
 .phone{color:var(--wine);direction:ltr;text-decoration:none;font-size:11px;font-weight:800}
-.offer-button{width:100%;margin-top:11px;border:0;border-radius:12px;background:var(--pink);color:#fff;padding:10px;font:800 11px Poppins,"Noto Sans Arabic"}
+.offer-button{width:100%;margin-top:11px;border:0;border-radius:12px;background:var(--pink);color:#fff;padding:10px;font:800 11px Poppins,"Changa"}
 .empty{padding:24px 14px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8;background:#fff;border:1px dashed var(--line);border-radius:15px}
 .actions-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px 0 0}
-.action{display:grid;place-items:center;text-align:center;text-decoration:none;border:0;border-radius:13px;padding:11px 6px;background:var(--wine);color:#fff;font:800 10px Poppins,"Noto Sans Arabic"}
+.action{display:grid;place-items:center;text-align:center;text-decoration:none;border:0;border-radius:13px;padding:11px 6px;background:var(--wine);color:#fff;font:800 10px Poppins,"Changa"}
 .action.pink{background:var(--pink)}
 .modal{position:fixed;inset:0;background:#190b10a6;display:none;align-items:flex-end;justify-content:center;z-index:5}.modal.open{display:flex}
 .sheet{width:min(100%,480px);max-height:88svh;overflow:auto;background:white;border-radius:25px 25px 0 0;padding:22px 19px calc(24px + env(safe-area-inset-bottom))}
 .sheet h2{margin:0 0 6px;color:var(--wine);font-size:20px}.sheet p{color:var(--muted);font-size:11px;line-height:1.7}
 .field{display:grid;gap:6px;margin:12px 0}.field label{font-size:11px;font-weight:700;color:var(--wine)}
-.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font:12px Poppins,"Noto Sans Arabic";background:#fff;color:var(--ink)}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font:12px Poppins,"Changa";background:#fff;color:var(--ink)}
 .field textarea{min-height:70px;resize:vertical}
-.submit{width:100%;border:0;border-radius:13px;background:var(--pink);color:#fff;padding:13px;font:800 12px Poppins,"Noto Sans Arabic"}
+.submit{width:100%;border:0;border-radius:13px;background:var(--pink);color:#fff;padding:13px;font:800 12px Poppins,"Changa"}
 .close{float:left;border:0;background:#f9edf1;color:var(--wine);border-radius:50%;width:32px;height:32px;font-size:19px}
 .pending{display:grid;gap:9px;margin:12px 0}.pending-card{border:1px solid var(--line);border-radius:14px;padding:12px}
 .pending-card b{display:block;color:var(--wine);font-size:12px}.pending-card small{display:block;color:var(--muted);margin-top:5px}
-.actions{display:flex;gap:7px;margin-top:9px}.actions button{flex:1;border:0;border-radius:10px;padding:8px;font:700 10px Poppins,"Noto Sans Arabic"}
+.actions{display:flex;gap:7px;margin-top:9px}.actions button{flex:1;border:0;border-radius:10px;padding:8px;font:700 10px Poppins,"Changa"}
 .yes{background:var(--pink);color:#fff}.no{background:#f8eef1;color:var(--wine)}
 .toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);background:var(--wine);color:#fff;border-radius:13px;padding:11px 15px;font-size:11px;opacity:0;pointer-events:none;transition:.2s;z-index:8}.toast.show{opacity:1;transform:translate(-50%,0)}
-.foot{text-align:center;color:var(--muted);font-size:9px;padding:17px 0 20px}.foot b{color:var(--wine)}
+.foot{text-align:center;color:var(--muted);font-size:9px;padding:17px 0 20px}.foot img{width:40px;height:auto;vertical-align:middle}
 [dir=ltr] .stall-number{right:auto;left:12px}[dir=ltr] .close{float:right}
-@media(max-width:360px){.hero{height:238px}.body{padding:0 12px}.mode{font-size:11px}.side{font-size:10px}}
+@media(max-width:360px){.hero{height:238px}.body{padding:0 12px}.mode{font-size:11px}.side-toggle{font-size:11px}}
 </style>
 </head>
 <body><main class="app">
-<header class="hero"><img id="marketHero" src="assets/heritage-markets/market-mutanabbi.jpg" alt=""><div class="hero-top"><button class="back" onclick="location.href='home.html'">← الرئيسية</button><span class="brand">MIRA</span></div><div class="hero-copy"><p class="eyebrow">MIRA · أسواق محلية</p><h1 class="title" id="heroTitle"></h1><p class="market-category" id="marketCategory"></p></div></header>
+<header class="hero"><img id="marketHero" src="assets/heritage-markets/market-mutanabbi.jpg" alt=""><div class="hero-top"><button class="back" onclick="location.href='home.html'">← الرئيسية</button><span class="brand"><img src="assets/mira_wordmark.svg" alt="MIRA"></span></div><div class="hero-copy"><p class="eyebrow"><img class="brand-inline" src="assets/mira_wordmark.svg" alt="MIRA"> · أسواق محلية</p><h1 class="title" id="heroTitle"></h1><p class="market-category" id="marketCategory"></p></div></header>
 <div class="body"><p class="tagline">بسطية ورا بسطية</p><nav class="market-nav" id="markets"></nav>
 <section class="market-card"><div class="mode-switch"><button id="shopsMode" class="mode" onclick="setMode('shops')">المحلات</button><button id="stallsMode" class="mode active" onclick="setMode('stalls')">البسطيات</button></div>
-<div id="stallControls"><div class="section-head"><h2>اختار جهة السوق</h2><button class="seller-entry" onclick="openSheet('join')">افتح بسطة</button></div><div class="sides"><button class="side active" id="oddSide" onclick="chooseSide('odd')">١، ٣، ٥… · الفردية</button><button class="side" id="evenSide" onclick="chooseSide('even')">٢، ٤، ٦… · الزوجية</button></div></div>
+<div id="stallControls"><div class="section-head"><button class="side-toggle" id="sideToggle" type="button" onclick="toggleSide()" aria-pressed="false">بسطيات السايد الثاني</button><button class="seller-entry" onclick="openSheet('join')">افتح بسطة</button></div></div>
 <div class="section-head"><h2 id="listingTitle">البسطيات</h2></div><div class="listings" id="listingArea"></div>
 <div class="actions-row"><a class="action" href="business.html">متجر اعتيادي</a><button class="action pink" onclick="openSheet('seller')">طلبات الأسعار</button></div></section>
-<footer class="foot"><b>MIRA</b> · تجربة سوق شعبية جديدة</footer></div></main>
+<footer class="foot"><img src="assets/mira_wordmark.svg" alt="MIRA"> · تجربة سوق شعبية جديدة</footer></div></main>
 <div class="modal" id="modal" onclick="if(event.target===this)closeSheet()"><section class="sheet"><button class="close" onclick="closeSheet()">×</button><div id="sheetContent"></div></section></div><div class="toast" id="toast"></div>
 <script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script>
 <script>
@@ -91,11 +89,11 @@ const read=(k)=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch{retu
 const current=()=>MARKETS.find(m=>m.id===marketId)||MARKETS[0];
 function stalls(){const s=read('mira_heritage_stalls').filter(x=>x.market===marketId&&x.side===side);const demos=current().demo.map((d,i)=>({id:'demo-'+marketId+'-'+side+'-'+i,market:marketId,side,number:side==='odd'?1+i*2:2+i*2,title:d[0],description:d[1],price:d[2],phone:d[3],demo:true}));return [...demos,...s].sort((a,b)=>a.number-b.number)}
 function shops(){const all=[...read('mira_admin_stores'),...read('mira_heritage_shops')],m=current();return all.filter((s,i,a)=>a.findIndex(x=>x.id===s.id)===i&&[s.heritageMarket,s.heritage_market,s.marketId,s.market_id,s.market].some(v=>[marketId,m.name,m.en].includes(String(v||''))))}
-function render(){const m=current(), lang=localStorage.getItem('mira_lang')||'ar';document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.querySelector('#marketHero').src='assets/heritage-markets/'+m.photo;document.querySelector('#marketHero').alt=m.name;document.querySelector('#heroTitle').textContent=m.name;document.querySelector('#marketCategory').textContent=m.desc;document.querySelector('#markets').innerHTML=MARKETS.map(x=>'<button class="market-chip '+(x.id===marketId?'active':'')+'" onclick="selectMarket(\''+x.id+'\')">'+x.name+'</button>').join('');document.querySelector('#oddSide').classList.toggle('active',side==='odd');document.querySelector('#evenSide').classList.toggle('active',side==='even');document.querySelector('#shopsMode').classList.toggle('active',viewMode==='shops');document.querySelector('#stallsMode').classList.toggle('active',viewMode==='stalls');document.querySelector('#stallControls').style.display=viewMode==='stalls'?'block':'none';document.querySelector('#listingTitle').textContent=viewMode==='shops'?'محلات '+m.name:'بسطيات '+m.name;if(viewMode==='stalls'){const list=stalls();document.querySelector('#listingArea').innerHTML=list.map(stallCard).join('')}else{const list=shops();document.querySelector('#listingArea').innerHTML=list.length?list.map(shopCard).join(''):'<div class="empty">ماكو محلات منشورة بهذا السوق حالياً.</div>'}}
+function render(){const m=current(), lang=localStorage.getItem('mira_lang')||'ar';document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.querySelector('#marketHero').src='assets/heritage-markets/'+m.photo;document.querySelector('#marketHero').alt=m.name;document.querySelector('#heroTitle').textContent=m.name;document.querySelector('#marketCategory').textContent=m.desc;document.querySelector('#markets').innerHTML=MARKETS.map(x=>'<button class="market-chip '+(x.id===marketId?'active':'')+'" onclick="selectMarket(\''+x.id+'\')">'+x.name+'</button>').join('');const sideToggle=document.querySelector('#sideToggle');if(sideToggle){sideToggle.textContent=side==='odd'?'بسطيات السايد الثاني':'بسطيات السايد الأول';sideToggle.setAttribute('aria-pressed',String(side==='even'))}document.querySelector('#shopsMode').classList.toggle('active',viewMode==='shops');document.querySelector('#stallsMode').classList.toggle('active',viewMode==='stalls');document.querySelector('#stallControls').style.display=viewMode==='stalls'?'block':'none';document.querySelector('#listingTitle').textContent=viewMode==='shops'?'محلات '+m.name:'بسطيات '+m.name;if(viewMode==='stalls'){const list=stalls();document.querySelector('#listingArea').innerHTML=list.map(stallCard).join('')}else{const list=shops();document.querySelector('#listingArea').innerHTML=list.length?list.map(shopCard).join(''):'<div class="empty">ماكو محلات منشورة بهذا السوق حالياً.</div>'}}
 function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function stallCard(s){return '<article class="stall-card"><span class="stall-number">'+Number(s.number).toLocaleString('ar-IQ')+'</span><h3>'+esc(s.title)+'</h3><p>'+esc(s.description||'منتج من '+current().name)+'</p><div class="price-row"><span class="price">'+Number(s.price).toLocaleString('ar-IQ')+' د.ع</span><a class="phone" href="tel:'+esc(s.phone)+'">'+esc(s.phone)+'</a></div><button class="offer-button" onclick="openOffer(\''+s.id+'\')">قدّم سعر مناسب</button></article>'}
 function shopCard(s){const name=s.name||s.title||'متجر MIRA';return '<article class="shop-card"><h3>'+esc(name)+'</h3><p>'+esc(s.description||s.category||'متجر في '+current().name)+'</p><div class="price-row"><span class="phone">'+esc(s.phone||s.contact_phone||'')+'</span><span>'+esc(s.city||'')+'</span></div></article>'}
-function selectMarket(id){marketId=id;side='odd';render()}function setMode(mode){viewMode=mode;render()}function chooseSide(target){side=(target===side&&target==='even')?'odd':target;viewMode='stalls';render()}
+function selectMarket(id){marketId=id;side='odd';render()}function setMode(mode){viewMode=mode;render()}function toggleSide(){side=side==='odd'?'even':'odd';viewMode='stalls';render()}
 function openOffer(id){selectedOfferStall=stalls().find(x=>x.id===id);openSheet('offer')}
 function openSheet(mode){const root=document.querySelector('#sheetContent');if(mode==='offer'){const s=selectedOfferStall||stalls()[0];root.innerHTML='<h2>قدّم عرضك للبائع</h2><p>اكتب السعر اللي يناسبك، والبائع يرد عليك بالموافقة أو الرفض.</p><form onsubmit="sendOffer(event)"><div class="field"><label>السعر المعروض (دينار عراقي)</label><input required type="number" min="1" name="price" placeholder="اكتب السعر المناسب" /></div><div class="field"><label>رقم هاتفك</label><input required type="tel" name="phone" placeholder="07xxxxxxxxx" /></div><div class="field"><label>ملاحظة للبائع (اختياري)</label><textarea name="note" placeholder="مثلاً: أشتري قطعتين"></textarea></div><button class="submit">إرسال عرض السعر</button></form>';}else if(mode==='join'){root.innerHTML='<h2>افتح بسطة في '+current().name+'</h2><p>أضف بضاعة البسطة ورقم تواصلها.</p><form onsubmit="addStall(event)"><div class="field"><label>السوق</label><select name="market">'+MARKETS.map(m=>'<option value="'+m.id+'" '+(m.id===marketId?'selected':'')+'>'+m.name+'</option>').join('')+'</select></div><div class="field"><label>الجهة</label><select name="side"><option value="odd">فردية: ١، ٣، ٥…</option><option value="even">زوجية: ٢، ٤، ٦…</option></select></div><div class="field"><label>اسم البضاعة</label><input required name="title" maxlength="60" placeholder="مثلاً: كتاب تراثي" /></div><div class="field"><label>وصف مختصر</label><textarea name="description" maxlength="180" placeholder="تفاصيل المنتج"></textarea></div><div class="field"><label>السعر (دينار عراقي)</label><input required type="number" min="1" name="price" /></div><div class="field"><label>رقم هاتف البائع</label><input required type="tel" name="phone" placeholder="07xxxxxxxxx" /></div><button class="submit">نشر البسطة</button></form>';}else{const pending=read('mira_heritage_offers').filter(x=>x.seller===localStorage.getItem('mira_heritage_phone'));root.innerHTML='<h2>طلبات السعر</h2><p>اكتب رقم هاتف البائع لمراجعة العروض.</p><form onsubmit="showSeller(event)"><div class="field"><label>رقم هاتف البائع</label><input required name="seller" type="tel" value="'+esc(localStorage.getItem('mira_heritage_phone')||'')+'" /></div><button class="submit">عرض الطلبات</button></form><div class="pending" id="pending">'+(pending.map(cardOffer).join('')||'<div class="empty">لا توجد عروض على هذا الجهاز حالياً.</div>')+'</div>';}document.querySelector('#modal').classList.add('open')}
 function closeSheet(){document.querySelector('#modal').classList.remove('open')}
