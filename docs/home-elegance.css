@@ -114,3 +114,133 @@ body.mira-home-elegance :is(.featured-visual,.flash-visual,.soft-visual,.map-vis
 body.mira-home-elegance :is(.featured-visual,.flash-visual,.soft-visual,.map-visual):not(.admin-visual) :is(.badge,.chip){
   background:#800020!important;color:#FFFFFF!important;border:1px solid #FFFFFF!important;
 }
+
+
+/* MIRA modern home: warm layered canvas, richer market cards, calm motion. */
+body.mira-home-elegance{
+  background:#fff4f7!important;
+}
+body.mira-home-elegance .app{
+  background:
+    radial-gradient(ellipse at 100% 13%,#FCE4EC 0,transparent 34%),
+    radial-gradient(ellipse at 0% 45%,#F8EAF0 0,transparent 32%),
+    linear-gradient(180deg,#fff9fb 0%,#fff3f7 52%,#fff8fa 100%)!important;
+}
+body.mira-home-elegance .top{
+  padding:10px 12px 11px;
+  border-radius:20px;
+  background:#FFFFFF;
+  box-shadow:0 8px 24px #80002010;
+}
+body.mira-home-elegance .location,
+body.mira-home-elegance .mira-notification-bell{
+  border-radius:14px!important;
+  background:#fff7f9!important;
+  box-shadow:0 4px 14px #80002012!important;
+}
+body.mira-home-elegance #homeSearch{
+  background:#FFFFFF!important;
+  border-color:#ead5dd!important;
+  box-shadow:0 10px 24px #80002010!important;
+}
+body.mira-home-elegance .home-editorial{
+  min-height:112px;
+  background:linear-gradient(145deg,#FFFFFF 0%,#fff9fb 100%)!important;
+  border-color:#ead5dd!important;
+  box-shadow:0 12px 28px #80002012, inset 0 1px 0 #FFFFFF!important;
+}
+body.mira-home-elegance .home-editorial:after{
+  content:"✦";
+  position:absolute;
+  inset-inline-end:17px;
+  top:17px;
+  display:grid;
+  place-items:center;
+  width:34px;height:34px;border-radius:12px;
+  color:#FFFFFF;background:#800020;font-size:17px;
+  box-shadow:0 6px 14px #80002020;
+}
+body.mira-home-elegance .heritage-home{
+  margin:25px -5px 0!important;
+  padding:16px 13px 14px;
+  border:1px solid #f0dfe5;
+  border-radius:24px;
+  background:#fffafd;
+  box-shadow:0 12px 28px #8000200c;
+}
+body.mira-home-elegance .heritage-market-card{
+  min-height:148px;
+  border:1px solid #ffffff80;
+  box-shadow:0 12px 24px #31121e20;
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+body.mira-home-elegance .heritage-market-card:active{
+  transform:scale(.975);
+  box-shadow:0 6px 14px #31121e20;
+}
+body.mira-home-elegance .heritage-market-card img{
+  z-index:-1;
+}
+body.mira-home-elegance .heritage-market-card:nth-child(3n+1){
+  background:radial-gradient(circle at 78% 18%,#a95268 0 2px,transparent 3px),radial-gradient(circle at 22% 35%,#a95268 0 1px,transparent 2px),linear-gradient(145deg,#6a2438,#800020 60%,#451321);
+  background-size:28px 28px,22px 22px,cover;
+}
+body.mira-home-elegance .heritage-market-card:nth-child(3n+2){
+  background:radial-gradient(circle at 70% 28%,#a95268 0 2px,transparent 3px),linear-gradient(135deg,#4a1828,#800020 58%,#6f2a40);
+  background-size:24px 24px,cover;
+}
+body.mira-home-elegance .heritage-market-card:nth-child(3n){
+  background:repeating-linear-gradient(135deg,#4b192a 0 11px,#542033 11px 12px,#800020 12px 26px);
+}
+body.mira-home-elegance .heritage-market-card:after{
+  background:linear-gradient(180deg,#16080b18 0%,#16080b28 32%,#16080bd9 100%);
+}
+body.mira-home-elegance .heritage-market-card .market-open{
+  background:#FFFFFF!important;
+  color:#800020!important;
+  border:1px solid #FFFFFF!important;
+  box-shadow:0 5px 12px #16080b30;
+}
+body.mira-home-elegance .heritage-market-card .market-caption{
+  text-shadow:0 2px 10px #16080b80;
+}
+body.mira-home-elegance .section:not(.heritage-home){
+  padding:13px 12px 14px;
+  margin:22px -5px 0!important;
+  border:1px solid #f0dfe5;
+  border-radius:22px;
+  background:#fffafd;
+  box-shadow:0 10px 24px #8000200b;
+}
+body.mira-home-elegance .section-head{
+  border-inline-start-color:#800020;
+}
+body.mira-home-elegance #cats .cat{
+  min-height:94px;
+  border-color:#ead5dd!important;
+  background:linear-gradient(160deg,#FFFFFF,#fff7fa)!important;
+  box-shadow:0 8px 18px #80002010!important;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+body.mira-home-elegance #cats .cat:active{
+  transform:translateY(2px) scale(.98);
+}
+body.mira-home-elegance .category-note{
+  border-color:#ead5dd!important;
+  background:#FFFFFF!important;
+  color:#800020!important;
+  border-radius:16px;
+}
+body.mira-home-elegance .bottom{
+  background:#fffafd!important;
+  border-top:1px solid #f0dfe5!important;
+  box-shadow:0 -8px 26px #8000200d;
+}
+@media(prefers-reduced-motion:no-preference){
+  body.mira-home-elegance .home-editorial{animation:mira-card-arrive .42s ease both}
+  body.mira-home-elegance .heritage-market-card:hover{transform:translateY(-3px);box-shadow:0 17px 28px #31121e25}
+}
+@keyframes mira-card-arrive{
+  from{opacity:.86;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
+}
