@@ -12,7 +12,7 @@ const shapes={
   "home-appliances": "<rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><circle cx=\"12\" cy=\"13\" r=\"4.2\"/><path d=\"M7 6h1M10 6h1M15 6h2\"/>",
   "home": "<path d=\"M3 12V9L8 6h8l5 3v3M5 12v8h14v-8\"/><path d=\"M7 15h10v5H7zM7 15v-2h10v2\"/>",
   "sports": "<path d=\"M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10M2 10v4M22 10v4\"/>",
-  "toys-kids": "<circle cx=\"9\" cy=\"9\" r=\"2\"/><circle cx=\"15\" cy=\"9\" r=\"2\"/><path d=\"M6 10 5 7l3-3 4 1 4-1 3 3-1 3c2 1 3 3 3 6 0 4-4 6-9 6s-9-2-9-6c0-3 1-5 3-6z\"/><path d=\"M10 15h.01M14 15h.01M10 18c1 1 3 1 4 0\"/>",
+  "toys-kids": "<circle cx=\"7.5\" cy=\"7.5\" r=\"3.5\"/><path d=\"M4.8 6.2h5.4M4.5 8.7h6M7.5 4v7\"/><rect x=\"4\" y=\"13\" width=\"7\" height=\"7\" rx=\"1.2\"/><rect x=\"13\" y=\"9\" width=\"7\" height=\"11\" rx=\"1.2\"/><path d=\"M6 16.5h3M15 12.5h3M15 16h3\"/>",
   "jewelry": "<path d=\"m7 7 3-5h4l3 5-5 5z\"/><circle cx=\"12\" cy=\"17\" r=\"4.5\"/><path d=\"M7 7h10M10 2l2 5 2-5\"/>",
   "eyewear": "<circle cx=\"6.5\" cy=\"13\" r=\"4.1\"/><circle cx=\"17.5\" cy=\"13\" r=\"4.1\"/><path d=\"M10.6 12.5c1-1.3 1.8-1.3 2.8 0M2.5 12 2 9M21.5 12l.5-3\"/>",
   "automotive": "<path d=\"m5 15 1.5-5 2-3h7l2 3L19 15\"/><rect x=\"3\" y=\"13\" width=\"18\" height=\"6\" rx=\"2\"/><path d=\"M7 19v2M17 19v2M6 14.5h2M16 14.5h2\"/>",
