@@ -283,3 +283,6 @@ body.mira-home-elegance .category-note{display:none!important}
   body.mira-home-elegance #cats .cat{transition:transform .2s ease,box-shadow .2s ease}
   body.mira-home-elegance #cats .cat:hover{transform:translateY(-3px);box-shadow:0 14px 24px #80002020!important}
 }
+
+/* Do not show empty inventory rails as large blank panels. */
+body.mira-home-elegance .section:has(.empty-rail){display:none!important}
