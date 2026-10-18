@@ -41,6 +41,50 @@ body{display:flex;justify-content:center}
 .nav{color:#FC618F;text-decoration:none;font:600 9.5px Poppins;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nav svg{width:22px;height:22px}
 .nav.active{color:var(--pink)}
+
+/* MIRA categories: vivid, layered and readable */
+html,body{background:#fff4f7!important;color:#800020!important}
+.app{
+  background:
+    radial-gradient(ellipse at 100% 0%,#f9d8e3 0,transparent 34%),
+    radial-gradient(ellipse at 0% 35%,#f5dce5 0,transparent 30%),
+    linear-gradient(180deg,#fff9fb 0%,#fff0f5 52%,#fff8fa 100%)!important;
+  color:#800020!important;
+}
+.title{color:#800020!important;font-size:27px;letter-spacing:-.7px}
+.sub{color:#800020!important;opacity:.75}
+.search{background:#fff!important;border:1px solid #ead2dc!important;box-shadow:0 9px 22px #80002012!important}
+.search svg{color:#800020!important}.search input{color:#800020!important}
+.search input::placeholder{color:#800020!important;opacity:.62}
+.grid{gap:13px}
+.cat{
+  position:relative;overflow:hidden;
+  border:1px solid #ead2dc!important;border-radius:23px!important;
+  background:linear-gradient(150deg,#fff 0%,#fff7fa 100%)!important;
+  color:#800020!important;
+  box-shadow:0 10px 24px #80002016,inset 0 1px 0 #fff!important;
+  min-height:132px;transition:transform .2s ease,box-shadow .2s ease;
+}
+.cat:before{content:"";position:absolute;inset-inline-end:-19px;top:-25px;width:78px;height:78px;border-radius:50%;background:#FC618F14}
+.cat:nth-child(4n+2),.cat:nth-child(4n+3){
+  background:#800020!important;border-color:#800020!important;color:#fff!important;
+  box-shadow:0 12px 25px #80002030,inset 0 1px 0 #ffffff24!important;
+}
+.cat:nth-child(4n+2) b,.cat:nth-child(4n+3) b,
+.cat:nth-child(4n+2) small,.cat:nth-child(4n+3) small{color:#fff!important}
+.ico{width:46px;height:46px;border-radius:16px;background:#fff!important;border:1px solid #f2d5df;box-shadow:0 4px 12px #80002012}
+.ico svg{color:#800020!important}
+.cat:active{transform:translateY(2px) scale(.98);box-shadow:0 5px 13px #8000201c!important}
+.bottom{
+  background:rgba(255,255,255,.95)!important;border:1px solid #ead8df!important;
+  border-bottom:0!important;border-radius:24px 24px 0 0;
+  box-shadow:0 -8px 26px #80002012!important;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.nav{color:#800020!important}.nav.active{color:#FC618F!important}
+@media(prefers-reduced-motion:no-preference){.cat:hover{transform:translateY(-3px);box-shadow:0 15px 27px #80002020!important}}
+@media(max-width:360px){.cat{min-height:120px;padding:13px}.title{font-size:24px}}
+
 </style>
 <link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"></head>
 <body>
