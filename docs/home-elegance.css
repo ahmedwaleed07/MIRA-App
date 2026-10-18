@@ -178,9 +178,6 @@ body.mira-home-elegance .heritage-market-card:active{
   transform:scale(.975);
   box-shadow:0 6px 14px #31121e20;
 }
-body.mira-home-elegance .heritage-market-card img{
-  z-index:-1;
-}
 body.mira-home-elegance .heritage-market-card:nth-child(3n+1){
   background:radial-gradient(circle at 78% 18%,#a95268 0 2px,transparent 3px),radial-gradient(circle at 22% 35%,#a95268 0 1px,transparent 2px),linear-gradient(145deg,#6a2438,#800020 60%,#451321);
   background-size:28px 28px,22px 22px,cover;
