@@ -244,3 +244,45 @@ body.mira-home-elegance .bottom{
   from{opacity:.86;transform:translateY(5px)}
   to{opacity:1;transform:translateY(0)}
 }
+
+
+/* Category tile variety: alternating burgundy surfaces with white detail. */
+body.mira-home-elegance #cats .cat{
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 9px 20px #80002018!important;
+  transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease;
+}
+body.mira-home-elegance #cats .cat:nth-child(7n+3){
+  background:#800020!important;
+  color:#FFFFFF!important;
+  border-color:#800020!important;
+  box-shadow:0 11px 23px #80002030,inset 0 1px 0 #ffffff25!important;
+}
+body.mira-home-elegance #cats .cat:nth-child(7n+3) .cat-icon{
+  background:#FFFFFF!important;
+  border:1px solid #FFFFFF!important;
+  color:#800020!important;
+}
+body.mira-home-elegance #cats .cat:nth-child(7n+3) :is(.cat-icon svg,span){
+  color:#FFFFFF!important;
+}
+body.mira-home-elegance #cats .cat:nth-child(7n+3) .cat-icon svg{
+  color:#800020!important;stroke:#800020!important;
+}
+body.mira-home-elegance #cats .cat:nth-child(7n+3).sponsored:after{
+  background:#FFFFFF!important;color:#800020!important;
+}
+body.mira-home-elegance #cats .cat:not(:nth-child(7n+3)) .cat-icon{
+  background:#fff5f8!important;
+  border:1px solid #f2d5e0!important;
+}
+body.mira-home-elegance #cats .cat:active{
+  transform:translateY(2px) scale(.975);
+  box-shadow:0 5px 12px #8000201c!important;
+}
+body.mira-home-elegance .category-note{display:none!important}
+@media(prefers-reduced-motion:no-preference){
+  body.mira-home-elegance #cats .cat{transition:transform .2s ease,box-shadow .2s ease}
+  body.mira-home-elegance #cats .cat:hover{transform:translateY(-3px);box-shadow:0 14px 24px #80002020!important}
+}
