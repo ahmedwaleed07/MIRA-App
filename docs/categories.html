@@ -113,10 +113,31 @@ html,body{background:#fff4f7!important;color:#800020!important}
 </style>
 <link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><style id="mira-category-photo-contrast">#grid .cat b,#grid .cat small{color:#fff!important;text-shadow:0 1px 5px #21030ddd!important}#grid .cat:after{background:linear-gradient(180deg,#24030c26 0%,#35071480 54%,#21030df0 100%)!important}</style>
 <style id="mira-category-footer-art">
-.bottom{isolation:isolate;overflow:hidden;background:rgba(255,255,255,.92)!important}
-.bottom:after{content:"";position:absolute;z-index:0;pointer-events:none;inset-inline:0;bottom:0;height:112px;background:url('assets/categories/mira-footer-still-life.webp') center bottom/100% auto no-repeat;opacity:.38;mix-blend-mode:multiply}
-.bottom .nav{position:relative;z-index:1;text-shadow:0 1px 4px #fff}
-.bottom .nav.active{text-shadow:none}
+.bottom{
+  position:fixed!important;left:50%!important;transform:translateX(-50%)!important;
+  bottom:calc(8px + env(safe-area-inset-bottom))!important;
+  width:min(calc(100vw - 24px),402px)!important;
+  padding:7px 9px!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;
+  align-items:center;border:1px solid #ead8df!important;border-radius:25px!important;
+  background:rgba(255,255,255,.96)!important;
+  box-shadow:0 12px 34px #80002020,0 2px 8px #FC618F12,inset 0 1px 0 #fff!important;
+  isolation:isolate;overflow:hidden
+}
+.bottom:after{
+  content:"";position:absolute;z-index:0;pointer-events:none;inset:0;
+  background:url('assets/categories/mira-footer-still-life.webp') center bottom/100% auto no-repeat;
+  opacity:.12;mix-blend-mode:multiply
+}
+.bottom .nav{
+  position:relative;z-index:1;min-height:48px;border-radius:17px;
+  color:#800020!important;background:transparent!important;
+  text-shadow:0 1px 3px #fff!important
+}
+.bottom .nav.active{
+  color:#fff!important;background:#800020!important;
+  box-shadow:0 5px 14px #80002030!important;text-shadow:none!important
+}
+.bottom .nav.active svg,.bottom .nav.active span{color:#fff!important}
 </style>
 </head>
 <body>
