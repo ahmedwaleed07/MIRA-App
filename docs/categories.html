@@ -85,6 +85,31 @@ html,body{background:#fff4f7!important;color:#800020!important}
 @media(prefers-reduced-motion:no-preference){.cat:hover{transform:translateY(-3px);box-shadow:0 15px 27px #80002020!important}}
 @media(max-width:360px){.cat{min-height:120px;padding:13px}.title{font-size:24px}}
 
+
+/* Category photography: retain each original glyph size and layout */
+.cat{
+  isolation:isolate;position:relative;overflow:hidden;
+  background:#800020!important;color:#fff!important;border-color:#ffffff80!important;
+  box-shadow:0 12px 25px #80002030,inset 0 1px 0 #ffffff24!important
+}
+.cat-photo{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  border-radius:inherit;z-index:0;pointer-events:none
+}
+.cat:before{display:none!important}
+.cat:after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,#24030c20 0%,#35071466 56%,#21030de0 100%)
+}
+.cat .ico,.cat b,.cat small{position:relative;z-index:2}
+.cat b,.cat small{color:#fff!important;text-shadow:0 1px 4px #1d030b80}
+.cat .ico{
+  width:46px;height:46px;flex:0 0 46px;
+  background:#fff!important;border:1px solid #fff!important;
+  box-shadow:0 5px 14px #1c030c30
+}
+.cat .ico svg{color:#800020!important}
+
 </style>
 <link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"></head>
 <body>
@@ -135,8 +160,15 @@ function render(){
  document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
  title.textContent=t.title;sub.textContent=t.sub;q.placeholder=t.search;nHome.textContent=t.home;nCat.textContent=t.cat;nSaved.textContent=t.saved;nProfile.textContent=t.profile;
  const items=(window.MIRA_TAXONOMY||[]).filter(x=>x.active!==false);
+ const photoFor={
+  clothing:'clothing',shoes:'shoes',perfumes:'perfumes',accessories:'accessories',
+  bags:'bags',watches:'watches',beauty:'beauty',electronics:'electronics',
+  'home-appliances':'home-appliances',home:'home',sports:'sports','toys-kids':'toys-kids',
+  jewelry:'jewelry',eyewear:'eyewear',automotive:'automotive',
+  'stationery-office':'stationery-office',gifts:'gifts',restaurants:'restaurants-cafes'
+ };
  const txName=x=>l==='ar'?(x.ar||x.en):(x.en||x.ar);
- const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;grid.appendChild(b)})};
+ const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;const photo=document.createElement('img');photo.className='cat-photo';photo.src='assets/categories/'+(photoFor[item.slug]||'clothing')+'.webp';photo.alt='';photo.loading='lazy';photo.decoding='async';b.appendChild(photo);grid.appendChild(b)})};
  draw();q.oninput=()=>draw(q.value)
 }
 render();window.addEventListener('mira-taxonomy-synced',render);
