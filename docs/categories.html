@@ -114,7 +114,7 @@ html,body{background:#fff4f7!important;color:#800020!important}
 <link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><style id="mira-category-photo-contrast">#grid .cat b,#grid .cat small{color:#fff!important;text-shadow:0 1px 5px #21030ddd!important}#grid .cat:after{background:linear-gradient(180deg,#24030c26 0%,#35071480 54%,#21030df0 100%)!important}</style>
 <style id="mira-category-footer-art">
 .bottom{isolation:isolate;overflow:hidden;background:rgba(255,255,255,.92)!important}
-.bottom:after{content:"";position:absolute;z-index:0;pointer-events:none;inset-inline:0;bottom:0;height:112px;background:url('assets/categories/mira-footer-still-life.webp') center bottom/100% auto no-repeat;opacity:.26;mix-blend-mode:multiply}
+.bottom:after{content:"";position:absolute;z-index:0;pointer-events:none;inset-inline:0;bottom:0;height:112px;background:url('assets/categories/mira-footer-still-life.webp') center bottom/100% auto no-repeat;opacity:.38;mix-blend-mode:multiply}
 .bottom .nav{position:relative;z-index:1;text-shadow:0 1px 4px #fff}
 .bottom .nav.active{text-shadow:none}
 </style>
@@ -175,7 +175,7 @@ function render(){
   'stationery-office':'stationery-office',gifts:'gifts',restaurants:'restaurants-cafes'
  };
  const txName=x=>l==='ar'?(x.ar||x.en):(x.en||x.ar);
- const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;const photo=document.createElement('img');photo.className='cat-photo';photo.src='assets/categories/'+(photoFor[item.slug]||'clothing')+'.webp';photo.alt='';photo.loading='lazy';photo.decoding='async';b.appendChild(photo);grid.appendChild(b)})};
+ const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;const photo=document.createElement('img');photo.className='cat-photo';photo.src='assets/categories/'+(photoFor[item.slug]||'clothing')+'.webp?v=20261019-image-repair-2';photo.alt='';photo.loading='lazy';photo.decoding='async';b.appendChild(photo);grid.appendChild(b)})};
  draw();q.oninput=()=>draw(q.value)
 }
 render();window.addEventListener('mira-taxonomy-synced',render);
