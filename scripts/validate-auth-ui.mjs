@@ -63,8 +63,9 @@ if(!shapesJSON)throw new Error('MIRA category icon library missing');
 const glyphs=JSON.parse(shapesJSON);
 const taxonomySource=readFileSync('docs/taxonomy.js','utf8');
 const taxonomySlugs=[...taxonomySource.matchAll(/^  \{slug:'([^']+)'/gm)].map(x=>x[1]);
-if(taxonomySlugs.length!==18||taxonomySlugs.some(slug=>!glyphs[slug])||new Set(Object.values(glyphs)).size!==18)
-  throw new Error('Each of 18 top-level categories must have a distinct icon');
+const expectedCategoryCount=19;
+if(taxonomySlugs.length!==expectedCategoryCount||taxonomySlugs.some(slug=>!glyphs[slug])||new Set(Object.values(glyphs)).size!==expectedCategoryCount)
+  throw new Error('Each top-level category must have a distinct icon');
 for(const page of ['home','categories','interests','category']){
  const html=readFileSync('docs/'+page+'.html','utf8');
  if(!html.includes('mira-category-glyphs.js')||!html.includes('window.MIRACategoryIcon('))
