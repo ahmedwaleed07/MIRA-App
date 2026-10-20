@@ -187,7 +187,7 @@ function render(){
  const l=localStorage.getItem('mira_lang')||'en',t=T[l]||T.en;
  document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
  title.textContent=t.title;sub.textContent=t.sub;q.placeholder=t.search;nHome.textContent=t.home;nCat.textContent=t.cat;nSaved.textContent=t.saved;nProfile.textContent=t.profile;
- const items=(window.MIRA_TAXONOMY||[]).filter(x=>x.active!==false);
+ const seenCategoryLabels=new Set(),items=(window.MIRA_TAXONOMY||[]).filter(x=>x.active!==false).filter(item=>{const keys=[item.slug,item.ar,item.en].map(v=>String(v||'').normalize('NFKC').trim().toLocaleLowerCase()).filter(Boolean);if(keys.some(k=>seenCategoryLabels.has(k)))return false;keys.forEach(k=>seenCategoryLabels.add(k));return true});
  const photoFor={
   clothing:'clothing',shoes:'shoes',perfumes:'perfumes',accessories:'accessories',
   bags:'bags',watches:'watches',beauty:'beauty',electronics:'electronics',
