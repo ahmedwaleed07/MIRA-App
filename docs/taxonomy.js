@@ -95,6 +95,13 @@ window.MIRA_TAXONOMY = [
     {slug:'type',ar:'حسب النوع',en:'By Type',types:[['gift-sets','بوكسات هدايا','Gift Sets'],['flowers','زهور','Flowers'],['personalized','هدايا مخصصة','Personalized Gifts']]}
   ]}
 ,
+  {slug:'travel-tourism',ar:'السياحة والسفر',en:'Travel & Tourism',subs:[
+    {slug:'flights',ar:'تذاكر السفر',en:'Travel Tickets',types:[['flights','تذاكر طيران','Flight Tickets'],['bus-tickets','تذاكر حافلات','Bus Tickets']]},
+    {slug:'hotels',ar:'فنادق وإقامة',en:'Hotels & Stays',types:[['hotels','فنادق','Hotels'],['apartments','شقق فندقية','Serviced Apartments']]},
+    {slug:'tours',ar:'جولات سياحية',en:'Tours',types:[['guided-tours','جولات بإرشاد','Guided Tours'],['city-experiences','تجارب المدن','City Experiences']]},
+    {slug:'holiday-packages',ar:'باقات ورحلات',en:'Packages & Trips',types:[['holiday-packages','باقات سفر','Holiday Packages'],['day-trips','رحلات يومية','Day Trips']]},
+    {slug:'travel-transport',ar:'النقل السياحي',en:'Travel Transport',types:[['airport-transfers','نقل من وإلى المطار','Airport Transfers'],['car-rental','تأجير سيارات','Car Rental']]}
+  ]},
   {slug:'restaurants',ar:'المطاعم والمقاهي',en:'Restaurants & Cafes',subs:[
     {slug:'restaurants',ar:'مطاعم',en:'Restaurants',types:[['fast-food','وجبات سريعة','Fast Food'],['grills','مشويات','Grills'],['international','مطابخ عالمية','International Cuisine'],['local','مطبخ محلي','Local Cuisine']]},
     {slug:'cafes',ar:'مقاهي',en:'Cafes',types:[['coffee','قهوة','Coffee'],['desserts','حلويات','Desserts'],['breakfast','فطور','Breakfast'],['drinks','مشروبات','Drinks']]},
@@ -134,6 +141,7 @@ window.MIRA_TAXONOMY = [
     automotive:[brand,model],
     'stationery-office':[brand,color],
     gifts:[color],
+    'travel-tourism':[],
     restaurants:[]
   };
   all.forEach(cat=>cat.subs.forEach(sub=>sub.types.forEach(t=>{
@@ -143,3 +151,5 @@ window.MIRA_TAXONOMY = [
 })();
 
 try{const cached=JSON.parse(localStorage.getItem('mira_taxonomy')||'null');if(Array.isArray(cached)&&cached.length)window.MIRA_TAXONOMY=cached}catch(e){}
+const MIRA_TRAVEL_TOURISM_SEED=(window.MIRA_TAXONOMY||[]).find(x=>x.slug==='travel-tourism');
+(function(){const ensureTravel=()=>{if(!MIRA_TRAVEL_TOURISM_SEED||!Array.isArray(window.MIRA_TAXONOMY)||window.MIRA_TAXONOMY.some(x=>x.slug==='travel-tourism'))return;const i=window.MIRA_TAXONOMY.findIndex(x=>x.slug==='restaurants');if(i<0)window.MIRA_TAXONOMY.push(MIRA_TRAVEL_TOURISM_SEED);else window.MIRA_TAXONOMY.splice(i,0,MIRA_TRAVEL_TOURISM_SEED);try{localStorage.setItem('mira_taxonomy',JSON.stringify(window.MIRA_TAXONOMY))}catch(e){}};ensureTravel();window.addEventListener('mira-taxonomy-synced',ensureTravel)})();

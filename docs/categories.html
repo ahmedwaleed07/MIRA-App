@@ -139,11 +139,18 @@ html,body{background:#fff4f7!important;color:#800020!important}
 }
 .bottom .nav.active svg,.bottom .nav.active span{color:#fff!important}
 </style>
-</head>
+<style id="mira-category-hero-photo">
+.category-hero{position:relative;isolation:isolate;overflow:hidden;min-height:142px;margin-top:10px;padding:19px;border:1px solid #ffffff65;border-radius:24px;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;background:#800020;background-image:linear-gradient(90deg,#800020e8 0%,#800020a6 46%,#80002044 100%),url('assets/categories/category-hero.webp?v=20261021-mira-visuals-2');background-position:center;background-size:cover;box-shadow:0 12px 28px #80002020}
+[dir="rtl"] .category-hero{background-image:linear-gradient(270deg,#800020e8 0%,#800020a6 46%,#80002044 100%),url('assets/categories/category-hero.webp?v=20261021-mira-visuals-2')}
+.category-hero .title{position:relative;margin:0!important;color:#fff!important;font-size:23px;line-height:1.25;text-shadow:0 2px 8px #25020d70}
+.category-hero .sub{position:relative;margin-top:1px;color:#fff!important;opacity:.92;text-shadow:0 1px 5px #25020d80}
+</style></head>
 <body>
 <main class="app">
-  <div class="title" id="title"></div>
-  <div class="sub" id="sub"></div>
+  <header class="category-hero">
+    <div class="title" id="title"></div>
+    <div class="sub" id="sub"></div>
+  </header>
   <label class="search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
     <input id="q" type="search">
@@ -156,7 +163,7 @@ html,body{background:#fff4f7!important;color:#800020!important}
   <a class="nav" href="saved.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 21s-8-4.7-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.3-8 11-8 11z"/></svg><span id="nSaved"></span></a>
   <a class="nav" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.4 3.7-7 8-7s7 2.6 8 7"/></svg><span id="nProfile"></span></a>
 </nav>
-<script src="taxonomy.js?v=20261007-taxonomy"></script><script src="mira-category-glyphs.js?v=20261019-toy-blocks-1"></script><script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script><script>
+<script src="taxonomy.js?v=20261021-travel-category-1"></script><script src="mira-category-glyphs.js?v=20261021-travel-category-1"></script><script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script><script>
 const T={
  en:{title:'Categories',sub:'Browse all MIRA categories',search:'Search categories',home:'Home',cat:'Categories',saved:'Saved',profile:'Profile'},
  ar:{title:'التصنيفات',sub:'تصفح جميع تصنيفات MIRA',search:'ابحث في التصنيفات',home:'الرئيسية',cat:'التصنيفات',saved:'المحفوظات',profile:'حسابي'},
@@ -193,7 +200,7 @@ function render(){
   bags:'bags',watches:'watches',beauty:'beauty',electronics:'electronics',
   'home-appliances':'home-appliances',home:'home',sports:'sports','toys-kids':'toys-kids',
   jewelry:'jewelry',eyewear:'eyewear',automotive:'automotive',
-  'stationery-office':'stationery-office',gifts:'gifts',restaurants:'restaurants-cafes'
+  'stationery-office':'stationery-office',gifts:'gifts',restaurants:'restaurants-cafes','travel-tourism':'travel-tourism'
  };
  const txName=x=>l==='ar'?(x.ar||x.en):(x.en||x.ar);
  const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;const photo=document.createElement('img');photo.className='cat-photo';photo.src='assets/categories/'+(photoFor[item.slug]||'clothing')+'.webp?v=20261021-ai-category-photos-1';photo.alt='';photo.loading='lazy';photo.decoding='async';b.appendChild(photo);grid.appendChild(b)})};

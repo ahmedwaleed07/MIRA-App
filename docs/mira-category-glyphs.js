@@ -1,4 +1,4 @@
-/* MIRA category glyphs: 18 distinct, consistent line icons across Home, Interests and Categories. */
+/* MIRA category glyphs: 19 distinct, consistent line icons across Home, Interests and Categories. */
 (()=>{
 const shapes={
   "clothing": "<path d=\"m8 4-4 3 2 4 2-1v10h8V10l2 1 2-4-4-3-2 2h-4z\"/><path d=\"M10 6h4\"/>",
@@ -18,6 +18,7 @@ const shapes={
   "automotive": "<path d=\"m5 15 1.5-5 2-3h7l2 3L19 15\"/><rect x=\"3\" y=\"13\" width=\"18\" height=\"6\" rx=\"2\"/><path d=\"M7 19v2M17 19v2M6 14.5h2M16 14.5h2\"/>",
   "stationery-office": "<path d=\"m4 17 1 3 3 1 10-11-4-4zM13 7l4 4M16 3l5 5M4 21l4-1\"/><path d=\"M3 9h6M3 12h4\"/>",
   "gifts": "<rect x=\"3\" y=\"10\" width=\"18\" height=\"11\" rx=\"1\"/><path d=\"M2 7h20v3H2zM12 7v14M12 7c-5 0-7-1-7-4 0-3 6-2 7 4zM12 7c5 0 7-1 7-4 0-3-6-2-7 4z\"/>",
+  "travel-tourism": "<path d=\"M4 7h16v13H4z\"/><path d=\"M8 7V5a4 4 0 0 1 8 0v2M7 20v2M17 20v2M12 11v4\"/>",
   "restaurants": "<path d=\"M5 3v8M2.5 3v5c0 2 1 3 2.5 3S7.5 10 7.5 8V3M5 11v10M15 3v18M15 3c5 2 6 7 0 11\"/>"
 };
 window.MIRACategoryIcon=function(slug){const key=Object.prototype.hasOwnProperty.call(shapes,slug)?slug:'gifts';return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-category-icon="'+key+'">'+shapes[key]+'</svg>'};
