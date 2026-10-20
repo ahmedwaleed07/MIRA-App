@@ -150,6 +150,6 @@ window.MIRA_TAXONOMY = [
   window.MIRA_DEFAULT_ATTRIBUTES=true;
 })();
 
-try{const cached=JSON.parse(localStorage.getItem('mira_taxonomy')||'null');if(Array.isArray(cached)&&cached.length)window.MIRA_TAXONOMY=cached}catch(e){}
 const MIRA_TRAVEL_TOURISM_SEED=(window.MIRA_TAXONOMY||[]).find(x=>x.slug==='travel-tourism');
+try{const cached=JSON.parse(localStorage.getItem('mira_taxonomy')||'null');if(Array.isArray(cached)&&cached.length)window.MIRA_TAXONOMY=cached}catch(e){}
 (function(){const ensureTravel=()=>{if(!MIRA_TRAVEL_TOURISM_SEED||!Array.isArray(window.MIRA_TAXONOMY)||window.MIRA_TAXONOMY.some(x=>x.slug==='travel-tourism'))return;const i=window.MIRA_TAXONOMY.findIndex(x=>x.slug==='restaurants');if(i<0)window.MIRA_TAXONOMY.push(MIRA_TRAVEL_TOURISM_SEED);else window.MIRA_TAXONOMY.splice(i,0,MIRA_TRAVEL_TOURISM_SEED);try{localStorage.setItem('mira_taxonomy',JSON.stringify(window.MIRA_TAXONOMY))}catch(e){}};ensureTravel();window.addEventListener('mira-taxonomy-synced',ensureTravel)})();
