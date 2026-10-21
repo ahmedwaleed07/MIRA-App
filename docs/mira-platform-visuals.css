@@ -20,3 +20,7 @@ body.mira-admin #overview .ecosystem-quick>.dashboard-tile:nth-child(7) .ecosyst
 body.mira-admin #overview .ecosystem-quick>.dashboard-tile:nth-child(8) .ecosystem-icon{background-image:url("assets/categories/home-appliances.webp")}
 body.mira-admin #overview .ecosystem-quick>.dashboard-tile:nth-child(9) .ecosystem-icon{background-image:url("assets/categories/travel-tourism.webp")}
 @media(max-width:600px){body.mira-business>.app{padding:18px 16px 26px!important}body.mira-business .ecosystem-hero,body.mira-admin .ecosystem-hero{background-image:linear-gradient(90deg,#800020 0%,#800020e8 48%,#80002066 100%),url("assets/backgrounds/portal-retail-hero.webp?v=20261022-portals-1")!important}body.mira-business .dashboard-tile,body.mira-admin .dashboard-tile{min-height:192px!important}}
+
+/* Admin category tree uses the same real category photography as customer browsing. */
+body.mira-admin #taxonomyTree .item>.taxonomy-category-photo{display:block;flex:0 0 54px;width:54px;height:54px;object-fit:cover;border-radius:11px;border:1px solid #eadde1;box-shadow:0 3px 10px #80002013}
+body.mira-admin #taxonomyTree .item>div[style*="flex:1"]{min-width:110px}
