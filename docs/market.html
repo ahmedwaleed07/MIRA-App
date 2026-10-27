@@ -107,4 +107,4 @@ function continueMarket(){if(!selectedCountry)return;localStorage.setItem("mira_
 function setLang(lang){localStorage.setItem("mira_lang",lang);applyLang(lang)}
 function applyLang(lang){let t=T[lang]||T.en;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";title.textContent=t.title;subtitle.textContent=t.subtitle;search.placeholder=t.search;sectionTitle.textContent=t.section;continueBtn.textContent=t.cont;note.textContent=t.note;render()}
 applyLang(getLang());
-</script></body></html>
+</script><script src="mira-portal-i18n.js?v=20261027-global-2"></script></body></html>
