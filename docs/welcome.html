@@ -31,4 +31,4 @@ document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',(
 </script><script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script><script>
 const remembered=window.MiraCloud.session,claim=window.MiraCloud.payload();
 if(remembered?.refresh_token&&claim?.role==='authenticated'&&claim?.sub)location.replace('home.html');
-</script></body></html>
+</script><script src="mira-portal-i18n.js?v=20261027-global-2"></script></body></html>
