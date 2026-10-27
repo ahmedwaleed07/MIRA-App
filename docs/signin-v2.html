@@ -120,5 +120,5 @@ const T={en:{title:'Welcome back',subtitle:'Sign in with your phone number or em
 function setLang(lang){localStorage.setItem('mira_lang',lang);document.getElementById('authApp').dataset.lang=lang;document.querySelectorAll('.languages button').forEach(b=>{const on=b.dataset.lang===lang;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false')});const t=T[lang]||T.en;const rtl=lang==='ar';document.documentElement.lang=lang;document.documentElement.dir=rtl?'rtl':'ltr';document.getElementById('title').textContent=t.title;document.getElementById('subtitle').textContent=t.subtitle;document.getElementById('phoneTab').textContent=t.phone;document.getElementById('emailTab').textContent=t.email;document.getElementById('phoneLabel').textContent=t.phoneLabel;document.getElementById('emailLabel').textContent=t.emailLabel;document.getElementById('continuePhone').textContent=t.continue;document.getElementById('continueEmail').textContent=t.continue;document.getElementById('privacy').textContent=t.privacy;document.getElementById('bottom').setAttribute('aria-label',lang==='ar'?'إنشاء حساب':'Create account');}
 setLang(localStorage.getItem('mira_lang')||'en');
 </script>
-</body>
+<script src="mira-portal-i18n.js?v=20261027-global-2"></script></body>
 </html>
