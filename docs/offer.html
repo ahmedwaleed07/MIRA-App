@@ -84,4 +84,4 @@ updateCartBadge();
 trackOrderBtn.onclick=()=>location.href='orders.html';
 function savedList(){try{return JSON.parse(localStorage.getItem('mira_saved')||'[]')}catch(e){return[]}}
 function sync(){const s=savedList(),on=s.some(x=>x.id===id);saveBtn.classList.toggle('saved',on);saveBtn.setAttribute('aria-label',on?t.saved:'Save')}
-saveBtn.onclick=()=>{let s=savedList();const i=s.findIndex(x=>x.id===id);if(i>=0)s.splice(i,1);else s.push({id,name,title:title.textContent,discount,letter,type,storeId:adminStore?.id||q.get('storeId')||''});localStorage.setItem('mira_saved',JSON.stringify(s));sync()};sync()</script></body></html>
+saveBtn.onclick=()=>{let s=savedList();const i=s.findIndex(x=>x.id===id);if(i>=0)s.splice(i,1);else s.push({id,name,title:title.textContent,discount,letter,type,storeId:adminStore?.id||q.get('storeId')||''});localStorage.setItem('mira_saved',JSON.stringify(s));sync()};sync()</script><script src="mira-portal-i18n.js?v=20261027-global-2"></script></body></html>
