@@ -1,0 +1,171 @@
+/* MIRA category photography – scoped to user-facing categories only.
+   Keep original logo, taxonomy, filters, merchant data and navigation intact. */
+body.mira-category-detail,
+body.mira-categories-index{
+  background:#fff8fb!important;
+  color:#800020!important;
+}
+body.mira-category-detail .app,
+body.mira-categories-index .app{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  color:#800020!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.90) 0%,rgba(255,250,252,.93) 44%,rgba(255,255,255,.98) 100%),
+    url("assets/backgrounds/discovery-card.webp") center top / 100% auto no-repeat,
+    linear-gradient(155deg,#fff4f9 0%,#f5e6f4 54%,#fff7fa 100%)!important;
+}
+body.mira-category-detail .app:before,
+body.mira-categories-index .app:before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0 0 auto;
+  height:670px;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 96% 18%,rgba(195,170,234,.18),transparent 54%),radial-gradient(ellipse at 6% 76%,rgba(252,97,143,.12),transparent 54%);
+}
+body.mira-category-detail .app > *,
+body.mira-categories-index .app > *{position:relative;z-index:1}
+body.mira-category-detail .hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:245px;margin-top:18px;padding:23px 22px 23px;
+  border:1px solid rgba(255,255,255,.64)!important;
+  border-radius:29px!important;
+  background:#800020!important;
+  box-shadow:0 18px 38px rgba(128,0,32,.23),0 5px 14px rgba(234,37,95,.12)!important;
+}
+body.mira-category-detail .hero-photo{
+  position:absolute;inset:0;z-index:0;display:block;
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  opacity:1;pointer-events:none;user-select:none;
+  transform:scale(1.005);
+}
+body.mira-category-detail .hero:after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(0deg,rgba(53,6,27,.88) 0%,rgba(78,10,39,.51) 40%,rgba(128,0,32,.14) 100%);
+}
+body.mira-category-detail .hero > :not(.hero-photo){position:relative;z-index:2}
+body.mira-category-detail .hero .ico{
+  background:rgba(255,255,255,.91)!important;
+  border:1px solid rgba(255,255,255,.90)!important;
+  border-radius:16px!important;
+  box-shadow:0 6px 18px rgba(33,0,19,.18)!important;
+  color:#800020!important;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+body.mira-category-detail .hero .ico svg{color:#800020!important;stroke:#800020!important}
+body.mira-category-detail .hero h1{
+  color:#fff!important;
+  font-size:clamp(24px,7vw,32px)!important;
+  line-height:1.16;
+  margin:18px 0 6px!important;
+  text-shadow:0 2px 10px rgba(27,0,15,.40);
+}
+body.mira-category-detail .hero p{
+  color:rgba(255,255,255,.96)!important;
+  font-size:12px!important;line-height:1.6!important;
+  max-width:330px;
+  text-shadow:0 1px 5px rgba(27,0,15,.48);
+}
+body.mira-category-detail .top .back{
+  background:rgba(255,255,255,.87)!important;
+  box-shadow:0 5px 18px rgba(128,0,32,.09)!important;
+}
+body.mira-category-detail .search{
+  background:rgba(255,255,255,.82)!important;
+  border:1px solid rgba(128,0,32,.24)!important;
+  box-shadow:0 7px 24px rgba(128,0,32,.07)!important;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+body.mira-category-detail .search input{color:#800020!important}
+body.mira-category-detail .search svg{color:#800020!important}
+body.mira-category-detail .taxonomy-nav .tx-label{color:#800020!important}
+body.mira-category-detail .tx-chip,
+body.mira-category-detail .filter{
+  background:rgba(255,255,255,.79)!important;
+  border:1px solid #800020!important;
+  color:#800020!important;
+}
+body.mira-category-detail .tx-chip.active,
+body.mira-category-detail .filter.active{
+  background:#EA255F!important;
+  border-color:#EA255F!important;
+  color:white!important;
+}
+body.mira-category-detail .card{
+  background:rgba(255,255,255,.94)!important;
+  border:1px solid rgba(128,0,32,.16)!important;
+  box-shadow:0 12px 27px rgba(128,0,32,.10)!important;
+}
+body.mira-category-detail .card .body{color:#800020!important}
+body.mira-category-detail .card .body h3{color:#800020!important}
+body.mira-category-detail .card .body p{color:#805363!important}
+body.mira-category-detail .empty{
+  position:relative;isolation:isolate;overflow:hidden;
+  min-height:230px;border-radius:24px;
+  margin:10px 0;padding:26px 18px!important;
+  display:flex;align-items:center;flex-direction:column;justify-content:center;gap:10px;
+  background:rgba(255,255,255,.73)!important;
+  border:1px solid rgba(128,0,32,.15)!important;
+  box-shadow:0 12px 28px rgba(128,0,32,.08)!important;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:#800020!important;
+}
+body.mira-category-detail .empty:before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.84) 0%,rgba(255,249,252,.91) 75%,#fff 100%),var(--mira-category-photo);
+  background-size:cover,cover;background-position:center,center;
+  opacity:.96;
+}
+body.mira-category-detail .empty svg{width:28px;height:28px;color:#EA255F}
+body.mira-category-detail .empty p{font-size:12px;font-weight:600;line-height:1.7;margin:0;max-width:290px}
+body.mira-category-detail .empty a{
+  border-radius:999px;padding:10px 16px;
+  text-decoration:none;font-weight:800;font-size:11px;
+  background:#800020!important;color:#fff!important;
+  box-shadow:0 6px 18px rgba(128,0,32,.17);
+}
+body.mira-categories-index .category-hero{
+  min-height:160px;
+  border:1px solid rgba(255,255,255,.72)!important;
+  box-shadow:0 15px 32px rgba(128,0,32,.17)!important;
+}
+body.mira-categories-index #grid .cat{
+  min-height:166px!important;
+  border:1px solid rgba(255,255,255,.64)!important;
+  background:#800020!important;
+  box-shadow:0 13px 27px rgba(128,0,32,.16)!important;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+body.mira-categories-index #grid .cat-photo{
+  display:block!important;opacity:1!important;
+  object-fit:cover;object-position:center;
+  transition:transform .35s ease;
+}
+body.mira-categories-index #grid .cat:after{
+  background:linear-gradient(180deg,rgba(30,5,18,.05) 0%,rgba(45,7,25,.27) 44%,rgba(34,3,18,.79) 100%)!important;
+}
+body.mira-categories-index #grid .cat b,
+body.mira-categories-index #grid .cat small{
+  color:#fff!important;text-shadow:0 2px 7px rgba(16,2,10,.8)!important
+}
+body.mira-categories-index #grid .cat .ico{
+  background:rgba(255,255,255,.91)!important;
+  border:1px solid rgba(255,255,255,.88)!important;
+  box-shadow:0 5px 18px rgba(20,0,12,.23)!important;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+@media(hover:hover){
+ body.mira-categories-index #grid .cat:hover .cat-photo{transform:scale(1.055)}
+}
+@media(max-width:360px){
+ body.mira-category-detail .hero{min-height:216px;padding:18px}
+ body.mira-categories-index #grid .cat{min-height:145px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mira-categories-index #grid .cat .cat-photo{transition:none!important}
+}
