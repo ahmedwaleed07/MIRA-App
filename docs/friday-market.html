@@ -1,4 +1,21 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#800020"><title>MIRA | سوق الجمعة</title><style>*{box-sizing:border-box}body{margin:0;background:#fff8fb;color:#461326;font-family:Arial,sans-serif}.wrap{max-width:980px;margin:auto;padding:16px}.hero{min-height:280px;border-radius:22px;background:linear-gradient(0deg,#42091fdf,#80002033),url('assets/heritage-markets/market-mira-bazaar.jpg') center/cover;display:flex;flex-direction:column;justify-content:end;padding:25px;color:white}.hero h1{font-size:38px;margin:0 0 8px}.hero p{max-width:660px;line-height:1.8}.back{display:inline-block;margin:10px 0;color:#800020}.notice{background:#fff0f5;border-right:4px solid #800020;padding:14px;margin:15px 0;border-radius:9px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.card,form{background:white;border:1px solid #ecd4de;border-radius:15px;padding:17px;box-shadow:0 5px 15px #80002010}.card h3{margin:8px 0}.badge{display:inline-block;background:#ffe3ed;color:#800020;padding:5px 10px;border-radius:20px;font-size:12px}.price{font-weight:bold;color:#800020}input,textarea,select{width:100%;padding:11px;margin:7px 0 13px;border:1px solid #dec4ce;border-radius:9px;font:inherit}button,.contact{border:0;border-radius:10px;background:#800020;color:white;padding:11px 17px;cursor:pointer;text-decoration:none;display:inline-block}h2{margin-top:30px}label{font-weight:bold;font-size:14px}.empty{padding:24px;text-align:center;border:1px dashed #d7a8b9;border-radius:12px}.lang{width:auto;min-width:145px;max-width:220px;display:block;margin:0 0 12px auto;float:none;background:#fff}html[dir=rtl] .lang{margin-right:auto;margin-left:0}html[dir=ltr] .notice{border-right:0;border-left:4px solid #800020}.notice[hidden],.retry[hidden],.feedback[hidden]{display:none}.feedback{margin:12px 0;padding:12px 15px;border:1px solid #e4bbcd;border-radius:10px;background:#fff2f7;color:#800020}.feedback a{margin-inline-start:8px;color:#800020;font-weight:bold}.retry{margin:0 0 10px;background:#fff;color:#800020;border:1px solid #800020}button:disabled{opacity:.55;cursor:not-allowed}small{color:#775765}</style><script src="mira-cloud.js?v=20261101-friday-1"></script></head><body><div class="wrap"><a class="back" href="home.html" id="back">← الرئيسية</a><select class="lang" id="language" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="es">Español</option><option value="ru">Русский</option><option value="tr">Türkçe</option></select><header class="hero"><h1 id="title"></h1><p id="intro"></p></header><div class="notice" id="notice" role="status" aria-live="polite"></div><button class="retry" id="retry" type="button" hidden></button><h2 id="listingHeading"></h2><div id="items" class="grid"></div><h2 id="publishHeading"></h2><form id="form"><label id="itemLabel" for="item"></label><input id="item" maxlength="100" required><label id="descriptionLabel" for="description"></label><textarea id="description" maxlength="800" rows="3" required></textarea><label id="conditionLabel" for="condition"></label><select id="condition"><option value="used"></option><option value="new"></option></select><label id="priceLabel" for="price"></label><input id="price" type="number" min="0" required><label id="phoneLabel" for="phone"></label><input id="phone" type="tel" pattern="[0-9+ ]{7,18}" required><button id="publish" type="submit"></button></form><div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div></div><script>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#800020"><title>MIRA | سوق الجمعة</title><style>*{box-sizing:border-box}body{margin:0;background:#fff8fb;color:#461326;font-family:Arial,sans-serif}.wrap{max-width:980px;margin:auto;padding:16px}.hero{min-height:280px;border-radius:22px;background:linear-gradient(0deg,#42091fdf,#80002033),url('assets/heritage-markets/market-mira-bazaar.jpg') center/cover;display:flex;flex-direction:column;justify-content:end;padding:25px;color:white}.hero h1{font-size:38px;margin:0 0 8px}.hero p{max-width:660px;line-height:1.8}.back{display:inline-block;margin:10px 0;color:#800020}.notice{background:#fff0f5;border-right:4px solid #800020;padding:14px;margin:15px 0;border-radius:9px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.card,form{background:white;border:1px solid #ecd4de;border-radius:15px;padding:17px;box-shadow:0 5px 15px #80002010}.card h3{margin:8px 0}.badge{display:inline-block;background:#ffe3ed;color:#800020;padding:5px 10px;border-radius:20px;font-size:12px}.price{font-weight:bold;color:#800020}input,textarea,select{width:100%;padding:11px;margin:7px 0 13px;border:1px solid #dec4ce;border-radius:9px;font:inherit}button,.contact{border:0;border-radius:10px;background:#800020;color:white;padding:11px 17px;cursor:pointer;text-decoration:none;display:inline-block}h2{margin-top:30px}label{font-weight:bold;font-size:14px}.empty{padding:24px;text-align:center;border:1px dashed #d7a8b9;border-radius:12px}.lang{width:auto;min-width:145px;max-width:220px;display:block;margin:0 0 12px auto;float:none;background:#fff}html[dir=rtl] .lang{margin-right:auto;margin-left:0}html[dir=ltr] .notice{border-right:0;border-left:4px solid #800020}.notice[hidden],.retry[hidden],.feedback[hidden]{display:none}.feedback{margin:12px 0;padding:12px 15px;border:1px solid #e4bbcd;border-radius:10px;background:#fff2f7;color:#800020}.feedback a{margin-inline-start:8px;color:#800020;font-weight:bold}.retry{margin:0 0 10px;background:#fff;color:#800020;border:1px solid #800020}button:disabled{opacity:.55;cursor:not-allowed}
+.photo-upload{margin:16px 0 20px;border:1px dashed #dba7bd;border-radius:15px;background:#fff8fb;padding:14px}
+.photo-upload>label{display:block;margin-bottom:7px}
+.photo-hint,.photo-counter{font-size:12px;color:#75566a;margin:5px 0 10px}
+.photo-input{margin:5px 0 12px;padding:9px;background:white;max-width:100%;font-size:13px}
+.photo-input::file-selector-button{background:#800020;color:#fff;border:0;border-radius:9px;padding:10px;cursor:pointer;margin-inline-end:10px}
+.photo-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.photo-preview-item{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#f4e2eb}
+.photo-preview-item img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-remove{position:absolute;top:5px;inset-inline-end:5px;border-radius:50%;width:30px;height:30px;padding:0;background:#800020;color:white;border:1px solid #fff;font-size:20px;line-height:1}
+.photo-gallery{margin:-6px -6px 12px}
+.photo-main{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;background:#f8e6ee}
+.photo-thumbs{display:flex;gap:6px;overflow-x:auto;margin-top:7px;padding-bottom:2px}
+.photo-thumb{flex:0 0 52px;width:52px;height:52px;padding:0;border:2px solid transparent;border-radius:8px;background:#fff;overflow:hidden}
+.photo-thumb[aria-pressed=true]{border-color:#800020}
+.photo-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.photo-counter{margin-bottom:4px}
+small{color:#775765}</style><script src="mira-cloud.js?v=20261101-friday-1"></script></head><body><div class="wrap"><a class="back" href="home.html" id="back">← الرئيسية</a><select class="lang" id="language" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="es">Español</option><option value="ru">Русский</option><option value="tr">Türkçe</option></select><header class="hero"><h1 id="title"></h1><p id="intro"></p></header><div class="notice" id="notice" role="status" aria-live="polite"></div><button class="retry" id="retry" type="button" hidden></button><h2 id="listingHeading"></h2><div id="items" class="grid"></div><h2 id="publishHeading"></h2><form id="form"><label id="itemLabel" for="item"></label><input id="item" maxlength="100" required><label id="descriptionLabel" for="description"></label><textarea id="description" maxlength="800" rows="3" required></textarea><div class="photo-upload"><label for="photos" id="photosLabel"></label><p id="photosHint" class="photo-hint"></p><input class="photo-input" id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><div id="photosCount" class="photo-counter" aria-live="polite"></div><div id="photosPreview" class="photo-preview" aria-live="polite"></div></div><label id="conditionLabel" for="condition"></label><select id="condition"><option value="used"></option><option value="new"></option></select><label id="priceLabel" for="price"></label><input id="price" type="number" min="0" required><label id="phoneLabel" for="phone"></label><input id="phone" type="tel" pattern="[0-9+ ]{7,18}" required><button id="publish" type="submit"></button></form><div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div></div><script>
 const tr={ar:['سوق الجمعة','مساحة لبيع الأغراض الشخصية الجديدة والمستعملة. أي شخص عنده غرض يريد يبيعه يگدر يعرضه هنا، بدون محل وبدون بسطية.','تنبيه: الإعلانات المنشورة هنا تُحفظ على هذا الجهاز فقط حالياً، ولا تظهر للآخرين حتى يتم ربط السوق بقاعدة البيانات. البيع والدفع والاتفاق على التسليم مباشرة بين البائع والمشتري؛ MIRA لا تستلم ثمن الأغراض.','الأغراض المعروضة','لا توجد أغراض منشورة على هذا الجهاز بعد.','أعرض غرضك','اسم الغرض','وصف الغرض','الحالة','مستعمل','جديد','السعر (د.ع)','رقم هاتف البائع','نشر الغرض','تواصل مع البائع','الرئيسية'],en:['Friday Market','An open space to sell new and pre-owned personal belongings. Anyone can list an item without renting a shop or stall.','Notice: Listings are currently saved on this device only and will not be visible to others until the market is connected to the database. Buyers and sellers arrange payment and delivery directly; MIRA does not collect item payments.','Listed items','No items listed on this device yet.','List your item','Item name','Item description','Condition','Used','New','Price (IQD)','Seller phone number','Post item','Contact seller','Home'],es:['Mercado del Viernes','Un espacio abierto para vender artículos personales nuevos y usados, sin tienda ni puesto.','Aviso: Los anuncios se guardan solo en este dispositivo hasta conectar la base de datos. El pago y la entrega se acuerdan directamente entre comprador y vendedor; MIRA no cobra las compras.','Artículos publicados','Todavía no hay artículos en este dispositivo.','Publica tu artículo','Nombre del artículo','Descripción','Estado','Usado','Nuevo','Precio (IQD)','Teléfono del vendedor','Publicar','Contactar al vendedor','Inicio'],ru:['Пятничный рынок','Открытая площадка для продажи новых и подержанных личных вещей без магазина или торгового места.','Внимание: объявления пока сохраняются только на этом устройстве до подключения базы данных. Оплата и доставка согласуются напрямую между продавцом и покупателем; MIRA не принимает оплату за товары.','Объявления','На этом устройстве пока нет объявлений.','Разместить вещь','Название','Описание','Состояние','Б/у','Новое','Цена (IQD)','Телефон продавца','Опубликовать','Связаться с продавцом','Главная'],tr:['Cuma Pazarı','Mağaza veya tezgâh olmadan yeni ve ikinci el kişisel eşyalarınızı satabileceğiniz açık alan.','Uyarı: İlanlar veritabanı bağlanana kadar yalnızca bu cihazda saklanır. Ödeme ve teslimat alıcı ile satıcı arasında yapılır; MIRA ürün ödemesi almaz.','İlanlar','Bu cihazda henüz ilan yok.','Ürününü ilan et','Ürün adı','Açıklama','Durum','İkinci el','Yeni','Fiyat (IQD)','Satıcı telefonu','İlanı yayınla','Satıcıyla iletişim','Ana Sayfa']};
 
 const ui={
@@ -8,15 +25,22 @@ const ui={
  ru:{policy:'Оплата и доставка согласуются напрямую между покупателем и продавцом. MIRA предоставляет место для объявления и не принимает оплату за товар.',loading:'Загрузка объявлений…',missing:'База данных Пятничного рынка ещё не настроена. Просмотр и публикация временно недоступны.',unavailable:'Не удалось загрузить объявления. Проверьте соединение и попробуйте снова.',empty:'Объявлений пока нет.',retry:'Повторить',signin:'Войдите в аккаунт, чтобы разместить объявление.',signinLink:'Войти',postError:'Не удалось разместить объявление. Попробуйте ещё раз.',posted:'Объявление успешно опубликовано.'},
  tr:{policy:'Ödeme ve teslimat alıcı ile satıcı arasında yapılır. MIRA yalnızca sergileme alanı sağlar ve ürün bedeli tahsil etmez.',loading:'İlanlar yükleniyor…',missing:'Cuma Pazarı veritabanı henüz kurulmadı. İlanları görüntüleme ve yayınlama geçici olarak kullanılamıyor.',unavailable:'İlanlar yüklenemedi. Bağlantınızı kontrol edip tekrar deneyin.',empty:'Henüz ilan yok.',retry:'Yeniden dene',signin:'İlan vermek için önce giriş yapın.',signinLink:'Giriş yap',postError:'İlan şu anda yayınlanamadı. Tekrar deneyin.',posted:'İlanınız başarıyla yayınlandı.'}
 };
+const photoUI={
+ ar:{label:'صور الغرض (حتى 6 صور)',hint:'اختر من 1 إلى 6 صور بصيغة JPG أو PNG أو WebP. الحد الأقصى 5 ميغابايت لكل صورة. الصور اختيارية.',counter:n=>'الصور المختارة: '+n+' من 6',remove:'إزالة الصورة',max:'تگدر ترفع 6 صور كحد أقصى.',type:'اختَر صور JPG أو PNG أو WebP فقط.',size:'حجم الصورة لازم ما يتجاوز 5 ميغابايت.',uploading:'جارِ رفع الصور ونشر الغرض…',uploadError:'تعذّر رفع الصور أو نشر الغرض. حاول مرة ثانية.',image:'صورة الغرض',thumb:'عرض صورة',preview:'معاينة الصورة'},
+ en:{label:'Item photos (up to 6)',hint:'Choose up to 6 JPG, PNG or WebP photos. Maximum 5 MB each. Photos are optional.',counter:n=>'Selected photos: '+n+' of 6',remove:'Remove photo',max:'You can upload a maximum of 6 photos.',type:'Only JPG, PNG or WebP images are supported.',size:'Each image must be 5 MB or less.',uploading:'Uploading photos and posting your item…',uploadError:'Could not upload the photos or post the item. Please try again.',image:'Item photo',thumb:'View photo',preview:'Photo preview'},
+ es:{label:'Fotos del artículo (hasta 6)',hint:'Elige hasta 6 fotos JPG, PNG o WebP. Máximo 5 MB por foto. Las fotos son opcionales.',counter:n=>'Fotos seleccionadas: '+n+' de 6',remove:'Eliminar foto',max:'Puedes subir un máximo de 6 fotos.',type:'Solo se admiten imágenes JPG, PNG o WebP.',size:'Cada imagen debe ocupar 5 MB o menos.',uploading:'Subiendo fotos y publicando el artículo…',uploadError:'No se pudieron subir las fotos o publicar el artículo. Inténtalo de nuevo.',image:'Foto del artículo',thumb:'Ver foto',preview:'Vista previa de foto'},
+ ru:{label:'Фото товара (до 6)',hint:'Выберите до 6 фото JPG, PNG или WebP. Не более 5 МБ каждое. Фото необязательны.',counter:n=>'Выбрано фото: '+n+' из 6',remove:'Удалить фото',max:'Можно загрузить не более 6 фотографий.',type:'Поддерживаются только JPG, PNG и WebP.',size:'Размер каждого фото не должен превышать 5 МБ.',uploading:'Загрузка фотографий и публикация объявления…',uploadError:'Не удалось загрузить фотографии или опубликовать объявление. Повторите попытку.',image:'Фото товара',thumb:'Показать фото',preview:'Предпросмотр фото'},
+ tr:{label:'Ürün fotoğrafları (en fazla 6)',hint:'En fazla 6 JPG, PNG veya WebP fotoğrafı seçin. Her biri en fazla 5 MB. Fotoğraflar isteğe bağlıdır.',counter:n=>'Seçilen fotoğraflar: '+n+' / 6',remove:'Fotoğrafı kaldır',max:'En fazla 6 fotoğraf yükleyebilirsiniz.',type:'Yalnızca JPG, PNG veya WebP desteklenir.',size:'Her fotoğraf 5 MB veya daha küçük olmalıdır.',uploading:'Fotoğraflar yükleniyor ve ilan yayınlanıyor…',uploadError:'Fotoğraflar veya ilan yüklenemedi. Tekrar deneyin.',image:'Ürün fotoğrafı',thumb:'Fotoğrafı göster',preview:'Fotoğraf önizlemesi'}
+};
 let lang=localStorage.getItem('mira_lang')||'ar';
 if(!tr[lang])lang='ar';
 const ids=['title','intro','notice','listingHeading','empty','publishHeading','itemLabel','descriptionLabel','conditionLabel','used','new','priceLabel','phoneLabel','publish','contact','back'];
-let listings=[],status='loading',feedbackKey='';
+let listings=[],status='loading',feedbackKey='',selectedPhotos=[],selectionError='',posting=false;
 function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function showFeedback(){
  const box=document.getElementById('feedback');box.hidden=!feedbackKey;
  if(!feedbackKey){box.textContent='';return}
- const t=ui[lang];box.textContent=t[feedbackKey]||t.postError;
+ const t=ui[lang],p=photoUI[lang];box.textContent=p[feedbackKey]||t[feedbackKey]||t.postError;
  if(feedbackKey==='signin'){
   const a=document.createElement('a');a.href='signin.html?return=friday-market.html';a.textContent=t.signinLink;box.appendChild(a);
  }
@@ -31,22 +55,27 @@ function render(){
  document.querySelector('#condition option[value="used"]').textContent=t[9];
  document.querySelector('#condition option[value="new"]').textContent=t[10];
  document.getElementById('back').textContent='← '+t[15];
+ const p=photoUI[lang];
+ document.getElementById('photosLabel').textContent=p.label;
+ document.getElementById('photosHint').textContent=p.hint;
+ document.getElementById('photos').setAttribute('aria-label',p.label);
+ renderPhotoPreviews();
  document.getElementById('notice').textContent=messages.policy+(missing?' '+messages.missing:failed?' '+messages.unavailable:'');
  const retry=document.getElementById('retry');retry.hidden=!missing&&!failed;retry.textContent=messages.retry;
- const publish=document.getElementById('publish');publish.disabled=status!=='ready';
+ const publish=document.getElementById('publish');publish.disabled=status!=='ready'||posting;
  const items=document.getElementById('items');
  if(status==='loading'){items.innerHTML='<div class="empty">'+esc(messages.loading)+'</div>'}
  else if(status!=='ready'){items.innerHTML='<div class="empty">'+esc(missing?messages.missing:messages.unavailable)+'</div>'}
  else if(!listings.length){items.innerHTML='<div class="empty">'+esc(messages.empty)+'</div>'}
- else{items.innerHTML=listings.map(x=>'<article class="card"><span class="badge">'+esc(x.condition==='new'?t[10]:t[9])+'</span><h3>'+esc(x.name)+'</h3><p>'+esc(x.description)+'</p><p class="price">'+Number(x.price).toLocaleString(lang==='ar'?'ar-IQ':'en-US')+' IQD</p><a class="contact" href="tel:'+esc(String(x.phone).replace(/[^+0-9]/g,''))+'">'+esc(t[14])+'</a></article>').join('')}
+ else{items.innerHTML=listings.map((x,index)=>'<article class="card">'+listingGallery(x,index)+'<span class="badge">'+esc(x.condition==='new'?t[10]:t[9])+'</span><h3>'+esc(x.name)+'</h3><p>'+esc(x.description)+'</p><p class="price">'+Number(x.price).toLocaleString(lang==='ar'?'ar-IQ':'en-US')+' IQD</p><a class="contact" href="tel:'+esc(String(x.phone).replace(/[^+0-9]/g,''))+'">'+esc(t[14])+'</a></article>').join('')}
  showFeedback();
 }
 async function loadListings(){
  status='loading';render();
  try{
-  const rows=await MiraCloud.request('mira_friday_listings?select=id,title,description,item_condition,price_iqd,contact_phone,status,created_at&status=eq.active&order=created_at.desc&limit=100');
+  const rows=await MiraCloud.request('mira_friday_listings?select=id,title,description,item_condition,price_iqd,contact_phone,image_paths,status,created_at&status=eq.active&order=created_at.desc&limit=100');
   if(!Array.isArray(rows))throw Error('Invalid listings response');
-  listings=rows.map(x=>({name:x.title,description:x.description,condition:x.item_condition,price:x.price_iqd,phone:x.contact_phone}));
+  listings=rows.map(x=>({name:x.title,description:x.description,condition:x.item_condition,price:x.price_iqd,phone:x.contact_phone,images:Array.isArray(x.image_paths)?x.image_paths:[]}));
   status='ready';
  }catch(e){
   const detail=String(e?.message||e||'');
@@ -56,13 +85,99 @@ async function loadListings(){
  }
  render();
 }
+
+const ALLOWED_TYPES={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
+const MAX_PHOTO_BYTES=5*1024*1024,MAX_PHOTOS=6;
+function photoPublicUrl(path){
+ const c=window.MIRA_SUPABASE;
+ if(typeof path!=='string'||!/^[-a-f0-9]{36}\/[-a-f0-9]{36}\/[A-Za-z0-9._-]+\.(jpg|png|webp)$/.test(path))return '';
+ return c.url+'/storage/v1/object/public/mira-friday-items/'+path.split('/').map(encodeURIComponent).join('/');
+}
+function listingGallery(item,index){
+ const paths=(item.images||[]).slice(0,MAX_PHOTOS).map(photoPublicUrl).filter(Boolean);
+ if(!paths.length)return '';
+ const p=photoUI[lang];
+ const thumbs=paths.length>1?'<div class="photo-thumbs">'+paths.map((url,i)=>'<button type="button" class="photo-thumb" data-gallery="'+index+'" data-photo="'+i+'" aria-label="'+esc(p.thumb)+' '+(i+1)+'" aria-pressed="'+(i===0?'true':'false')+'"><img loading="lazy" src="'+esc(url)+'" alt=""></button>').join('')+'</div>':'';
+ return '<div class="photo-gallery"><img class="photo-main" loading="lazy" src="'+esc(paths[0])+'" alt="'+esc(p.image)+' — '+esc(item.name)+'">'+thumbs+'</div>';
+}
+function renderPhotoPreviews(){
+ const p=photoUI[lang],root=document.getElementById('photosPreview');
+ document.getElementById('photosCount').textContent=p.counter(selectedPhotos.length);
+ root.replaceChildren();
+ selectedPhotos.forEach((entry,index)=>{
+  const wrap=document.createElement('div');wrap.className='photo-preview-item';
+  const img=document.createElement('img');img.src=entry.url;img.alt=p.preview+' '+(index+1);
+  const button=document.createElement('button');button.type='button';button.className='photo-remove';button.dataset.removePhoto=String(index);button.textContent='×';button.setAttribute('aria-label',p.remove+' '+(index+1));
+  wrap.append(img,button);root.append(wrap);
+ });
+}
+function clearPhotos(){
+ for(const photo of selectedPhotos)URL.revokeObjectURL(photo.url);
+ selectedPhotos=[];document.getElementById('photos').value='';renderPhotoPreviews();
+}
+document.getElementById('photos').addEventListener('change',event=>{
+ const files=Array.from(event.target.files||[]);
+ event.target.value='';
+ feedbackKey='';selectionError='';
+ for(const file of files){
+  if(selectedPhotos.length>=MAX_PHOTOS){selectionError='max';break}
+  if(!ALLOWED_TYPES[file.type]){selectionError='type';continue}
+  if(!file.size||file.size>MAX_PHOTO_BYTES){selectionError='size';continue}
+  if(selectedPhotos.some(p=>p.file.name===file.name&&p.file.size===file.size&&p.file.lastModified===file.lastModified))continue;
+  selectedPhotos.push({file,url:URL.createObjectURL(file)});
+ }
+ if(selectionError)feedbackKey=selectionError;
+ render();
+});
+document.getElementById('photosPreview').addEventListener('click',event=>{
+ const btn=event.target.closest('[data-remove-photo]');
+ if(!btn||posting)return;
+ const index=Number(btn.dataset.removePhoto);
+ if(!Number.isInteger(index)||index<0||index>=selectedPhotos.length)return;
+ const removed=selectedPhotos.splice(index,1)[0];URL.revokeObjectURL(removed.url);
+ feedbackKey='';render();
+});
+document.getElementById('items').addEventListener('click',event=>{
+ const btn=event.target.closest('[data-gallery][data-photo]');
+ if(!btn)return;
+ const card=btn.closest('.card'),item=listings[Number(btn.dataset.gallery)];
+ const url=photoPublicUrl(item?.images?.[Number(btn.dataset.photo)]);
+ if(!card||!url)return;
+ const main=card.querySelector('.photo-main');
+ if(main)main.src=url;
+ card.querySelectorAll('.photo-thumb').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
+});
+function randomUuid(){
+ if(globalThis.crypto?.randomUUID)return crypto.randomUUID();
+ const bytes=new Uint8Array(16);crypto.getRandomValues(bytes);
+ bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;
+ const h=Array.from(bytes,n=>n.toString(16).padStart(2,'0')).join('');
+ return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);
+}
+async function uploadItemPhoto(file,path){
+ await MiraCloud.ensureFreshSession();
+ const c=window.MIRA_SUPABASE;
+ const res=await fetch(c.url+'/storage/v1/object/mira-friday-items/'+path,{
+  method:'POST',headers:{apikey:c.key,Authorization:'Bearer '+MiraCloud.token(),'Content-Type':file.type,'x-upsert':'false'},body:file
+ });
+ if(!res.ok)throw Error('Storage upload failed');
+}
+async function deleteItemPhoto(path){
+ await MiraCloud.ensureFreshSession();
+ const c=window.MIRA_SUPABASE;
+ const res=await fetch(c.url+'/storage/v1/object/mira-friday-items/'+path,{
+  method:'DELETE',headers:{apikey:c.key,Authorization:'Bearer '+MiraCloud.token()}
+ });
+ if(!res.ok)console.warn('Unable to clean up an unpublished photo');
+}
 document.getElementById('language').addEventListener('change',e=>{
  lang=e.target.value;localStorage.setItem('mira_lang',lang);render()
 });
 document.getElementById('retry').addEventListener('click',loadListings);
+
 document.getElementById('form').addEventListener('submit',async e=>{
  e.preventDefault();
- if(status!=='ready')return;
+ if(status!=='ready'||posting)return;
  const form=e.currentTarget;
  const x={name:document.getElementById('item').value.trim(),description:document.getElementById('description').value.trim(),condition:document.getElementById('condition').value,price:Number(document.getElementById('price').value),phone:document.getElementById('phone').value.trim()};
  if(!x.name||!x.description||!x.phone||!Number.isSafeInteger(x.price)||x.price<0)return;
@@ -73,18 +188,30 @@ document.getElementById('form').addEventListener('submit',async e=>{
   await MiraCloud.ensureFreshSession();
   const user=await MiraCloud.getCurrentUser();
   if(!user?.id){feedbackKey='signin';render();return}
-  const publish=document.getElementById('publish');publish.disabled=true;
+  posting=true;feedbackKey=selectedPhotos.length?'uploading':'';render();
+  const listingId=randomUuid(),uploaded=[];
+  let inserted=false;
   try{
-   await MiraCloud.request('mira_friday_listings',{method:'POST',requireAuth:true,body:JSON.stringify({seller_id:user.id,title:x.name,description:x.description,item_condition:x.condition,price_iqd:x.price,contact_phone:x.phone})});
-   form.reset();
-   await loadListings();
-   feedbackKey='posted';
-  }finally{publish.disabled=status!=='ready'}
- }catch(e){
-  feedbackKey='postError';
-  console.warn('Friday Market posting failed');
- }
- render();
+   for(let i=0;i<selectedPhotos.length;i++){
+    const file=selectedPhotos[i].file;
+    const path=user.id+'/'+listingId+'/'+(i+1)+'-'+randomUuid().slice(0,8)+'.'+ALLOWED_TYPES[file.type];
+    await uploadItemPhoto(file,path);
+    uploaded.push(path);
+   }
+   await MiraCloud.request('mira_friday_listings',{method:'POST',requireAuth:true,body:JSON.stringify({id:listingId,seller_id:user.id,title:x.name,description:x.description,item_condition:x.condition,price_iqd:x.price,contact_phone:x.phone,image_paths:uploaded})});
+   inserted=true;
+  }finally{
+   if(!inserted&&uploaded.length){
+    for(const path of uploaded){try{await deleteItemPhoto(path)}catch(_){console.warn('Photo cleanup failed')}}
+   }
+  }
+  clearPhotos();form.reset();feedbackKey='posted';
+  await loadListings();
+ }catch(err){
+  feedbackKey='uploadError';
+  console.warn('Friday Market submission failed');
+ }finally{posting=false;render()}
 });
+
 render();MiraCloud.loadSession();loadListings();
 </script></body></html>
