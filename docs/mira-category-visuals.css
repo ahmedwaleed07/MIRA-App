@@ -169,3 +169,48 @@ body.mira-categories-index #grid .cat .ico{
 @media(prefers-reduced-motion:reduce){
  body.mira-categories-index #grid .cat .cat-photo{transition:none!important}
 }
+
+/* Home-page category cards use the same real category photography. */
+body.mira-home-elegance #cats .cat{
+  position:relative;isolation:isolate;overflow:hidden;
+  min-height:112px!important;padding:8px 5px!important;
+  border-radius:17px!important;
+  border:1px solid rgba(255,255,255,.67)!important;
+  color:#fff!important;background:#800020!important;
+  box-shadow:0 9px 22px rgba(128,0,32,.16)!important;
+}
+body.mira-home-elegance #cats .cat .cat-photo{
+  position:absolute;inset:0;z-index:0;
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  display:block;pointer-events:none;
+  transition:transform .35s ease;
+}
+body.mira-home-elegance #cats .cat:before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(20,3,13,.12) 0%,rgba(40,2,19,.28) 40%,rgba(34,2,17,.86) 100%);
+}
+body.mira-home-elegance #cats .cat .cat-icon{
+  position:relative;z-index:2;
+  width:34px;height:34px;flex:0 0 34px;
+  border-radius:11px;
+  background:rgba(255,255,255,.91)!important;
+  border:1px solid rgba(255,255,255,.84)!important;
+  color:#800020!important;
+  box-shadow:0 4px 12px rgba(33,0,16,.22)!important;
+}
+body.mira-home-elegance #cats .cat .cat-icon svg{
+  width:19px;height:19px;stroke:#800020!important;color:#800020!important
+}
+body.mira-home-elegance #cats .cat .cat-label{
+  position:relative;z-index:2;
+  display:block;color:#fff!important;
+  font-weight:800;line-height:1.25;font-size:9.2px;
+  text-shadow:0 2px 6px rgba(18,2,11,.86)!important;
+}
+body.mira-home-elegance #cats .cat.sponsored:after{z-index:3}
+@media(hover:hover){
+ body.mira-home-elegance #cats .cat:hover .cat-photo{transform:scale(1.06)}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mira-home-elegance #cats .cat .cat-photo{transition:none!important}
+}
