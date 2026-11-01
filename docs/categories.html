@@ -144,8 +144,8 @@ html,body{background:#fff4f7!important;color:#800020!important}
 [dir="rtl"] .category-hero{background-image:linear-gradient(270deg,#800020e8 0%,#800020a6 46%,#80002044 100%),url('assets/categories/category-hero.webp?v=20261021-mira-visuals-2')}
 .category-hero .title{position:relative;margin:0!important;color:#fff!important;font-size:23px;line-height:1.25;text-shadow:0 2px 8px #25020d70}
 .category-hero .sub{position:relative;margin-top:1px;color:#fff!important;opacity:.92;text-shadow:0 1px 5px #25020d80}
-</style></head>
-<body>
+</style><link rel="stylesheet" href="mira-category-visuals.css?v=20261101-photo-hero-1"></head>
+<body class="mira-categories-index">
 <main class="app">
   <header class="category-hero">
     <div class="title" id="title"></div>
@@ -203,7 +203,7 @@ function render(){
   'stationery-office':'stationery-office',gifts:'gifts',restaurants:'restaurants-cafes','travel-tourism':'travel-tourism'
  };
  const txName=x=>l==='ar'?(x.ar||x.en):(x.en||x.ar);
- const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;const photo=document.createElement('img');photo.className='cat-photo';photo.src='assets/categories/'+(photoFor[item.slug]||'clothing')+'.webp?v=20261021-ai-category-photos-1';photo.alt='';photo.loading='lazy';photo.decoding='async';b.appendChild(photo);grid.appendChild(b)})};
+ const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;const photo=document.createElement('img');photo.className='cat-photo';photo.src='assets/categories/'+(photoFor[item.slug]||'category-hero')+'.webp?v=20261101-photo-hero-1';photo.alt='';photo.loading='lazy';photo.decoding='async';photo.onerror=()=>{photo.onerror=null;photo.src='assets/categories/category-hero.webp?v=20261101-photo-hero-1'};b.appendChild(photo);grid.appendChild(b)})};
  draw();q.oninput=()=>draw(q.value)
 }
 render();window.addEventListener('mira-taxonomy-synced',render);
