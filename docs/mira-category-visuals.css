@@ -237,12 +237,13 @@ body.mira-category-detail .auto-branch{
 }
 body.mira-category-detail .auto-branch:before{
  content:"";position:absolute;z-index:-2;inset:0;
- background-image:url('assets/categories/automotive.webp');
+ background-image:url('assets/categories/automotive-direct.webp');
  background-size:cover;background-position:35% 45%;
  transform:scale(1.05);
 }
 body.mira-category-detail .auto-showroom:before{
- background-position:75% 50%;
+ background-image:url('assets/categories/automotive-showrooms.webp');
+ background-position:50% 50%;
  filter:saturate(.88) brightness(1.05);
 }
 body.mira-category-detail .auto-branch:after{
