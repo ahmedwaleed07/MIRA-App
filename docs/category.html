@@ -33,8 +33,8 @@ if(selectedSlug==='automotive'){
  document.body.classList.add('automotive-section');
  if(autoBranch==='showrooms')document.body.classList.add('automotive-showrooms');
  branches.innerHTML=[
-  '<a class="auto-branch auto-direct" href="car-direct.html"><span class="auto-branch-title">'+labels.direct+'</span><span class="auto-branch-desc">'+labels.directDesc+'</span></a>',
-  '<a class="auto-branch auto-showroom'+(autoBranch==='showrooms'?' selected':'')+'" href="category.html?slug=automotive&branch=showrooms"><span class="auto-branch-title">'+labels.showrooms+'</span><span class="auto-branch-desc">'+labels.showroomsDesc+'</span></a>'
+  '<a class="auto-branch auto-direct" href="car-direct.html"><span class="auto-branch-title">'+labels.direct+'</span></a>',
+  '<a class="auto-branch auto-showroom'+(autoBranch==='showrooms'?' selected':'')+'" href="category.html?slug=automotive&branch=showrooms"><span class="auto-branch-title">'+labels.showrooms+'</span></a>'
  ].join('');
  document.getElementById('taxonomyNav').hidden=true;
  if(autoBranch!=='showrooms'){
