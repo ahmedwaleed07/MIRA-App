@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FC618F">
+<title>MIRA — بيع مباشر للسيارات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#800020;--pink:#EA255F;--soft:#FC618F;--ink:#4a1127}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#fff8fb;color:var(--ink);font-family:Poppins,Arial,sans-serif}
+body{background:linear-gradient(180deg,#ffffffef,#fff8fced),url('assets/backgrounds/discovery-card.webp') center top/100% auto no-repeat}
+button,input,textarea,select{font:inherit}
+a{color:var(--wine)}
+.wrap{width:min(100%,920px);margin:auto;padding:calc(14px + env(safe-area-inset-top)) 17px 70px}
+.top{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-bottom:16px}
+.back{font-weight:700;font-size:12px;text-decoration:none;padding:9px 10px}
+.logo{width:104px;height:39px;background:#EA255F;-webkit-mask:url('assets/mira_wordmark.svg') center/contain no-repeat;mask:url('assets/mira_wordmark.svg') center/contain no-repeat}
+.lang{max-width:128px;width:auto;padding:9px;border:1px solid #edcbd9;border-radius:12px;background:#fff;color:var(--wine);font-size:12px}
+.hero{position:relative;isolation:isolate;overflow:hidden;min-height:245px;padding:23px;border-radius:27px;display:flex;flex-direction:column;justify-content:flex-end;color:white;box-shadow:0 15px 35px #80002026}
+.hero:before{content:"";position:absolute;inset:0;z-index:-2;background:url('assets/categories/automotive.webp') center/cover no-repeat}
+.hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#36051be9,#80002062 58%,#80002018)}
+.hero h1{margin:0 0 8px;font-size:clamp(25px,5vw,35px);line-height:1.2}
+.hero p{max-width:560px;margin:0;font-size:13px;line-height:1.7}
+.notice{margin:16px 0;background:#fffafcee;border:1px solid #e9c5d3;border-radius:16px;padding:14px;color:var(--wine);font-size:12px;line-height:1.7}
+h2{font-size:20px;margin:26px 0 13px;color:var(--wine)}
+.search{width:100%;padding:14px;border:1px solid #e3b7c8;border-radius:14px;background:#fff;font-size:13px;color:var(--wine)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:15px}
+.card,form{background:rgba(255,255,255,.95);border:1px solid #ead0dc;border-radius:20px;box-shadow:0 9px 26px #80002012;overflow:hidden}
+.car-photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#f8e3eb}
+.thumbrail{display:flex;gap:5px;padding:7px 11px;overflow-x:auto}
+.thumb{padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;width:53px;height:48px;flex:0 0 53px;background:#fff}
+.thumb[aria-pressed="true"]{border-color:var(--pink)}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.cardbody{padding:14px}
+.card h3{font-size:17px;margin:2px 0 7px;color:var(--wine)}
+.details{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.pill{font-size:11px;background:#fff0f6;border:1px solid #f1d6e0;border-radius:999px;padding:5px 8px;color:var(--wine)}
+.price{color:var(--wine);font-size:19px;font-weight:800;margin:8px 0}
+.description{line-height:1.6;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+.cta,.subbtn{display:inline-block;background:var(--wine);color:#fff!important;border:0;border-radius:11px;text-decoration:none;padding:10px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.subbtn{background:white;color:var(--wine)!important;border:1px solid var(--wine)}
+.empty{grid-column:1/-1;text-align:center;padding:34px 12px;border:1px dashed #d6a3b7;border-radius:16px;background:#ffffffbf;color:var(--wine);line-height:1.7}
+form{padding:19px;display:grid;gap:11px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field{min-width:0}
+.field.full{grid-column:1/-1}
+.field label,.photoarea>label{display:block;color:var(--wine);font-size:12px;font-weight:700;margin-bottom:5px}
+.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #e1c4d0;border-radius:11px;background:#fff;color:#521329;min-width:0}
+.field textarea{resize:vertical}
+.photoarea{padding:14px;border:1px dashed #d7a8ba;border-radius:15px;background:#fff8fb}
+#photos{display:block;width:100%;font-size:12px;margin-top:10px}
+#photos::file-selector-button{border:0;border-radius:9px;background:var(--wine);color:#fff;padding:10px 12px;margin-inline-end:9px}
+.hint{color:#775869;font-size:11px;line-height:1.6;margin:5px 0}
+.preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px}
+.preview-item{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#fce8f0}
+.preview-item img{height:100%;width:100%;object-fit:cover}
+.remove{position:absolute;inset-block-start:5px;inset-inline-end:5px;padding:0;width:28px;height:28px;display:grid;place-items:center;background:#800020;color:#fff;border:1px solid white;border-radius:50%;cursor:pointer}
+.feedback{border-radius:12px;background:#fff0f6;color:var(--wine);padding:12px;margin:7px 0;font-size:12px;line-height:1.65}
+.feedback:empty{display:none}
+#publish:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:390px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.hero{min-height:220px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<script src="mira-cloud.js?v=20261102-car-direct"></script>
+</head><body><main class="wrap">
+<header class="top"><a class="back" href="category.html?slug=automotive" id="back">←</a><div class="logo" aria-label="MIRA"></div><select id="language" class="lang" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="es">Español</option><option value="ru">Русский</option><option value="tr">Türkçe</option></select></header>
+<section class="hero"><h1 data-t="title"></h1><p data-t="intro"></p></section>
+<div class="notice" data-t="notice"></div>
+<h2 data-t="listings"></h2>
+<input class="search" id="search" type="search" data-placeholder="search" aria-label="Search"/>
+<div class="grid" id="items" aria-live="polite" style="margin-top:15px"></div>
+<h2 data-t="publishTitle"></h2>
+<form id="form">
+<div class="fields">
+ <div class="field"><label for="make" data-t="make"></label><input id="make" maxlength="70" minlength="2" required></div>
+ <div class="field"><label for="model" data-t="model"></label><input id="model" maxlength="70" required></div>
+ <div class="field"><label for="year" data-t="year"></label><input id="year" type="number" min="1950" max="2100" required></div>
+ <div class="field"><label for="mileage" data-t="mileage"></label><input id="mileage" type="number" min="0" max="9999999" required></div>
+ <div class="field"><label for="condition" data-t="condition"></label><select id="condition"><option value="used" data-t="used"></option><option value="new" data-t="new"></option></select></div>
+ <div class="field"><label for="price" data-t="price"></label><input id="price" type="number" min="0" step="1" required></div>
+ <div class="field"><label for="province" data-t="province"></label><input id="province" maxlength="100" minlength="2" required></div>
+ <div class="field"><label for="phone" data-t="phone"></label><input id="phone" type="tel" pattern="[0-9+ ]{7,18}" autocomplete="tel" required></div>
+ <div class="field full"><label for="description" data-t="description"></label><textarea id="description" maxlength="1500" rows="3"></textarea></div>
+</div>
+<div class="photoarea"><label for="photos" data-t="photos"></label><p class="hint" data-t="photoHint"></p><input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><p class="hint" id="photoCount"></p><div class="preview" id="preview"></div></div>
+<div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+<button class="cta" id="publish" type="submit" data-t="publish"></button>
+</form>
+</main>
+<script>
+const locales={
+ ar:{title:'بيع مباشر للسيارات',intro:'اعرض سيارتك الشخصية للبيع أو تصفح سيارات الأفراد. ما تحتاج معرض أو محل.',notice:'MIRA توفّر مساحة عرض فقط. الاتفاق والفحص والدفع ونقل الملكية مباشرة بين البائع والمشتري.',back:'السيارات',listings:'سيارات الأفراد',search:'ابحث عن ماركة أو موديل أو محافظة',publishTitle:'أعرض سيارتك',make:'الماركة',model:'الموديل',year:'سنة الصنع',mileage:'المسافة المقطوعة (كم)',condition:'الحالة',used:'مستعملة',new:'جديدة',price:'السعر بالدينار العراقي',province:'المحافظة / المنطقة',phone:'رقم هاتف البائع',description:'تفاصيل إضافية عن السيارة',photos:'صور السيارة (لحد 6)',photoHint:'JPG أو PNG أو WebP — 5 ميگابايت لكل صورة كحد أقصى.',counter:n=>'الصور المختارة: '+n+' من 6',publish:'نشر إعلان السيارة',empty:'ماكو سيارات معروضة حالياً.',loading:'جارِ تحميل السيارات…',error:'تعذّر تحميل الإعلانات. جرّب تحديث الصفحة.',posted:'تم نشر إعلان سيارتك.',signIn:'سجّل دخولك حتى تنشر إعلانك.',login:'تسجيل الدخول',uploading:'جارِ رفع الصور ونشر السيارة…',postFailed:'تعذّر النشر. جرّب مرة ثانية.',max:'الحد الأعلى 6 صور.',fileType:'نوع الصورة غير مدعوم.',fileSize:'الصورة لازم تكون 5 ميگابايت أو أقل.',photo:'صورة سيارة',show:'عرض الصورة',remove:'حذف الصورة',contact:'اتصل بالبائع',sold:'تم البيع',soldConfirm:'تريد تحدد سيارتك كمباعة؟',soldOk:'تم تحديث حالة السيارة إلى مباعة.',manageError:'تعذّر تحديث الإعلان.',noPhoto:'السيارة'},
+ en:{title:'Direct Car Sales',intro:'Sell your personal car or browse vehicles listed by individuals. No dealership or showroom required.',notice:'MIRA provides advertising space only. Inspection, payment and ownership transfer are arranged directly between the buyer and seller.',back:'Automotive',listings:'Cars from individuals',search:'Search make, model or area',publishTitle:'List your car',make:'Make',model:'Model',year:'Model year',mileage:'Mileage (km)',condition:'Condition',used:'Used',new:'New',price:'Price (IQD)',province:'Province / area',phone:'Seller phone number',description:'Additional vehicle details',photos:'Vehicle photos (up to 6)',photoHint:'JPG, PNG or WebP — 5 MB maximum per photo.',counter:n=>'Selected photos: '+n+' of 6',publish:'Post car listing',empty:'No individual cars listed yet.',loading:'Loading cars…',error:'Unable to load listings. Try refreshing.',posted:'Your car is now listed.',signIn:'Sign in to publish your listing.',login:'Sign in',uploading:'Uploading photos and publishing…',postFailed:'Unable to publish. Please try again.',max:'Maximum 6 photos.',fileType:'Unsupported image format.',fileSize:'Each photo must be 5 MB or less.',photo:'Car photo',show:'Show photo',remove:'Remove photo',contact:'Call seller',sold:'Mark as sold',soldConfirm:'Mark your vehicle as sold?',soldOk:'Vehicle marked as sold.',manageError:'Unable to update listing.',noPhoto:'Car'},
+ es:{title:'Venta directa de autos',intro:'Vende tu automóvil particular o explora vehículos de personas, sin concesionario.',notice:'MIRA solo proporciona espacio publicitario. La inspección, el pago y la transferencia se realizan directamente entre comprador y vendedor.',back:'Automóviles',listings:'Autos de particulares',search:'Buscar marca, modelo o zona',publishTitle:'Anuncia tu auto',make:'Marca',model:'Modelo',year:'Año',mileage:'Kilometraje (km)',condition:'Estado',used:'Usado',new:'Nuevo',price:'Precio (IQD)',province:'Provincia / zona',phone:'Teléfono del vendedor',description:'Información adicional',photos:'Fotos del auto (hasta 6)',photoHint:'JPG, PNG o WebP — máximo 5 MB por foto.',counter:n=>'Fotos seleccionadas: '+n+' de 6',publish:'Publicar auto',empty:'Todavía no hay vehículos de particulares.',loading:'Cargando autos…',error:'No se pueden cargar los anuncios.',posted:'Tu auto se ha publicado.',signIn:'Inicia sesión para publicar.',login:'Iniciar sesión',uploading:'Subiendo fotos y publicando…',postFailed:'No se pudo publicar. Inténtalo otra vez.',max:'Máximo 6 fotos.',fileType:'Formato de imagen no admitido.',fileSize:'Cada foto debe ser de 5 MB o menos.',photo:'Foto del auto',show:'Ver foto',remove:'Eliminar foto',contact:'Llamar al vendedor',sold:'Marcar como vendido',soldConfirm:'¿Marcar el vehículo como vendido?',soldOk:'Vehículo marcado como vendido.',manageError:'No se pudo actualizar.',noPhoto:'Auto'},
+ ru:{title:'Прямая продажа автомобилей',intro:'Продавайте личный автомобиль или просматривайте объявления частных лиц без автосалона.',notice:'MIRA предоставляет только место для объявлений. Осмотр, оплата и переоформление согласуются напрямую между продавцом и покупателем.',back:'Автомобили',listings:'Автомобили от частных лиц',search:'Марка, модель или район',publishTitle:'Разместить автомобиль',make:'Марка',model:'Модель',year:'Год выпуска',mileage:'Пробег (км)',condition:'Состояние',used:'Подержанный',new:'Новый',price:'Цена (IQD)',province:'Провинция / район',phone:'Телефон продавца',description:'Дополнительные сведения',photos:'Фото автомобиля (до 6)',photoHint:'JPG, PNG или WebP — не более 5 МБ на фото.',counter:n=>'Выбрано фото: '+n+' из 6',publish:'Опубликовать автомобиль',empty:'Пока нет объявлений от частных лиц.',loading:'Загрузка автомобилей…',error:'Не удалось загрузить объявления.',posted:'Ваше объявление опубликовано.',signIn:'Войдите, чтобы разместить объявление.',login:'Войти',uploading:'Загрузка фото и публикация…',postFailed:'Не удалось опубликовать. Повторите попытку.',max:'Не более 6 фото.',fileType:'Формат изображения не поддерживается.',fileSize:'Каждое фото должно быть не больше 5 МБ.',photo:'Фото автомобиля',show:'Показать фото',remove:'Удалить фото',contact:'Позвонить продавцу',sold:'Отметить как продано',soldConfirm:'Отметить автомобиль как проданный?',soldOk:'Автомобиль отмечен как проданный.',manageError:'Не удалось изменить объявление.',noPhoto:'Автомобиль'},
+ tr:{title:'Doğrudan Araç Satışı',intro:'Kendi aracınızı satın veya bireysel ilanlara göz atın. Galeri açmanız gerekmez.',notice:'MIRA yalnızca ilan alanı sağlar. İnceleme, ödeme ve devir alıcı ile satıcı arasında yapılır.',back:'Otomotiv',listings:'Bireysel araç ilanları',search:'Marka, model veya bölge ara',publishTitle:'Aracını ilan et',make:'Marka',model:'Model',year:'Model yılı',mileage:'Kilometre (km)',condition:'Durum',used:'İkinci el',new:'Yeni',price:'Fiyat (IQD)',province:'İl / bölge',phone:'Satıcı telefonu',description:'Ek araç bilgileri',photos:'Araç fotoğrafları (en fazla 6)',photoHint:'JPG, PNG veya WebP — fotoğraf başına en fazla 5 MB.',counter:n=>'Seçilen fotoğraf: '+n+' / 6',publish:'Aracı yayınla',empty:'Henüz bireysel araç ilanı yok.',loading:'Araçlar yükleniyor…',error:'İlanlar yüklenemedi.',posted:'Aracınız yayınlandı.',signIn:'İlan vermek için giriş yapın.',login:'Giriş yap',uploading:'Fotoğraflar yükleniyor ve ilan yayınlanıyor…',postFailed:'Yayınlanamadı. Tekrar deneyin.',max:'En fazla 6 fotoğraf.',fileType:'Desteklenmeyen resim biçimi.',fileSize:'Her fotoğraf en fazla 5 MB olabilir.',photo:'Araç fotoğrafı',show:'Fotoğrafı göster',remove:'Fotoğrafı sil',contact:'Satıcıyı ara',sold:'Satıldı olarak işaretle',soldConfirm:'Aracı satıldı olarak işaretlemek istiyor musunuz?',soldOk:'Araç satıldı olarak işaretlendi.',manageError:'İlan güncellenemedi.',noPhoto:'Araç'}
+};
+let lang=localStorage.getItem('mira_lang')||'ar';
+if(!locales[lang])lang='ar';
+const MAX_FILES=6,MAX_SIZE=5*1024*1024,formats={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
+let selected=[],cars=[],loaded=false,busy=false,loggedUser=null,feed='',nextRequest=0;
+const $=id=>document.getElementById(id),L=()=>locales[lang];
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function uuid(){if(crypto.randomUUID)return crypto.randomUUID();const bytes=crypto.getRandomValues(new Uint8Array(16));bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;const a=Array.from(bytes,n=>n.toString(16).padStart(2,'0')).join('');return a.slice(0,8)+'-'+a.slice(8,12)+'-'+a.slice(12,16)+'-'+a.slice(16,20)+'-'+a.slice(20)}
+function imageUrl(path){
+ if(!/^[a-f0-9-]{36}\/[a-f0-9-]{36}\/[a-z0-9-]+\.(jpg|png|webp)$/i.test(String(path||'')))return '';
+ return window.MIRA_SUPABASE.url+'/storage/v1/object/public/mira-car-direct/'+path.split('/').map(encodeURIComponent).join('/');
+}
+function renderPhotos(){
+ $('photoCount').textContent=L().counter(selected.length);
+ const root=$('preview');root.replaceChildren();
+ selected.forEach((photo,i)=>{
+  const item=document.createElement('div');item.className='preview-item';
+  const img=document.createElement('img');img.src=photo.url;img.alt=L().photo+' '+(i+1);
+  const btn=document.createElement('button');btn.type='button';btn.className='remove';btn.dataset.remove=String(i);btn.textContent='×';btn.setAttribute('aria-label',L().remove);
+  item.append(img,btn);root.append(item);
+ });
+}
+function clearPhotos(){for(const p of selected)URL.revokeObjectURL(p.url);selected=[];$('photos').value='';renderPhotos()}
+function renderText(){
+ document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+ $('language').value=lang;
+ document.title='MIRA — '+L().title;
+ document.querySelectorAll('[data-t]').forEach(el=>el.textContent=L()[el.dataset.t]);
+ document.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=L()[el.dataset.placeholder]);
+ renderPhotos();renderCars();
+ $('publish').disabled=busy||!loaded;
+ if(feed)$('feedback').textContent=L()[feed]||feed;
+}
+function makeGallery(car,index){
+ const images=(car.image_paths||[]).slice(0,6).map(imageUrl).filter(Boolean);
+ if(!images.length)return '<img class="car-photo" src="assets/categories/automotive.webp" alt="'+escapeHtml(L().noPhoto)+'" loading="lazy">';
+ return '<img class="car-photo" data-cover="'+index+'" src="'+escapeHtml(images[0])+'" alt="'+escapeHtml(L().photo)+'" loading="lazy">'+(images.length>1?'<div class="thumbrail">'+images.map((url,i)=>'<button class="thumb" type="button" data-car="'+index+'" data-photo="'+i+'" aria-label="'+escapeHtml(L().show)+' '+(i+1)+'" aria-pressed="'+(i===0?'true':'false')+'"><img alt="" loading="lazy" src="'+escapeHtml(url)+'"></button>').join('')+'</div>':'');
+}
+function renderCars(){
+ const root=$('items'),term=$('search').value.trim().toLocaleLowerCase();
+ const rows=cars.filter(c=>[c.make,c.model,c.province,c.model_year].join(' ').toLocaleLowerCase().includes(term));
+ if(!loaded){root.innerHTML='<div class="empty">'+escapeHtml(L().loading)+'</div>';return}
+ if(!rows.length){root.innerHTML='<div class="empty">'+escapeHtml(L().empty)+'</div>';return}
+ root.innerHTML=rows.map((car,i)=>{
+   const index=cars.indexOf(car),mine=loggedUser?.id===car.seller_id;
+   const title=escapeHtml(car.make)+' '+escapeHtml(car.model)+' ('+Number(car.model_year)+')';
+   const phone=String(car.contact_phone||'').replace(/[^+0-9]/g,'');
+   const info=[car.car_condition==='new'?L().new:L().used,Number(car.mileage_km).toLocaleString(lang==='ar'?'ar-IQ':'en-US')+' km',car.province].map(s=>'<span class="pill">'+escapeHtml(s)+'</span>').join('');
+   return '<article class="card">'+makeGallery(car,index)+'<div class="cardbody"><h3>'+title+'</h3><div class="details">'+info+'</div><div class="price">'+Number(car.price_iqd).toLocaleString(lang==='ar'?'ar-IQ':'en-US')+' IQD</div><p class="description">'+escapeHtml(car.description)+'</p><div class="actions"><a class="cta" href="tel:'+escapeHtml(phone)+'">'+escapeHtml(L().contact)+'</a>'+(mine?'<button type="button" class="subbtn" data-sold="'+escapeHtml(car.id)+'">'+escapeHtml(L().sold)+'</button>':'')+'</div></div></article>';
+ }).join('');
+}
+async function checkUser(){
+ try{
+  MiraCloud.loadSession();if(!MiraCloud.session?.access_token)return;
+  await MiraCloud.ensureFreshSession();
+  loggedUser=await MiraCloud.getCurrentUser();
+ }catch(e){loggedUser=null}
+}
+async function loadCars(){
+ const seq=++nextRequest;loaded=false;renderCars();
+ try{
+  const rows=await MiraCloud.request('mira_car_direct_listings?select=id,seller_id,make,model,model_year,mileage_km,car_condition,price_iqd,province,description,contact_phone,image_paths,status,created_at&status=eq.active&order=created_at.desc&limit=100');
+  if(seq!==nextRequest)return;
+  cars=Array.isArray(rows)?rows:[];loaded=true;feed='';$('feedback').textContent='';
+ }catch(e){if(seq!==nextRequest)return;cars=[];loaded=true;feed='error';$('feedback').textContent=L().error;console.warn('MIRA car listing load unavailable')}
+ renderText();
+}
+async function putPhoto(file,path){
+ await MiraCloud.ensureFreshSession();
+ const c=window.MIRA_SUPABASE;
+ const response=await fetch(c.url+'/storage/v1/object/mira-car-direct/'+path,{method:'POST',headers:{apikey:c.key,Authorization:'Bearer '+MiraCloud.token(),'Content-Type':file.type,'x-upsert':'false'},body:file});
+ if(!response.ok)throw Error('Upload rejected');
+}
+async function removePhoto(path){
+ try{
+  await MiraCloud.ensureFreshSession();const c=window.MIRA_SUPABASE;
+  await fetch(c.url+'/storage/v1/object/mira-car-direct/'+path,{method:'DELETE',headers:{apikey:c.key,Authorization:'Bearer '+MiraCloud.token()}});
+ }catch(e){console.warn('Unpublished photo cleanup failed')}
+}
+$('language').addEventListener('change',event=>{lang=event.target.value;localStorage.setItem('mira_lang',lang);renderText()});
+$('search').addEventListener('input',renderCars);
+$('photos').addEventListener('change',e=>{
+ const files=Array.from(e.target.files||[]);e.target.value='';
+ let error='';
+ for(const f of files){
+  if(selected.length>=MAX_FILES){error='max';break}
+  if(!formats[f.type]){error='fileType';continue}
+  if(!f.size||f.size>MAX_SIZE){error='fileSize';continue}
+  if(selected.some(x=>x.file.name===f.name&&x.file.size===f.size&&x.file.lastModified===f.lastModified))continue;
+  selected.push({file:f,url:URL.createObjectURL(f)});
+ }
+ feed=error;$('feedback').textContent=error?L()[error]:'';renderPhotos();
+});
+$('preview').addEventListener('click',e=>{
+ if(busy)return;const b=e.target.closest('[data-remove]');if(!b)return;
+ const i=Number(b.dataset.remove);if(!Number.isInteger(i)||i<0||i>=selected.length)return;
+ URL.revokeObjectURL(selected.splice(i,1)[0].url);renderPhotos();$('feedback').textContent='';
+});
+$('items').addEventListener('click',async e=>{
+ const thumb=e.target.closest('[data-car][data-photo]');
+ if(thumb){
+  const car=cars[Number(thumb.dataset.car)],url=imageUrl(car?.image_paths?.[Number(thumb.dataset.photo)]);
+  const card=thumb.closest('.card');if(!url||!card)return;
+  const main=card.querySelector('.car-photo');if(main)main.src=url;
+  card.querySelectorAll('.thumb').forEach(b=>b.setAttribute('aria-pressed',String(b===thumb)));
+  return;
+ }
+ const b=e.target.closest('[data-sold]');if(!b||busy)return;
+ const car=cars.find(c=>c.id===b.dataset.sold);
+ if(!car||car.seller_id!==loggedUser?.id||!confirm(L().soldConfirm))return;
+ busy=true;b.disabled=true;
+ try{
+  await MiraCloud.request('mira_car_direct_listings?id=eq.'+encodeURIComponent(car.id),{method:'PATCH',requireAuth:true,body:JSON.stringify({status:'sold'})});
+  feed='soldOk';await loadCars();$('feedback').textContent=L().soldOk;
+ }catch(e){feed='manageError';$('feedback').textContent=L().manageError}
+ finally{busy=false;renderText()}
+});
+$('form').addEventListener('submit',async e=>{
+ e.preventDefault();if(busy||!loaded)return;
+ const el=id=>$(id).value.trim(),make=el('make'),model=el('model'),year=Number(el('year')),mileage=Number(el('mileage')),price=Number(el('price'));
+ if(make.length<2||!model||!Number.isInteger(year)||year<1950||year>2100||!Number.isInteger(mileage)||mileage<0||mileage>9999999||!Number.isSafeInteger(price)||price<0)return;
+ busy=true;$('publish').disabled=true;feed='uploading';$('feedback').textContent=L().uploading;
+ const uploaded=[];let inserted=false;
+ try{
+  await checkUser();
+  if(!loggedUser?.id){feed='signIn';$('feedback').replaceChildren(document.createTextNode(L().signIn+' '));const a=document.createElement('a');a.href='signin.html?return=car-direct.html';a.textContent=L().login;$('feedback').appendChild(a);return}
+  const id=uuid();
+  for(let i=0;i<selected.length;i++){
+   const file=selected[i].file,path=loggedUser.id+'/'+id+'/'+(i+1)+'-'+uuid().slice(0,8)+'.'+formats[file.type];
+   await putPhoto(file,path);uploaded.push(path);
+  }
+  await MiraCloud.request('mira_car_direct_listings',{method:'POST',requireAuth:true,body:JSON.stringify({id,seller_id:loggedUser.id,make,model,model_year:year,mileage_km:mileage,car_condition:el('condition'),price_iqd:price,province:el('province'),description:el('description'),contact_phone:el('phone'),image_paths:uploaded})});
+  inserted=true;
+  clearPhotos();$('form').reset();feed='posted';await loadCars();$('feedback').textContent=L().posted;
+ }catch(e){feed='postFailed';$('feedback').textContent=L().postFailed;console.warn('MIRA direct car sale publish failed')}
+ finally{
+  if(!inserted)for(const path of uploaded)await removePhoto(path);
+  busy=false;$('publish').disabled=!loaded;
+ }
+});
+renderText();checkUser().then(()=>{renderCars();loadCars()});
+</script>
+</body></html>
