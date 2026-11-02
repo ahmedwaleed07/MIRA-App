@@ -44,7 +44,12 @@ function init(){
    if(code===language){close();return}
    try{localStorage.setItem('mira_lang',code)}catch(_){}
    // Reload to refresh all platform-specific translated strings and dynamically generated labels.
-   location.reload();
+   // Keep welcome/onboarding pages with ?lang=... synchronized with the selected footer language.
+   const dest=new URL(location.href);
+   if(dest.searchParams.has('lang')){
+    dest.searchParams.set('lang',code);
+    location.replace(dest.pathname+dest.search+dest.hash);
+   }else location.reload();
   });
   menu.appendChild(option);
  }
