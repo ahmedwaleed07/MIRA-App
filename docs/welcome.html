@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#800020"><title>MIRA — Welcome</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="mira-auth-v3.css?v=20261009-logo-fix-1"></head>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#800020"><title>MIRA — Welcome</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="mira-auth-v3.css?v=20261009-logo-fix-1"><link rel="stylesheet" href="mira-footer-language.css?v=20261102-footer-v1"></head>
 <body class="mira-auth-v3 welcome-view">
 <main class="auth-screen"><nav class="languages" aria-label="Languages"><button type="button" data-lang="en">English</button><button type="button" data-lang="ar">العربية</button><button type="button" data-lang="es">Español</button><button type="button" data-lang="ru">Русский</button><button type="button" data-lang="tr">Türkçe</button></nav><div class="hero-brand" aria-label="MIRA"><img class="icon" src="assets/mira_icon_frameless.svg" alt=""><img class="wordmark" src="assets/mira_wordmark.svg" alt="MIRA"></div>
 <section class="welcome-panel"><h1 id="welcomeTitle">عروض طوال السنة</h1><p id="welcomeSubtitle">اكتشف عروضاً صُممت لك، أينما كنت.</p>
@@ -31,4 +31,4 @@ document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',(
 </script><script src="mira-cloud.js?v=20261009-cross-tab-remember-1"></script><script>
 const remembered=window.MiraCloud.session,claim=window.MiraCloud.payload();
 if(remembered?.refresh_token&&claim?.role==='authenticated'&&claim?.sub)location.replace('home.html');
-</script><script src="mira-portal-i18n.js?v=20261027-global-2"></script></body></html>
+</script><script src="mira-portal-i18n.js?v=20261102-footer-v1"></script><script src="mira-footer-language.js?v=20261102-footer-v1"></script></body></html>
