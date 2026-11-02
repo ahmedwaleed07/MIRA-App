@@ -214,3 +214,71 @@ body.mira-home-elegance #cats .cat.sponsored:after{z-index:3}
 @media(prefers-reduced-motion:reduce){
  body.mira-home-elegance #cats .cat .cat-photo{transition:none!important}
 }
+
+
+/* Automotive: exactly two shopping branches, without mixing individual listings and dealerships. */
+body.mira-category-detail .automotive-branches[hidden],
+body.mira-category-detail .search[hidden],
+body.mira-category-detail .filters[hidden],
+body.mira-category-detail #list[hidden],
+body.mira-category-detail #taxonomyNav[hidden]{display:none!important}
+body.mira-category-detail .automotive-branches{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+ margin-top:20px;
+}
+body.mira-category-detail .auto-branch{
+ position:relative;isolation:isolate;overflow:hidden;
+ min-height:184px;border:1px solid rgba(255,255,255,.68);
+ border-radius:23px;padding:16px 14px;
+ display:flex;flex-direction:column;justify-content:end;gap:7px;
+ text-decoration:none!important;color:#fff!important;
+ box-shadow:0 12px 30px rgba(128,0,32,.15);
+ transition:transform .18s ease,box-shadow .18s ease;
+}
+body.mira-category-detail .auto-branch:before{
+ content:"";position:absolute;z-index:-2;inset:0;
+ background-image:url('assets/categories/automotive.webp');
+ background-size:cover;background-position:35% 45%;
+ transform:scale(1.05);
+}
+body.mira-category-detail .auto-showroom:before{
+ background-position:75% 50%;
+ filter:saturate(.88) brightness(1.05);
+}
+body.mira-category-detail .auto-branch:after{
+ content:"";position:absolute;z-index:-1;inset:0;
+ background:linear-gradient(0deg,rgba(52,5,26,.92),rgba(128,0,32,.47) 60%,rgba(234,37,95,.09));
+}
+body.mira-category-detail .auto-branch-title{
+ display:block;color:#fff!important;
+ font-size:16px;line-height:1.4;font-weight:800;
+ text-shadow:0 2px 8px rgba(25,0,12,.45);
+}
+body.mira-category-detail .auto-branch-desc{
+ color:#fff!important;font-size:10px;line-height:1.55;
+ text-shadow:0 1px 5px rgba(25,0,12,.52);
+}
+body.mira-category-detail .auto-branch.selected{
+ outline:2px solid #EA255F;outline-offset:2px
+}
+body.mira-category-detail.automotive-section .hero{
+ min-height:215px;
+}
+body.mira-category-detail.automotive-section .automotive-branches{
+ margin-bottom:20px;
+}
+body.mira-category-detail.automotive-section:not(.automotive-showrooms) .hero p{
+ max-width:340px;
+}
+@media(hover:hover){
+ body.mira-category-detail .auto-branch:hover{transform:translateY(-2px);box-shadow:0 16px 35px rgba(128,0,32,.22)}
+}
+@media(max-width:350px){
+ body.mira-category-detail .automotive-branches{gap:9px}
+ body.mira-category-detail .auto-branch{padding:11px;min-height:160px}
+ body.mira-category-detail .auto-branch-title{font-size:13px}
+ body.mira-category-detail .auto-branch-desc{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mira-category-detail .auto-branch{transition:none!important}
+}
