@@ -96,7 +96,7 @@ const welcome=read('welcome');
 const footerControl=readFileSync('docs/mira-footer-language.js','utf8');
 const footerCss=readFileSync('docs/mira-auth-v3.css','utf8');
 const navIndex=welcome.indexOf('<nav class="languages welcome-languages"');
-const footerIndex=welcome.indexOf('<footer class="brand-footer">');
+const footerIndex=welcome.indexOf('<footer class="brand-footer welcome-powered-footer"');
 if(navIndex<0||footerIndex<0||navIndex<footerIndex)throw new Error('Welcome language options must appear below the ASAS footer');
 for(const code of ['ar','en','es','ru','tr'])if(!welcome.includes('data-lang="'+code+'" lang="'+code+'"'))throw new Error('Welcome language missing: '+code);
 if((welcome.match(/data-lang="(?:ar|en|es|ru|tr)" lang="/g)||[]).length!==5)throw new Error('Welcome must have exactly five visible languages');
