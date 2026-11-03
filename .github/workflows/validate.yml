@@ -14,7 +14,8 @@ jobs:
           node-version: '22'
       - name: Validate JavaScript syntax
         run: |
-          node --check www/app.js
+          node --check docs/taxonomy.js
+          node --check docs/mira-cloud.js
           node scripts/validate-docs.mjs
           node scripts/validate-dashboard.mjs
           node scripts/validate-merchant-session.mjs
@@ -43,10 +44,13 @@ jobs:
       - name: Validate required release files
         run: |
           test -f www/index.html
-          test -f www/styles.css
-          test -f www/app.js
-          test -f www/approved-source.html
-          test -f www/assets/mira_icon.svg
+          test -f www/welcome.html
+          test -f www/home.html
+          test -f www/taxonomy.js
+          test -f www/mira-cloud.js
+          test -f www/business.html
+          test -f www/admin.html
+          test -f www/assets/categories/real-estate.webp
           test -f docs/privacy.html
           test -f docs/terms.html
           test -f docs/delete-account.html
