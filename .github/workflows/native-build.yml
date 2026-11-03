@@ -25,6 +25,7 @@ jobs:
         run: echo "sha=$(node scripts/verify-mobile-parity.mjs --digest-only)" >> "$GITHUB_OUTPUT"
 
   android:
+    needs: web-parity
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
