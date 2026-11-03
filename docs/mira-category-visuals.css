@@ -283,3 +283,51 @@ body.mira-category-detail.automotive-section:not(.automotive-showrooms) .hero p{
 @media(prefers-reduced-motion:reduce){
  body.mira-category-detail .auto-branch{transition:none!important}
 }
+
+
+/* Real estate — three clear display routes, with MIRA's familiar photographic tiles. */
+body.mira-category-detail .real-estate-branches[hidden],
+body.mira-category-detail .real-estate-disclaimer[hidden]{display:none!important}
+body.mira-category-detail .real-estate-branches{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:9px;margin:17px 0 10px;direction:inherit;
+}
+body.mira-category-detail .real-estate-branch{
+ display:flex;flex-direction:column;justify-content:flex-end;gap:7px;
+ min-width:0;min-height:165px;position:relative;overflow:hidden;isolation:isolate;
+ padding:14px 10px;border:1px solid rgba(255,255,255,.8);border-radius:19px;
+ color:#fff;text-decoration:none;background:#800020;
+ box-shadow:0 9px 21px rgba(128,0,32,.17);
+}
+body.mira-category-detail .real-estate-branch::before{
+ content:'';position:absolute;z-index:-2;inset:0;
+ background:url('assets/categories/real-estate.webp') center/cover no-repeat;
+ opacity:.95;transform:scale(1.05);
+}
+body.mira-category-detail .real-estate-developer::before{background-position:65% center}
+body.mira-category-detail .real-estate-broker::before{background-position:40% center}
+body.mira-category-detail .real-estate-direct-sale::before{background-position:15% center}
+body.mira-category-detail .real-estate-branch::after{
+ content:'';position:absolute;z-index:-1;inset:0;
+ background:linear-gradient(to top,rgba(55,2,29,.96),rgba(110,8,57,.52) 62%,rgba(255,255,255,.05));
+}
+body.mira-category-detail .real-estate-branch strong{
+ font-size:clamp(11px,3.3vw,14px);font-weight:800;line-height:1.3;color:#fff;
+ overflow-wrap:break-word;text-shadow:0 2px 5px #28000a70;
+}
+body.mira-category-detail .real-estate-branch span{
+ font-size:clamp(9px,2.45vw,11px);line-height:1.4;color:#fff;overflow-wrap:break-word;
+}
+body.mira-category-detail .real-estate-branch.selected{outline:3px solid #EA255F;outline-offset:1px}
+body.mira-category-detail .real-estate-disclaimer{
+ margin:8px 0 19px;color:#800020;font-size:11px;line-height:1.7;
+ background:rgba(255,255,255,.83);padding:12px 14px;
+ border:1px solid rgba(128,0,32,.12);border-radius:15px;
+}
+@media(max-width:365px){
+ body.mira-category-detail .real-estate-branches{gap:6px}
+ body.mira-category-detail .real-estate-branch{padding:10px 8px;min-height:150px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mira-category-detail .real-estate-branch::before{transform:none}
+}

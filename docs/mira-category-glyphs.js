@@ -1,4 +1,4 @@
-/* MIRA category glyphs: 19 distinct, consistent line icons across Home, Interests and Categories. */
+/* MIRA category glyphs: 20 distinct, consistent line icons across Home, Interests and Categories. */
 (()=>{
 const shapes={
   "clothing": "<path d=\"m8 4-4 3 2 4 2-1v10h8V10l2 1 2-4-4-3-2 2h-4z\"/><path d=\"M10 6h4\"/>",
@@ -16,6 +16,7 @@ const shapes={
   "jewelry": "<path d=\"m7 7 3-5h4l3 5-5 5z\"/><circle cx=\"12\" cy=\"17\" r=\"4.5\"/><path d=\"M7 7h10M10 2l2 5 2-5\"/>",
   "eyewear": "<circle cx=\"6.5\" cy=\"13\" r=\"4.1\"/><circle cx=\"17.5\" cy=\"13\" r=\"4.1\"/><path d=\"M10.6 12.5c1-1.3 1.8-1.3 2.8 0M2.5 12 2 9M21.5 12l.5-3\"/>",
   "automotive": "<path d=\"m5 15 1.5-5 2-3h7l2 3L19 15\"/><rect x=\"3\" y=\"13\" width=\"18\" height=\"6\" rx=\"2\"/><path d=\"M7 19v2M17 19v2M6 14.5h2M16 14.5h2\"/>",
+  "real-estate": "<path d=\"M3 10 12 3l9 7\"/><path d=\"M5 9.5V21h14V9.5M9 21v-7h6v7M9 10h.01M15 10h.01\"/>",
   "stationery-office": "<path d=\"m4 17 1 3 3 1 10-11-4-4zM13 7l4 4M16 3l5 5M4 21l4-1\"/><path d=\"M3 9h6M3 12h4\"/>",
   "gifts": "<rect x=\"3\" y=\"10\" width=\"18\" height=\"11\" rx=\"1\"/><path d=\"M2 7h20v3H2zM12 7v14M12 7c-5 0-7-1-7-4 0-3 6-2 7 4zM12 7c5 0 7-1 7-4 0-3-6-2-7 4z\"/>",
   "travel-tourism": "<path d=\"M4 7h16v13H4z\"/><path d=\"M8 7V5a4 4 0 0 1 8 0v2M7 20v2M17 20v2M12 11v4\"/>",

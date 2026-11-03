@@ -199,10 +199,10 @@ function render(){
   clothing:'clothing',shoes:'shoes',perfumes:'perfumes',accessories:'accessories',
   bags:'bags',watches:'watches',beauty:'beauty',electronics:'electronics',
   'home-appliances':'home-appliances',home:'home',sports:'sports','toys-kids':'toys-kids',
-  jewelry:'jewelry',eyewear:'eyewear',automotive:'automotive',
+  jewelry:'jewelry',eyewear:'eyewear',automotive:'automotive','real-estate':'real-estate',
   'stationery-office':'stationery-office',gifts:'gifts',restaurants:'restaurants-cafes','travel-tourism':'travel-tourism'
  };
- const txName=x=>l==='ar'?(x.ar||x.en):(x.en||x.ar);
+ const txName=x=>window.MIRA_TAXONOMY_LABEL(x,l);
  const draw=(filter='')=>{grid.innerHTML='';items.forEach((item,i)=>{const name=txName(item);if(filter&&!name.toLowerCase().includes(filter.toLowerCase()))return;const b=document.createElement('button');b.className='cat';b.onclick=()=>location.href='category.html?slug='+encodeURIComponent(item.slug);b.innerHTML=`<div class="ico">${window.MIRACategoryIcon(item.slug)}</div><b>${name}</b><small>${(item.subs||[]).filter(x=>x.active!==false).length} ${l==='ar'?'أقسام فرعية':'subcategories'}</small>`;const photo=document.createElement('img');photo.className='cat-photo';photo.src='assets/categories/'+(photoFor[item.slug]||'category-hero')+'.webp?v=20261101-photo-hero-1';photo.alt='';photo.loading='lazy';photo.decoding='async';photo.onerror=()=>{photo.onerror=null;photo.src='assets/categories/category-hero.webp?v=20261101-photo-hero-1'};b.appendChild(photo);grid.appendChild(b)})};
  draw();q.oninput=()=>draw(q.value)
 }

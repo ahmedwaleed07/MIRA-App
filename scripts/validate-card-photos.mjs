@@ -17,7 +17,9 @@ const matrix=[
  [{category:'Perfumes'},'perfumes.webp'],
  [{category:'Services'},'category-hero.webp'],
  [{categorySlug:'sports'},'sports.webp'],
- [{categorySlug:'travel-tourism'},'travel-tourism.webp']
+ [{categorySlug:'travel-tourism'},'travel-tourism.webp'],
+ [{categorySlug:'real-estate'},'real-estate.webp'],
+ [{category:'العقارات'},'real-estate.webp']
 ];
 for(const [record,expected] of matrix){
  const photo=photos.resolve(record);
@@ -28,7 +30,7 @@ assert.equal(photos.resolve({image:'https://example.com/product.webp',categorySl
 assert.equal(photos.resolve({image:'',categorySlug:'automotive'}),photos.forCategory('automotive'));
 
 // All referenced category photos must really exist in the native/web source.
-for(const id of ['clothing','shoes','perfumes','accessories','bags','watches','beauty','electronics','home-appliances','home','sports','toys-kids','jewelry','eyewear','automotive','stationery-office','gifts','restaurants','travel-tourism','services']){
+for(const id of ['clothing','shoes','perfumes','accessories','bags','watches','beauty','electronics','home-appliances','home','sports','toys-kids','jewelry','eyewear','automotive','stationery-office','gifts','restaurants','travel-tourism','real-estate','services']){
  const photo=photos.forCategory(id);
  assert.ok(existsSync('docs/'+photo),'Missing category scene '+id+': '+photo);
 }
@@ -53,4 +55,4 @@ assert.match(read('docs/friday-market.html'),/صورة توضيحية للسوق
 assert.match(read('docs/car-direct.html'),/assets\/categories\/automotive-direct\.webp/);
 const skin=read('docs/mira-platform-visuals.css');
 for(let i=1;i<=6;i++)assert.ok(skin.includes('nth-child('+i+')'),'Business tile '+i+' needs its photo');
-console.log('MIRA photo fallback validation PASS: 9 page types, 6 Business tiles, 20 photo categories');
+console.log('MIRA photo fallback validation PASS: 9 page types, 6 Business tiles, 21 photo categories');

@@ -64,7 +64,7 @@ if(!shapesJSON)throw new Error('MIRA category icon library missing');
 const glyphs=JSON.parse(shapesJSON);
 const taxonomySource=readFileSync('docs/taxonomy.js','utf8');
 const taxonomySlugs=[...taxonomySource.matchAll(/^  \{slug:'([^']+)'/gm)].map(x=>x[1]);
-const expectedCategoryCount=19;
+const expectedCategoryCount=20;
 if(taxonomySlugs.length!==expectedCategoryCount||taxonomySlugs.some(slug=>!glyphs[slug])||new Set(Object.values(glyphs)).size!==expectedCategoryCount)
   throw new Error('Each top-level category must have a distinct icon');
 for(const page of ['home','categories','interests','category']){
@@ -89,7 +89,7 @@ if(!readFileSync('docs/offer.html','utf8').includes('<section class="hero"><butt
 const codeStyles=readFileSync('docs/mira-auth-v3.css','utf8');
 if(!codeStyles.includes('body.mira-auth-v3 select#code')||!codeStyles.includes('%23FFFFFF'))
   throw new Error('Country calling-code selector arrow must be white');
-console.log('PASS 18 unique icons, functional unboxed hearts, no clipped corner, and white calling-code arrows');
+console.log('PASS 20 unique icons, functional unboxed hearts, no clipped corner, and white calling-code arrows');
 
 // On the very first screen, the five languages must be visible text choices under the ASAS mark.
 const welcome=read('welcome');
@@ -136,3 +136,19 @@ if(!onboardingFooterScript.includes("document.querySelector('[data-mira-inline-l
    !onboardingFooterScript.includes("if(choices.length===5"))
  throw new Error('Global footer must skip pages with five visible choices');
 console.log('PASS onboarding has five clickable languages, no duplicate footer widget');
+
+
+const realEstateSource=readFileSync('docs/taxonomy.js','utf8');
+for(const label of ['مطور عقاري','وسيط عقاري','بيع مباشر','Real Estate Developer','Real Estate Broker','Direct Sale',
+ 'Promotor inmobiliario','Agente inmobiliario','Venta directa','Застройщик','Риелтор','Прямая продажа',
+ 'Gayrimenkul geliştiricisi','Emlak danışmanı','Doğrudan satış']){
+ if(!realEstateSource.includes(label))throw new Error('Missing real estate branch translation: '+label);
+}
+const estateCategory=read('category');
+for(const token of ['id="realEstateBranches"','id="realEstateDisclaimer"',"selectedSlug==='real-estate'",
+ "['developer','broker','direct-sale']",'branch.slug','category.html?']){
+ if(!estateCategory.includes(token))throw new Error('Real estate branch UI missing: '+token);
+}
+if(!estateCategory.includes('MIRA does not collect property payments'))throw new Error('MIRA must not process property payments');
+if(!readFileSync('docs/mira-category-visuals.css','utf8').includes('real-estate-branches'))throw new Error('Real estate photo cards missing');
+console.log('PASS three real estate branches localized across five languages');

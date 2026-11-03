@@ -86,6 +86,11 @@ window.MIRA_TAXONOMY = [
     {slug:'electronics',ar:'إلكترونيات السيارات',en:'Car Electronics',types:[['audio','صوتيات','Audio'],['cameras','كاميرات','Cameras'],['chargers','شواحن','Chargers']]},
     {slug:'parts-supplies',ar:'قطع ومستلزمات',en:'Parts & Supplies',types:[['batteries','بطاريات','Batteries'],['tires','إطارات','Tires'],['oils','زيوت','Oils & Fluids']]}
   ]},
+  {slug:'real-estate',ar:'العقارات',en:'Real Estate',es:'Inmuebles',ru:'Недвижимость',tr:'Gayrimenkul',subs:[
+    {slug:'developer',ar:'مطور عقاري',en:'Real Estate Developer',es:'Promotor inmobiliario',ru:'Застройщик',tr:'Gayrimenkul geliştiricisi',types:[['property','عرض عقاري','Property listing',[],true,{es:'Anuncio inmobiliario',ru:'Объявление о недвижимости',tr:'Gayrimenkul ilanı'}]]},
+    {slug:'broker',ar:'وسيط عقاري',en:'Real Estate Broker',es:'Agente inmobiliario',ru:'Риелтор',tr:'Emlak danışmanı',types:[['property','عرض عقاري','Property listing',[],true,{es:'Anuncio inmobiliario',ru:'Объявление о недвижимости',tr:'Gayrimenkul ilanı'}]]},
+    {slug:'direct-sale',ar:'بيع مباشر',en:'Direct Sale',es:'Venta directa',ru:'Прямая продажа',tr:'Doğrudan satış',types:[['property','عرض عقاري','Property listing',[],true,{es:'Anuncio inmobiliario',ru:'Объявление о недвижимости',tr:'Gayrimenkul ilanı'}]]}
+  ]},
   {slug:'stationery-office',ar:'القرطاسية والمكتب',en:'Stationery & Office',subs:[
     {slug:'school',ar:'مدرسية',en:'School',types:[['notebooks','دفاتر','Notebooks'],['pens','أقلام','Pens'],['school-supplies','مستلزمات مدرسية','School Supplies']]},
     {slug:'office',ar:'مكتبية',en:'Office',types:[['paper','ورق','Paper'],['filing','حفظ وتنظيم','Filing'],['desk','أدوات مكتب','Desk Accessories']]}
@@ -139,6 +144,7 @@ window.MIRA_TAXONOMY = [
     jewelry:[material,color],
     eyewear:[brand,color],
     automotive:[brand,model],
+    'real-estate':[A('property_type','Property type','select',['Apartment','House','Land','Commercial']),A('area_sqm','Area (m²)','number'),A('location','Location','text')],
     'stationery-office':[brand,color],
     gifts:[color],
     'travel-tourism':[],
@@ -151,5 +157,23 @@ window.MIRA_TAXONOMY = [
 })();
 
 const MIRA_TRAVEL_TOURISM_SEED=(window.MIRA_TAXONOMY||[]).find(x=>x.slug==='travel-tourism');
+const MIRA_REAL_ESTATE_SEED=(window.MIRA_TAXONOMY||[]).find(x=>x.slug==='real-estate');
+window.MIRA_TAXONOMY_LABEL=function(item,lang){if(!item)return '';const l=['ar','en','es','ru','tr'].includes(lang)?lang:'en';return item[l]||item.en||item.ar||''};
+window.MIRA_TAXONOMY_TYPE_LABEL=function(tuple,lang){if(!tuple)return '';return lang==='ar'?tuple[1]:(tuple[5]&&tuple[5][lang])||tuple[2]||tuple[1]};
 try{const cached=JSON.parse(localStorage.getItem('mira_taxonomy')||'null');if(Array.isArray(cached)&&cached.length)window.MIRA_TAXONOMY=cached}catch(e){}
-(function(){const ensureTravel=()=>{if(!MIRA_TRAVEL_TOURISM_SEED||!Array.isArray(window.MIRA_TAXONOMY)||window.MIRA_TAXONOMY.some(x=>x.slug==='travel-tourism'))return;const i=window.MIRA_TAXONOMY.findIndex(x=>x.slug==='restaurants');if(i<0)window.MIRA_TAXONOMY.push(MIRA_TRAVEL_TOURISM_SEED);else window.MIRA_TAXONOMY.splice(i,0,MIRA_TRAVEL_TOURISM_SEED);try{localStorage.setItem('mira_taxonomy',JSON.stringify(window.MIRA_TAXONOMY))}catch(e){}};ensureTravel();window.addEventListener('mira-taxonomy-synced',ensureTravel)})();
+(function(){
+  function ensureCategories(){
+    const items=window.MIRA_TAXONOMY;
+    if(!Array.isArray(items))return;
+    let changed=false;
+    for(const [seed,beforeSlug] of [[MIRA_REAL_ESTATE_SEED,'stationery-office'],[MIRA_TRAVEL_TOURISM_SEED,'restaurants']]){
+      if(!seed||items.some(x=>x.slug===seed.slug))continue;
+      const i=items.findIndex(x=>x.slug===beforeSlug);
+      if(i<0)items.push(seed);else items.splice(i,0,seed);
+      changed=true;
+    }
+    if(changed)try{localStorage.setItem('mira_taxonomy',JSON.stringify(items))}catch(e){}
+  }
+  ensureCategories();
+  window.addEventListener('mira-taxonomy-synced',ensureCategories);
+})();
