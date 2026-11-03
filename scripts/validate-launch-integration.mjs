@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {Script} from 'node:vm';
 const get=name=>readFileSync(name,'utf8');
-for(const name of ['docs/mira-listing-reports.js','docs/mira-moderation-admin.js','docs/mira-notifications.js','docs/mira-footer-language.js'])new Script(get(name),{filename:name});
+for(const name of ['docs/mira-listing-reports.js','docs/mira-commerce-report-ui.js','docs/mira-moderation-admin.js','docs/mira-notifications.js','docs/mira-footer-language.js'])new Script(get(name),{filename:name});
 for(const name of ['docs/delete-account.html','docs/admin.html','docs/notifications.html','docs/profile.html','docs/friday-market.html','docs/car-direct.html']){
  const html=get(name);
  for(const item of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))
@@ -19,6 +19,10 @@ for(const page of [car,friday]){
 assert.match(admin,/id="moderation"/);
 assert.match(admin,/data-panel="moderation"/);
 assert.match(admin,/mira-moderation-admin\.js/);
+assert.match(get('docs/offer.html'),/mira-commerce-report-ui\.js/);
+assert.match(get('docs/store.html'),/mira-commerce-report-ui\.js/);
+assert.match(get('docs/mira-listing-reports.js'),/target_record_id/);
+assert.match(get('docs/mira-notifications.js'),/target_record_id/);
 assert.match(get('docs/profile.html'),/href="delete-account\.html"/);
 assert.match(get('docs/delete-account.html'),/\/functions\/v1\/mira-delete-account/);
 assert.match(get('supabase/functions/mira-delete-account/index.ts'),/admin\.auth\.admin\.deleteUser\(user\.id\)/);

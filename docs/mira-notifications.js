@@ -194,7 +194,7 @@ function observeReportOutcomes(owner,rows){
   if(!item||!item.id||!['actioned','dismissed'].includes(item.status))continue;
   const id='report:'+item.id+':'+item.status;
   if(state.items.some(n=>n.id===id))continue;
-  state.items.unshift({id,kind:'report',status:item.status,listingType:item.target_type,listingId:item.target_id,
+  state.items.unshift({id,kind:'report',status:item.status,listingType:item.target_type,listingId:item.target_id||item.target_record_id,
    note:item.admin_note||'',at:item.resolved_at||item.created_at,read:false});changed=true;
  }
  if(changed){state.items.sort((a,b)=>String(b.at).localeCompare(String(a.at)));write('customer',owner,state)}
@@ -247,7 +247,7 @@ async function syncCustomer(){
  try{
   const reviewRows=await cloud.request('mira_listing_review_events?recipient_user_id=eq.'+encodeURIComponent(owner)+'&select=id,listing_type,listing_id,event_type,note,created_at&order=created_at.desc&limit=100',{requireAuth:true});
   observeReviewEvents(owner,reviewRows);
-  const reportRows=await cloud.request('mira_listing_reports?reporter_id=eq.'+encodeURIComponent(owner)+'&status=in.(actioned,dismissed)&select=id,target_type,target_id,status,admin_note,created_at,resolved_at&order=created_at.desc&limit=100',{requireAuth:true});
+  const reportRows=await cloud.request('mira_listing_reports?reporter_id=eq.'+encodeURIComponent(owner)+'&status=in.(actioned,dismissed)&select=id,target_type,target_id,target_record_id,status,admin_note,created_at,resolved_at&order=created_at.desc&limit=100',{requireAuth:true});
   observeReportOutcomes(owner,reportRows);
  }catch(e){moderationError=e;console.warn('MIRA moderation notifications unavailable:',e.message)}
  let readsError=null;

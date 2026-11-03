@@ -95,7 +95,7 @@ notificationList.onclick=e=>{
  if(!n)return;
  MiraNotifications.markRead('customer',owner,n.id);
  if(n.kind==='manual')location.href=MiraNotifications.safeDestination(n.destination);
- else if(n.kind==='review'||n.kind==='report')location.href=n.listingType==='car'?'car-direct.html':n.listingType==='friday'?'friday-market.html':'home.html';
+ else if(n.kind==='review'||n.kind==='report'){const r=n.listingType;const id=String(n.listingId||'');location.href=r==='car'?'car-direct.html':r==='friday'?'friday-market.html':((r==='offer'||r==='store')&&/^[a-zA-Z0-9_-]{1,150}$/.test(id)?r+'.html?id='+encodeURIComponent(id):'home.html');}
  else location.href='orders.html';
 };
 markAll.onclick=()=>{if(!owner)return;MiraNotifications.markAllRead('customer',owner);items=MiraNotifications.list('customer',owner);render()};

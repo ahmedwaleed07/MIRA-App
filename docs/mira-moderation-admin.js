@@ -31,7 +31,7 @@ async function load(){
    cloud.request('mira_friday_listings?select=id,seller_id,title,description,status,price_iqd,created_at&status=eq.pending&order=created_at.asc&limit=100',{requireAuth:true}),
    cloud.request('mira_car_direct_listings?select=id,seller_id,make,model,model_year,description,status,price_iqd,created_at&status=eq.pending&order=created_at.asc&limit=100',{requireAuth:true}),
    cloud.request('mira_records?kind=eq.offer&select=id,data,updated_at&order=updated_at.desc&limit=250',{requireAuth:true}),
-   cloud.request('mira_listing_reports?select=id,reporter_id,target_type,target_id,reason,details,status,created_at&status=eq.open&order=created_at.asc&limit=100',{requireAuth:true})
+   cloud.request('mira_listing_reports?select=id,reporter_id,target_type,target_id,target_record_id,reason,details,status,created_at&status=eq.open&order=created_at.asc&limit=100',{requireAuth:true})
   ]);
   state={friday,car,offer:records.filter(x=>x.data?.status==='pending'),reports};loaded=true;
   render();show('');
@@ -48,7 +48,7 @@ function render(){
  if(!rows.length)html+='<p>'+escapeHtml(l.empty)+'</p>';
  html+='<h3 style="margin:22px 0 10px;color:#800020">'+escapeHtml(l.reports)+' ('+state.reports.length+')</h3>';
  html+=state.reports.map(x=>
-  '<article class="mira-review-card"><strong>'+escapeHtml(REASONS[x.reason]||x.reason)+'</strong><small>'+escapeHtml(l[x.target_type])+' · '+escapeHtml(String(x.target_id).slice(0,12))+'</small><p>'+escapeHtml(x.details||'—')+'</p><label>'+escapeHtml(l.note)+'</label><textarea rows="2" maxlength="1000" data-mira-report-note="'+escapeHtml(x.id)+'"></textarea><div class="mira-review-actions"><button type="button" data-mira-resolve-id="'+escapeHtml(x.id)+'" data-mira-resolve-as="actioned">'+escapeHtml(l.hide)+'</button><button type="button" class="soft" data-mira-resolve-id="'+escapeHtml(x.id)+'" data-mira-resolve-as="dismissed">'+escapeHtml(l.dismiss)+'</button></div></article>'
+  '<article class="mira-review-card"><strong>'+escapeHtml(REASONS[x.reason]||x.reason)+'</strong><small>'+escapeHtml(l[x.target_type])+' · '+escapeHtml(String(x.target_record_id||x.target_id||'').slice(0,40))+'</small><p>'+escapeHtml(x.details||'—')+'</p><label>'+escapeHtml(l.note)+'</label><textarea rows="2" maxlength="1000" data-mira-report-note="'+escapeHtml(x.id)+'"></textarea><div class="mira-review-actions"><button type="button" data-mira-resolve-id="'+escapeHtml(x.id)+'" data-mira-resolve-as="actioned">'+escapeHtml(l.hide)+'</button><button type="button" class="soft" data-mira-resolve-id="'+escapeHtml(x.id)+'" data-mira-resolve-as="dismissed">'+escapeHtml(l.dismiss)+'</button></div></article>'
  ).join('');
  root.innerHTML=html;
 }
@@ -77,11 +77,20 @@ async function resolve(id,result,button){
  const cloud=window.MiraCloud;button.disabled=true;
  try{
   if(result==='actioned'){
-   const table=report.target_type==='car'?'mira_car_direct_listings':'mira_friday_listings';
-   const rows=await cloud.request(table+'?id=eq.'+encodeURIComponent(report.target_id)+'&select=id,seller_id',{requireAuth:true});
-   if(rows?.length){
-    await cloud.request(table+'?id=eq.'+encodeURIComponent(report.target_id),{method:'PATCH',requireAuth:true,body:JSON.stringify({status:'hidden'})});
-    await cloud.request('mira_listing_review_events',{method:'POST',requireAuth:true,body:JSON.stringify({recipient_user_id:rows[0].seller_id,listing_type:report.target_type,listing_id:report.target_id,event_type:'hidden',note:'Reported listing hidden after moderation.'})});
+   if(['offer','store'].includes(report.target_type)){
+    const recordId=report.target_record_id;
+    const records=await cloud.request('mira_records?id=eq.'+encodeURIComponent(recordId)+'&select=id,data',{requireAuth:true});
+    if(records?.length){
+     const data={...records[0].data,status:'hidden'};
+     await cloud.request('mira_records?id=eq.'+encodeURIComponent(recordId),{method:'PATCH',requireAuth:true,body:JSON.stringify({data,updated_at:new Date().toISOString()})});
+    }
+   }else{
+    const table=report.target_type==='car'?'mira_car_direct_listings':'mira_friday_listings';
+    const rows=await cloud.request(table+'?id=eq.'+encodeURIComponent(report.target_id)+'&select=id,seller_id',{requireAuth:true});
+    if(rows?.length){
+     await cloud.request(table+'?id=eq.'+encodeURIComponent(report.target_id),{method:'PATCH',requireAuth:true,body:JSON.stringify({status:'hidden'})});
+     await cloud.request('mira_listing_review_events',{method:'POST',requireAuth:true,body:JSON.stringify({recipient_user_id:rows[0].seller_id,listing_type:report.target_type,listing_id:report.target_id,event_type:'hidden',note:'Reported listing hidden after moderation.'})});
+    }
    }
   }
   const note=root.querySelector('textarea[data-mira-report-note="'+id+'"]')?.value.trim()||'';

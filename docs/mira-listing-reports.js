@@ -24,7 +24,8 @@ function mount(){
 }
 function close(){overlay.hidden=true;selected=null;previous?.focus()}
 function open(type,id,button){
- if(!['car','friday'].includes(type)||!/^[0-9a-f-]{36}$/i.test(id))return;
+ if(!['car','friday','offer','store'].includes(type))return;
+ if(['car','friday'].includes(type)?!/^[0-9a-f-]{36}$/i.test(id):!/^[a-zA-Z0-9_-]{1,150}$/.test(id))return;
  mount();selected={type,id};previous=button;const l=labels();
  for(const [name,index] of Object.entries({miraReportTitle:1,miraReportReasonLabel:2,miraReportDetailsLabel:4,miraReportSend:5,miraReportCancel:6}))document.getElementById(name).textContent=l[index];
  const reasonsSelect=document.getElementById('miraReportReason');
@@ -38,7 +39,7 @@ async function submit(e){e.preventDefault();if(!selected)return;
   await MiraCloud.ensureFreshSession();
   const user=await MiraCloud.getCurrentUser();
   if(!user?.id)throw Error('login');
-  await MiraCloud.request('mira_listing_reports',{method:'POST',requireAuth:true,body:JSON.stringify({reporter_id:user.id,target_type:selected.type,target_id:selected.id,reason,details})});
+  await MiraCloud.request('mira_listing_reports',{method:'POST',requireAuth:true,body:JSON.stringify({reporter_id:user.id,target_type:selected.type,target_id:['car','friday'].includes(selected.type)?selected.id:null,target_record_id:['offer','store'].includes(selected.type)?selected.id:null,reason,details})});
   feedback.textContent=l[7];setTimeout(()=>{if(!overlay.hidden)close()},1100);
  }catch(err){
   feedback.textContent=err.message==='login'?l[8]:l[9];
