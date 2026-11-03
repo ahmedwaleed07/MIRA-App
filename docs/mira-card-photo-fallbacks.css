@@ -1,0 +1,30 @@
+/* MIRA photo coverage for unillustrated shopping and Business cards.
+   Actual merchant photos take precedence over category fallback WebP imagery. */
+.mira-default-photo{
+ background-color:#fff0f6;
+ background-repeat:no-repeat;
+ background-size:cover;
+ background-position:center;
+ position:relative;
+}
+.mira-default-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,rgba(128,0,32,0) 40%,rgba(48,8,26,.15) 100%);
+ border-radius:inherit}
+body.mira-business .mira-business-thumb{
+ flex:0 0 64px;width:64px;height:64px;border-radius:12px;
+ border:1px solid rgba(128,0,32,.13);object-fit:cover;
+ background:#fff0f6;display:block;box-shadow:0 3px 10px rgba(128,0,32,.09)
+}
+body.mira-business .items .item.mira-photo-item{justify-content:space-between;gap:12px}
+body.mira-business .item .mira-business-item-head{display:flex;align-items:center;min-width:0;flex:1;gap:12px}
+body.mira-business .item .mira-business-item-copy{min-width:0;overflow-wrap:anywhere}
+body.mira-business .preview-image.mira-default-photo{background-size:cover!important;background-position:center!important}
+body.mira-business .preview-image.mira-default-photo::after{background:linear-gradient(180deg,rgba(128,0,32,0) 64%,rgba(128,0,32,.12) 100%)}
+.mira-catalog-photo{background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important}
+body.mira-search-page .item .mark.mira-catalog-photo{
+ background-position:center!important;background-size:cover!important;
+ border:1px solid rgba(128,0,32,.12);box-shadow:0 3px 10px rgba(128,0,32,.1);
+ font-size:0!important;overflow:hidden
+}
+body.mira-cart-page .pic.mira-catalog-photo{background-position:center!important;background-size:cover!important}
+@media(prefers-reduced-motion:reduce){.mira-default-photo,.mira-catalog-photo{transition:none!important}}

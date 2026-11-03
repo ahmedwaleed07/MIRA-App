@@ -11,7 +11,7 @@
   width:18px!important;height:18px!important;min-width:18px!important;
   margin:0!important;padding:0!important;flex:0 0 18px!important}
 .remember-row span{color:#800020!important}
-</style><link rel="stylesheet" href="mira-polish.css?v=20261020-multi-2"><link rel="stylesheet" href="mira-platform-visuals.css?v=20261022-portals-4"><link rel="stylesheet" href="mira-footer-language.css?v=20261102-footer-v1"></head><body class="mira-business">
+</style><link rel="stylesheet" href="mira-polish.css?v=20261020-multi-2"><link rel="stylesheet" href="mira-platform-visuals.css?v=20261022-portals-4"><link rel="stylesheet" href="mira-footer-language.css?v=20261102-footer-v1"><link rel="stylesheet" href="mira-card-photo-fallbacks.css?v=20261103-photo-1"><script src="mira-card-photos.js?v=20261103-photo-1"></script></head><body class="mira-business">
 <div class="login" id="login"><div class="box"><div class="logo"></div><h2>MIRA Business</h2><div class="sub">Merchant Portal</div><div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><label class="remember-row" for="rememberMe"><input id="rememberMe" type="checkbox" checked><span>Remember Me</span></label><button class="primary" id="signIn" style="width:100%">Sign In</button><div class="error" id="error"></div></div></div>
 <main class="app" id="app"><header class="top"><div><div class="logo"></div><div class="sub">MIRA Business · Merchant Portal</div></div><button class="ghost" id="signOut">Sign Out</button></header>
 <section class="ecosystem-hero"><small>MIRA Business</small><h2>Grow Your Business with MIRA</h2><p>Manage your store, products, services, orders and customer activity from one elegant workspace.</p><span class="hero-pill">Business Workspace →</span></section>
@@ -135,7 +135,17 @@ async function updateOrderStatus(id){
 }
 window.updateOrderStatus=updateOrderStatus;
 refreshOrders.onclick=loadOrders;orderFilter.onchange=renderOrders;
-async function renderItems(){const all=await MiraCloud.list('offer'),mine=all.filter(x=>x.storeId===merchant.storeId);items.innerHTML=mine.length?mine.map(x=>'<div class="item"><div><b>'+String(x.title||x.type||'Content')+'</b><small>'+String(x.type||'offer')+' · '+String(x.status||'pending')+'</small></div><span class="pill">'+String(x.status||'pending')+'</span></div>').join(''):'<div class="notice">No content yet.</div>'}
+async function renderItems(){
+ const all=await MiraCloud.list('offer'),mine=all.filter(x=>x.storeId===merchant.storeId);
+ items.innerHTML=mine.length?mine.map(x=>{
+  const photo=window.MiraCardPhotos.resolve(x,store),fallback=window.MiraCardPhotos.fallback(x,store);
+  return '<div class="item mira-photo-item"><div class="mira-business-item-head"><img class="mira-business-thumb" src="'+escHtml(photo)+'" data-fallback="'+escHtml(fallback)+'" alt="" loading="lazy" decoding="async"><div class="mira-business-item-copy"><b>'+escHtml(x.title||x.type||'Content')+'</b><small>'+escHtml(x.type||'offer')+' · '+escHtml(x.status||'pending')+'</small></div></div><span class="pill">'+escHtml(x.status||'pending')+'</span></div>';
+ }).join(''):'<div class="notice">No content yet.</div>';
+ items.querySelectorAll('img[data-fallback]').forEach(image=>image.addEventListener('error',()=>{
+  const fallback=image.dataset.fallback;
+  if(fallback&&image.getAttribute('src')!==fallback)image.src=fallback;
+ },{once:true}));
+}
 async function enter(){
   login.style.display='none';app.style.display='block';
   try{await loadMerchant();error.textContent='';return true}
@@ -207,7 +217,9 @@ function updatePreview(){
  previewPrice.textContent=(a||b)?('Regular '+money(a)+' · Offer '+money(b)):'—';
  const s=startDate.value,e=endDate.value;
  previewDates.textContent=s||e?((s?s.replace('T',' '):'Any time')+' → '+(e?e.replace('T',' '):'Open end')):'Pending review';
- previewImage.style.backgroundImage=offerImagePreviewUrl?"url('"+offerImagePreviewUrl.replace(/'/g,"%27")+"')":'';
+ const categoryPhoto=window.MiraCardPhotos.forCategory(category.value||store?.categorySlug||store?.category||'');
+ previewImage.classList.add('mira-default-photo');
+ previewImage.style.backgroundImage="url('"+(offerImagePreviewUrl||categoryPhoto).replace(/'/g,'%27')+"')";
 }
 [type,category,subcategory,productType,title,description,originalPrice,offerPrice,startDate,endDate].forEach(el=>{el.addEventListener('input',updatePreview);el.addEventListener('change',updatePreview)});
 offerImage.onchange=()=>{const f=offerImage.files&&offerImage.files[0];offerImageFile=f||null;if(offerImagePreviewUrl)URL.revokeObjectURL(offerImagePreviewUrl);offerImagePreviewUrl=f?URL.createObjectURL(f):'';updatePreview()};

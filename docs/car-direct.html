@@ -132,7 +132,7 @@ function renderText(){
 }
 function makeGallery(car,index){
  const images=(car.image_paths||[]).slice(0,6).map(imageUrl).filter(Boolean);
- if(!images.length)return '<img class="car-photo" src="assets/categories/automotive.webp" alt="'+escapeHtml(L().noPhoto)+'" loading="lazy">';
+ if(!images.length)return '<img class="car-photo" src="assets/categories/automotive-direct.webp" alt="'+escapeHtml(L().noPhoto)+'" loading="lazy">';
  return '<img class="car-photo" data-cover="'+index+'" src="'+escapeHtml(images[0])+'" alt="'+escapeHtml(L().photo)+'" loading="lazy">'+(images.length>1?'<div class="thumbrail">'+images.map((url,i)=>'<button class="thumb" type="button" data-car="'+index+'" data-photo="'+i+'" aria-label="'+escapeHtml(L().show)+' '+(i+1)+'" aria-pressed="'+(i===0?'true':'false')+'"><img alt="" loading="lazy" src="'+escapeHtml(url)+'"></button>').join('')+'</div>':'');
 }
 function renderCars(){

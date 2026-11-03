@@ -95,7 +95,10 @@ function photoPublicUrl(path){
 }
 function listingGallery(item,index){
  const paths=(item.images||[]).slice(0,MAX_PHOTOS).map(photoPublicUrl).filter(Boolean);
- if(!paths.length)return '';
+ if(!paths.length){
+  const alt=({ar:'صورة توضيحية للسوق، وليست صورة الغرض',en:'Illustrative marketplace photo, not the listed item',es:'Imagen ilustrativa del mercado, no del artículo',ru:'Иллюстрация рынка, не самого товара',tr:'Ürünün kendisi değil, temsili pazar görseli'})[lang]||'Illustrative marketplace photo';
+  return '<div class="photo-gallery"><img class="photo-main" loading="lazy" src="assets/heritage-markets/market-mira-bazaar.jpg" alt="'+esc(alt)+'"><small>'+esc(alt)+'</small></div>';
+ }
  const p=photoUI[lang];
  const thumbs=paths.length>1?'<div class="photo-thumbs">'+paths.map((url,i)=>'<button type="button" class="photo-thumb" data-gallery="'+index+'" data-photo="'+i+'" aria-label="'+esc(p.thumb)+' '+(i+1)+'" aria-pressed="'+(i===0?'true':'false')+'"><img loading="lazy" src="'+esc(url)+'" alt=""></button>').join('')+'</div>':'';
  return '<div class="photo-gallery"><img class="photo-main" loading="lazy" src="'+esc(paths[0])+'" alt="'+esc(p.image)+' — '+esc(item.name)+'">'+thumbs+'</div>';
