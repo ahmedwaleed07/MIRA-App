@@ -89,3 +89,16 @@ const codeStyles=readFileSync('docs/mira-auth-v3.css','utf8');
 if(!codeStyles.includes('body.mira-auth-v3 select#code')||!codeStyles.includes('%23FFFFFF'))
   throw new Error('Country calling-code selector arrow must be white');
 console.log('PASS 18 unique icons, functional unboxed hearts, no clipped corner, and white calling-code arrows');
+
+// On the very first screen, the five languages must be visible text choices under the ASAS mark.
+const welcome=read('welcome');
+const footerControl=readFileSync('docs/mira-footer-language.js','utf8');
+const footerCss=readFileSync('docs/mira-auth-v3.css','utf8');
+const navIndex=welcome.indexOf('<nav class="languages welcome-languages"');
+const footerIndex=welcome.indexOf('<footer class="brand-footer">');
+if(navIndex<0||footerIndex<0||navIndex<footerIndex)throw new Error('Welcome language options must appear below the ASAS footer');
+for(const code of ['ar','en','es','ru','tr'])if(!welcome.includes('data-lang="'+code+'" lang="'+code+'"'))throw new Error('Welcome language missing: '+code);
+if((welcome.match(/data-lang="(?:ar|en|es|ru|tr)" lang="/g)||[]).length!==5)throw new Error('Welcome must have exactly five visible languages');
+if(!footerControl.includes("document.body.classList.contains('welcome-view')"))throw new Error('The dropdown controller must skip the Welcome screen');
+if(!footerCss.includes('.welcome-languages button.active::after'))throw new Error('Welcome text-only active language indicator missing');
+console.log('PASS Welcome shows five text-only language choices under Powered by, without the global dropdown');

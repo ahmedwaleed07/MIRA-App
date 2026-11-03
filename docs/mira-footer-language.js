@@ -8,6 +8,9 @@ function selectedLanguage(){try{const value=localStorage.getItem('mira_lang');if
  return codes.includes(page)?page:(codes.includes(document.documentElement.lang)?document.documentElement.lang:'en');
 }
 function init(){
+ // Welcome has its own visible five-language choices below the ASAS footer.
+ // Do not replace them with the global one-button language dropdown.
+ if(document.body.classList.contains('welcome-view'))return;
  if(document.getElementById('miraFooterLanguage'))return;
  let language=selectedLanguage();
  // Remove the deprecated header selector if a cached localization script created one.

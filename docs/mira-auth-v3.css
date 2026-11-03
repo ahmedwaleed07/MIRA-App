@@ -303,3 +303,44 @@ body.mira-auth-v3 select#code{
   text-align:left!important;
 }
 body.mira-auth-v3 select#code option{background:#800020;color:#FFFFFF}
+
+
+/* MIRA Welcome: five always-visible language choices at the bottom, never a dropdown. */
+body.mira-auth-v3.welcome-view .auth-screen{
+ padding-bottom:calc(20px + env(safe-area-inset-bottom))!important;
+}
+body.mira-auth-v3.welcome-view .welcome-languages{
+ display:grid!important;
+ grid-template-columns:repeat(5,minmax(0,1fr));
+ direction:ltr;
+ gap:clamp(1px,.7vw,6px);
+ width:100%;max-width:510px;
+ margin:12px auto 0!important;
+ padding:2px 0 0;
+ flex:0 0 auto;
+ align-items:center;
+}
+body.mira-auth-v3.welcome-view .welcome-languages button{
+ -webkit-appearance:none!important;appearance:none!important;
+ display:flex;align-items:center;justify-content:center;
+ position:relative;
+ min-width:0;min-height:44px;
+ margin:0;padding:8px 0 10px!important;
+ border:0!important;border-radius:0!important;
+ background:transparent!important;box-shadow:none!important;
+ color:rgba(255,255,255,.82)!important;
+ font-size:clamp(9.5px,2.55vw,12px)!important;
+ font-weight:600;letter-spacing:0;
+ text-overflow:clip;white-space:nowrap;overflow:visible;
+ cursor:pointer;
+}
+body.mira-auth-v3.welcome-view .welcome-languages button.active{
+ color:#FFFFFF!important;font-weight:800!important;
+}
+body.mira-auth-v3.welcome-view .welcome-languages button.active::after{
+ content:'';position:absolute;bottom:3px;left:24%;right:24%;
+ height:2px;border-radius:2px;background:#F68AB4;
+}
+@media(max-width:350px){
+ body.mira-auth-v3.welcome-view .welcome-languages button{font-size:9px!important}
+}
