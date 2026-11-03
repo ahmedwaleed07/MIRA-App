@@ -3,7 +3,8 @@ const read=(name)=>readFileSync('docs/'+name+'.html','utf8');
 const files=['welcome','signin','signup','otp'];
 for(const name of files){
  const html=read(name);
- for(const asset of ['mira-auth-v3.css','assets/mira_icon_frameless.svg','assets/mira_wordmark.svg','assets/asas360_master_vector.svg']){
+ const brandAsset=name==='welcome'?'assets/asas360_wordmark_original.svg':'assets/asas360_master_vector.svg';
+ for(const asset of ['mira-auth-v3.css','assets/mira_icon_frameless.svg','assets/mira_wordmark.svg',brandAsset]){
   if(!html.includes(asset))throw new Error(name+' missing '+asset);
  }
  console.log('PASS '+name+' linked to responsive layout and repository branding');
