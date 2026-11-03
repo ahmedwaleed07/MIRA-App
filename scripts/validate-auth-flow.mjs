@@ -73,26 +73,26 @@ function plain(x){return JSON.parse(JSON.stringify(x))}
  console.log('PASS validated email/E164 phone, safe same-app returns, pending OTP expiry, state cleanup');
 }
 {
- const calls=[];
+ const calls=[],uuid='1c148bdc-15c6-46b3-9916-8f78973fa111';
  const c=fakeContext(async (url,options={})=>{
   calls.push({url,options});
+  if(url.endsWith('/api/otp/request'))return response(200,{ok:true,challengeId:uuid});
+  if(url.endsWith('/api/otp/verify'))return response(200,{verified:true,authSessionReady:false});
   if(url.includes('/rest/v1'))return response(200,[]);
-  if(url.endsWith('/auth/v1/otp'))return response(200,{});
-  if(url.endsWith('/auth/v1/verify'))return response(200,fresh);
-  if(url.endsWith('/auth/v1/user'))return response(200,{id:'member-1'});
   throw Error('Unexpected endpoint '+url);
  });
  await c.MiraCloud.startOtp({phone:'+9647701234567',createUser:true,data:{full_name:'Test'}});
- const otpRequest=calls.find(x=>x.url.endsWith('/auth/v1/otp'));
- assert.equal(JSON.parse(otpRequest.options.body).create_user,true);
- assert.equal(JSON.parse(otpRequest.options.body).phone,'+9647701234567');
- await c.MiraCloud.verifyOtp({phone:'+9647701234567',token:'123456'});
- const verifyRequest=calls.find(x=>x.url.endsWith('/auth/v1/verify'));
- assert.deepEqual(plain(JSON.parse(verifyRequest.options.body)),{phone:'+9647701234567',token:'123456',type:'sms'});
- assert.equal(c.MiraCloud.session.user.id,'member-1');
- assert.ok(c.localStorage.getItem('mira_customer_session'));
- assert.equal((await c.MiraAuthFlow.getVerifiedCustomer()).id,'member-1');
- console.log('PASS mocked Supabase SMS send, six-digit verification, persisted customer session and remote identity check');
+ const request=calls.find(x=>x.url.endsWith('/api/otp/request'));
+ assert.ok(request.url.startsWith('https://mira-app-dz5.pages.dev/'));
+ assert.deepEqual(plain(JSON.parse(request.options.body)),{phone:'+9647701234567',mode:'signup',turnstileToken:null});
+ assert.ok(c.sessionStorage.getItem('mira_cf_otp_challenge'));
+ await assert.rejects(c.MiraCloud.verifyOtp({phone:'+9647701234567',token:'123456'}),/activation|session|تفعيل/i);
+ const verification=calls.find(x=>x.url.endsWith('/api/otp/verify'));
+ assert.deepEqual(plain(JSON.parse(verification.options.body)),{challengeId:uuid,code:'123456'});
+ assert.equal(c.MiraCloud.session,null);
+ assert.equal(c.localStorage.getItem('mira_customer_session'),null);
+ assert.ok(!calls.some(x=>x.url.endsWith('/auth/v1/otp')&&x.options.body?.includes('+9647701234567')));
+ console.log('PASS phone OTP requests routed only to Cloudflare, with fail-closed sessions');
 }
 {
  const expired={...fresh,access_token:makeJWT(Math.floor(Date.now()/1000)-100)};
@@ -125,12 +125,15 @@ function plain(x){return JSON.parse(JSON.stringify(x))}
 {
  const c=fakeContext(async url=>{
   if(url.includes('/rest/v1'))return response(200,[]);
-  if(url.endsWith('/auth/v1/verify'))return response(400,{msg:'Invalid token'});
+  if(url.endsWith('/api/otp/verify'))return response(400,{error:'invalid_or_expired_code'});
   throw Error('Unexpected '+url);
  });
+ c.sessionStorage.setItem('mira_cf_otp_challenge',JSON.stringify({
+  id:'1c148bdc-15c6-46b3-9916-8f78973fa111',phone:'+9647701234567',issuedAt:Date.now()
+ }));
  await assert.rejects(c.MiraCloud.verifyOtp({phone:'+9647701234567',token:'000000'}));
  assert.equal(c.localStorage.getItem('mira_customer_session'),null);
- console.log('PASS invalid OTP never creates a persisted login');
+ console.log('PASS invalid Cloudflare OTP never creates a persisted login');
 }
 const signin=read('docs/signin.html'),signup=read('docs/signup.html'),otp=read('docs/otp.html'),callback=read('docs/auth-callback.html');
 for(const [page,html] of [['signin',signin],['signup',signup],['otp',otp],['callback',callback]]){

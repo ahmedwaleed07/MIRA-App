@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+const read=x=>readFileSync(x,'utf8');
+for(const p of ['functions/_lib/mira-otp.js','functions/api/otp/request.js','functions/api/otp/verify.js','functions/api/otp/policy.js']){
+ assert.ok(existsSync(p),'Missing Cloudflare OTP function: '+p);
+}
+const core=read('functions/_lib/mira-otp.js');
+const request=read('functions/api/otp/request.js');
+const verify=read('functions/api/otp/verify.js');
+const cloud=read('docs/mira-cloud.js'),page=read('docs/otp.html');
+const policy=read('functions/api/otp/policy.js');
+assert.match(core,/spacingSeconds:60/);
+assert.match(core,/maxSends:3/);
+assert.match(core,/windowSeconds:1800/);
+assert.match(core,/COUNT\(\*\).*mira_otp_send_log/);
+assert.match(core,/RETURNING id/);
+assert.match(core,/crypto\.subtle\.sign/);
+assert.match(request,/senderReady\(env\)/);
+assert.match(request,/whatsapp_provider_not_configured/);
+assert.match(request,/mira_otp_registered/);
+assert.match(request,/turnstileVerified/);
+assert.match(request,/reserveSend/);
+assert.match(verify,/wrong_attempts<5/);
+assert.match(verify,/authSessionReady:false/);
+assert.match(policy,/sendingEnabled/);
+assert.match(cloud,/\/api\/otp\/request/);
+assert.match(cloud,/\/api\/otp\/verify/);
+assert.match(cloud,/phone_session_not_ready/);
+assert.match(page,/now-lastResendAt<60000/);
+assert.match(page,/updateResendCountdown/);
+console.log('PASS Cloudflare OTP is the only public phone request path, limits are server-side and fail closed');

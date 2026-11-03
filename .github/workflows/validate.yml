@@ -27,6 +27,11 @@ jobs:
           node scripts/validate-auth-flow.mjs
           node scripts/validate-remember-me.mjs
           node scripts/validate-launch-integration.mjs
+          node --check functions/_lib/mira-otp.js
+          node --check functions/api/otp/request.js
+          node --check functions/api/otp/verify.js
+          node --check functions/api/otp/policy.js
+          node scripts/validate-cloudflare-otp.mjs
           node scripts/validate-card-photos.mjs
       - name: Verify parity of browser and native assets
         run: npm run prepare:web

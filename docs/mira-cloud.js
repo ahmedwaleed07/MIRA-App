@@ -110,18 +110,71 @@ window.MiraCloud={
     if(!r.ok)throw new Error(await r.text());
     this.acceptSession(await r.json());return this.session;
   },
+  otpEdgeOrigin(){
+    // On GitHub Pages and Capacitor native wrappers, Cloudflare is the authoritative OTP API.
+    const host=location.hostname||'';
+    if(host.endsWith('.github.io')||location.protocol==='capacitor:'||location.protocol==='ionic:'||location.protocol==='file:')
+      return 'https://mira-app-dz5.pages.dev';
+    return location.origin;
+  },
+  otpError(payload){
+    const error=String(payload?.error||'otp_send_unavailable');
+    const seconds=Math.max(1,Math.ceil(Number(payload?.retryAfterSeconds)||60));
+    const minutes=Math.ceil(seconds/60);
+    const lang=localStorage.getItem('mira_lang')||'en';
+    const texts={
+      ar:{whatsapp_provider_not_configured:'خدمة التحقق عبر واتساب قيد التجهيز. استخدم البريد الإلكتروني مؤقتاً.',otp_not_configured:'خدمة التحقق غير جاهزة حالياً.',verification_challenge_required:'أكمل اختبار الحماية قبل طلب الرمز.',otp_rate_limited:'وصلت حد طلب الرموز. حاول مجدداً بعد '+minutes+' دقيقة.',otp_send_failed:'تعذر إرسال الرمز. حاول لاحقاً.',otp_send_unavailable:'خدمة إرسال الرمز غير متاحة حالياً.',invalid_or_expired_code:'رمز غير صحيح أو منتهي الصلاحية.',phone_session_not_ready:'تم التحقق من الرقم، لكن تفعيل جلسات تسجيل الدخول بعده قيد التجهيز.'},
+      en:{whatsapp_provider_not_configured:'WhatsApp verification is being configured. Use the optional email sign-in for now.',otp_not_configured:'Phone verification is not ready yet.',verification_challenge_required:'Complete the security challenge before requesting a code.',otp_rate_limited:'Code request limit reached. Try again in '+minutes+' minutes.',otp_send_failed:'Could not send the code.',otp_send_unavailable:'Code delivery is temporarily unavailable.',invalid_or_expired_code:'Invalid or expired code.',phone_session_not_ready:'Number verified, but account-session activation is not ready yet.'},
+      es:{whatsapp_provider_not_configured:'Verificación por WhatsApp en preparación. Utiliza el correo mientras tanto.',otp_rate_limited:'Límite alcanzado. Vuelve a intentar en '+minutes+' minutos.',phone_session_not_ready:'Número verificado, activación de sesión pendiente.'},
+      ru:{whatsapp_provider_not_configured:'Проверка через WhatsApp настраивается. Пока используйте электронную почту.',otp_rate_limited:'Лимит кодов. Повторите через '+minutes+' мин.',phone_session_not_ready:'Номер подтверждён, сеанс пока недоступен.'},
+      tr:{whatsapp_provider_not_configured:'WhatsApp doğrulaması hazırlanıyor. Şimdilik e-posta kullanın.',otp_rate_limited:'Kod sınırına ulaşıldı. '+minutes+' dakika sonra tekrar deneyin.',phone_session_not_ready:'Numara doğrulandı fakat oturum henüz hazır değil.'}
+    };
+    return texts[lang]?.[error]||texts.en[error]||texts.en.otp_send_unavailable;
+  },
   async startOtp({email='',phone='',createUser=false,data={},redirectTo=''}={}){
+    if(phone){
+      const r=await fetch(this.otpEdgeOrigin()+'/api/otp/request',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({phone,mode:createUser?'signup':'signin',turnstileToken:window.miraTurnstileToken||null})
+      });
+      const result=await r.json().catch(()=>({error:'otp_send_unavailable'}));
+      if(!r.ok)throw new Error(this.otpError(result));
+      if(!result?.challengeId)throw new Error(this.otpError({error:'otp_send_unavailable'}));
+      sessionStorage.setItem('mira_cf_otp_challenge',JSON.stringify({id:result.challengeId,phone,issuedAt:Date.now()}));
+      return result;
+    }
     const c=window.MIRA_SUPABASE;
-    const body=email?{email,create_user:createUser,data}:{phone,create_user:createUser,data};
     const suffix=redirectTo?'?redirect_to='+encodeURIComponent(redirectTo):'';
-    const r=await fetch(c.url+'/auth/v1/otp'+suffix,{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const r=await fetch(c.url+'/auth/v1/otp'+suffix,{
+      method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},
+      body:JSON.stringify({email,create_user:createUser,data})
+    });
     if(!r.ok)throw new Error(await r.text());
     const t=await r.text();return t?JSON.parse(t):{};
   },
   async verifyOtp({email='',phone='',token=''}={}){
+    if(phone){
+      let pending=null;
+      try{pending=JSON.parse(sessionStorage.getItem('mira_cf_otp_challenge')||'null')}catch(_){}
+      if(!pending||pending.phone!==phone||!pending.id||Date.now()-pending.issuedAt>5*60*1000)
+        throw new Error(this.otpError({error:'invalid_or_expired_code'}));
+      const r=await fetch(this.otpEdgeOrigin()+'/api/otp/verify',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({challengeId:pending.id,code:token})
+      });
+      const result=await r.json().catch(()=>({error:'invalid_or_expired_code'}));
+      if(!r.ok)throw new Error(this.otpError(result));
+      if(!result.verified||!result.authSessionReady||!result.session?.access_token)
+        throw new Error(this.otpError({error:'phone_session_not_ready'}));
+      this.acceptSession(result.session);
+      sessionStorage.removeItem('mira_cf_otp_challenge');
+      return this.session;
+    }
     const c=window.MIRA_SUPABASE;
-    const body=email?{email,token,type:'email'}:{phone,token,type:'sms'};
-    const r=await fetch(c.url+'/auth/v1/verify',{method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const r=await fetch(c.url+'/auth/v1/verify',{
+      method:'POST',headers:{apikey:c.key,'Content-Type':'application/json'},
+      body:JSON.stringify({email,token,type:'email'})
+    });
     if(!r.ok)throw new Error(await r.text());
     this.acceptSession(await r.json());return this.session;
   },

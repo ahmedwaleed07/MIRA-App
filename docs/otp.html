@@ -48,7 +48,13 @@ function getLang(){return localStorage.getItem('mira_lang')||'en'}function apply
   notice.textContent=m;verifyBtn.disabled=false;
  }
 }
-let lastResendAt=0;
+let lastResendAt=activePending?.createdAt||0;
+function updateResendCountdown(){
+ if(via==='email')return;
+ const seconds=Math.max(0,Math.ceil((60000-(Date.now()-lastResendAt))/1000));
+ resendBtn.disabled=seconds>0;
+ resendBtn.textContent=(T[getLang()]||T.en).r+(seconds>0?' ('+seconds+'s)':'');
+}
 async function resendCode(){
  const pending=MiraAuthFlow.getPending(),lang=getLang(),t=T[lang]||T.en;
  if(!pending||pending.via!==via||pending.mode!==mode){
@@ -56,8 +62,8 @@ async function resendCode(){
   return;
  }
  const now=Date.now();
- if(lastResendAt&&now-lastResendAt<45000){
-  notice.textContent=lang==='ar'?'انتظر 45 ثانية بين طلبات الإرسال.':'Please wait 45 seconds before requesting another code.';
+ if(lastResendAt&&now-lastResendAt<60000){
+  notice.textContent=lang==='ar'?'انتظر دقيقة كاملة بين طلبات إرسال رمز التأكيد.':'Please wait one minute before requesting another code.';
   return;
  }
  resendBtn.disabled=true;
@@ -76,7 +82,7 @@ async function resendCode(){
  }catch(e){
   let m=e.message||String(e);try{const p=JSON.parse(m);m=p.msg||p.message||m}catch(_){}
   notice.textContent=m;
- }finally{resendBtn.disabled=false}
+ }finally{updateResendCountdown()}
 }
 function completedAuthDestination(){
  try{
@@ -115,5 +121,7 @@ if(!activePending&&!completedAuthDestination()){
  notice.textContent=getLang()==='ar'?'ماكو طلب تحقق صالح. ارجع وابدأ التسجيل من جديد.':'No valid verification request. Please start sign-in again.';
  verifyBtn.disabled=true;resendBtn.disabled=true;
 }else if(via!=='email')inputs[0].focus();
+updateResendCountdown();
+if(via==='phone')setInterval(updateResendCountdown,1000);
 void continueIfVerified();
 </script><script src="mira-portal-i18n.js?v=20261102-footer-v1"></script><script src="mira-footer-language.js?v=20261102-footer-v1"></script></body></html>
