@@ -167,8 +167,50 @@ function markAllRead(role,owner){
  if(state.items.some(n=>!n.read)){const pending=state.items.filter(n=>!n.read).map(n=>n.id);state.items.forEach(n=>n.read=true);write(role,owner,state);if(role==='customer')void persistRead(owner,pending).catch(e=>console.warn('Notification read sync will retry:',e.message))}
 }
 function language(){const l=localStorage.getItem('mira_lang')||'en';return TEXT[l]||TEXT.en}
-function label(n){const t=language();return n.kind==='manual'?n.title:n.kind==='merchantNew'?t.merchantNew:(t[n.status]||t.new)}
-function orderLabel(n){return language().order+' #'+String(n.orderId).slice(0,8).toUpperCase()}
+const MODERATION_LANG={
+ ar:{approved:'تمت الموافقة على إعلانك',rejected:'تم رفض إعلانك',hidden:'تم إخفاء إعلانك',actioned:'تم اتخاذ إجراء بشأن بلاغك',dismissed:'تمت مراجعة بلاغك',friday:'سوق الجمعة',car:'بيع السيارات المباشر',offer:'عرض المتجر',report:'بلاغ'},
+ en:{approved:'Your listing was approved',rejected:'Your listing was rejected',hidden:'Your listing was hidden',actioned:'Action taken on your report',dismissed:'Your report was reviewed',friday:'Friday Market',car:'Direct Car Sale',offer:'Merchant Offer',report:'Report'},
+ es:{approved:'Anuncio aprobado',rejected:'Anuncio rechazado',hidden:'Anuncio ocultado',actioned:'Se tomó una medida por tu denuncia',dismissed:'Denuncia revisada',friday:'Mercado del viernes',car:'Venta directa de coches',offer:'Oferta',report:'Denuncia'},
+ ru:{approved:'Объявление одобрено',rejected:'Объявление отклонено',hidden:'Объявление скрыто',actioned:'Приняты меры по жалобе',dismissed:'Жалоба рассмотрена',friday:'Пятничный рынок',car:'Продажа авто',offer:'Предложение',report:'Жалоба'},
+ tr:{approved:'İlan onaylandı',rejected:'İlan reddedildi',hidden:'İlan gizlendi',actioned:'Bildiriminiz için işlem yapıldı',dismissed:'Bildiriminiz incelendi',friday:'Cuma Pazarı',car:'Doğrudan Araç Satışı',offer:'Teklif',report:'Bildirim'}
+};
+function moderationLabels(){return MODERATION_LANG[localStorage.getItem('mira_lang')]||MODERATION_LANG.en}
+function observeReviewEvents(owner,rows){
+ if(!Array.isArray(rows))throw Error('Review event records must be a list');
+ const state=read('customer',owner);let changed=false;
+ for(const item of rows){
+  if(!item||!item.id||!['approved','rejected','hidden'].includes(item.event_type))continue;
+  const id='review:'+item.id;
+  if(state.items.some(n=>n.id===id))continue;
+  state.items.unshift({id,kind:'review',status:item.event_type,listingType:item.listing_type,listingId:item.listing_id,
+    note:item.note||'',at:item.created_at,read:false});changed=true;
+ }
+ if(changed){state.items.sort((a,b)=>String(b.at).localeCompare(String(a.at)));write('customer',owner,state)}
+}
+function observeReportOutcomes(owner,rows){
+ if(!Array.isArray(rows))throw Error('Report outcome records must be a list');
+ const state=read('customer',owner);let changed=false;
+ for(const item of rows){
+  if(!item||!item.id||!['actioned','dismissed'].includes(item.status))continue;
+  const id='report:'+item.id+':'+item.status;
+  if(state.items.some(n=>n.id===id))continue;
+  state.items.unshift({id,kind:'report',status:item.status,listingType:item.target_type,listingId:item.target_id,
+   note:item.admin_note||'',at:item.resolved_at||item.created_at,read:false});changed=true;
+ }
+ if(changed){state.items.sort((a,b)=>String(b.at).localeCompare(String(a.at)));write('customer',owner,state)}
+}
+function label(n){
+ const t=language();
+ if(n.kind==='review'||n.kind==='report')return moderationLabels()[n.status]||moderationLabels().report;
+ return n.kind==='manual'?n.title:n.kind==='merchantNew'?t.merchantNew:(t[n.status]||t.new);
+}
+function orderLabel(n){
+ if(n.kind==='review'||n.kind==='report'){
+  const t=moderationLabels(),kind=t[n.listingType]||t.offer;
+  return kind+(n.note?' · '+n.note:'');
+ }
+ return language().order+' #'+String(n.orderId).slice(0,8).toUpperCase();
+}
 function updateBadges(role,owner){
  const count=unread(role,owner);
  document.querySelectorAll('[data-mira-notification-count]').forEach(el=>{
@@ -201,10 +243,17 @@ async function syncCustomer(){
   const manual=await cloud.request('mira_manual_notifications?'+selectors+'&select=id,title,body,audience,market_code,recipient_user_id,destination,published_at,expires_at&order=published_at.desc&limit=100',{requireAuth:true});
   observeManual(owner,manual,market);
  }catch(e){manualError=e;console.warn('MIRA manual notifications unavailable:',e.message)}
+ let moderationError=null;
+ try{
+  const reviewRows=await cloud.request('mira_listing_review_events?recipient_user_id=eq.'+encodeURIComponent(owner)+'&select=id,listing_type,listing_id,event_type,note,created_at&order=created_at.desc&limit=100',{requireAuth:true});
+  observeReviewEvents(owner,reviewRows);
+  const reportRows=await cloud.request('mira_listing_reports?reporter_id=eq.'+encodeURIComponent(owner)+'&status=in.(actioned,dismissed)&select=id,target_type,target_id,status,admin_note,created_at,resolved_at&order=created_at.desc&limit=100',{requireAuth:true});
+  observeReportOutcomes(owner,reportRows);
+ }catch(e){moderationError=e;console.warn('MIRA moderation notifications unavailable:',e.message)}
  let readsError=null;
  try{await syncReadReceipts(owner)}
  catch(e){readsError=e;console.warn('MIRA cross-device read receipts unavailable:',e.message)}
- return {owner,count:unread('customer',owner),items:list('customer',owner),manualError,historyError,readsError};
+ return {owner,count:unread('customer',owner),items:list('customer',owner),manualError,historyError,readsError,moderationError};
 }
 async function watchCustomer({interval=30000,onUpdate}={}){
  let active=false;

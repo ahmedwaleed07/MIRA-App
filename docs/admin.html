@@ -15,7 +15,14 @@
 @media(max-width:620px){.main{padding:13px}.topbar{display:block}.top-actions{margin-top:12px}.metrics{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:13px}.metric strong{font-size:23px}.form-grid{grid-template-columns:1fr}.menu{grid-template-columns:repeat(5,max-content)}.card-body,.card-head{padding:14px}.topbar h1{font-size:23px}}
 .auth-gate{position:fixed;inset:0;z-index:999;background:linear-gradient(145deg,#800020,#800020);display:flex;align-items:center;justify-content:center;padding:22px}.auth-box{width:min(420px,100%);background:#800020;border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}.auth-logo{width:150px;height:52px;margin:0 auto 12px;background:var(--pink);-webkit-mask:url('assets/mira_wordmark.svg') center/contain no-repeat;mask:url('assets/mira_wordmark.svg') center/contain no-repeat}.auth-box h2{margin:8px 0 4px}.auth-box p{margin:0 0 18px;color:var(--muted);font-size:11px}.auth-box input{width:100%;margin:6px 0;border:1px solid var(--line);border-radius:13px;padding:12px}.auth-box button{width:100%;margin-top:10px}.auth-error{min-height:18px;margin-top:9px;color:var(--danger);font-size:10px}.auth-gate.hidden{display:none}#taxonomyTree .item{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--line)}#taxonomyTree .item:last-child{border-bottom:0}#taxonomyTree small{color:var(--muted)}
 </style>
-<link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><link rel="stylesheet" href="dashboard-sections.css?v=20261008-dashboard-2"><link rel="stylesheet" href="mira-notifications.css?v=20261009-notification-2"><link rel="stylesheet" href="mira-polish.css?v=20261020-multi-2"><link rel="stylesheet" href="mira-platform-visuals.css?v=20261022-portals-4"><link rel="stylesheet" href="mira-footer-language.css?v=20261102-footer-v1"></head>
+<link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><link rel="stylesheet" href="dashboard-sections.css?v=20261008-dashboard-2"><link rel="stylesheet" href="mira-notifications.css?v=20261009-notification-2"><link rel="stylesheet" href="mira-polish.css?v=20261020-multi-2"><link rel="stylesheet" href="mira-platform-visuals.css?v=20261022-portals-4"><link rel="stylesheet" href="mira-footer-language.css?v=20261102-footer-v1"><style>
+.mira-review-card{background:#fff;border:1px solid #ecc3d3;border-radius:17px;padding:17px;margin:12px 0;color:#52243b;box-shadow:0 6px 18px rgba(128,0,32,.07)}
+.mira-review-card strong{display:block;font-size:15px;color:#800020}.mira-review-card small{display:block;opacity:.75;margin-top:5px}
+.mira-review-card p{font-size:13px;line-height:1.7;overflow-wrap:anywhere}.mira-review-card label{display:block;font-weight:700;font-size:12px;margin:10px 0}
+.mira-review-card textarea{background:#fff;border:1px solid #ddbbc8;color:#502038;border-radius:11px;padding:10px;max-width:100%;min-width:100%;font:inherit;box-sizing:border-box}
+.mira-review-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.mira-review-actions button{background:#800020;color:white;border:0;padding:11px 15px;border-radius:10px;font-weight:700;cursor:pointer}
+.mira-review-actions button.soft{background:#fff0f6;color:#800020;border:1px solid #d3a6b9}
+</style></head>
 <body class="mira-admin">
 <div class="auth-gate" id="authGate"><div class="auth-box" id="authForm"><div class="auth-logo"></div><h2>Admin Login</h2><p>Sign in with your authorized MIRA administrator account.</p><input id="authEmail" type="email" autocomplete="username" placeholder="Email" required><input id="authPassword" type="password" autocomplete="current-password" placeholder="Password" required><button class="btn primary" type="button" id="authSubmit">Sign In</button><div class="auth-error" id="authError"></div></div></div>
 <div class="shell">
@@ -27,6 +34,7 @@
       <button data-panel="offers"><span class="dot"></span>Offers / Products / Services</button>
       <button data-panel="taxonomy"><span class="dot"></span>Product Taxonomy</button>
       <button data-panel="orders"><span class="dot"></span>Orders</button>
+      <button data-panel="moderation"><span class="dot"></span>Moderation</button>
       <button data-panel="notifications"><span class="dot"></span>Notifications</button>
       <button data-panel="requests"><span class="dot"></span>Store Requests</button>
       <button data-panel="media"><span class="dot"></span>Media</button>
@@ -131,7 +139,13 @@
       </div>
     </section>
 
-    <section class="panel" id="notifications">
+    <section class="panel" id="moderation">
+ <section class="card" style="padding:20px">
+  <div class="card-head"><div><h2>Listing Moderation</h2><p>Review personal listings, merchant offers, and customer reports before or after publication.</p></div><button type="button" class="btn soft" id="miraModerationRefresh">Refresh</button></div>
+  <p id="miraModerationStatus" role="status" aria-live="polite"></p>
+  <div id="miraModerationQueue"></div>
+ </section></section>
+     <section class="panel" id="notifications">
       <div class="mira-admin-notifications">
         <h2>MIRA Customer Notifications</h2>
         <p style="font-size:12px;line-height:1.7;margin:8px 0 20px">Automatic order updates are generated by the system. Send your own notices to all customers, a selected market, or one customer from here.</p>
@@ -225,7 +239,7 @@ async function deleteTaxAttribute(catSlug,subSlug,typeSlug,key){const type=taxTy
 async function syncTaxonomyCloud(){try{const items=await MiraCloud.syncTaxonomy();if(Array.isArray(items)&&items.length)TAXONOMY=items;fillCategories();renderTaxonomy()}catch(e){console.error('MIRA taxonomy sync failed',e);renderTaxonomy()}}
 taxonomyAddCategory.onclick=addTaxCategory;taxonomySave.onclick=()=>persistTaxonomy();
 
-function switchPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.menu button').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));const map={overview:['Overview','Manage MIRA stores and paid placements.'],stores:['Stores','Create and manage merchant profiles.'],offers:['Offers','Create offers, targeting and paid Home placements.'],taxonomy:['Product Taxonomy','Manage categories, subcategories, product types and attributes.'],orders:['Orders','Review customer orders across all MIRA stores.'],notifications:['Notifications','Publish selected announcements and offers to MIRA customers.'],requests:['Store Requests','Review merchant profile changes before publishing.'],media:['Media','Review store and offer images.'],data:['Data','Export or import prototype content.']};pageTitle.textContent=map[id][0];pageSub.textContent=map[id][1];if(id==='offers')refreshStoreSelect()}
+function switchPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.menu button').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));const map={overview:['Overview','Manage MIRA stores and paid placements.'],stores:['Stores','Create and manage merchant profiles.'],offers:['Offers','Create offers, targeting and paid Home placements.'],taxonomy:['Product Taxonomy','Manage categories, subcategories, product types and attributes.'],orders:['Orders','Review customer orders across all MIRA stores.'],notifications:['Notifications','Publish selected announcements and offers to MIRA customers.'],moderation:['Moderation','Approve listings and review customer reports.'],requests:['Store Requests','Review merchant profile changes before publishing.'],media:['Media','Review store and offer images.'],data:['Data','Export or import prototype content.']};pageTitle.textContent=map[id][0];pageSub.textContent=map[id][1];if(id==='offers')refreshStoreSelect()}
 document.querySelectorAll('.menu button').forEach(b=>b.onclick=()=>switchPanel(b.dataset.panel));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{switchPanel(b.dataset.go);const focus=b.dataset.focus;if(focus)document.getElementById(focus)?.scrollIntoView({behavior:'smooth',block:'start'});});
 offerCategory.addEventListener('change',()=>fillOfferSubcategories());
 offerSubcategory.addEventListener('change',()=>fillOfferProductTypes());
@@ -315,6 +329,6 @@ importFile.onchange=()=>{const f=importFile.files&&importFile.files[0];if(!f)ret
 clearAll.onclick=()=>{if(!confirm('Clear all prototype stores and offers from this browser?'))return;stores=[];offers=[];save();resetStore();resetOffer();toastMsg('Prototype data cleared')};
 fillCategories();resetStore();resetOffer();renderAll();(async()=>{try{if(MiraCloud.session?.access_token)await MiraCloud.ensureFreshSession()}catch(e){console.error(e)}await syncTaxonomyCloud();await cloudSync()})();
 </script>
-<script src="mira-admin-notifications.js?v=20261009-admin-notifications-1"></script>
+<script src="mira-moderation-admin.js?v=20261103-moderation-v1"></script><script src="mira-admin-notifications.js?v=20261009-admin-notifications-1"></script>
 <script src="mira-portal-i18n.js?v=20261102-footer-v1"></script><script src="mira-footer-language.js?v=20261102-footer-v1"></script></body>
 </html>

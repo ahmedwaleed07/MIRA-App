@@ -1,1 +1,58 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Delete MIRA Account</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;max-width:720px;margin:0 auto;padding:32px 20px;line-height:1.6;color:#FFFFFF}.card{border:1px solid #800020;border-radius:20px;padding:20px}h1{color:#FC618F}</style><link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2"><link rel="stylesheet" href="mira-footer-language.css?v=20261102-footer-v1"></head><body><h1>Delete your MIRA account</h1><div class="card"><p>You can request deletion from MIRA inside the app through <b>Profile → Settings → Delete Account</b>.</p><p>If you cannot access the app, submit a support request and include the phone number or email used for the account so ownership can be verified before deletion.</p><p>Deletion removes the account and associated profile data, favorites, follows, preferences, and user-generated support data, except information that must be retained for fraud prevention, security, legal, or accounting obligations.</p></div><script src="mira-portal-i18n.js?v=20261102-footer-v1"></script><script src="mira-footer-language.js?v=20261102-footer-v1"></script></body></html>
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FC618F"><title>MIRA — Delete Account</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mira-pink-theme.css?v=20261008-luxe-contrast-2">
+<link rel="stylesheet" href="mira-footer-language.css?v=20261102-footer-v1">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(150deg,#fff,#fff2f7);color:#512337;font-family:Poppins,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{width:min(480px,100%);margin:0 auto;padding:24px 18px 60px}.back{color:#800020;display:inline-flex;margin-bottom:20px;text-decoration:none;font-size:13px;font-weight:700}
+h1{font-size:28px;line-height:1.3;color:#800020;margin:0 0 15px}.card{background:rgba(255,255,255,.96);border:1px solid #e9c6d5;box-shadow:0 14px 35px #80002015;border-radius:22px;padding:22px}
+p,li{line-height:1.8;font-size:14px}.check{display:flex;align-items:start;gap:10px;border-radius:14px;background:#fff2f7;padding:12px;margin:18px 0 10px;font-size:12px;line-height:1.65}
+.check input{width:19px;height:19px;flex:0 0 19px;accent-color:#800020;margin-top:2px}
+label[for=typed]{display:block;margin-top:15px;font-weight:700;font-size:13px}
+#typed{display:block;width:100%;padding:14px 16px;margin:10px 0;border:1px solid #d9b5c3;border-radius:13px;background:#fff;font:inherit;direction:ltr}
+#delete{border:0;background:#800020;color:#fff;border-radius:14px;width:100%;padding:14px;font:700 14px Poppins,sans-serif;cursor:pointer}
+#delete:disabled{opacity:.45;cursor:not-allowed}#feedback{min-height:24px;color:#800020;line-height:1.6;font-size:13px;margin-top:15px}
+.logo{height:34px;width:115px;display:block;margin:0 auto 25px;object-fit:contain}
+</style></head><body><main>
+<a class="back" href="profile.html" id="back"></a><img class="logo" src="assets/mira_wordmark.svg" alt="MIRA">
+<section class="card"><h1 id="title"></h1><p id="lead"></p><p id="warning"></p>
+<label class="check"><input type="checkbox" id="understand"><span id="ack"></span></label>
+<label for="typed" id="typeLabel"></label><input id="typed" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="DELETE">
+<button id="delete" type="button" disabled></button><p role="status" aria-live="polite" id="feedback"></p>
+</section></main>
+<script src="mira-cloud.js?v=20261103-delete-account"></script>
+<script>
+const translations={
+ar:{back:'← حسابي',title:'حذف حساب MIRA',lead:'تگدر تحذف حسابك بشكل نهائي. حذف الحساب راح يلغي إمكانية الدخول ويلغي إعلاناتك الشخصية وصورها وبيانات حسابك.',warning:'مهم: ما نكدر نسترجع الحساب بعد الحذف. بعض بيانات الطلبات قد تبقى بشكل مجهول الهوية للمتطلبات التشغيلية والقانونية. إذا حسابك مرتبط بمتجر أو بصلاحية أدمن، لازم نقل المسؤولية أولاً.',ack:'أفهم أن حذف حسابي نهائي وغير قابل للتراجع.',type:'اكتب DELETE للتأكيد',button:'حذف حسابي نهائياً',wait:'جارِ حذف الحساب...',done:'تم حذف حسابك بنجاح.',login:'سجّل الدخول حتى تگدر تحذف حسابك.',fail:'تعذّر حذف الحساب. حاول مرة ثانية أو تواصل ويا الدعم.',transfer:'لازم تنقل مسؤولية المتجر أو الإدارة قبل حذف الحساب.'},
+en:{back:'← Profile',title:'Delete MIRA Account',lead:'Permanently delete your account, personal listings, photos and associated account data.',warning:'This cannot be undone. Some order records may be retained in anonymized form for legal and operational requirements. Merchant or admin accounts must transfer responsibilities before deletion.',ack:'I understand account deletion is permanent and cannot be undone.',type:'Type DELETE to confirm',button:'Permanently delete my account',wait:'Deleting your account...',done:'Your account has been deleted.',login:'Sign in to delete your account.',fail:'Unable to delete your account. Try again or contact support.',transfer:'Transfer merchant or administrator responsibilities before deletion.'},
+es:{back:'← Perfil',title:'Eliminar cuenta MIRA',lead:'Elimina tu cuenta, anuncios personales, fotos y datos asociados de forma permanente.',warning:'No se puede deshacer. Ciertos registros de pedidos podrán conservarse anonimizados por razones legales y operativas. Transfiere las responsabilidades comerciales o de administración primero.',ack:'Entiendo que esta eliminación es permanente.',type:'Escribe DELETE para confirmar',button:'Eliminar mi cuenta definitivamente',wait:'Eliminando la cuenta...',done:'Tu cuenta fue eliminada.',login:'Inicia sesión para eliminar tu cuenta.',fail:'No fue posible eliminar tu cuenta. Inténtalo de nuevo.',transfer:'Transfiere primero las responsabilidades comerciales o de administración.'},
+ru:{back:'← Профиль',title:'Удалить аккаунт MIRA',lead:'Безвозвратно удалить аккаунт, личные объявления, фотографии и данные.',warning:'Действие необратимо. Некоторые сведения о заказах могут храниться обезличенно по юридическим причинам. Сначала передайте обязанности продавца или администратора.',ack:'Я понимаю, что удаление необратимо.',type:'Введите DELETE для подтверждения',button:'Удалить мой аккаунт навсегда',wait:'Удаление аккаунта...',done:'Аккаунт удалён.',login:'Войдите, чтобы удалить аккаунт.',fail:'Не удалось удалить аккаунт. Повторите попытку.',transfer:'Сначала передайте обязанности продавца или администратора.'},
+tr:{back:'← Profil',title:'MIRA Hesabını Sil',lead:'Hesabınızı, kişisel ilanlarınızı, fotoğraflarınızı ve ilişkili verilerinizi kalıcı olarak silin.',warning:'Bu işlem geri alınamaz. Bazı sipariş kayıtları yasal ve operasyonel nedenlerle anonim şekilde tutulabilir. Önce işletme veya yönetici sorumluluklarını devredin.',ack:'Hesabımın kalıcı olarak silineceğini anlıyorum.',type:'Onaylamak için DELETE yazın',button:'Hesabımı kalıcı olarak sil',wait:'Hesap siliniyor...',done:'Hesabınız silindi.',login:'Hesabınızı silmek için giriş yapın.',fail:'Hesap silinemedi. Tekrar deneyin.',transfer:'Önce işletme veya yönetici sorumluluklarını devredin.'}
+};
+const lang=localStorage.getItem('mira_lang')||'ar',t=translations[lang]||translations.en;
+document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+for(const [id,key] of Object.entries({back:'back',title:'title',lead:'lead',warning:'warning',ack:'ack',typeLabel:'type',delete:'button'}))document.getElementById(id).textContent=t[key];
+const check=document.getElementById('understand'),typed=document.getElementById('typed'),button=document.getElementById('delete'),feedback=document.getElementById('feedback');
+function toggle(){button.disabled=!(check.checked&&typed.value.trim()==='DELETE')};check.onchange=toggle;typed.oninput=toggle;
+button.onclick=async()=>{
+ if(button.disabled)return;
+ button.disabled=true;button.textContent=t.wait;feedback.textContent='';
+ try{
+  await MiraCloud.ensureFreshSession();
+  const user=await MiraCloud.getCurrentUser();
+  if(!user?.id||!MiraCloud.session?.access_token)throw Error('sign_in');
+  const c=window.MIRA_SUPABASE;
+  const response=await fetch(c.url+'/functions/v1/mira-delete-account',{method:'POST',headers:{'Content-Type':'application/json',apikey:c.key,Authorization:'Bearer '+MiraCloud.token()},body:JSON.stringify({confirmation:'DELETE'})});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok)throw Error(result.error==='merchant_or_admin_account'?'transfer':'fail');
+  feedback.textContent=t.done;
+  for(const key of ['mira_customer_session','mira_profile_name','mira_profile_dob','mira_saved','mira_cart','mira_auth_complete','mira_favorites']){try{localStorage.removeItem(key);sessionStorage.removeItem(key)}catch(_){}}
+  try{await MiraCloud.signOut()}catch(_){}
+  setTimeout(()=>location.replace('welcome.html'),1800);
+ }catch(error){feedback.textContent=error.message==='transfer'?t.transfer:error.message==='sign_in'?t.login:t.fail}
+ finally{button.textContent=t.button;toggle()}
+};
+</script>
+<script src="mira-portal-i18n.js?v=20261102-footer-v1"></script><script src="mira-footer-language.js?v=20261102-footer-v1"></script></body></html>

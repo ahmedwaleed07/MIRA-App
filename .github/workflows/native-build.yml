@@ -18,6 +18,8 @@ jobs:
           java-version: '21'
       - name: Install dependencies
         run: npm install
+      - name: Sync published web source into mobile bundle
+        run: npm run prepare:web
       - name: Generate Android project
         run: |
           rm -rf android
@@ -43,6 +45,8 @@ jobs:
           node-version: '22'
       - name: Install dependencies
         run: npm install
+      - name: Sync published web source into mobile bundle
+        run: npm run prepare:web
       - name: Generate iOS project
         run: |
           rm -rf ios

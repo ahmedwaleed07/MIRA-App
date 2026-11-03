@@ -26,6 +26,8 @@ jobs:
           node scripts/validate-auth-ui.mjs
           node scripts/validate-auth-flow.mjs
           node scripts/validate-remember-me.mjs
+      - name: Verify parity of browser and native assets
+        run: npm run prepare:web
       - name: Validate required release files
         run: |
           test -f www/index.html

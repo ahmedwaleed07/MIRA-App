@@ -4,11 +4,13 @@
   "private": true,
   "description": "MIRA mobile shopping offers application",
   "scripts": {
-    "sync": "npx cap sync",
+    "sync": "npm run prepare:web && npx cap sync",
     "ios": "npx cap open ios",
     "android": "npx cap open android",
     "copy": "npx cap copy",
-    "doctor": "npx cap doctor"
+    "doctor": "npx cap doctor",
+    "prepare:web": "node scripts/sync-mobile-from-docs.mjs",
+    "validate:web-parity": "npm run prepare:web"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
