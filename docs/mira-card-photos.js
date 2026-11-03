@@ -63,7 +63,7 @@
  function style(value){
   // Use only safe local paths or registered image/storage URLs as CSS image sources.
   if(!isImage(value))return '';
-  const clean=String(value).replace(/[<>"'\\\n\r]/g,ch=>encodeURIComponent(ch));
+  const clean=String(value).replace(/[<>"'\\\n\r()]/g,ch=>'%'+ch.charCodeAt(0).toString(16).toUpperCase().padStart(2,'0'));
   return ' style="background-image:url(\''+clean+'\')"';
  }
  window.MiraCardPhotos=Object.freeze({forCategory,category,fallback,resolve,style});
