@@ -23,9 +23,9 @@ export async function onRequestPost({request,env}){
   const used=await db.prepare('UPDATE mira_otp_challenges SET used_at=? WHERE id=? AND used_at IS NULL AND expires_at>? AND wrong_attempts<5 RETURNING phone_hmac,mode')
    .bind(now,challengeId,now).first();
   if(!used)return respond(request,{error:'invalid_or_expired_code'},400);
-  if(used.mode==='signup')await db.prepare('INSERT INTO mira_otp_registered(phone_hmac,registered_at,verified_at) VALUES(?,?,?) ON CONFLICT(phone_hmac) DO UPDATE SET verified_at=excluded.verified_at').bind(used.phone_hmac,now,now).run();
+  if(used.mode==='signup')await db.prepare('INSERT INTO mira_otp_verified_pending(challenge_id,phone_hmac,verified_at,expires_at) VALUES(?,?,?,?)').bind(challengeId,used.phone_hmac,now,now+900).run();
   // Verification is an identity proof only: don't pretend it is an authenticated
   // MIRA customer session. Session/account migration is a separate launch blocker.
-  return respond(request,{verified:true,authSessionReady:false});
+  return respond(request,{verified:true,registrationPending:used.mode==='signup',authSessionReady:false});
  }catch(error){console.error('MIRA Cloudflare verification error',error);return respond(request,{error:'verification_unavailable'},503)}
 }
