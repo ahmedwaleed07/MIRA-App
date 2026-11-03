@@ -331,3 +331,28 @@ body.mira-category-detail .real-estate-disclaimer{
 @media(prefers-reduced-motion:reduce){
  body.mira-category-detail .real-estate-branch::before{transform:none}
 }
+
+/* Sale / Rent – shared MIRA transaction choices for real estate and car showrooms. */
+body.mira-category-detail .mira-transaction-choices[hidden]{display:none!important}
+body.mira-category-detail .mira-transaction-choices{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+ margin:14px 0 20px;direction:inherit
+}
+body.mira-category-detail .mira-transaction-choice{
+ display:flex;align-items:center;justify-content:center;min-width:0;min-height:48px;
+ border:1.5px solid #800020;border-radius:16px;
+ background:rgba(255,255,255,.91);color:#800020;
+ font:800 clamp(13px,3.6vw,16px) Poppins,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+ text-decoration:none!important;text-align:center;transition:background .2s ease,color .2s ease,transform .2s ease;
+ box-shadow:0 5px 15px rgba(128,0,32,.07)
+}
+body.mira-category-detail .mira-transaction-choice.active{
+ color:#fff;background:linear-gradient(125deg,#EA255F,#800020);
+ border-color:transparent;box-shadow:0 9px 20px rgba(128,0,32,.17)
+}
+@media(hover:hover){
+ body.mira-category-detail .mira-transaction-choice:hover{transform:translateY(-2px)}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mira-category-detail .mira-transaction-choice{transition:none}
+}

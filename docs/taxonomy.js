@@ -84,12 +84,13 @@ window.MIRA_TAXONOMY = [
   {slug:'automotive',ar:'السيارات',en:'Automotive',subs:[
     {slug:'accessories',ar:'إكسسوارات السيارات',en:'Car Accessories',types:[['interior','داخلية','Interior'],['exterior','خارجية','Exterior'],['care','العناية بالسيارة','Car Care']]},
     {slug:'electronics',ar:'إلكترونيات السيارات',en:'Car Electronics',types:[['audio','صوتيات','Audio'],['cameras','كاميرات','Cameras'],['chargers','شواحن','Chargers']]},
-    {slug:'parts-supplies',ar:'قطع ومستلزمات',en:'Parts & Supplies',types:[['batteries','بطاريات','Batteries'],['tires','إطارات','Tires'],['oils','زيوت','Oils & Fluids']]}
+    {slug:'parts-supplies',ar:'قطع ومستلزمات',en:'Parts & Supplies',types:[['batteries','بطاريات','Batteries'],['tires','إطارات','Tires'],['oils','زيوت','Oils & Fluids']]},
+    {slug:'showrooms',ar:'معارض السيارات',en:'Car Showrooms',es:'Concesionarios',ru:'Автосалоны',tr:'Araç galerileri',types:[['sale','بيع','Sale',[],true,{es:'Venta',ru:'Продажа',tr:'Satış'}],['rent','إيجار','Rent',[],true,{es:'Alquiler',ru:'Аренда',tr:'Kiralama'}]]}
   ]},
   {slug:'real-estate',ar:'العقارات',en:'Real Estate',es:'Inmuebles',ru:'Недвижимость',tr:'Gayrimenkul',subs:[
-    {slug:'developer',ar:'مطور عقاري',en:'Real Estate Developer',es:'Promotor inmobiliario',ru:'Застройщик',tr:'Gayrimenkul geliştiricisi',types:[['property','عرض عقاري','Property listing',[],true,{es:'Anuncio inmobiliario',ru:'Объявление о недвижимости',tr:'Gayrimenkul ilanı'}]]},
-    {slug:'broker',ar:'وسيط عقاري',en:'Real Estate Broker',es:'Agente inmobiliario',ru:'Риелтор',tr:'Emlak danışmanı',types:[['property','عرض عقاري','Property listing',[],true,{es:'Anuncio inmobiliario',ru:'Объявление о недвижимости',tr:'Gayrimenkul ilanı'}]]},
-    {slug:'direct-sale',ar:'بيع مباشر',en:'Direct Sale',es:'Venta directa',ru:'Прямая продажа',tr:'Doğrudan satış',types:[['property','عرض عقاري','Property listing',[],true,{es:'Anuncio inmobiliario',ru:'Объявление о недвижимости',tr:'Gayrimenkul ilanı'}]]}
+    {slug:'developer',ar:'مطور عقاري',en:'Real Estate Developer',es:'Promotor inmobiliario',ru:'Застройщик',tr:'Gayrimenkul geliştiricisi',types:[['sale','بيع','Sale',[],true,{es:'Venta',ru:'Продажа',tr:'Satış'}],['rent','إيجار','Rent',[],true,{es:'Alquiler',ru:'Аренда',tr:'Kiralama'}]]},
+    {slug:'broker',ar:'وسيط عقاري',en:'Real Estate Broker',es:'Agente inmobiliario',ru:'Риелтор',tr:'Emlak danışmanı',types:[['sale','بيع','Sale',[],true,{es:'Venta',ru:'Продажа',tr:'Satış'}],['rent','إيجار','Rent',[],true,{es:'Alquiler',ru:'Аренда',tr:'Kiralama'}]]},
+    {slug:'direct-sale',ar:'بيع مباشر',en:'Direct Sale',es:'Venta directa',ru:'Прямая продажа',tr:'Doğrudan satış',types:[['sale','بيع','Sale',[],true,{es:'Venta',ru:'Продажа',tr:'Satış'}],['rent','إيجار','Rent',[],true,{es:'Alquiler',ru:'Аренда',tr:'Kiralama'}]]}
   ]},
   {slug:'stationery-office',ar:'القرطاسية والمكتب',en:'Stationery & Office',subs:[
     {slug:'school',ar:'مدرسية',en:'School',types:[['notebooks','دفاتر','Notebooks'],['pens','أقلام','Pens'],['school-supplies','مستلزمات مدرسية','School Supplies']]},
@@ -158,10 +159,24 @@ window.MIRA_TAXONOMY = [
 
 const MIRA_TRAVEL_TOURISM_SEED=(window.MIRA_TAXONOMY||[]).find(x=>x.slug==='travel-tourism');
 const MIRA_REAL_ESTATE_SEED=(window.MIRA_TAXONOMY||[]).find(x=>x.slug==='real-estate');
+const MIRA_CAR_SHOWROOM_SEED=(window.MIRA_TAXONOMY||[]).find(x=>x.slug==='automotive')?.subs.find(x=>x.slug==='showrooms');
 window.MIRA_TAXONOMY_LABEL=function(item,lang){if(!item)return '';const l=['ar','en','es','ru','tr'].includes(lang)?lang:'en';return item[l]||item.en||item.ar||''};
 window.MIRA_TAXONOMY_TYPE_LABEL=function(tuple,lang){if(!tuple)return '';return lang==='ar'?tuple[1]:(tuple[5]&&tuple[5][lang])||tuple[2]||tuple[1]};
 try{const cached=JSON.parse(localStorage.getItem('mira_taxonomy')||'null');if(Array.isArray(cached)&&cached.length)window.MIRA_TAXONOMY=cached}catch(e){}
 (function(){
+  // Keeps the user-facing catalog consistent even if an older taxonomy is cached or synced.
+  // The upgrade only patches requested transaction types, never replaces other categories.
+  const mergeTypes=(target,seed)=>{
+    if(!target||!seed)return false;
+    const existing=Array.isArray(target.types)?target.types:[];
+    const next=seed.types.map(type=>{
+      const current=existing.find(x=>x[0]===type[0]);
+      return current ? [type[0],type[1],type[2],
+        Array.isArray(current[3])&&current[3].length?current[3]:type[3],true,type[5]] : type;
+    });
+    if(JSON.stringify(existing)===JSON.stringify(next))return false;
+    target.types=next;return true;
+  };
   function ensureCategories(){
     const items=window.MIRA_TAXONOMY;
     if(!Array.isArray(items))return;
@@ -171,6 +186,25 @@ try{const cached=JSON.parse(localStorage.getItem('mira_taxonomy')||'null');if(Ar
       const i=items.findIndex(x=>x.slug===beforeSlug);
       if(i<0)items.push(seed);else items.splice(i,0,seed);
       changed=true;
+    }
+    const estate=items.find(x=>x.slug==='real-estate');
+    if(estate&&MIRA_REAL_ESTATE_SEED){
+      if(!Array.isArray(estate.subs))estate.subs=[];
+      for(const seed of MIRA_REAL_ESTATE_SEED.subs){
+        let sub=estate.subs.find(x=>x.slug===seed.slug);
+        if(!sub){estate.subs.push(seed);changed=true;continue;}
+        if(mergeTypes(sub,seed))changed=true;
+        for(const lang of ['ar','en','es','ru','tr']){
+          if(!sub[lang]){sub[lang]=seed[lang];changed=true;}
+        }
+      }
+    }
+    const automotive=items.find(x=>x.slug==='automotive');
+    if(automotive&&MIRA_CAR_SHOWROOM_SEED){
+      if(!Array.isArray(automotive.subs))automotive.subs=[];
+      let showrooms=automotive.subs.find(x=>x.slug==='showrooms');
+      if(!showrooms){automotive.subs.push(MIRA_CAR_SHOWROOM_SEED);changed=true;}
+      else if(mergeTypes(showrooms,MIRA_CAR_SHOWROOM_SEED))changed=true;
     }
     if(changed)try{localStorage.setItem('mira_taxonomy',JSON.stringify(items))}catch(e){}
   }

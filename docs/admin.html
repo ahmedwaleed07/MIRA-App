@@ -181,7 +181,7 @@
   </main>
 </div>
 <div class="toast" id="toast"></div>
-<script src="taxonomy.js?v=20261007-taxonomy"></script><script src="mira-cloud.js?v=20261007-0854"></script>
+<script src="taxonomy.js?v=20261103-sale-rent-v1"></script><script src="mira-cloud.js?v=20261007-0854"></script>
 <script>
 const authGate=document.getElementById('authGate'),authForm=document.getElementById('authForm'),authError=document.getElementById('authError');
 function jwtPayload(){try{const t=MiraCloud.session&&MiraCloud.session.access_token;if(!t)return null;const p=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}}
