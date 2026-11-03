@@ -118,3 +118,21 @@ for(const [asset,viewbox] of [['asas360_icon_original.svg','viewBox="-3 -5 64 70
 }
 if(!footerCss.includes('footer.welcome-powered-footer img.partner-wordmark')||!footerCss.includes('justify-content:center!important'))throw new Error('Welcome footer alignment rules missing');
 console.log('PASS Welcome Powered by | exact ASAS logo | exact ASAS 360° wordmark centred and horizontally aligned');
+
+// Onboarding: keep five inline language names, and suppress the duplicated globe button.
+const onboardingFooterScript=readFileSync('docs/mira-footer-language.js','utf8');
+for(const page of ['market','city','interests']){
+ const html=read(page);
+ const match=html.match(/<div class="lang" data-mira-inline-languages[^>]*>[\s\S]*?<\/div>/);
+ if(!match)throw new Error(page+' missing its inline language selector');
+ const group=match[0];
+ for(const code of ['ar','en','es','ru','tr']){
+  if(!group.includes('data-lang="'+code+'"'))throw new Error(page+' missing '+code+' language');
+  if(!group.includes("onclick=\"setLang('"+code+"')\""))throw new Error(page+' inactive '+code+' language');
+ }
+ if((group.match(/data-lang="/g)||[]).length!==5)throw new Error(page+' has duplicate language names');
+}
+if(!onboardingFooterScript.includes("document.querySelector('[data-mira-inline-languages]')")||
+   !onboardingFooterScript.includes("if(choices.length===5"))
+ throw new Error('Global footer must skip pages with five visible choices');
+console.log('PASS onboarding has five clickable languages, no duplicate footer widget');

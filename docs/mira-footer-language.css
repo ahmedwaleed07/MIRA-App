@@ -101,3 +101,11 @@ body.mira-footer-language-enabled footer.brand-footer .mira-footer-language{flex
 @media(prefers-reduced-motion:reduce){
  .mira-footer-language-button,.mira-footer-language-menu button{transition:none!important}
 }
+
+/* Onboarding screens already have a visible five-language text strip.
+   Highlight the active language without placing another language widget. */
+.lang[data-mira-inline-languages] button[aria-pressed="true"]{
+ text-decoration:underline!important;
+ text-decoration-thickness:2px!important;
+ text-underline-offset:4px!important;
+}

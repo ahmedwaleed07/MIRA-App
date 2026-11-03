@@ -11,6 +11,22 @@ function init(){
  // Welcome has its own visible five-language choices below the ASAS footer.
  // Do not replace them with the global one-button language dropdown.
  if(document.body.classList.contains('welcome-view'))return;
+ // The onboarding pages already expose all five language names in a functional
+ // inline strip. Never add a redundant globe/dropdown below it.
+ const inline=document.querySelector('[data-mira-inline-languages]');
+ if(inline){
+  const choices=[...inline.querySelectorAll('button[data-lang]')];
+  if(choices.length===5&&codes.every(code=>choices.some(button=>button.dataset.lang===code))){
+   function syncInline(){
+    const active=selectedLanguage();
+    for(const button of choices)button.setAttribute('aria-pressed',String(button.dataset.lang===active));
+   }
+   for(const button of choices)button.addEventListener('click',syncInline);
+   window.addEventListener('storage',event=>{if(event.key==='mira_lang')syncInline()});
+   syncInline();
+   return;
+  }
+ }
  if(document.getElementById('miraFooterLanguage'))return;
  let language=selectedLanguage();
  // Remove the deprecated header selector if a cached localization script created one.
