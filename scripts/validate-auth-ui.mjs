@@ -102,3 +102,18 @@ if((welcome.match(/data-lang="(?:ar|en|es|ru|tr)" lang="/g)||[]).length!==5)thro
 if(!footerControl.includes("document.body.classList.contains('welcome-view')"))throw new Error('The dropdown controller must skip the Welcome screen');
 if(!footerCss.includes('.welcome-languages button.active::after'))throw new Error('Welcome text-only active language indicator missing');
 console.log('PASS Welcome shows five text-only language choices under Powered by, without the global dropdown');
+
+// Welcome footer: Powered by left, unchanged ASAS symbol at centre, original lettering right.
+const brandLockup=welcome.match(/<footer class="brand-footer welcome-powered-footer"[\s\S]*?<\/footer>/)?.[0];
+if(!brandLockup)throw new Error('Welcome centred three-part ASAS footer missing');
+const parts=['class="partner-powered"','class="partner-mark"','class="partner-wordmark"'];
+let previous=-1;
+for(const part of parts){const index=brandLockup.indexOf(part);if(index<previous||index<0)throw new Error('ASAS footer left-to-right order is wrong: '+part);previous=index}
+if(!brandLockup.includes('assets/asas360_icon_original.svg')||!brandLockup.includes('assets/asas360_wordmark_original.svg'))throw new Error('ASAS original vector parts missing');
+for(const [asset,viewbox] of [['asas360_icon_original.svg','viewBox="-3 -5 64 70"'],['asas360_wordmark_original.svg','viewBox="59 34 214 29"']]){
+ const svg=readFileSync('docs/assets/'+asset,'utf8');
+ if(!svg.includes(viewbox))throw new Error('ASAS crop missing: '+asset);
+ if(svg.replace(viewbox,'viewBox="-4 -7 282 82"')!==exactLogo)throw new Error('ASAS original artwork changed: '+asset);
+}
+if(!footerCss.includes('footer.welcome-powered-footer img.partner-wordmark')||!footerCss.includes('justify-content:center!important'))throw new Error('Welcome footer alignment rules missing');
+console.log('PASS Welcome Powered by | exact ASAS logo | exact ASAS 360° wordmark centred and horizontally aligned');

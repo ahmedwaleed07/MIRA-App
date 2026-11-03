@@ -344,3 +344,66 @@ body.mira-auth-v3.welcome-view .welcome-languages button.active::after{
 @media(max-width:350px){
  body.mira-auth-v3.welcome-view .welcome-languages button{font-size:9px!important}
 }
+
+
+/* Welcome only: exact ASAS master vector split into mark and original wordmark.
+   One centred horizontal lockup: Powered by | symbol | ASAS 360°.
+   The full master artwork used on other pages remains unaltered. */
+body.mira-auth-v3.welcome-view footer.welcome-powered-footer{
+ display:flex!important;
+ flex-flow:row nowrap!important;
+ direction:ltr!important;
+ justify-content:center!important;
+ align-items:center!important;
+ width:100%!important;
+ max-width:510px!important;
+ height:54px!important;
+ min-height:54px!important;
+ flex:0 0 54px!important;
+ gap:clamp(5px,1.5vw,9px)!important;
+ margin:clamp(13px,2.4svh,23px) auto 0!important;
+ padding:0!important;
+ white-space:nowrap;
+}
+body.mira-auth-v3.welcome-view footer.welcome-powered-footer .partner-powered{
+ display:block!important;
+ flex:0 0 auto!important;
+ margin:0!important;padding:0!important;
+ color:#FFFFFF!important;
+ font:500 clamp(11px,2.8vw,13px) 'Poppins',sans-serif!important;
+ line-height:1!important;
+ align-self:center!important;
+}
+body.mira-auth-v3.welcome-view footer.welcome-powered-footer .partner-icon{
+ display:flex!important;
+ flex:0 0 39px!important;
+ justify-content:center!important;
+ align-items:center!important;
+ width:39px!important;height:49px!important;
+ margin:0!important;padding:0!important;
+}
+body.mira-auth-v3.welcome-view footer.welcome-powered-footer img.partner-mark{
+ display:block!important;
+ width:39px!important;height:44px!important;
+ max-width:none!important;max-height:none!important;
+ flex:0 0 auto!important;
+ object-fit:contain!important;object-position:center!important;
+ filter:none!important;opacity:1!important;
+ margin:0!important;padding:0!important;
+}
+body.mira-auth-v3.welcome-view footer.welcome-powered-footer img.partner-wordmark{
+ display:block!important;
+ width:clamp(118px,37vw,153px)!important;
+ height:27px!important;
+ min-width:0!important;max-width:none!important;max-height:none!important;
+ flex:0 1 auto!important;
+ object-fit:contain!important;object-position:left center!important;
+ filter:none!important;opacity:1!important;
+ margin:0!important;padding:0!important;
+}
+@media(max-width:340px){
+ body.mira-auth-v3.welcome-view footer.welcome-powered-footer{gap:4px!important}
+ body.mira-auth-v3.welcome-view footer.welcome-powered-footer .partner-icon{width:34px!important;flex-basis:34px!important}
+ body.mira-auth-v3.welcome-view footer.welcome-powered-footer img.partner-mark{width:34px!important;height:40px!important}
+ body.mira-auth-v3.welcome-view footer.welcome-powered-footer img.partner-wordmark{width:116px!important}
+}
