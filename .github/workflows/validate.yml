@@ -33,6 +33,7 @@ jobs:
           node --check functions/api/otp/policy.js
           node scripts/validate-cloudflare-otp.mjs
           node scripts/validate-card-photos.mjs
+          node scripts/validate-real-estate.mjs
       - name: Verify parity of browser and native assets
         run: npm run prepare:web
       - name: Validate required release files
