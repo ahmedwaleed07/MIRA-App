@@ -19,7 +19,8 @@
 3. At most **12 accepted sends per source IP in a rolling hour** to stop bulk abuse.
 4. OTP expires in **5 minutes** and is one-use. Wrong codes lock after five wrong attempts.
 5. Signup sends are skipped for already verified, registered numbers; sign-in requests remain available for registered numbers.
-6. Only HMAC digests of phone/IP/code are stored. No raw OTP in D1. No product payments involved.
+6. Verified signup numbers remain in a **pending registration** table for 15 minutes. A phone is moved to the registered table **only after successful account creation**.
+7. Only HMAC digests of phone/IP/code are stored. No raw OTP in D1. No product payments involved.
 
 ## Fail-closed release checklist
 

@@ -19,3 +19,7 @@ CREATE INDEX IF NOT EXISTS mira_otp_challenge_phone_idx ON mira_otp_challenges(p
 CREATE TABLE IF NOT EXISTS mira_otp_registered (
  phone_hmac TEXT PRIMARY KEY, registered_at INTEGER NOT NULL,verified_at INTEGER NOT NULL
 );
+CREATE TABLE IF NOT EXISTS mira_otp_verified_pending (
+ challenge_id TEXT PRIMARY KEY, phone_hmac TEXT NOT NULL,
+ verified_at INTEGER NOT NULL, expires_at INTEGER NOT NULL
+);

@@ -21,6 +21,8 @@ assert.match(request,/mira_otp_registered/);
 assert.match(request,/turnstileVerified/);
 assert.match(request,/reserveSend/);
 assert.match(verify,/wrong_attempts<5/);
+assert.match(verify,/mira_otp_verified_pending/);
+assert.doesNotMatch(verify,/INSERT INTO mira_otp_registered/);
 assert.match(verify,/authSessionReady:false/);
 assert.match(policy,/sendingEnabled/);
 assert.match(cloud,/\/api\/otp\/request/);
