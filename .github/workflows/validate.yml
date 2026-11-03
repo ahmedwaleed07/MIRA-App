@@ -36,6 +36,10 @@ jobs:
           node scripts/validate-real-estate.mjs
       - name: Verify parity of browser and native assets
         run: npm run prepare:web
+      - name: Byte-for-byte mobile parity and workflow policy
+        run: |
+          node scripts/verify-mobile-parity.mjs
+          node scripts/validate-mobile-parity-policy.mjs
       - name: Validate required release files
         run: |
           test -f www/index.html

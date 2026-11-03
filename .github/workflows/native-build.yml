@@ -5,6 +5,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  web-parity:
+    runs-on: ubuntu-latest
+    outputs:
+      web_sha256: ${{ steps.fingerprint.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare approved source
+        run: npm run prepare:web
+      - name: Verify all native web assets
+        run: |
+          node scripts/verify-mobile-parity.mjs
+          node scripts/validate-mobile-parity-policy.mjs
+      - name: Establish common iOS/Android source fingerprint
+        id: fingerprint
+        run: echo "sha=$(node scripts/verify-mobile-parity.mjs --digest-only)" >> "$GITHUB_OUTPUT"
+
   android:
     runs-on: ubuntu-latest
     steps:
@@ -20,6 +39,8 @@ jobs:
         run: npm install
       - name: Sync published web source into mobile bundle
         run: npm run prepare:web
+      - name: Verify identical iOS/Android release payload
+        run: node scripts/verify-mobile-parity.mjs --expected="${{ needs.web-parity.outputs.web_sha256 }}"
       - name: Generate Android project
         run: |
           rm -rf android
@@ -37,6 +58,7 @@ jobs:
           if-no-files-found: error
 
   ios:
+    needs: web-parity
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +69,8 @@ jobs:
         run: npm install
       - name: Sync published web source into mobile bundle
         run: npm run prepare:web
+      - name: Verify identical iOS/Android release payload
+        run: node scripts/verify-mobile-parity.mjs --expected="${{ needs.web-parity.outputs.web_sha256 }}"
       - name: Generate iOS project
         run: |
           rm -rf ios

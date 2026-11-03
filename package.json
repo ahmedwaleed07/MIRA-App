@@ -7,10 +7,10 @@
     "sync": "npm run prepare:web && npx cap sync",
     "ios": "npx cap open ios",
     "android": "npx cap open android",
-    "copy": "npx cap copy",
+    "copy": "npm run prepare:web && npx cap copy",
     "doctor": "npx cap doctor",
     "prepare:web": "node scripts/sync-mobile-from-docs.mjs",
-    "validate:web-parity": "npm run prepare:web"
+    "validate:web-parity": "npm run prepare:web && node scripts/verify-mobile-parity.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
