@@ -1,0 +1,11 @@
+name = "mira-whatsapp-sender"
+main = "src/index.js"
+compatibility_date = "2026-11-03"
+workers_dev = false
+
+# No routes. Access exclusively via a Cloudflare Pages Service binding.
+# Required secrets/variables (configure in the Worker settings, never commit values):
+#   META_WHATSAPP_ACCESS_TOKEN = Meta permanent/system-user access token (secret)
+#   META_PHONE_NUMBER_ID      = Meta WhatsApp Phone Number ID
+#   META_GRAPH_VERSION        = currently supported Meta Graph version, e.g. vXX.X
+#   META_TEMPLATE_LANGUAGE    = exact approved Authentication template locale
