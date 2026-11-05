@@ -15,8 +15,39 @@ let selectedSub=qy.get('sub')||'',selectedType=qy.get('type')||'';if(selectedSlu
 function txGo(subSlug='',typeSlug=''){const p=new URLSearchParams({slug:selectedSlug});if(subSlug)p.set('sub',subSlug);if(typeSlug)p.set('type',typeSlug);location.href='category.html?'+p.toString()}
 function txButton(label,active,subSlug,typeSlug){const b=document.createElement('button');b.className='tx-chip'+(active?' active':'');b.textContent=label;b.onclick=()=>txGo(subSlug||'',typeSlug||'');return b}
 function uniqueTaxonomyNames(items,getNames){const seen=new Set();return items.filter(item=>{const keys=getNames(item).map(v=>String(v||'').normalize('NFKC').trim().toLocaleLowerCase()).filter(Boolean);if(keys.some(k=>seen.has(k)))return false;keys.forEach(k=>seen.add(k));return true})}
-function drawTaxonomyNav(){taxonomyNav.innerHTML='';if(!TXCAT)return;const subLabel=document.createElement('div');subLabel.className='tx-label';subLabel.textContent=lang==='ar'?'القسم الفرعي':'Subcategory';taxonomyNav.appendChild(subLabel);const subs=uniqueTaxonomyNames(TXCAT.subs.filter(s=>s.active!==false),s=>[s.slug,s.ar,s.en]);const subRow=document.createElement('div');subRow.className='tx-chips';subRow.appendChild(txButton(lang==='ar'?'الكل':'All',!selectedSub,'',''));subs.forEach(s=>subRow.appendChild(txButton(txName(s),selectedSub===s.slug,s.slug,'')));taxonomyNav.appendChild(subRow);const chosen=TXCAT.subs.find(s=>s.slug===selectedSub);if(chosen){const typeLabel=document.createElement('div');typeLabel.className='tx-label';typeLabel.textContent=lang==='ar'?'نوع المنتج':'Product type';taxonomyNav.appendChild(typeLabel);const types=uniqueTaxonomyNames(chosen.types.filter(x=>x[4]!==false),x=>[x[0],x[1],x[2]]);const typeRow=document.createElement('div');typeRow.className='tx-chips';typeRow.appendChild(txButton(lang==='ar'?'الكل':'All',!selectedType,chosen.slug,''));types.forEach(x=>typeRow.appendChild(txButton(lang==='ar'?x[1]:x[2],selectedType===x[0],chosen.slug,x[0])));taxonomyNav.appendChild(typeRow)}}
-function drawAttributeFilters(){if(!TXCAT||!selectedSub||!selectedType)return;const sub=TXCAT.subs.find(x=>x.slug===selectedSub),type=sub?.types.find(x=>x[0]===selectedType),attrs=(type?.[3]||[]).filter(a=>a.is_filterable!==false);if(!attrs.length)return;const label=document.createElement('div');label.className='tx-label';label.textContent=lang==='ar'?'الفلاتر':'Filters';taxonomyNav.appendChild(label);const row=document.createElement('div');row.className='tx-chips';attrs.forEach(a=>{const name=a.label||a.key;if((a.input_type==='select'||a.input_type==='multiselect')&&(a.options||[]).length){const el=document.createElement('select');el.className='tx-chip';const any=document.createElement('option');any.value='';any.textContent=name+': '+(lang==='ar'?'الكل':'Any');el.appendChild(any);(a.options||[]).forEach(v=>{const op=document.createElement('option');op.value=String(v);op.textContent=String(v);el.appendChild(op)});el.onchange=()=>setAttrFilter(a.key,el.value);row.appendChild(el)}else{const el=document.createElement('input');el.className='tx-chip';el.placeholder=name;el.onchange=()=>setAttrFilter(a.key,el.value.trim());row.appendChild(el)}});taxonomyNav.appendChild(row)}
+function branchBack(parent, label, subSlug=''){
+ const params=new URLSearchParams({slug:selectedSlug});
+ if(subSlug)params.set('sub',subSlug);
+ const link=document.createElement('a');
+ link.className='mira-transaction-choice';
+ link.href='category.html?'+params.toString();
+ link.textContent=(lang==='ar'?'→ ':'← ')+label;
+ parent.before(link);
+}
+function drawTaxonomyNav(){
+ taxonomyNav.replaceChildren();
+ if(!TXCAT||taxonomyNav.hidden)return;
+ const subs=uniqueTaxonomyNames(TXCAT.subs.filter(s=>s.active!==false),s=>[s.slug,s.ar,s.en]);
+ const chosen=subs.find(s=>s.slug===selectedSub);
+ const label=document.createElement('div');
+ label.className='tx-label';
+ const row=document.createElement('div');
+ row.className='tx-chips';
+ if(!chosen){
+  label.textContent=lang==='ar'?'القسم الفرعي':'Subcategory';
+  subs.forEach(s=>row.appendChild(txButton(window.MIRA_TAXONOMY_LABEL(s,lang),false,s.slug,'')));
+ }else{
+  const types=uniqueTaxonomyNames(chosen.types.filter(x=>x[4]!==false),x=>[x[0],x[1],x[2]]);
+  const type=types.find(x=>x[0]===selectedType);
+  const branchLabel=window.MIRA_TAXONOMY_LABEL(chosen,lang);
+  branchBack(taxonomyNav,type?branchLabel:title.textContent,type?chosen.slug:'');
+  label.textContent=type?window.MIRA_TAXONOMY_TYPE_LABEL(type,lang):branchLabel;
+  if(!type)types.forEach(x=>row.appendChild(txButton(window.MIRA_TAXONOMY_TYPE_LABEL(x,lang),false,chosen.slug,x[0])));
+ }
+ taxonomyNav.appendChild(label);
+ if(row.childElementCount)taxonomyNav.appendChild(row);
+}
+function drawAttributeFilters(){if(taxonomyNav.hidden||!TXCAT||!selectedSub||!selectedType)return;const sub=TXCAT.subs.find(x=>x.slug===selectedSub),type=sub?.types.find(x=>x[0]===selectedType),attrs=(type?.[3]||[]).filter(a=>a.is_filterable!==false);if(!attrs.length)return;const label=document.createElement('div');label.className='tx-label';label.textContent=lang==='ar'?'الفلاتر':'Filters';taxonomyNav.appendChild(label);const row=document.createElement('div');row.className='tx-chips';attrs.forEach(a=>{const name=a.label||a.key;if((a.input_type==='select'||a.input_type==='multiselect')&&(a.options||[]).length){const el=document.createElement('select');el.className='tx-chip';const any=document.createElement('option');any.value='';any.textContent=name+': '+(lang==='ar'?'الكل':'Any');el.appendChild(any);(a.options||[]).forEach(v=>{const op=document.createElement('option');op.value=String(v);op.textContent=String(v);el.appendChild(op)});el.onchange=()=>setAttrFilter(a.key,el.value);row.appendChild(el)}else{const el=document.createElement('input');el.className='tx-chip';el.placeholder=name;el.onchange=()=>setAttrFilter(a.key,el.value.trim());row.appendChild(el)}});taxonomyNav.appendChild(row)}
 
 const MIRA_TRANSACTION_LABELS={
  ar:{sale:'بيع',rent:'إيجار'},en:{sale:'Sale',rent:'Rent'},
@@ -27,7 +58,7 @@ function renderTransactionChoices(){
  const toolbar=document.getElementById('transactionChoices');
  const isProperty=selectedSlug==='real-estate'&&['developer','broker','direct-sale'].includes(selectedSub);
  const isDealer=selectedSlug==='automotive'&&qy.get('branch')==='showrooms';
- if((!isProperty&&!isDealer)||(isDealer&&selectedType)){toolbar.hidden=true;return;}
+ if((!isProperty&&!isDealer)||selectedType){toolbar.hidden=true;return;}
  toolbar.hidden=false;toolbar.replaceChildren();
  for(const mode of ['sale','rent']){
   const params=new URLSearchParams({slug:selectedSlug,sub:selectedSub,type:mode});
@@ -90,10 +121,10 @@ if(selectedSlug==='real-estate'){
  const copy=REAL_ESTATE_TEXT[lang]||REAL_ESTATE_TEXT.en;
  const container=document.getElementById('realEstateBranches');
  document.body.classList.add('real-estate-section');
- container.hidden=false;
+ container.hidden=Boolean(selectedSub);
  sub.textContent=copy.intro;
  const permitted=new Set(['developer','broker','direct-sale']);
- for(const branch of TXCAT.subs.filter(x=>permitted.has(x.slug)&&x.active!==false)){
+ if(!selectedSub)for(const branch of TXCAT.subs.filter(x=>permitted.has(x.slug)&&x.active!==false)){
   const el=document.createElement('a');
   el.className='real-estate-branch real-estate-'+branch.slug+(selectedSub===branch.slug?' selected':'');
   el.href='category.html?'+new URLSearchParams({slug:'real-estate',sub:branch.slug}).toString();
@@ -104,10 +135,16 @@ if(selectedSlug==='real-estate'){
   description.textContent=copy[branch.slug==='direct-sale'?'direct':branch.slug];
   el.append(heading,description);container.appendChild(el);
  }
+ const selectedBranch=TXCAT.subs.find(branch=>branch.slug===selectedSub);
+ if(selectedBranch){
+  const label=window.MIRA_TAXONOMY_LABEL(selectedBranch,lang);
+  branchBack(container,selectedType?label:title.textContent,selectedType?selectedSub:'');
+  sub.textContent=selectedType?label+' · '+(MIRA_TRANSACTION_LABELS[lang]||MIRA_TRANSACTION_LABELS.en)[selectedType]:label;
+ }
  const notice=document.getElementById('realEstateDisclaimer');
  notice.hidden=false;notice.textContent=copy.disclaimer;
  document.getElementById('taxonomyNav').hidden=true;
- if(!selectedSub){
+ if(!selectedSub||!selectedType){
   document.querySelector('.search').hidden=true;
   document.querySelector('.filters').hidden=true;
   document.getElementById('list').hidden=true;
@@ -128,7 +165,7 @@ function offerTaxMatch(o){if(!offerCategoryMatch(o))return false;const x=offerTa
 function storeCategoryMatch(s){
  const matches=s.categorySlug?s.categorySlug===selectedSlug:s.category===CATEGORY;
  if(!matches)return false;
- if(selectedSlug==='real-estate'||(selectedSlug==='automotive'&&autoBranch==='showrooms')){
+ if(selectedSub||selectedType){
   const st=s.taxonomy||{};
   const sub=st.subcategory||s.subcategorySlug||s.subcategory||'';
   const type=st.productType||s.productTypeSlug||s.productType||'';
