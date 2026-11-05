@@ -25,6 +25,14 @@ body .bottom.mira-bottom-with-language{
  overflow:visible!important;
 }
 .bottom.mira-bottom-with-language>*{min-width:0}
+nav.bottom > .nav{
+ min-height:50px;
+ justify-content:center;
+ padding-block:4px;
+ text-align:center;
+ line-height:1.2;
+}
+nav.bottom > .nav svg{flex-shrink:0}
 .mira-footer-language{
  position:relative;display:flex;align-items:center;justify-content:center;
  min-width:0;max-width:100%;z-index:30;
