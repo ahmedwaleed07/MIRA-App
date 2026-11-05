@@ -27,7 +27,7 @@ function renderTransactionChoices(){
  const toolbar=document.getElementById('transactionChoices');
  const isProperty=selectedSlug==='real-estate'&&['developer','broker','direct-sale'].includes(selectedSub);
  const isDealer=selectedSlug==='automotive'&&qy.get('branch')==='showrooms';
- if(!isProperty&&!isDealer){toolbar.hidden=true;return;}
+ if((!isProperty&&!isDealer)||(isDealer&&selectedType)){toolbar.hidden=true;return;}
  toolbar.hidden=false;toolbar.replaceChildren();
  for(const mode of ['sale','rent']){
   const params=new URLSearchParams({slug:selectedSlug,sub:selectedSub,type:mode});
@@ -52,21 +52,30 @@ const automotiveText={
 if(selectedSlug==='automotive'){
  const labels=automotiveText[lang]||automotiveText.en;
  const branches=document.getElementById('automotiveBranches');
- branches.hidden=false;
+ const isShowroom=autoBranch==='showrooms';
  document.body.classList.add('automotive-section');
- if(autoBranch==='showrooms')document.body.classList.add('automotive-showrooms');
- branches.innerHTML=[
-  '<a class="auto-branch auto-direct" href="car-direct.html"><span class="auto-branch-title">'+labels.direct+'</span></a>',
-  '<a class="auto-branch auto-showroom'+(autoBranch==='showrooms'?' selected':'')+'" href="category.html?slug=automotive&branch=showrooms"><span class="auto-branch-title">'+labels.showrooms+'</span></a>'
- ].join('');
  document.getElementById('taxonomyNav').hidden=true;
- if(autoBranch!=='showrooms'){
+ if(!isShowroom){
+  branches.hidden=false;
+  branches.innerHTML=[
+   '<a class="auto-branch auto-direct" href="car-direct.html"><span class="auto-branch-title">'+labels.direct+'</span></a>',
+   '<a class="auto-branch auto-showroom" href="category.html?slug=automotive&branch=showrooms"><span class="auto-branch-title">'+labels.showrooms+'</span></a>'
+  ].join('');
+ }else{
+  document.body.classList.add('automotive-showrooms');
+  const heading=document.getElementById('title');
+  const back=document.createElement('a');
+  back.className='mira-transaction-choice';
+  back.href='category.html?slug=automotive'+(selectedType?'&branch=showrooms':'');
+  back.textContent=(lang==='ar'?'→ ':'← ')+(selectedType?labels.showrooms:heading.textContent);
+  branches.before(back);
+  heading.textContent=selectedType?labels.showrooms+' · '+(MIRA_TRANSACTION_LABELS[lang]||MIRA_TRANSACTION_LABELS.en)[selectedType]:labels.showrooms;
+  document.getElementById('sub').textContent=labels.showroomsDesc;
+ }
+ if(!isShowroom||!selectedType){
   document.querySelector('.search').hidden=true;
   document.querySelector('.filters').hidden=true;
   document.getElementById('list').hidden=true;
- }else{
-  document.getElementById('title').textContent=labels.showrooms;
-  document.getElementById('sub').textContent=labels.showroomsDesc;
  }
 }
 
