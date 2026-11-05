@@ -117,3 +117,33 @@ body.mira-footer-language-enabled footer.brand-footer .mira-footer-language{flex
  text-decoration-thickness:2px!important;
  text-underline-offset:4px!important;
 }
+
+/* Shared raised back control for MIRA screens and category branches. */
+body :is(a,button):is(.back,.mira-branch-back,[aria-label="Back"]){
+ box-sizing:border-box!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex-shrink:0!important;gap:8px!important;vertical-align:middle;
+ min-width:44px!important;min-height:44px!important;
+ border:1px solid #FC618F!important;border-radius:14px!important;
+ background:linear-gradient(180deg,#FFFFFF 45%,rgba(252,97,143,.13)) #FFFFFF!important;
+ color:#800020!important;text-decoration:none!important;
+ box-shadow:0 3px 0 rgba(128,0,32,.26),0 6px 12px rgba(128,0,32,.16),inset 0 1px 0 #FFFFFF!important;
+}
+body :is(a,button):is(.back,[aria-label="Back"]):not(.mira-branch-back){
+ width:44px!important;height:44px!important;padding:0!important;
+ flex-basis:44px!important;font-size:0!important;gap:0!important;
+}
+body :is(a,button):is(.back,[aria-label="Back"]) > svg{display:none!important}
+body :is(a,button):is(.back,.mira-branch-back,[aria-label="Back"])::before{
+ content:"";width:24px;height:24px;flex:0 0 24px;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23800020' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5m7-7-7 7 7 7'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+body :is(a,button):is(.back,.mira-branch-back,[aria-label="Back"]):dir(rtl)::before{
+ transform:scaleX(-1);
+}
+body :is(a,button):is(.back,.mira-branch-back,[aria-label="Back"]):focus-visible{
+ outline:2px solid #800020!important;outline-offset:3px;
+}
+body :is(a,button):is(.back,.mira-branch-back,[aria-label="Back"]):active{
+ box-shadow:0 1px 0 rgba(128,0,32,.26),inset 0 2px 5px rgba(128,0,32,.18)!important;
+}
