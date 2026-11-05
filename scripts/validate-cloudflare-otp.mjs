@@ -10,6 +10,8 @@ const verify=read('functions/api/otp/verify.js');
 const cloud=read('docs/mira-cloud.js'),page=read('docs/otp.html');
 const policy=read('functions/api/otp/policy.js');
 assert.match(core,/spacingSeconds:60/);
+assert.match(core,/MIRA_OTP_LIVE_ENABLED/);
+assert.match(read('cloudflare/mira-whatsapp-sender/src/index.js'),/MIRA_META_SENDING_ENABLED/);
 assert.match(core,/maxSends:3/);
 assert.match(core,/windowSeconds:1800/);
 assert.match(core,/COUNT\(\*\).*mira_otp_send_log/);

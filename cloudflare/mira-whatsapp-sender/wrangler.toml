@@ -9,3 +9,5 @@ workers_dev = false
 #   META_PHONE_NUMBER_ID      = Meta WhatsApp Phone Number ID
 #   META_GRAPH_VERSION        = currently supported Meta Graph version, e.g. vXX.X
 #   META_TEMPLATE_LANGUAGE    = exact approved Authentication template locale
+
+# MIRA_META_SENDING_ENABLED: keep absent/false until Meta + session flows are approved.

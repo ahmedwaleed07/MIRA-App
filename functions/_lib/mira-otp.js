@@ -27,7 +27,7 @@ export async function hmac(value,secret){
  return Array.from(b,n=>n.toString(16).padStart(2,'0')).join('');
 }
 export const backendReady=e=>!!(e?.MIRA_OTP_DB&&typeof e.MIRA_OTP_PEPPER==='string'&&e.MIRA_OTP_PEPPER.length>=32);
-export const senderReady=e=>backendReady(e)&&!!(e.MIRA_OTP_SENDER?.fetch&&e.MIRA_TURNSTILE_SECRET);
+export const senderReady=e=>backendReady(e)&&e?.MIRA_OTP_LIVE_ENABLED==='true'&&!!(e.MIRA_OTP_SENDER?.fetch&&e.MIRA_TURNSTILE_SECRET);
 export async function turnstileVerified(e,token,ip){
  if(!e.MIRA_TURNSTILE_SECRET||typeof token!=='string'||token.length<10)return false;
  const form=new FormData();form.set('secret',e.MIRA_TURNSTILE_SECRET);form.set('response',token);

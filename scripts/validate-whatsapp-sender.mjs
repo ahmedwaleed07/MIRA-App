@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const {default:sender}=await import('../cloudflare/mira-whatsapp-sender/src/index.js');
 const origin='https://mira-otp-internal/send';
-const cfg={META_WHATSAPP_ACCESS_TOKEN:'secret_mock',META_PHONE_NUMBER_ID:'123456789012345',META_GRAPH_VERSION:'v25.0',META_TEMPLATE_LANGUAGE:'ar'};
+const cfg={MIRA_META_SENDING_ENABLED:'true',META_WHATSAPP_ACCESS_TOKEN:'secret_mock',META_PHONE_NUMBER_ID:'123456789012345',META_GRAPH_VERSION:'v25.0',META_TEMPLATE_LANGUAGE:'ar'};
 const payload={phone:'+9647810000000',code:'123456',template:'mira_authentication',mode:'signup'};
 let calls=0,body;
 const oldFetch=globalThis.fetch;
@@ -15,6 +15,8 @@ globalThis.fetch=async (url,options)=>{
 try{
  const make=(data)=>new Request(origin,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
  assert.equal((await sender.fetch(make(payload),{},{})).status,503,'unset token must prevent sends');
+ assert.equal((await sender.fetch(make(payload),{...cfg,MIRA_META_SENDING_ENABLED:'false'})).status,503,'sender must stay disabled by default');
+ assert.equal((await sender.fetch(make(payload),{...cfg,MIRA_META_SENDING_ENABLED:undefined})).status,503,'missing kill switch must prevent sends');
  assert.equal((await sender.fetch(make({...payload,code:'12345'}),cfg)).status,400);
  assert.equal((await sender.fetch(make({...payload,phone:'07771234567'}),cfg)).status,400);
  assert.equal((await sender.fetch(make({...payload,template:'other_template'}),cfg)).status,400);

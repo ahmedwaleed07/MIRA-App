@@ -7,6 +7,8 @@ export default {
  async fetch(request,env){
   const url=new URL(request.url);
   if(request.method!=='POST'||url.origin!=='https://mira-otp-internal'||url.pathname!=='/send')return answer(404);
+  // Explicit kill switch: deploying or binding the Worker never enables paid messaging.
+  if(env.MIRA_META_SENDING_ENABLED!=='true')return answer(503);
   if(!env.META_WHATSAPP_ACCESS_TOKEN||
      !/^\d{6,25}$/.test(env.META_PHONE_NUMBER_ID||'')||
      !/^v\d{1,2}\.\d{1,2}$/.test(env.META_GRAPH_VERSION||'')||

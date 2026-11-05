@@ -34,3 +34,11 @@ Meta references:
 
 Cloudflare Service binding:
 - https://developers.cloudflare.com/pages/functions/bindings/#service-bindings
+
+## 4. Staged, fail-closed deployment (November 2026)
+
+- Worker `mira-whatsapp-sender` can be deployed with `workers.dev` and previews disabled **without any Meta credentials**.
+- `MIRA_META_SENDING_ENABLED` is absent by default: the private Worker always returns HTTP 503 and **never calls Meta**.
+- `MIRA_OTP_LIVE_ENABLED` is absent by default on the Pages project: `/api/otp/request` always returns HTTP 503 and **never creates a paid request**, even if someone creates a Service binding later.
+- Do not switch either flag to the exact string `true` until the approved Meta phone/template, Turnstile validation, rate-limit tests, account sessions, verified registration import, and delivery-state webhook flow have passed their security and business checks.
+- Once that approval is complete, add Meta credentials privately under Cloudflare Worker secrets/settings, configure Turnstile and the Service binding, deploy to a nonproduction environment, and run a controlled test with an authorized recipient phone number.
