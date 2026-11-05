@@ -52,13 +52,13 @@ async function loadMerchant(){
  merchant={email,userId:maps[0].user_id,storeId:maps[0].store_id};
  const stores=await MiraCloud.list('store');store=stores.find(x=>x.id===merchant.storeId);
  if(!store)throw new Error('Assigned store was not found.');
- storeBox.innerHTML='<b>'+store.name+'</b><br><span>'+[store.city,store.country].filter(Boolean).join(' · ')+'</span>';
+ storeBox.innerHTML='<b>'+escHtml(store.name)+'</b><br><span>'+escHtml([store.city,store.country].filter(Boolean).join(' · '))+'</span>';
  profileAddress.value=store.address||'';profilePhone.value=store.phone||'';profileEmail.value=store.email||'';profileWebsite.value=store.website||'';profileInstagram.value=store.instagram||'';
  await loadProfileRequest();
  await loadOrders();
  await renderItems();
 }
-function escHtml(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#800020;'}[m]))}
+function escHtml(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 const ORDER_LABELS={new:'Received',accepted:'Confirmed',preparing:'Preparing',ready:'Shipped',out_for_delivery:'Out for delivery',completed:'Delivered',cancelled:'Cancelled'};
 function renderMerchantAlerts(){
  const root=document.getElementById('businessNotificationList');
@@ -166,8 +166,8 @@ async function loadProfileRequest(){
   latestProfileRequest=rows[0]||null;
   if(!latestProfileRequest){profileRequestStatus.innerHTML='No profile update request yet.';return}
   const when=latestProfileRequest.created_at?new Date(latestProfileRequest.created_at).toLocaleString():'';
-  const note=latestProfileRequest.admin_note?'<br><span>'+String(latestProfileRequest.admin_note)+'</span>':'';
-  profileRequestStatus.innerHTML='<b>Status: '+String(latestProfileRequest.status||'pending')+'</b>'+(when?'<br><span>'+when+'</span>':'')+note;
+  const note=latestProfileRequest.admin_note?'<br><span>'+escHtml(latestProfileRequest.admin_note)+'</span>':'';
+  profileRequestStatus.innerHTML='<b>Status: '+escHtml(latestProfileRequest.status||'pending')+'</b>'+(when?'<br><span>'+when+'</span>':'')+note;
  }catch(e){console.error(e);profileRequestStatus.textContent='Could not load profile request status.'}
 }
 function clearProfilePreview(kind){
@@ -177,6 +177,8 @@ function clearProfilePreview(kind){
 profileLogo.onchange=()=>{profileLogoFile=profileLogo.files&&profileLogo.files[0]||null;clearProfilePreview('logo');if(profileLogoFile){profileLogoPreviewUrl=URL.createObjectURL(profileLogoFile);profileLogoPreview.src=profileLogoPreviewUrl;profileLogoPreview.style.display='block'}else profileLogoPreview.style.display='none'};
 profileCover.onchange=()=>{profileCoverFile=profileCover.files&&profileCover.files[0]||null;clearProfilePreview('cover');if(profileCoverFile){profileCoverPreviewUrl=URL.createObjectURL(profileCoverFile);profileCoverPreview.src=profileCoverPreviewUrl;profileCoverPreview.style.display='block'}else profileCoverPreview.style.display='none'};
 profileSubmit.onclick=async()=>{
+ if(profileSubmit.disabled)return;
+ profileSubmit.disabled=true;
  profileMsg.style.color='#FC618F';profileMsg.textContent='Submitting…';
  try{
   if(!merchant||!store)throw new Error('Merchant account not ready.');
@@ -191,7 +193,7 @@ profileSubmit.onclick=async()=>{
   profileLogo.value='';profileCover.value='';profileLogoFile=profileCoverFile=null;clearProfilePreview('logo');clearProfilePreview('cover');profileLogoPreview.style.display=profileCoverPreview.style.display='none';
   profileMsg.style.color='var(--ok)';profileMsg.textContent='Profile changes submitted to MIRA for review.';
   await loadProfileRequest();
- }catch(e){profileMsg.textContent=e.message||String(e)}
+ }catch(e){profileMsg.textContent=e.message||String(e)}finally{profileSubmit.disabled=false}
 };
 rememberMe.checked=MiraCloud.rememberMe();
 signIn.onclick=async()=>{
@@ -224,7 +226,7 @@ function updatePreview(){
 [type,category,subcategory,productType,title,description,originalPrice,offerPrice,startDate,endDate].forEach(el=>{el.addEventListener('input',updatePreview);el.addEventListener('change',updatePreview)});
 offerImage.onchange=()=>{const f=offerImage.files&&offerImage.files[0];offerImageFile=f||null;if(offerImagePreviewUrl)URL.revokeObjectURL(offerImagePreviewUrl);offerImagePreviewUrl=f?URL.createObjectURL(f):'';updatePreview()};
 updatePreview();
-save.onclick=async()=>{saveMsg.textContent='Submitting…';try{if(!merchant||!store)throw new Error('Merchant account not ready.');const t=title.value.trim();if(!t)throw new Error('Title is required.');const start=startDate.value,end=endDate.value;if(start&&end&&new Date(end)<=new Date(start))throw new Error('End date must be after start date.');let image='';if(offerImageFile)image=await MiraCloud.upload(offerImageFile,'offers');const catSlug=category.value,subSlug=subcategory.value,typeSlug=productType.value,catObj=TAXONOMY.find(x=>x.slug===catSlug);const item={id:'offer-'+Date.now(),type:type.value,storeId:merchant.storeId,title:t,description:description.value.trim(),category:LEGACY_CATEGORY[catSlug]||(catObj?.en||catSlug),categorySlug:catSlug,subcategory:subSlug,subcategorySlug:subSlug,productType:typeSlug,productTypeSlug:typeSlug,taxonomy:{category:catSlug,subcategory:subSlug,productType:typeSlug},attributes:collectTaxAttributes(),originalPrice:originalPrice.value,offerPrice:offerPrice.value,start,end,image,status:'pending',section:'',country:store.country||'',city:store.city||'',createdBy:sessionEmail(),createdAt:new Date().toISOString()};await MiraCloud.upsert('offer',item);title.value='';description.value='';originalPrice.value='';offerPrice.value='';startDate.value='';endDate.value='';offerImage.value='';offerImageFile=null;if(offerImagePreviewUrl)URL.revokeObjectURL(offerImagePreviewUrl);offerImagePreviewUrl='';updatePreview();saveMsg.style.color='var(--ok)';saveMsg.textContent='Submitted to MIRA for review.';await renderItems()}catch(e){saveMsg.style.color='#FC618F';saveMsg.textContent=e.message}};
+save.onclick=async()=>{if(save.disabled)return;save.disabled=true;saveMsg.textContent='Submitting…';try{if(!merchant||!store)throw new Error('Merchant account not ready.');const t=title.value.trim();if(!t)throw new Error('Title is required.');const start=startDate.value,end=endDate.value;if(start&&end&&new Date(end)<=new Date(start))throw new Error('End date must be after start date.');let image='';if(offerImageFile)image=await MiraCloud.upload(offerImageFile,'offers');const catSlug=category.value,subSlug=subcategory.value,typeSlug=productType.value,catObj=TAXONOMY.find(x=>x.slug===catSlug);const item={id:'offer-'+Date.now(),type:type.value,storeId:merchant.storeId,title:t,description:description.value.trim(),category:LEGACY_CATEGORY[catSlug]||(catObj?.en||catSlug),categorySlug:catSlug,subcategory:subSlug,subcategorySlug:subSlug,productType:typeSlug,productTypeSlug:typeSlug,taxonomy:{category:catSlug,subcategory:subSlug,productType:typeSlug},attributes:collectTaxAttributes(),originalPrice:originalPrice.value,offerPrice:offerPrice.value,start,end,image,status:'pending',section:'',country:store.country||'',city:store.city||'',createdBy:sessionEmail(),createdAt:new Date().toISOString()};await MiraCloud.upsert('offer',item);title.value='';description.value='';originalPrice.value='';offerPrice.value='';startDate.value='';endDate.value='';offerImage.value='';offerImageFile=null;if(offerImagePreviewUrl)URL.revokeObjectURL(offerImagePreviewUrl);offerImagePreviewUrl='';updatePreview();saveMsg.style.color='var(--ok)';saveMsg.textContent='Submitted to MIRA for review.';await renderItems().catch(e=>{console.error(e);items.textContent='Could not refresh submitted content. Reload to see the latest items.'})}catch(e){saveMsg.style.color='#FC618F';saveMsg.textContent=e.message}finally{save.disabled=false}};
 window.addEventListener('mira-taxonomy-synced',()=>location.reload());
 async function restoreMerchantSession(){
   rememberMe.checked=MiraCloud.rememberMe();
