@@ -19,9 +19,9 @@ function branchBack(parent, label, subSlug=''){
  const params=new URLSearchParams({slug:selectedSlug});
  if(subSlug)params.set('sub',subSlug);
  const link=document.createElement('a');
- link.className='mira-transaction-choice';
+ link.className='mira-transaction-choice mira-branch-back';
  link.href='category.html?'+params.toString();
- link.textContent=(lang==='ar'?'→ ':'← ')+label;
+ link.textContent=label;
  parent.before(link);
 }
 function drawTaxonomyNav(){
@@ -96,9 +96,9 @@ if(selectedSlug==='automotive'){
   document.body.classList.add('automotive-showrooms');
   const heading=document.getElementById('title');
   const back=document.createElement('a');
-  back.className='mira-transaction-choice';
+  back.className='mira-transaction-choice mira-branch-back';
   back.href='category.html?slug=automotive'+(selectedType?'&branch=showrooms':'');
-  back.textContent=(lang==='ar'?'→ ':'← ')+(selectedType?labels.showrooms:heading.textContent);
+  back.textContent=selectedType?labels.showrooms:heading.textContent;
   branches.before(back);
   heading.textContent=selectedType?labels.showrooms+' · '+(MIRA_TRANSACTION_LABELS[lang]||MIRA_TRANSACTION_LABELS.en)[selectedType]:labels.showrooms;
   document.getElementById('sub').textContent=labels.showroomsDesc;
